@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<div class="container-fluid">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-6">
+						<h3>예약조회</h3>
+					</div>
+					<div class="col-6">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.html"> <i
+									data-feather="home"></i></a></li>
+							<li class="breadcrumb-item">예약업무</li>
+							<li class="breadcrumb-item active">예약조회</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>고객명</th>
+											<th>예약신청일</th>
+											<th>이용예약일</th>
+											<th>예약시간</th>
+											<th>이용구분</th>
+											<th>이용인원</th>
+											<th>동반입장</th>
+											<th>전화번호</th>
+											<th>진행상황</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>송강호</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><a href="" type="button" data-toggle="modal"
+												data-target="#tooltipmodal"><span
+													class="badge badge-primary">예약대기</span></a></td>
+										</tr>
+										<tr>
+											<td>최민식</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>15:00</td>
+											<td>1회권</td>
+											<td>1</td>
+											<td>미동반</td>
+											<td>010-1234-5678</td>
+											<td><span class="badge badge-secondary">예약승인</span></td>
+										</tr>
+										<tr>
+											<td>설경구</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><span class="badge badge-warning">바우처부족</span></td>
+										</tr>
+										<tr>
+											<td>봉준호</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><span class="badge badge-danger">예약취소</span></td>
+										</tr>
+										<tr>
+											<td>이상민</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><span class="badge badge-primary">예약대기</span></td>
+										</tr>
+										<tr>
+											<td>김보성</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><span class="badge badge-primary">예약대기</span></td>
+										</tr>
+										<tr>
+											<td>송강호</td>
+											<td>2021/01/20 10:00</td>
+											<td>2021/01/20</td>
+											<td>16:00</td>
+											<td>바우처</td>
+											<td>1</td>
+											<td>동반</td>
+											<td>010-1234-5678</td>
+											<td><a href="" type="button" data-toggle="modal"
+												data-target="#reserModal"><span
+													class="badge badge-primary">예약대기</span></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--popup modal-->
+		<div class="modal fade" id="reserModal" tabindex="-1" role="dialog"
+			aria-labelledby="reserModal" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">송강호님</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-form-label" for="recipient-name">
+										예약요청일 </label> <label class="col-form-label" for="recipient-name">
+										<font color="red"> 2021/01/20 </font> <font color="blue">
+											16:00</font>
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-form-label" for="message-text">알림톡 내용:</label>
+								<textarea class="form-control"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="button" data-dismiss="modal">예약승인</button>
+						<button class="btn btn-secondary" type="button"
+							data-dismiss="modal">예약거절</button>
+						<button class="btn btn-danger" type="button" data-dismiss="modal">예약취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

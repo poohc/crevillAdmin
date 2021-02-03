@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<div class="container-fluid">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-6">
+						<h3>바우처판매</h3>
+					</div>
+					<div class="col-6">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.html"> <i
+									data-feather="home"></i></a></li>
+							<li class="breadcrumb-item">Tabs</li>
+							<li class="breadcrumb-item active">Line Tabs</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid starts                    -->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h5></h5>
+							<span>리스트에 없는 바우처는 <code>바우처마스터</code>에서 등록해 주세요.
+							</span>
+						</div>
+						<div class="card-body">
+							<ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+								<li class="nav-item"><a class="nav-link active"
+									id="top-home-tab" data-toggle="tab" href="#top-home" role="tab"
+									aria-controls="top-home" aria-selected="true"><i
+										class="icofont icofont-ui-home"></i>조회</a></li>
+								<li class="nav-item"><a class="nav-link"
+									id="profile-top-tab" data-toggle="tab" href="#top-profile"
+									role="tab" aria-controls="top-profile" aria-selected="false"><i
+										class="icofont icofont-man-in-glasses"></i>판매</a></li>
+								<li class="nav-item"><a class="nav-link"
+									id="contact-top-tab" data-toggle="tab" href="#top-contact"
+									role="tab" aria-controls="top-contact" aria-selected="false"><i
+										class="icofont icofont-contacts"></i>취소</a></li>
+							</ul>
+							<div class="tab-content" id="top-tabContent">
+								<div class="tab-pane fade show active" id="top-home"
+									role="tabpanel" aria-labelledby="top-home-tab">
+									<form class="form-horizontal">
+										<div class="form-group row">
+											<label class="col-lg-12 control-label text-lg-left"
+												for="appendedtext">고객조회 (휴대폰번호)</label>
+											<div class="col-lg-12">
+												<div class="input-group">
+													<input id="appendedtext" name="appendedtext"
+														class="form-control btn-square" placeholder="- 없이 입력"
+														type="number">
+													<div class="input-group-prepend">
+														<span class="btn btn-primary btn-right">조회</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										</fieldset>
+									</form>
+									<br>
+									<h6>송강호님 바우처</h6>
+									<br>
+									<form class="mega-inline">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="card">
+													<div class="media p-20">
+														<div class="radio radio-primary mr-3">
+															<input id="radio19" type="radio" name="radio1"
+																value="option1"> <label for="radio19"></label>
+														</div>
+														<div class="media-body">
+															<h6 class="mt-0 mega-title-badge">
+																10회권 <span class="badge badge-primary pull-right">5
+																	TUTOR</span> <span class="badge badge-danger pull-right">5</span>
+
+															</h6>
+															<p>~2021/10/10</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6 xl-100">
+												<div class="card">
+													<div class="media p-20">
+														<div class="radio radio-secondary mr-3">
+															<input id="radio20" type="radio" name="radio1"
+																value="option1"> <label for="radio20"></label>
+														</div>
+														<div class="media-body">
+															<h6 class="mt-0 mega-title-badge">
+																20회권 <span class="badge badge-primary pull-right">5
+																	TUTOR</span> <span class="badge badge-danger pull-right">5</span>
+															</h6>
+															<p>~2021/10/10</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6 xl-100">
+												<div class="card">
+													<div class="media p-20">
+														<div class="radio radio-secondary mr-3">
+															<input id="radio21" type="radio" name="radio1"
+																value="option1"> <label for="radio21"></label>
+														</div>
+														<div class="media-body">
+															<h6 class="mt-0 mega-title-badge">
+																30회권 <span class="badge badge-primary pull-right">5
+																	TUTOR</span> <span class="badge badge-danger pull-right">5</span>
+															</h6>
+															<p>
+																<font style="color: red">만료 ~2021/01/10</font>
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6 xl-100">
+												<div class="card">
+													<div class="media p-20">
+														<div class="radio radio-primary mr-3">
+															<input id="radio22" type="radio" name="radio1"
+																value="option1"> <label for="radio22"></label>
+														</div>
+														<div class="media-body">
+															<h6 class="mt-0 mega-title-badge">
+																무료이용권 <span class="badge badge-primary pull-right">Free</span>
+															</h6>
+															<p>이용권 만료일이 다가옵니다.</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<div class="container-fluid">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-6">
+						<h3>바우처 판매</h3>
+					</div>
+					<div class="col-6">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.html"> <i
+									data-feather="home"></i></a></li>
+							<li class="breadcrumb-item">바우처 업무</li>
+							<li class="breadcrumb-item active">바우처 판매</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12 col-xl-6">
+					<form class="form theme-form">
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm26">고객전화번호
+											입력</label> <input class="form-control form-control-lg"
+											id="colFormLabelSm26" type="number" placeholder="전화번호">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group mb-0">
+										<label for="exampleFormControlSelect31">Small select</label> <select
+											class="form-control form-control-sm"
+											id="exampleFormControlSelect31">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div
+									class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+									<div class="radio radio-primary">
+										<input id="radioinline1" type="radio" name="radio1"
+											value="option1"> <label class="mb-0"
+											for="radioinline1">클래스<span> 과정</span></label>
+									</div>
+									<div class="radio radio-primary">
+										<input id="radioinline2" type="radio" name="radio1"
+											value="option1"> <label class="mb-0"
+											for="radioinline2">튜터링<span> 과정</span></label>
+									</div>
+									<div class="radio radio-primary">
+										<input id="radioinline3" type="radio" name="radio1"
+											value="option1"> <label class="mb-0"
+											for="radioinline3">스페셜캠프<span> 과정</span></label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

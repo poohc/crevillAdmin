@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<div class="container-fluid">
+			<div class="page-title"></div>
+		</div>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-6 col-xl-3 col-lg-6">
+					<div class="card o-hidden">
+						<div class="bg-primary b-r-4 card-body">
+							<div class="media static-top-widget">
+								<div class="align-self-center text-center">
+									<i data-feather="credit-card"></i>
+								</div>
+								<div class="media-body">
+									<span class="m-0">바우처판매</span>
+									<h4 class="mb-0 counter">10000</h4>
+									<i class="icon-bg" data-feather="database"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-xl-3 col-lg-6">
+					<div class="card o-hidden">
+						<div class="bg-secondary b-r-4 card-body">
+							<div class="media static-top-widget">
+								<div class="align-self-center text-center">
+									<i data-feather="shopping-bag"></i>
+								</div>
+								<div class="media-body">
+									<span class="m-0">매장회원</span>
+									<h4 class="mb-0 counter">88888</h4>
+									<i class="icon-bg" data-feather="shopping-bag"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-xl-3 col-lg-6">
+					<div class="card o-hidden">
+						<div class="bg-primary b-r-4 card-body">
+							<div class="media static-top-widget">
+								<div class="align-self-center text-center">
+									<i data-feather="message-circle"></i>
+								</div>
+								<div class="media-body">
+									<span class="m-0">예약</span>
+									<h4 class="mb-0 counter">1000</h4>
+									<i class="icon-bg" data-feather="message-circle"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-xl-3 col-lg-6">
+					<div class="card o-hidden">
+						<div class="bg-primary b-r-4 card-body">
+							<div class="media static-top-widget">
+								<div class="align-self-center text-center">
+									<i data-feather="user-plus"></i>
+								</div>
+								<div class="media-body">
+									<span class="m-0">오늘 신규회원</span>
+									<h4 class="mb-0 counter">100</h4>
+									<i class="icon-bg" data-feather="user-plus"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="widget-joins card widget-arrow">
+						<div class="row">
+							<div class="col-sm-6 pr-0">
+								<div class="media border-after-xs">
+									<div class="align-self-center mr-3 text-left">
+										<h6 class="mb-1">바우처판매</h6>
+										<h4 class="mb-0">오늘</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary" data-feather="arrow-down"></i>
+									</div>
+									<div class="media-body">
+										<h5 class="mb-0">
+											₩<span class="counter">999,999,999</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pl-0">
+								<div class="media">
+									<div class="align-self-center mr-3 text-left">
+										<h6 class="mb-1">바우처판매</h6>
+										<h4 class="mb-0">월간</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary" data-feather="arrow-up"></i>
+									</div>
+									<div class="media-body pl-2">
+										<h5 class="mb-0">
+											₩<span class="counter">999,999,999</span>
+										</h5>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pr-0">
+								<div class="media border-after-xs">
+									<div class="align-self-center mr-3 text-left">
+										<h6 class="mb-1">바우처판매</h6>
+										<h4 class="mb-0">주간</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary" data-feather="arrow-up"></i>
+									</div>
+									<div class="media-body">
+										<h5 class="mb-0">
+											₩<span class="counter">999,999,999</span>
+										</h5>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pl-0">
+								<div class="media">
+									<div class="align-self-center mr-3 text-left">
+										<h6 class="mb-1">바우처판매</h6>
+										<h4 class="mb-0">년간</h4>
+									</div>
+									<div class="media-body align-self-center pl-3">
+										<i class="font-primary" data-feather="arrow-up"></i>
+									</div>
+									<div class="media-body pl-2">
+										<h5 class="mb-0">
+											₩<span class="counter">999,999,999</span>
+										</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="widget-joins card">
+						<div class="row">
+							<div class="col-sm-6 pr-0">
+								<div class="media border-after-xs">
+									<div class="align-self-center mr-3">
+										68%<i class="fa fa-angle-up ml-2"></i>
+									</div>
+									<div class="media-body details pl-3">
+										<span class="mb-1">New</span>
+										<h4 class="mb-0 counter">6982</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary float-left ml-2"
+											data-feather="shopping-bag"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pl-0">
+								<div class="media">
+									<div class="align-self-center mr-3">
+										12%<i class="fa fa-angle-down ml-2"></i>
+									</div>
+									<div class="media-body details pl-3">
+										<span class="mb-1">Pending</span>
+										<h4 class="mb-0 counter">783</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary float-left ml-3" data-feather="layers"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pr-0">
+								<div class="media border-after-xs">
+									<div class="align-self-center mr-3">
+										68%<i class="fa fa-angle-up ml-2"></i>
+									</div>
+									<div class="media-body details pl-3 pt-0">
+										<span class="mb-1">Done</span>
+										<h4 class="mb-0 counter">3674</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary float-left ml-2"
+											data-feather="shopping-cart"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 pl-0">
+								<div class="media">
+									<div class="align-self-center mr-3">
+										68%<i class="fa fa-angle-up ml-2"></i>
+									</div>
+									<div class="media-body details pl-3 pt-0">
+										<span class="mb-1">Cancel</span>
+										<h4 class="mb-0 counter">069</h4>
+									</div>
+									<div class="media-body align-self-center">
+										<i class="font-primary float-left ml-2"
+											data-feather="dollar-sign"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="card">
+						<div class="cal-date-widget card-body">
+							<div class="row">
+								<div class="col-xl-6 col-xs-12 col-md-6 col-sm-6">
+									<div class="cal-info text-center">
+										<h2>20</h2>
+										<div class="d-inline-block mt-2">
+											<span class="b-r-dark pr-3">1월</span><span class="pl-3">2021년</span>
+										</div>
+										<p class="mt-4 f-16 text-muted">CREVILL 현대백화점 판교점</p>
+									</div>
+								</div>
+								<div class="col-xl-6 col-xs-12 col-md-6 col-sm-6">
+									<div class="cal-datepicker">
+										<div class="datepicker-here float-sm-right" data-language="en">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="card">
+						<div class="card-header card-no-border">
+							<div class="header-top">
+								<h5 class="m-0">시간대별 예약자</h5>
+								<div class="card-header-right-icon">
+									<select class="button btn btn-primary">
+										<option>11시</option>
+										<option>12시</option>
+										<option>13시</option>
+										<option>14시</option>
+										<option>15시</option>
+										<option>16시</option>
+										<option>17시</option>
+										<option>18시</option>
+										<option>19시</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="card-body pt-0">
+							<div class="appointment-table table-responsive">
+								<table class="table table-bordernone">
+									<tbody>
+										<tr>
+											<td>
+												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
+												<div class="status-circle bg-primary"></div></td>
+											<td class="img-content-box"><span class="d-block">송강호</span><span
+												class="font-roboto">010-1234-1234</span></td>
+											<td>
+												<p class="m-0 font-primary">2021/01/20</p>
+											</td>
+											<td class="text-right">
+												<div class="button btn btn-primary">
+													입장<i class="fa fa-check-circle ml-2"></i>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
+												<div class="status-circle bg-primary"></div></td>
+											<td class="img-content-box"><span class="d-block">김혜수</span><span
+												class="font-roboto">010-5555-8888</span></td>
+											<td>
+												<p class="m-0 font-primary">2021/01/20</p>
+											</td>
+											<td class="text-right">
+												<div class="button btn btn-danger">
+													지연<i class="fa fa-check-circle ml-2"></i>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
+												<div class="status-circle bg-primary"></div></td>
+											<td class="img-content-box"><span class="d-block">김혜수</span><span
+												class="font-roboto">010-5555-8888</span></td>
+											<td>
+												<p class="m-0 font-primary">2021/01/20</p>
+											</td>
+											<td class="text-right">
+												<div class="button btn btn-danger">
+													지연<i class="fa fa-check-circle ml-2"></i>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
+												<div class="status-circle bg-primary"></div></td>
+											<td class="img-content-box"><span class="d-block">김혜수</span><span
+												class="font-roboto">010-5555-8888</span></td>
+											<td>
+												<p class="m-0 font-primary">2021/01/20</p>
+											</td>
+											<td class="text-right">
+												<div class="button btn btn-danger">
+													지연<i class="fa fa-check-circle ml-2"></i>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="card">
+						<div class="card-header">
+							<h5>예약알림</h5>
+							<div class="card-header-right">
+								<ul class="list-unstyled card-option">
+									<li><i class="fa fa-spin fa-cog"></i></li>
+									<li><i class="view-html fa fa-code"></i></li>
+									<li><i class="icofont icofont-maximize full-card"></i></li>
+									<li><i class="icofont icofont-minus minimize-card"></i></li>
+									<li><i class="icofont icofont-refresh reload-card"></i></li>
+									<li><i class="icofont icofont-error close-card"></i></li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="user-status table-responsive">
+								<table class="table table-bordernone">
+									<thead>
+										<tr>
+											<th scope="col">회원명</th>
+											<th scope="col">예약인원</th>
+											<th scope="col">예약구분</th>
+											<th scope="col">상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="f-w-600">송강호</td>
+											<td>1</td>
+											<td class="font-primary">1회권</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="f-w-600">최민식</td>
+											<td>1</td>
+											<td class="font-secondary">바우처</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												
+											</td>
+										</tr>
+										<tr>
+											<td class="f-w-600">최무룡</td>
+											<td>1</td>
+											<td class="font-secondary">바우처</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												
+											</td>
+										</tr>
+										<tr>
+											<td class="f-w-600">류승용</td>
+											<td>1</td>
+											<td class="font-primary">바우처</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												
+											</td>
+										</tr>
+										<tr>
+											<td class="f-w-600">김건모</td>
+											<td>1</td>
+											<td class="font-primary">바우처</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												
+											</td>
+										</tr>
+										<tr>
+											<td class="f-w-600">전지현</td>
+											<td>1</td>
+											<td class="font-secondary">바우처</td>
+											<td>
+												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 xl-100 box-col-12">
+					<div class="card">
+						<div class="card-header">
+							<h5>지점 원어민 리스트</h5>
+							<div class="card-header-right">
+								<ul class="list-unstyled card-option">
+									<li><i class="fa fa-spin fa-cog"></i></li>
+									<li><i class="view-html fa fa-code"></i></li>
+									<li><i class="icofont icofont-maximize full-card"></i></li>
+									<li><i class="icofont icofont-minus minimize-card"></i></li>
+									<li><i class="icofont icofont-refresh reload-card"></i></li>
+									<li><i class="icofont icofont-error close-card"></i></li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="user-status table-responsive">
+								<table class="table table-bordernone">
+									<thead>
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">National</th>
+											<th scope="col">English Skill</th>
+											<th scope="col">Experience</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="bd-t-none u-s-tb">
+												<div class="align-middle image-sm-size">
+													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/4.jpg}" alt="">
+													<div class="d-inline-block">
+														<h6>
+															John Deo <span class="text-muted"></span>
+														</h6>
+													</div>
+												</div>
+											</td>
+											<td>USA</td>
+											<td>
+												<div class="progress-showcase">
+													<div class="progress" style="height: 8px;">
+														<div class="progress-bar bg-primary" role="progressbar"
+															style="width: 30%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</td>
+											<td>2 Year</td>
+										</tr>
+										<tr>
+											<td class="bd-t-none u-s-tb">
+												<div class="align-middle image-sm-size">
+													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/1.jpg}" alt="">
+													<div class="d-inline-block">
+														<h6>
+															Holio Mako <span class="text-muted"></span>
+														</h6>
+													</div>
+												</div>
+											</td>
+											<td>England</td>
+											<td>
+												<div class="progress-showcase">
+													<div class="progress" style="height: 8px;">
+														<div class="progress-bar bg-secondary" role="progressbar"
+															style="width: 70%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</td>
+											<td>3 Year</td>
+										</tr>
+										<tr>
+											<td class="bd-t-none u-s-tb">
+												<div class="align-middle image-sm-size">
+													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="">
+													<div class="d-inline-block">
+														<h6>
+															Mohsib lara<span class="text-muted"></span>
+														</h6>
+													</div>
+												</div>
+											</td>
+											<td>Canada</td>
+											<td>
+												<div class="progress-showcase">
+													<div class="progress" style="height: 8px;">
+														<div class="progress-bar bg-primary" role="progressbar"
+															style="width: 60%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</td>
+											<td>5 Month</td>
+										</tr>
+										<tr>
+											<td class="bd-t-none u-s-tb">
+												<div class="align-middle image-sm-size">
+													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/6.jpg}" alt="">
+													<div class="d-inline-block">
+														<h6>
+															Hileri Soli <span class="text-muted"></span>
+														</h6>
+													</div>
+												</div>
+											</td>
+											<td>USA</td>
+											<td>
+												<div class="progress-showcase">
+													<div class="progress" style="height: 8px;">
+														<div class="progress-bar bg-secondary" role="progressbar"
+															style="width: 30%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</td>
+											<td>3 Month</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>
