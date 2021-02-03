@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<div class="container-fluid">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-6">
+						<h3>고객리스트</h3>
+					</div>
+					<div class="col-6">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.html"> <i
+									data-feather="home"></i></a></li>
+							<li class="breadcrumb-item">고객관리</li>
+							<li class="breadcrumb-item active">고객리스트</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>고객QR</th>
+											<th>고객명</th>
+											<th>상태</th>
+											<th>가입일</th>
+											<th>전화번호</th>
+											<th>지역</th>
+											<th>바우처보유</th>
+											<th>최근방문매장</th>
+											<th>회원정보</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1532334</td>
+											<td>송강호</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>판교</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532335</td>
+											<td>최민식</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>서초</td>
+											<td>보유</td>
+											<td>반포</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532336</td>
+											<td>김혜수</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>대전</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532337</td>
+											<td>유해진</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>천안</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532338</td>
+											<td>설경구</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>용인</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532339</td>
+											<td>송강호</td>
+											<td><font color="red">inactive</font></td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>판교</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+										<tr>
+											<td>1532340</td>
+											<td>송강호</td>
+											<td>active</td>
+											<td>2021/01/20</td>
+											<td>010-6666-7777</td>
+											<td>성남</td>
+											<td>보유</td>
+											<td>판교</td>
+											<td><a href="" type="button"><span
+													class="badge badge-primary">정보수정</span></a> <a href=""
+												type="button"><span class="badge badge-secondary">바우처
+														사용이력</span></a> <a href="" type="button"><span
+													class="badge badge-warning">탈퇴</span></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Zero Configuration  Ends-->
+		</div>
+	</div>
+</th:block>
+</html>
