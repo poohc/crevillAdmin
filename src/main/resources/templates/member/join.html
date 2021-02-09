@@ -1,169 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
-
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout/default">
 <th:block layout:fragment="content">
-	<div class="page-body">
-		<div class="container-fluid">
-			<div class="page-title">
-				<div class="row">
-					<div class="col-6">
-						<h3>신규고객등록</h3>
-					</div>
-					<div class="col-6">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html"><i
-									data-feather="home"></i></a></li>
-							<li class="breadcrumb-item">고객관리</li>
-							<li class="breadcrumb-item active">신규고객등록</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12">
+					<form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" action="/member/join.proc" method="post">
 					<div class="card">
 						<div class="card-header">
 							<h5>보호자 정보</h5>
 						</div>
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">고객성함</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm26" type="text" placeholder="고객성함">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">이메일주소</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="이메일주소">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">거주지역<시
-													,군,구></label> <input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="(예)서초구">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">휴대폰번호</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="-없이 입력">
-											<label class="col-form-label-sm" for="colFormLabelSm26">등록
-												가능한 번호입니다.</label> <label class="col-form-label-sm"
-												for="colFormLabelSm26"> <font style="color: red">이미
-													가입되어 있는 번호입니다.</font>
-											</label>
-										</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="parentName">고객성함</label>
+										<input class="form-control form-control-lg" v-validate="'required'" v-model="parentName" id="parentName" name="parentName" type="text" placeholder="고객성함">
+										<label class="col-form-label-sm" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button class="btn btn-primary" type="submit"
-									data-toggle="modal" data-target="#sign_result">등록</button>
-								<input class="btn btn-light" type="reset" value="취소">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="email">이메일주소</label>
+										<input class="form-control form-control-lg" v-validate="'required|email'" v-model="email" id="email" name="email" type="text" placeholder="이메일주소">
+										<label class="col-form-label-sm" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
+									</div>
+								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="address">
+											거주지역<시,군,구>
+										</label>
+										<input class="form-control form-control-lg" v-validate="'required'" v-model="address" id="address" name="address" type="text" placeholder="(예)서초구">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="cellPhone">휴대폰번호</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" v-model="cellPhone" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력">
+										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')"><font style="color: red">{{ errors.first('cellPhone') }}</font></label>
+										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card">
 						<div class="card-header">
 							<h5>등록 아동정보</h5>
 						</div>
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="아동성명">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
-											<input class="form-control form-control-lg"
-												id="minMaxExample" type="text">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<p>성별</p>
-									</div>
-									<div class="col">
-										<div
-											class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
-											<div class="radio radio-primary">
-												<input id="radioinline1" type="radio" name="radio1"
-													value="option1"> <label class="mb-0"
-													for="radioinline1">남자</label>
-											</div>
-											<div class="radio radio-primary">
-												<input id="radioinline2" type="radio" name="radio1"
-													value="option1"> <label class="mb-0"
-													for="radioinline2">여자</label>
-											</div>
-										</div>
-									</div>
-									<br>
-									<br>
-									<br>
-									<br>
-									<div class="col-sm-12">
-										<p>영어 학습 수준</p>
-									</div>
-									<div class="col">
-										<div class="form-group m-t-15 m-checkbox-inline mb-0">
-											<div class="checkbox checkbox-dark">
-												<input id="inline-1" type="checkbox"> <label
-													for="inline-1">Phonics</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-2" type="checkbox"> <label
-													for="inline-2">SPEAKING</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-3" type="checkbox"> <label
-													for="inline-3">LISTENING</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-4" type="checkbox"> <label
-													for="inline-4">GRAMMER</label>
-											</div>
-										</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
+										<input class="form-control form-control-lg" v-validate="'required'" v-model="childName" id="childName" name="childName" type="text" placeholder="아동성명">
+										<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button class="btn btn-primary" type="submit"
-									data-toggle="modal" data-target="#addchild_result">등록</button>
-								<input class="btn btn-light" type="reset" value="취소">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" v-model="birthday" id="birthday" name="birthday" type="text">
+										<label class="col-form-label-sm" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+									</div>
+								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col-sm-12">
+									<p>성별</p>
+								</div>
+								<div class="col">
+									<div
+										class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+										<div class="radio radio-primary">
+											<input id="radioinline1" v-validate="'required|included:M,F'" type="radio" name="sex" value="M">
+											<label class="mb-0" for="radioinline1">남자</label>
+										</div>
+										<div class="radio radio-primary">
+											<input id="radioinline2" type="radio" name="sex" value="F">
+											<label class="mb-0" for="radioinline2">여자</label>
+										</div>
+										<label class="col-form-label-sm" for="sex" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+								<div class="col-sm-12">
+									<p>영어 학습 수준</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<div class="checkbox checkbox-dark" th:each="learningGrade, i: ${learningGradeList}">
+											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade" th:value=${learningGrade.codeValue}>
+											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label>
+										</div>
+										<label class="col-form-label-sm" for="learningGrade" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-primary" type="submit" data-toggle="modal">등록</button>
+<!-- 							<button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#addchild_result">등록</button> -->
+							<input class="btn btn-light" type="reset" value="취소">
+						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 			<!--보호자등록 popup modal-->
-			<div class="modal fade" id="sign_result" tabindex="-1" role="dialog"
-				aria-labelledby="sign_result" aria-hidden="true">
+			<div class="modal fade" id="sign_result" tabindex="-1" role="dialog" aria-labelledby="sign_result" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">

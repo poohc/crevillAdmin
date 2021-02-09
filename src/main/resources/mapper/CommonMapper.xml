@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.common.CommonMapper">
+	
+    <select id="selectCommonCode" parameterType="kr.co.crevill.common.CommonCodeDto" resultType="kr.co.crevill.common.CommonCodeVo">
+        SELECT CODE_TYPE,
+        	   CODE_KEY,
+        	   CODE_VALUE,
+        	   REG_ID,
+        	   REG_DATE,
+        	   UPD_ID,
+        	   UPD_DATE
+          FROM COMMON_CODE
+        <where>
+			<if test="codeType != null">AND CODE_TYPE = #{codeType} </if>
+			<if test="codeKey != null">AND CODE_KEY = #{codeKey} </if>
+			<if test="codeValue != null">AND CODE_VALUE = #{codeValue} </if>
+		</where>
+    </select>
+	
+</mapper>
