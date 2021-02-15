@@ -32,6 +32,7 @@ new Vue({
         if (result) {
 	        
  			var formdata = new FormData()
+			formdata.append("workerType", $('#workerType').val());
 			formdata.append("name", $('#name').val());
 			formdata.append("nameEng", $('#nameEng').val());
 			formdata.append("telNo", $('#telNo').val());
