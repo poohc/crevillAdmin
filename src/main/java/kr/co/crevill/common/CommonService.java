@@ -19,4 +19,8 @@ public class CommonService {
 		return commonMapper.selectCommonCode(commonCodeDto);
 	}
 	
+	public List<OfficeInfoVo> selectOfficeList(){
+		return commonMapper.selectOfficeList();
+	}
+	
 }

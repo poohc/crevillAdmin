@@ -12,28 +12,31 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
-import kr.co.crevill.common.MenuDto;
 
+/**
+ * 
+ * @packageName : kr.co.crevill.member
+ * @fileName : MemberController.java
+ * @author : Juyoung Park
+ * @date : 2021.02.10
+ * @description :
+ * ===========================================================
+ * DATE AUTHOR NOTE * -----------------------------------------------------------
+ * 2021.02.10 Juyoung Park 최초 생성
+ */
 @Controller
 @RequestMapping("member")
 public class MemberController {
-
-	@Autowired
-	private MenuDto menuDto;
 	
 	@Autowired
 	private MemberService memberService;
 	
 	@Autowired
 	private CommonService commonService;
-	
+
 	@RequestMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
-		menuDto.setMenuName("고객리스트");
-		menuDto.setUpperMenu("고객관리");
-		menuDto.setCurrentMenu("고객리스트");
-		mav.addObject("menu", menuDto);
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
 		return mav;
 	}
@@ -41,10 +44,6 @@ public class MemberController {
 	@RequestMapping("join.view")
 	public ModelAndView join(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/join");
-		menuDto.setMenuName("신규고객등록");
-		menuDto.setUpperMenu("고객관리");
-		menuDto.setCurrentMenu("신규고객등록");
-		mav.addObject("menu", menuDto);
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("LEARNING_GRADE");
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));

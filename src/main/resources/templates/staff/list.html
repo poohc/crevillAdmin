@@ -5,23 +5,7 @@
 
 <th:block layout:fragment="content">
 	<div class="page-body">
-		<div class="container-fluid">
-			<div class="page-title">
-				<div class="row">
-					<div class="col-6">
-						<h3>고객리스트</h3>
-					</div>
-					<div class="col-6">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html"> <i
-									data-feather="home"></i></a></li>
-							<li class="breadcrumb-item">직원관리</li>
-							<li class="breadcrumb-item active">직원리스트</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</div>
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
@@ -45,110 +29,26 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
-										</tr>
-										<tr>
-											<td>CV0301</td>
-											<td>매장관리자</td>
-											<td>홍길동</td>
-											<td>근무중</td>
-											<td>2021/02/01</td>
-											<td>-</td>
-											<td>010-5454-5454</td>
-											<td>판교점</td>
-											<td><a href="" type="button"><span
-													class="badge badge-primary">정보수정</span></a> <a href=""
-												type="button"><span class="badge badge-secondary">근태조회</span></a>
-												<a href="" type="button"><span
-													class="badge badge-warning">퇴사처리</span></a></td>
+										<tr th:each="staffList : ${staffList}">
+											<td th:text="${staffList.staffId}"></td>
+											<td th:text="${staffList.workerType}"></td>
+											<td th:text="${staffList.name}"></td>
+											<td th:text="${staffList.status}"></td>
+											<td th:text="${staffList.startDate}"></td>
+											<td th:text="${staffList.endDate}"></td>
+											<td th:text="${staffList.telNo}"></td>
+											<td th:text="${staffList.officeId}"></td>
+											<td>
+												<a href="" type="button">
+													<span class="badge badge-primary">정보수정</span>
+												</a> 
+												<a href="" type="button">
+													<span class="badge badge-secondary">근태조회</span>
+												</a>
+												<a href="" type="button">
+													<span class="badge badge-warning">퇴사처리</span>
+												</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="layout/default">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberScript.js')}">
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
@@ -116,7 +116,6 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn btn-primary" type="submit" data-toggle="modal">등록</button>
-<!-- 							<button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#addchild_result">등록</button> -->
 							<input class="btn btn-light" type="reset" value="취소">
 						</div>
 					</div>

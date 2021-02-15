@@ -19,4 +19,56 @@
 		</where>
     </select>
 	
+	<select id="selectOfficeList" resultType="kr.co.crevill.common.OfficeInfoVo">
+		SELECT OFFICE_ID,
+			   OFFICE_NAME,
+			   OFFICE_DESCRIPTION,
+			   TEL_NO,
+			   SORT_RANK
+		  FROM OFFICE_INFO
+	  ORDER BY SORT_RANK 
+	</select>
+	
+	<select id="selectImagesIdx" resultType="kr.co.crevill.common.FileVo">
+		SELECT IFNULL(IMAGES_IDX_SEQ_NEXTVAL(), 1) IMAGE_IDX
+	</select>
+	
+	<select id="selectFileIdx" resultType="kr.co.crevill.common.FileVo">
+		SELECT IFNULL(FILES_IDX_SEQ_NEXTVAL(), 1) FILE_IDX
+	</select>
+	
+	<insert id="insertImages" parameterType="kr.co.crevill.common.FileDto">
+		INSERT INTO IMAGES(
+						   IMAGE_IDX,
+						   DATA,
+						   DESCRIPTION,
+						   IMAGE_NAME,
+						   IMAGE_SIZE
+						  )
+				   VALUES (
+				   		   #{imageIdx},
+						   #{data},
+						   #{description},
+						   #{fileName},
+						   #{fileSize}	
+				   		  )		  
+	</insert>
+	
+	<insert id="insertFiles" parameterType="kr.co.crevill.common.FileDto">
+		INSERT INTO FILES(
+						   FILE_IDX,
+						   DATA,
+						   DESCRIPTION,
+						   FILE_NAME,
+						   FILE_SIZE
+						  )
+				   VALUES (
+				   		   #{fileIdx},
+						   #{data},
+						   #{description},
+						   #{fileName},
+						   #{fileSize}	
+				   		  )		  
+	</insert>
+		
 </mapper>

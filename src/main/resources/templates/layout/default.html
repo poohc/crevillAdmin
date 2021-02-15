@@ -4,6 +4,7 @@
     <!-- 공통 헤더-->
     <th:block th:replace="fragments/head :: headFragment"></th:block>
     <body>
+    	<p th:text="${scriptName}"></p>
     	<div class="tap-top"><i data-feather="chevrons-up"></i></div>
     	<div class="page-wrapper compact-wrapper" id="pageWrapper">
     		<!-- 헤더 -->
@@ -16,6 +17,6 @@
     		</div>
         </div>
         <!-- 공통 스크립트-->
-        <th:block th:replace="fragments/script :: scriptFragment"></th:block>
+        <th:block th:replace="fragments/script :: scriptFragment(${scriptName})"></th:block>
     </body>
 </html>
