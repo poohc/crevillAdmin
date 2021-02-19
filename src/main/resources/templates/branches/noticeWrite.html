@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/noticeScript.js')}">
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	<form class="form theme-form" id="noticeForm" @submit.prevent="validateBeforeSubmit" action="/branches/noticeWrite.proc" method="post">
+	                <div class="card">
+	                    <div class="card-body add-post">
+	                            <div class="col-sm-12">
+	                                <div class="form-group">
+	                                    <label for="validationCustom01">제목:</label>
+	                                    <input class="form-control" v-validate="'required'" id="title" name="title" type="text" placeholder="제목">
+	                                    <label class="col-form-label-sm" for="title" v-if="errors.has('title')">{{ errors.first('title') }}</label>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label>알림구분:</label>
+	                                    <div class="m-checkbox-inline">
+	                                        <label for="edo-ani">
+	                                            <input class="radio_animated" v-validate="'required|included:BRANCHES,ALL'" name="noticeType" type="radio" value="BRANCHES">지점
+	                                        </label>
+	                                        <label for="edo-ani1">
+	                                            <input class="radio_animated" v-validate="'required|included:BRANCHES,ALL'" name="noticeType" type="radio" value="ALL">전고객
+	                                        </label>
+	                                        <label class="col-form-label-sm" for="noticeType" v-if="errors.has('noticeType')">{{ errors.first('noticeType') }}</label>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <div class="col-form-label">전달매체:
+	                                        <select class="js-example-placeholder-multiple col-sm-12" v-validate="'required'" multiple="multiple" id="noticeSendType" name="noticeSendType">
+	                                            <option value="NOTICE">공지리스트</option>
+	                                            <option value="KAKAO">고객알림톡</option>
+	                                        </select>
+	                                        <label class="col-form-label-sm" for="noticeSendType" v-if="errors.has('noticeSendType')">{{ errors.first('noticeSendType') }}</label>
+	                                    </div>
+	                                </div>
+	                                <div class="email-wrapper">
+	                                    <div class="theme-form">
+	                                        <div class="form-group">
+	                                            <label>글내용:</label>
+	                                            <textarea v-validate="'required'" id="contents" name="contents" cols="10" rows="2" style="width: 100%"></textarea>
+	                                        </div>
+	                                        <label class="col-form-label-sm" for="contents" v-if="errors.has('contents')">{{ errors.first('contents') }}</label>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        <div class="btn-showcase">
+	                            <button class="btn btn-primary" type="submit">전송하기</button>
+	                            <input class="btn btn-light" type="reset" value="취소" onclick="cancel();">
+	                        </div>
+	                    </div>
+	                </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+    <!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

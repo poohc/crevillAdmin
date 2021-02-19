@@ -21,4 +21,5 @@ public class ReservationController {
 		ModelAndView mav = new ModelAndView("reservation/todayList");
 		return mav;
 	}
+	
 }
