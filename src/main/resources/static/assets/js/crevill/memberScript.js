@@ -66,8 +66,7 @@ new Vue({
 		        }).then((response) => {
 				if (response.data.resultCd == '00') {
 			      	alert('정상처리 되었습니다.');
-					$('#memberForm').attr('action','/member/join.view');
-					$('#memberForm').submit();
+					location.href = '/member/join.view';
 			    }
 				
 				return {

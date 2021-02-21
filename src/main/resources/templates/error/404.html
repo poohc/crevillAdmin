@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="error-wrapper">
+		<div class="container">
+			<img class="img-100" src="../assets/images/other-images/sad.png" alt="">
+			<div class="error-heading">
+				<h2 class="headline font-info">404</h2>
+			</div>
+			<div class="col-md-8 offset-md-2">
+				<p class="sub-content">접속하려는 페이지는 현재 사용할 수 없습니다. 페이지가 존재하지 않거나 이동했기 때문일 수 있습니다.</p>
+			</div>
+			<div>
+				<a class="btn btn-info-gradien btn-lg" href="/index.view">메인으로 이동</a>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

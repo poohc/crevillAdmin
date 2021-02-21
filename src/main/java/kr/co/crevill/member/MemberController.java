@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,14 +36,14 @@ public class MemberController {
 	@Autowired
 	private CommonService commonService;
 
-	@RequestMapping("list.view")
+	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
 		return mav;
 	}
 	
-	@RequestMapping("join.view")
+	@GetMapping("join.view")
 	public ModelAndView join(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/join");
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
@@ -50,7 +52,7 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("checkMemberCellPhone.proc")
+	@PostMapping("checkMemberCellPhone.proc")
 	@ResponseBody
 	public JSONObject checkMemberCellPhone(HttpServletRequest request, @RequestBody MemberDto memberDto) {
 		JSONObject result = new JSONObject();
@@ -58,7 +60,7 @@ public class MemberController {
 		return result;
 	}
 	
-	@RequestMapping("join.proc")
+	@PostMapping("join.proc")
 	@ResponseBody
 	public JSONObject joinProc(HttpServletRequest request, @RequestBody MemberDto memberDto) {
 		JSONObject result = new JSONObject();
@@ -66,7 +68,7 @@ public class MemberController {
 		return result;
 	}
 	
-	@RequestMapping("history.view")
+	@GetMapping("history.view")
 	public ModelAndView history(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/history");
 		return mav;

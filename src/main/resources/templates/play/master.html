@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/playScript.js')}">
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+	    <div class="container-fluid">
+	    	<form class="form theme-form" id="playForm" @submit.prevent="validateBeforeSubmit" action="/play/master.proc" method="post" enctype="multipart/form-data">
+	        <div class="card">
+	            <div class="card-body">
+	                <div class="row date-range-picker">
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">운영구분</h6>
+	                        <p>평일은 클래스와 튜터링 수업 / 주말은 스페셜캠프만 설정</p>
+	                        <div class="theme-form">
+	                            <div class="form-group m-t-15 m-checkbox-inline mb-0">
+	                                <div class="checkbox checkbox-dark">
+	                                    <input id="operationTypeA" name="operationType" type="checkbox" v-validate="'required'" value="WEEKDAY">
+	                                    <label for="operationTypeA">평일운영</label>
+	                                </div>
+	                                <div class="checkbox checkbox-dark">
+	                                    <input id="operationTypeB" name="operationType" type="checkbox" v-validate="'required'" value="WEEKEND">
+	                                    <label for="operationTypeB">주말/공휴일 운영</label>
+	                                </div>
+	                                <label class="col-form-label-sm" for="operationType" v-if="errors.has('operationType')">{{ errors.first('operationType') }}</label>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">플레이 이름</h6>
+	                        <p>놀이시간 대표이름 입력</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" v-validate="'required'" id="name" name="name" type="text" placeholder="예)GYM, SPECIAL CAMP">
+	                                <label class="col-form-label-sm" for="name" v-if="errors.has('name')">{{ errors.first('name') }}</label>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">이용시간</h6>
+	                        <p>이용시간 설정 (분 단위)</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <select class="form-control form-control-lg" v-validate="'required'" id="playTime" name="playTime">
+	                                    <option>30</option>
+	                                    <option>60</option>
+	                                    <option>90</option>
+	                                    <option>120</option>
+	                                    <option>240</option>
+	                                </select>
+	                                <label class="col-form-label-sm" for="playTime" v-if="errors.has('playTime')">{{ errors.first('playTime') }}</label>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">플레이 설명</h6>
+	                        <p>[간단하게 50글자 이내]</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" v-validate="'required|max:50'" id="description" name="description" type="text">
+	                                <label class="col-form-label-sm" for="description" v-if="errors.has('description')">{{ errors.first('description') }}</label>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">THUMBNAIL 등록</h6>
+	                        <p>50px X 50px</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" type="file" id="thumbnail" name="thumbnail">
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">놀이사진 등록</h6>
+	                        <p>1280px X 600px</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" type="file" id="picture" name="picture">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="card-footer">
+	                <button class="btn btn-primary" type="submit" data-toggle="modal">등록</button>
+	                <input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">
+	            </div>
+	        </div>
+	        </form>
+	    </div>
+		<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

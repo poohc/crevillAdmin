@@ -7,10 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.crevill.common.CommonMapper;
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
 
@@ -48,7 +48,7 @@ public class StaffService {
 		if(staffDto.getIdPicture() != null && !staffDto.getIdPicture().isEmpty()) {
 			FileVo fileVo = commonMapper.selectImagesIdx();
 			staffDto.setIdPictureIdx(fileVo.getImageIdx());
-			FileDto fileDto = setBlobByMultiPartFile(staffDto.getIdPicture());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
 			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("직원사진");
 			commonMapper.insertImages(fileDto);
@@ -57,7 +57,7 @@ public class StaffService {
 		if(staffDto.getHealthCertificate() != null && !staffDto.getHealthCertificate().isEmpty()) {
 			FileVo fileVo = commonMapper.selectFileIdx();
 			staffDto.setHealthCertificateIdx(fileVo.getFileIdx());
-			FileDto fileDto = setBlobByMultiPartFile(staffDto.getIdPicture());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
 			fileDto.setFileIdx(fileVo.getFileIdx());
 			fileDto.setDescription("보건증");
 			commonMapper.insertFiles(fileDto);
@@ -66,7 +66,7 @@ public class StaffService {
 		if(staffDto.getResume() != null && !staffDto.getResume().isEmpty()) {
 			FileVo fileVo = commonMapper.selectFileIdx();
 			staffDto.setResumeIdx(fileVo.getFileIdx());
-			FileDto fileDto = setBlobByMultiPartFile(staffDto.getIdPicture());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
 			fileDto.setFileIdx(fileVo.getFileIdx());
 			fileDto.setDescription("이력서");
 			commonMapper.insertFiles(fileDto);
@@ -79,27 +79,6 @@ public class StaffService {
 		return result;
 	}	
 	
-	/**
-	 * 파일처리 메서드
-	 * @methodName : setBlobByMultiPartFile
-	 * @author : Juyoung Park
-	 * @date : 2021.02.16
-	 * @param file
-	 * @return
-	 */
-	private FileDto setBlobByMultiPartFile(MultipartFile file) {
-		FileDto fileDto = new FileDto();
-		byte[] bytes;
-		try {
-			bytes = file.getBytes();
-			String fileName = file.getOriginalFilename();
-			fileDto.setData(bytes);
-			fileDto.setFileName(fileName);
-			fileDto.setFileSize(bytes.length);
-		} catch (Exception e) {
-			logger.error("setBlobByMultiPartFile 메서드 오류 : " + e);
-		}
-		return fileDto;
-	}
+	
 	
 }

@@ -5,23 +5,7 @@
 
 <th:block layout:fragment="content">
 	<div class="page-body">
-		<div class="container-fluid">
-			<div class="page-title">
-				<div class="row">
-					<div class="col-6">
-						<h3>예약현황</h3>
-					</div>
-					<div class="col-6">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html"> <i
-									data-feather="home"></i></a></li>
-							<li class="breadcrumb-item">예약업무</li>
-							<li class="breadcrumb-item active">예약현황(당일)</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</div>
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
@@ -71,9 +55,7 @@
 												<span class="badge badge-primary">진행중</span>
 												<h6>10:00</h6>
 												<div class="media">
-													<img class="img-20 mr-1 rounded-circle"
-														src="../assets/images/user/3.jpg" alt=""
-														data-original-title="" title="">
+													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title="">
 													<div class="media-body">
 														<p>FULL RESERVATION</p>
 													</div>
@@ -96,23 +78,18 @@
 												<div class="customers">
 													<ul>
 														<a href=""> <!--예약고객 정보 link-->
-															<li class="d-inline-block"><img
-																class="img-30 rounded-circle"
-																src="../assets/images/cancel.jpg" alt="홍길동"
-																data-original-title="" title="홍길동"></a>
-														</li>
-														<a href="">
-															<li class="d-inline-block"><img
-																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="송강호"
-																data-original-title="" title="홍길동">
+														<li class="d-inline-block">
+															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동">
 														</a>
 														</li>
 														<a href="">
-															<li class="d-inline-block"><img
-																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="최민식"
-																data-original-title="" title="홍길동">
+															<li class="d-inline-block">
+															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동">
+														</a>
+														</li>
+														<a href="">
+														<li class="d-inline-block">
+															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동">
 														</a>
 														</li>
 													</ul>
@@ -139,7 +116,7 @@
 												<h6>11:00</h6>
 												<div class="media">
 													<img class="img-20 mr-1 rounded-circle"
-														src="../assets/images/user/3.jpg" alt=""
+														th:src="@{/assets/images/user/5.jpg}" alt=""
 														data-original-title="" title="">
 													<div class="media-body">
 														<p>FULL RESERVATION</p>
@@ -165,20 +142,20 @@
 														<a href=""> <!--예약고객 정보 link-->
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/cancel.jpg" alt="홍길동"
+																th:src="@{/assets/images/user/4.jpg}" alt="홍길동"
 																data-original-title="" title="홍길동"></a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="송강호"
+																th:src="@{/assets/images/user/5.jpg}" alt="송강호"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="최민식"
+																th:src="@{/assets/images/user/5.jpg}" alt="최민식"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
@@ -206,7 +183,7 @@
 												<h6>12:00</h6>
 												<div class="media">
 													<img class="img-20 mr-1 rounded-circle"
-														src="../assets/images/user/3.jpg" alt=""
+														th:src="@{/assets/images/user/5.jpg}" alt=""
 														data-original-title="" title="">
 													<div class="media-body">
 														<p>FULL RESERVATION</p>
@@ -232,20 +209,20 @@
 														<a href=""> <!--예약고객 정보 link-->
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/cancel.jpg" alt="홍길동"
+																th:src="@{/assets/images/user/4.jpg}" alt="홍길동"
 																data-original-title="" title="홍길동"></a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="송강호"
+																th:src="@{/assets/images/user/5.jpg}" alt="송강호"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="최민식"
+																th:src="@{/assets/images/user/5.jpg}" alt="최민식"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
@@ -273,7 +250,7 @@
 												<h6>13:00</h6>
 												<div class="media">
 													<img class="img-20 mr-1 rounded-circle"
-														src="../assets/images/user/3.jpg" alt=""
+														th:src="@{/assets/images/user/5.jpg}" alt=""
 														data-original-title="" title="">
 													<div class="media-body">
 														<p>FULL RESERVATION</p>
@@ -299,20 +276,20 @@
 														<a href=""> <!--예약고객 정보 link-->
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/cancel.jpg" alt="홍길동"
+																th:src="@{/assets/images/user/4.jpg}" alt="홍길동"
 																data-original-title="" title="홍길동"></a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="송강호"
+																th:src="@{/assets/images/user/5.jpg}" alt="송강호"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="최민식"
+																th:src="@{/assets/images/user/5.jpg}" alt="최민식"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
@@ -340,7 +317,7 @@
 												<h6>14:00</h6>
 												<div class="media">
 													<img class="img-20 mr-1 rounded-circle"
-														src="../assets/images/user/3.jpg" alt=""
+														th:src="@{/assets/images/user/5.jpg}" alt=""
 														data-original-title="" title="">
 													<div class="media-body">
 														<p>FULL RESERVATION</p>
@@ -366,20 +343,20 @@
 														<a href=""> <!--예약고객 정보 link-->
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/cancel.jpg" alt="홍길동"
+																th:src="@{/assets/images/user/4.jpg}" alt="홍길동"
 																data-original-title="" title="홍길동"></a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="송강호"
+																th:src="@{/assets/images/user/5.jpg}" alt="송강호"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>
 														<a href="">
 															<li class="d-inline-block"><img
 																class="img-30 rounded-circle"
-																src="../assets/images/user/3.jpg" alt="최민식"
+																th:src="@{/assets/images/user/5.jpg}" alt="최민식"
 																data-original-title="" title="홍길동">
 														</a>
 														</li>

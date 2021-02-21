@@ -60,8 +60,7 @@ new Vue({
 				}).then((response) => {
 				if (response.data.resultCd == '00') {
 			      	alert('정상처리 되었습니다.');
-					$('#staffForm').attr('action','/staff/join.view');
-					$('#staffForm').submit();
+					location.href = '/staff/regist.view';
 			    }
 				
 			});	

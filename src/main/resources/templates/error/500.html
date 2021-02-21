@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="error-wrapper">
+		<div class="container">
+			<img class="img-100" src="../assets/images/other-images/sad.png" alt="">
+			<div class="error-heading">
+				<h2 class="headline font-info">500</h2>
+			</div>
+			<div class="col-md-8 offset-md-2">
+				<p class="sub-content">페이지접속 중 오류가 발생했습니다.</p>
+			</div>
+			<div>
+				<a class="btn btn-info-gradien btn-lg" href="/index.view">메인으로 이동</a>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

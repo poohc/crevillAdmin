@@ -61,8 +61,27 @@ public class CrevillAop {
         		if(servletPath.indexOf("list.view") > -1) {
         			menu = "직원리스트";
         		}
-        		if(servletPath.indexOf("join.view") > -1) {
+        		if(servletPath.indexOf("regist.view") > -1) {
         			menu = "직원등록";
+        		}
+        		if(servletPath.indexOf("nsList.view") > -1) {
+        			menu = "원어민리스트";
+        		}
+        		if(servletPath.indexOf("nsRegist.view") > -1) {
+        			menu = "원어민등록";
+        		}
+        	}
+        	
+        	if(contextPath.indexOf("reservation") > -1) {
+        		menuDto.setUpperMenu("예약업무");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "예약리스트";
+        		}
+        		if(servletPath.indexOf("todayList.view") > -1) {
+        			menu = "당일예약조회";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "예약등록";
         		}
         	}
         	
@@ -70,6 +89,48 @@ public class CrevillAop {
         		menuDto.setUpperMenu("지점업무");
         		if(servletPath.indexOf("noticeWrite.view") > -1) {
         			menu = "공지작성";
+        		}
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menuDto.setUpperMenu("지점관리");
+        			menu = "지점리스트";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menuDto.setUpperMenu("지점관리");
+        			menu = "지점등록";
+        		}
+        	}
+        	
+        	if(contextPath.indexOf("play") > -1) {
+        		menuDto.setUpperMenu("플레이관리");
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "플레이마스터";
+        		}
+        	}
+        	
+        	if(contextPath.indexOf("schedule") > -1) {
+        		menuDto.setUpperMenu("스케쥴관리");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "스케쥴조회";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "스케쥴등록";
+        		}
+        	}
+        	
+        	if(contextPath.indexOf("voucher") > -1) {
+        		menuDto.setUpperMenu("바우처관리");
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "바우처등록";
+        		}
+        	}
+        	
+        	if(contextPath.indexOf("store") > -1) {
+        		menuDto.setUpperMenu("매장관리");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "매장리스트";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "매장등록";
         		}
         	}
         	

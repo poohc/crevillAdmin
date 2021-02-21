@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +29,7 @@ public class StaffController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@RequestMapping("list.view")
+	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, StaffDto staffDto) {
 		ModelAndView mav = new ModelAndView("staff/list");
 		mav.addObject("staffCount", staffService.selectStaffCount(staffDto));
@@ -35,9 +37,9 @@ public class StaffController {
 		return mav;
 	}
 	
-	@RequestMapping("join.view")
-	public ModelAndView join(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("staff/join");
+	@GetMapping("regist.view")
+	public ModelAndView regist(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("staff/regist");
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("WORKER_TYPE");
 		mav.addObject("workerType", commonService.selectCommonCode(commonCodeDto));
@@ -47,12 +49,23 @@ public class StaffController {
 		return mav;
 	}
 	
-	@RequestMapping("join.proc")
+	@PostMapping("regist.proc")
 	@ResponseBody
-	public JSONObject joinProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
+	public JSONObject registProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
 		JSONObject result = new JSONObject();
 		result = staffService.insertStaffInfo(staffDto);
 		return result;
 	}
 	
+	@GetMapping("nsList.view")
+	public ModelAndView nsList(HttpServletRequest request, StaffDto staffDto) {
+		ModelAndView mav = new ModelAndView("staff/nsList");
+		return mav;
+	}
+	
+	@GetMapping("nsRegist.view")
+	public ModelAndView nsRegist(HttpServletRequest request, StaffDto staffDto) {
+		ModelAndView mav = new ModelAndView("staff/nsRegist");
+		return mav;
+	}
 }

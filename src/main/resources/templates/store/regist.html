@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<form class="form theme-form">
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label for="exampleFormControlSelect29">운영형태</label> <select
+												class="form-control form-control-lg"
+												id="exampleFormControlSelect29">
+												<option>직영점</option>
+												<option>가맹점</option>
+												<option>혼합형</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm26">매장명[간판]</label>
+											<input class="form-control form-control-lg"
+												id="colFormLabelSm26" type="text" placeholder="">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm26">매장명[사업자등록상]</label>
+											<input class="form-control form-control-lg"
+												id="colFormLabelSm26" type="text" placeholder="">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm26">사업자등록번호</label>
+											<input class="form-control form-control-lg"
+												id="colFormLabelSm26" type="text" placeholder="Name">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label for="exampleInputPassword27">대표자</label> <input
+												class="form-control" id="exampleInputPassword27" type="text"
+												placeholder="">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm28">주소[클릭시
+												다음주소 api</label> <input class="form-control form-control-sm"
+												id="colFormLabelSm28" type="text" placeholder="주소">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm28">오픈일</label>
+											<input class="form-control form-control-lg"
+												id="minMaxExample" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm28">휴무일</label>
+											<input class="form-control form-control-lg"
+												id="minMaxExample" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group m-t-15 m-checkbox-inline mb-0">
+											<label class="col-form-label-sm" for="colFormLabelSm28">수업</label>
+											<div class="checkbox checkbox-dark">
+												<input id="inline-1" type="checkbox"> <label
+													for="inline-1">CLASS</label>
+											</div>
+											<div class="checkbox checkbox-dark">
+												<input id="inline-2" type="checkbox"> <label
+													for="inline-2">TUTORING</label>
+											</div>
+											<div class="checkbox checkbox-dark">
+												<input id="inline-3" type="checkbox"> <label
+													for="inline-3">SPECIAL CAMP</label>
+											</div>
+											<div class="checkbox checkbox-dark">
+												<input id="inline-4" type="checkbox"> <label
+													for="inline-4">TIME</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+				</form>
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<h5>필수서류등록</h5>
+				</div>
+				<form class="form theme-form">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">사업자등록증</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">놀이시설인증서</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">보험증서</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">기타서류1</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">기타서류2</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">기타서류3</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">기타서류4</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<h5>매장사진등록</h5>
+				</div>
+				<form class="form theme-form">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">대표사진[모바일
+										thumnail 이미지]</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진1</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진2</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진3</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진4</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진5</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">매장사진6</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="file">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-primary" type="submit">등록</button>
+						<input class="btn btn-light" type="reset" value="취소">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

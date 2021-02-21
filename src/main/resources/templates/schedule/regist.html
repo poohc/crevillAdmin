@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+	        <div class="card">
+	            <div class="card-body">
+	                <div class="row date-range-picker">
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">운영구분</h6>
+	                        <p>평일은 클래스와 튜터링 수업 / 주말은 스페셜캠프만 설정</p>
+	                        <div class="theme-form">
+	                            <div class="form-group m-t-15 m-checkbox-inline mb-0">
+	                                <div class="checkbox checkbox-dark">
+	                                    <input id="inline-1" type="checkbox">
+	                                    <label for="inline-1">평일운영</label>
+	                                </div>
+	                                <div class="checkbox checkbox-dark">
+	                                    <input id="inline-2" type="checkbox">
+	                                    <label for="inline-2">주말/공휴일 운영</label>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">이용인원 설정</h6>
+	                        <p>스케쥴에 등록 된 인원은 예약인원이 초과할 경우 수정이 불가함</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" id="input-number" type="number">
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">클래스 선택</h6>
+	                        <p>관리자에서 설정한 클래스명으로 검색</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <select class="form-control form-control-lg" id="exampleFormControlSelect29">
+	                                    <option>GYM</option>
+	                                    <option>BLOCK</option>
+	                                    <option>PLAY</option>
+	                                    <option>스페셜캠프</option>
+	                                    <option>튜터링</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">튜터링 인원 설정</h6>
+	                        <p>이용시간 단위의 1/2 으로 설정</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" id="input-number" type="number">
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-lg-12">
+	                        <h6 class="sub-title">날짜/시간선택</h6>
+	                        <p>날짜의 범위는 상관없으나 시간은 30분단위 선택</p>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" type="text" name="daterange2" value="">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="card-footer">
+	                <button class="btn btn-primary" type="submit" data-toggle="modal"
+	                    data-target="#addchild_result">등록</button>
+	                <input class="btn btn-light" type="reset" value="RESET">
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</th:block>
+</html>

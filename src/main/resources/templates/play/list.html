@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+	        <div class="row">
+	            <!-- Individual column searching (text inputs) Starts-->
+	            <div class="col-sm-12">
+	                <div class="card">
+	                    <div class="card-body">
+	                        <div class="table-responsive product-table">
+	                            <table class="display" id="basic-1">
+	                                <thead>
+	                                    <tr>
+	                                        <th>THUMB</th>
+	                                        <th>PLAY</th>
+	                                        <th>놀이시간[분]</th>
+	                                        <th>평일/주말구분</th>
+	                                        <th>등록일</th>
+	                                        <th>관리</th>
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                    <tr th:each="playList : ${list}">
+	                                        <td>
+	                                        	<img th:src="*{'data:image/png;base64,'+ playList.thumbImg}" />
+	                                        </td>
+	                                        <td>
+	                                            <h6 th:text="${playList.name}"></h6><span th:text="${playList.description}"></span>
+	                                        </td>
+	                                        <td th:text="${playList.playTime}"></td>
+	                                        
+	                                        <th:block th:if="${playList.operationType == 'BOTH'}">
+											    <td class="font-success">평일/주말</td>
+											</th:block>
+											<th:block th:if="${playList.operationType == 'WEEKDAY'}">
+											    <td class="font-success">평일</td>
+											</th:block>
+											<th:block th:if="${playList.operationType == 'WEEKEND'}">
+											    <td class="font-success">주말</td>
+											</th:block>            
+	                                        <td th:text="${playList.regDate}"></td>
+	                                        <td>
+	                                            <button class="btn btn-danger btn-xs" type="button" data-original-title="btn btn-danger btn-xs" title="">삭제</button>
+	                                            <button class="btn btn-success btn-xs" type="button" data-original-title="btn btn-danger btn-xs" title="">수정</button>
+	                                        </td>
+	                                    </tr>
+	                                </tbody>
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <!-- Individual column searching (text inputs) Ends-->
+	        </div>
+	    </div>
+	</div>
+</th:block>
+</html>
