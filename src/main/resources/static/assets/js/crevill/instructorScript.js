@@ -1,66 +1,87 @@
+const checkInstructorTelNo = (value) => {
+  	return axios.post('/staff/checkInstructorTelNo.proc', {telNo: value}).then((response) => {
+		if (response.data.resultCd == '00') {
+	      return true;
+	    }
+		
+		return {
+	      data: {
+	        message: '이미 가입되어 있는 번호입니다.'
+	      }
+	    };
+	});
+};
+
+VeeValidate.Validator.extend('chkTelNo', {
+    validate : checkInstructorTelNo,
+    getMessage: (field, params, data) => {
+    	return data.message;
+  	}
+});
+
 Vue.use(VeeValidate, {
   locale: 'ko',
   dictionary: {
     ko: {
 		    attributes: {
-		      name : '성함',
-			  nameEng : '성함(영문)',
+		      nationality : '국적',
+			  name : '성함',
+			  fullName : '풀네임',
    			  telNo : '연락처',		  
 			  address : '주소',
 			  startDate : '입사일',
 			  officeId : '근무지점',
-			  staffGrade : '권한구분',
 		    }
 	  	}
   }
-});
+})
 
 new Vue({
     el: '#page-body',
     data: {
-    	name : '',
-	  	nameEng : '',
+    	nationality : '',
+	  	name : '',
+		fullName : '',	
 		telNo : '',	  	
 		address : '',
 	  	startDate : '',
-	  	officeId : '',
-	  	staffGrade : '',
+	  	officeId : '',	  
     },
 	methods: {
     validateBeforeSubmit() {
       this.$validator.validate().then((result) => {
         if (result) {
 	        
- 			var formdata = new FormData();
-			formdata.append("workerType", $('#workerType').val());
+			var formdata = new FormData();
+			formdata.append("nationality", $('#nationality').val());
 			formdata.append("name", $('#name').val());
-			formdata.append("nameEng", $('#nameEng').val());
+			formdata.append("fullName", $('#fullName').val());
 			formdata.append("telNo", $('#telNo').val());
 			formdata.append("address", $('#address').val());
 			formdata.append("startDate", $('#startDate').val());
 			formdata.append("officeId", $('#officeId').val());
 			formdata.append("staffGrade", $('input[name="staffGrade"]:checked').val());
 			
-			if($("#idPicture")[0].files[0] != undefined){
-				formdata.append("idPicture", $("#idPicture")[0].files[0]);	
+			if($("#picture")[0].files[0] != undefined){
+				formdata.append("picture", $("#picture")[0].files[0]);	
 			}
 			
-			if($("#healthCertificate")[0].files[0] != undefined){
-				formdata.append("healthCertificate", $("#healthCertificate")[0].files[0]);	
+			if($("#criminalRecords")[0].files[0] != undefined){
+				formdata.append("criminalRecords", $("#criminalRecords")[0].files[0]);	
 			}
 			
 			if($("#resume")[0].files[0] != undefined){
 				formdata.append("resume", $("#resume")[0].files[0]);	
 			}
 			
-			axios.post('/staff/join.proc', formdata,{
+			axios.post('/staff/nsRegist.proc', formdata,{
 				  headers: {
 					'Content-Type': 'multipart/form-data'
 				  }
 				}).then((response) => {
 				if (response.data.resultCd == '00') {
 			      	alert('정상처리 되었습니다.');
-					location.href = '/staff/regist.view';
+					location.href = '/staff/nsRegist.view';
 			    }
 				
 			});	
@@ -71,4 +92,4 @@ new Vue({
       });
     }
   }
-}); 
+}) 

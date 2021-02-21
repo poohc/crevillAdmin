@@ -1,7 +1,5 @@
 package kr.co.crevill.common;
 
-import java.sql.Blob;
-
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +32,7 @@ public class CommonUtil {
 		return fileDto;
 	}
 	
-	public static String getByteImage(Blob blob) throws Exception{
-		int blobLength = (int) blob.length();  
-		byte[] blobAsBytes = blob.getBytes(1, blobLength);
-		return Base64.encodeBase64String(blobAsBytes);
+	public static String getByteImage(byte[] blob) throws Exception{
+		return Base64.encodeBase64String(blob);
 	}
 }

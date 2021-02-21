@@ -71,9 +71,9 @@
 								<div class="col">
 									<div class="form-group">
 										<label for="officeId">근무지점</label>
-											<select class="form-control form-control-lg" id="officeId">
-											<option th:each="officeList : ${officeList}" th:text="${officeList.officeName}" th:value="${officeList.officeId}"></option>
-										</select>
+											<select class="form-control form-control-lg" id="officeId" name="officeId">
+												<option th:each="officeList : ${officeList}" th:text="${officeList.officeName}" th:value="${officeList.officeId}"></option>
+											</select>
 									</div>
 								</div>
 							</div>

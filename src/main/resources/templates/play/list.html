@@ -27,8 +27,8 @@
 	                                </thead>
 	                                <tbody>
 	                                    <tr th:each="playList : ${list}">
-	                                        <td>
-	                                        	<img th:src="*{'data:image/png;base64,'+ playList.thumbImg}" />
+	                                    	<td>	
+	                                        	<img th:src="@{/common/getImage(imageIdx=${playList.thumbnailIdx})}">
 	                                        </td>
 	                                        <td>
 	                                            <h6 th:text="${playList.name}"></h6><span th:text="${playList.description}"></span>

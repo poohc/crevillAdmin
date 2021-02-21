@@ -19,6 +19,26 @@
 		</where>
     </select>
 	
+	 <select id="selectNationalCode" resultType="kr.co.crevill.common.CommonCodeVo">
+        SELECT CODE_TYPE,
+        	   CODE_KEY,
+        	   CODE_VALUE,
+        	   REG_ID,
+        	   REG_DATE,
+        	   UPD_ID,
+        	   UPD_DATE,
+        	   CASE WHEN CODE_KEY  = 'US' THEN 1
+        	        WHEN CODE_KEY  = 'GB' THEN 2
+        	        WHEN CODE_KEY  = 'CA' THEN 3
+        	        WHEN CODE_KEY  = 'AU' THEN 4
+        	        WHEN CODE_KEY  = 'HK' THEN 5
+        	        WHEN CODE_KEY  = 'SG' THEN 6
+        	        WHEN CODE_KEY  = 'ETC' THEN 7 END AS SORDER
+          FROM COMMON_CODE
+         WHERE CODE_TYPE = 'NATIONALITY'
+      ORDER BY SORDER
+    </select>
+	
 	<select id="selectOfficeList" resultType="kr.co.crevill.common.OfficeInfoVo">
 		SELECT OFFICE_ID,
 			   OFFICE_NAME,
@@ -27,6 +47,16 @@
 			   SORT_RANK
 		  FROM OFFICE_INFO
 	  ORDER BY SORT_RANK 
+	</select>
+	
+	<select id="selectImageInfo" parameterType="kr.co.crevill.common.FileDto" resultType="kr.co.crevill.common.FileVo">
+		SELECT IMAGE_IDX,
+			   DATA,
+			   DESCRIPTION,
+			   IMAGE_NAME,
+			   IMAGE_SIZE
+		  FROM IMAGES
+	     WHERE IMAGE_IDX = #{imageIdx} 
 	</select>
 	
 	<select id="selectImagesIdx" resultType="kr.co.crevill.common.FileVo">

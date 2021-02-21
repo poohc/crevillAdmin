@@ -1,144 +1,128 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/instructorScript.js')}">
 
 <th:block layout:fragment="content">
-	<div class="page-body">
+	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12">
+					<form class="form theme-form" id="instructorForm" @submit.prevent="validateBeforeSubmit" action="/staff/nsRegist.proc" method="post" enctype="multipart/form-data">
 					<div class="card">
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label for="exampleFormControlSelect29">국적</label> <select
-												class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<option>미국</option>
-												<option>영국</option>
-												<option>캐나다</option>
-												<option>호주</option>
-												<option>홍콩</option>
-												<option>싱가포르</option>
-												<option>기타</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">성함(영문발음을
-												한글로 작성)</label> <input class="form-control form-control-lg"
-												id="colFormLabelSm26" type="text" placeholder="성함">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">FULL
-												NAME</label> <input class="form-control form-control-lg"
-												id="colFormLabelSm26" type="text" placeholder="Name">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label for="exampleInputPassword27">연락처</label> <input
-												class="form-control" id="exampleInputPassword27" type="text"
-												placeholder="- 없이 입력">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">주소</label>
-											<input class="form-control form-control-sm"
-												id="colFormLabelSm28" type="text" placeholder="주소">
-											<!--클릭시 Daum 우편번호 서비스 팝업-->
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">입사일</label>
-											<input class="form-control form-control-lg"
-												id="minMaxExample" type="text">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label for="exampleFormControlSelect29">근무지점</label> <select
-												class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<option>본사</option>
-												<option>판교</option>
-												<option>반포</option>
-												<option>대전</option>
-												<option>천안</option>
-												<option>대구</option>
-												<option>광교</option>
-											</select>
-										</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="nationality">국적</label>
+											<select class="form-control form-control-lg" v-validate="'required'" id="nationality" name="nationality">
+											<option th:each="nationalCode : ${nationalCode}" th:text="${nationalCode.codeValue}" th:value="${nationalCode.codeKey}"></option>
+										</select>
+										<label class="col-form-label-sm" for="nationality" v-if="errors.has('nationality')">{{ errors.first('nationality') }}</label>
 									</div>
 								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="name">성함(영문발음을한글로 작성)</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="name" name="name" type="text" placeholder="성함">
+										<label class="col-form-label-sm" for="name" v-if="errors.has('name')">{{ errors.first('name') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="fullName">FULL NAME</label>
+										<input class="form-control form-control-lg" id="fullName" name="fullName" type="text" placeholder="Name">
+										<label class="col-form-label-sm" for="fullName" v-if="errors.has('fullName')">{{ errors.first('fullName') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="telNo">연락처</label>
+										<input class="form-control" v-validate="'required|numeric|min:10|max:11'" id="telNo" name="telNo" type="text" placeholder="- 없이 입력">
+										<label class="col-form-label-sm" for="telNo" v-if="errors.has('telNo')">{{ errors.first('telNo') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="address">주소</label>
+										<input class="form-control form-control-sm" v-validate="'required'" id="address" name="address" type="text" placeholder="주소">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="startDate">입사일</label>
+										<input class="form-control form-control-lg" v-validate="'required|date_format:yyyyMMdd'" id="startDate" name="startDate" type="text">
+										<label class="col-form-label-sm" for="startDate" v-if="errors.has('startDate')">{{ errors.first('startDate') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="exampleFormControlSelect29">근무지점</label>
+										<select class="form-control form-control-lg" id="officeId" name="officeId">
+											<option th:each="officeList : ${officeList}" th:text="${officeList.officeName}" th:value="${officeList.officeId}"></option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card">
 						<div class="card-header">
 							<h5>사진 및 서류 등록</h5>
 						</div>
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">사진등록</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">범죄경력증명서</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">이력서(option)</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">사진등록</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="picture" name="picture">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button class="btn btn-primary" type="submit">등록</button>
-								<input class="btn btn-light" type="reset" value="취소">
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">범죄경력증명서</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="criminalRecords" name="criminalRecords">
+										</div>
+									</div>
+								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">이력서(option)</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="resume" name="resume">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-primary" type="submit">등록</button>
+							<input class="btn btn-light" type="reset" value="취소">
+						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 		</div>

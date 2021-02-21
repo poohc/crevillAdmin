@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.crevill.common.CommonMapper;
-import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.CommonUtil;
+import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
 
@@ -31,6 +31,14 @@ public class StaffService {
 	
 	public List<StaffVo> selectStaffList(StaffDto staffDto){
 		return staffMapper.selectStaffList(staffDto);
+	}
+	
+	public int selectInstructorCount(InstructorDto instructorDto){
+		return staffMapper.selectInstructorCount(instructorDto);
+	}
+	
+	public List<InstructorVo> selectInstructorList(InstructorDto instructorDto){
+		return staffMapper.selectInstructorList(instructorDto);
 	}
 	
 	/**
@@ -79,6 +87,50 @@ public class StaffService {
 		return result;
 	}	
 	
+	public JSONObject insertInstructorInfo(InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(instructorDto.getPicture() != null && !instructorDto.getPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("원어민강사사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(instructorDto.getCriminalRecords() != null && !instructorDto.getCriminalRecords().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			instructorDto.setCriminalRecordsIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getCriminalRecords());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("범죄경력증명서");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		if(instructorDto.getResume() != null && !instructorDto.getResume().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			instructorDto.setResumeIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getResume());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("이력서");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		//직원정보 INSERT 
+		if(staffMapper.insertInstructorInfo(instructorDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}	
 	
-	
+	public JSONObject checkInstructorTelNo(InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(staffMapper.checkExistTelNo(instructorDto) == 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
 }

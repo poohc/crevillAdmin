@@ -15,8 +15,16 @@ public class CommonService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	public FileVo selectImageInfo(FileDto fileDto) {
+		return commonMapper.selectImageInfo(fileDto);
+	}
+	
 	public List<CommonCodeVo> selectCommonCode(CommonCodeDto commonCodeDto){
 		return commonMapper.selectCommonCode(commonCodeDto);
+	}
+	
+	public List<CommonCodeVo> selectNationalCode(){
+		return commonMapper.selectNationalCode();
 	}
 	
 	public List<OfficeInfoVo> selectOfficeList(){

@@ -42,6 +42,36 @@
          LIMIT #{startPage}, #{recordsPerPage}
     </select>
 	
+	<select id="selectInstructorCount" parameterType="kr.co.crevill.staff.InstructorDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM NS_INSTRUCTOR
+    </select>
+	
+	<select id="selectInstructorList" parameterType="kr.co.crevill.staff.InstructorDto" resultType="kr.co.crevill.staff.InstructorVo">
+		SELECT NS_ID,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = NATIONALITY) NATIONALITY,
+			   NAME,
+			   FULL_NAME,
+			   TEL_NO,
+			   ADDRESS,
+			   DATE_FORMAT(START_DATE, '%Y-%m-%d') START_DATE,
+			   (SELECT OFFICE_NAME FROM OFFICE_INFO WHERE OFFICE_ID = NS_INSTRUCTOR.OFFICE_ID) OFFICE_ID,
+			   PICTURE_IDX,
+			   CRIMINAL_RECORDS_IDX,
+			   RESUME_IDX,
+			   REG_ID,
+			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
+			   UPD_ID,
+			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE
+          FROM NS_INSTRUCTOR
+	</select>
+	
+	<select id="checkExistTelNo" parameterType="kr.co.crevill.staff.InstructorDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM NS_INSTRUCTOR
+         WHERE TEL_NO = #{telNo}
+    </select>
+	
 	<insert id="insertStaffInfo" parameterType="kr.co.crevill.staff.StaffDto">
     	INSERT INTO STAFF_INFO (
    								NAME,
@@ -78,5 +108,36 @@
 								'A'
 							   )
     </insert>
+	
+	<insert id="insertInstructorInfo" parameterType="kr.co.crevill.staff.InstructorDto">
+		INSERT INTO NS_INSTRUCTOR(
+								  NATIONALITY,
+								  NAME,
+								  FULL_NAME,
+								  TEL_NO,
+								  ADDRESS,
+								  START_DATE,
+								  OFFICE_ID,
+								  PICTURE_IDX,
+								  CRIMINAL_RECORDS_IDX,
+								  RESUME_IDX,
+								  REG_ID,
+								  REG_DATE
+								 )
+					      VALUES (
+					      		  #{nationality},
+								  #{name},
+								  #{fullName},
+								  #{telNo},
+								  #{address},
+								  #{startDate},
+								  #{officeId},
+								  #{pictureIdx},
+								  #{criminalRecordsIdx},
+								  #{resumeIdx},
+								  #{regId},
+								  NOW()	
+					      		 )			 
+	</insert>
 	
 </mapper>

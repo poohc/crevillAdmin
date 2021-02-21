@@ -11,11 +11,11 @@
 			<div class="row">
 				<div class="col-xl">
 					<div class="row">
-						<div class="col-xl">
+						<div class="col-xl" th:each="list : ${list}">
 							<div class="card">
 								<div class="blog-box blog-grid text-center product-box">
 									<div class="product-img">
-										<img class="img-fluid top-radius-blog" th:src="@{/assets/images/faq/1.jpg}" alt="">
+										<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}">
 										<div class="product-hover">
 											<ul>
 												<li><i class="icon-import"></i></li>
@@ -24,122 +24,12 @@
 									</div>
 									<div class="blog-details-main">
 										<ul class="blog-social">
-											<li>2021-02-10</li>
-											<!--등록일-->
-											<li>판교현대백화점</li>
-											<!--근무지점-->
-											<li>USA</li>
-											<!--국적-->
+											<li th:text="${list.regId}"></li>
+											<li th:text="${list.officeId}"></li>
+											<li th:text="${list.nationality}"></li>
 										</ul>
 										<hr>
-										<h6 class="blog-bottom-details">MICHAEL JHONS</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl">
-							<div class="card">
-								<div class="blog-box blog-grid text-center product-box">
-									<div class="product-img">
-										<img class="img-fluid top-radius-blog" th:src="@{/assets/images/faq/1.jpg}" alt="">
-										<div class="product-hover">
-											<ul>
-												<li><i class="icon-import"></i></li>
-											</ul>
-										</div>
-									</div>
-									<div class="blog-details-main">
-										<ul class="blog-social">
-											<li>2021-02-10</li>
-											<!--등록일-->
-											<li>판교현대백화점</li>
-											<!--근무지점-->
-											<li>USA</li>
-											<!--국적-->
-										</ul>
-										<hr>
-										<h6 class="blog-bottom-details">MICHAEL JHONS</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl">
-							<div class="card">
-								<div class="blog-box blog-grid text-center product-box">
-									<div class="product-img">
-										<img class="img-fluid top-radius-blog"
-											th:src="@{/assets/images/faq/1.jpg}" alt="">
-										<div class="product-hover">
-											<ul>
-												<li><i class="icon-import"></i></li>
-											</ul>
-										</div>
-									</div>
-									<div class="blog-details-main">
-										<ul class="blog-social">
-											<li>2021-02-10</li>
-											<!--등록일-->
-											<li>판교현대백화점</li>
-											<!--근무지점-->
-											<li>USA</li>
-											<!--국적-->
-										</ul>
-										<hr>
-										<h6 class="blog-bottom-details">MICHAEL JHONS</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl">
-							<div class="card">
-								<div class="blog-box blog-grid text-center product-box">
-									<div class="product-img">
-										<img class="img-fluid top-radius-blog"
-											th:src="@{/assets/images/faq/1.jpg}" alt="">
-										<div class="product-hover">
-											<ul>
-												<li><i class="icon-import"></i></li>
-											</ul>
-										</div>
-									</div>
-									<div class="blog-details-main">
-										<ul class="blog-social">
-											<li>2021-02-10</li>
-											<!--등록일-->
-											<li>판교현대백화점</li>
-											<!--근무지점-->
-											<li>USA</li>
-											<!--국적-->
-										</ul>
-										<hr>
-										<h6 class="blog-bottom-details">MICHAEL JHONS</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl">
-							<div class="card">
-								<div class="blog-box blog-grid text-center product-box">
-									<div class="product-img">
-										<img class="img-fluid top-radius-blog"
-											th:src="@{/assets/images/faq/1.jpg}" alt="">
-										<div class="product-hover">
-											<ul>
-												<li><i class="icon-import"></i></li>
-											</ul>
-										</div>
-									</div>
-									<div class="blog-details-main">
-										<ul class="blog-social">
-											<li>2021-02-10</li>
-											<!--등록일-->
-											<li>판교현대백화점</li>
-											<!--근무지점-->
-											<li>USA</li>
-											<!--국적-->
-										</ul>
-										<hr>
-										<h6 class="blog-bottom-details">MICHAEL JHONS</h6>
+										<h6 class="blog-bottom-details" th:text="${list.fullName}"></h6>
 									</div>
 								</div>
 							</div>

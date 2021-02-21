@@ -9,26 +9,18 @@
     </select>
 	
     <select id="selectPlayList" parameterType="kr.co.crevill.play.PlayDto" resultType="kr.co.crevill.play.PlayVo">
-        SELECT A.PLAY_ID,
-		       A.NAME,
-		       A.DESCRIPTION,
-		       A.PLAY_TIME,
-		       A.OPERATION_TYPE,
-		       A.THUMBNAIL_IDX,
-		       A.PICTURE_IDX,
-		       B.DATA THUMBNAIL,
-		       B.IMAGE_NAME THUMBNAIL_NAME,
-			   B.IMAGE_SIZE THUMBNAIL_SIZE,
-		       C.DATA PICTURE,
-		       C.IMAGE_NAME PICTURE_NAME,
-			   C.IMAGE_SIZE PICTURE_SIZE,
-		       A.REG_ID,
-		       DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
-		       A.UPD_ID,
-		       DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE	
-          FROM PLAY A
-               LEFT OUTER JOIN IMAGES B ON A.THUMBNAIL_IDX = B.IMAGE_IDX
-               LEFT OUTER JOIN IMAGES C ON A.PICTURE_IDX = C.IMAGE_IDX
+        SELECT PLAY_ID,
+		       NAME,
+		       DESCRIPTION,
+		       PLAY_TIME,
+		       OPERATION_TYPE,
+		       THUMBNAIL_IDX,
+		       PICTURE_IDX,
+		       REG_ID,
+		       DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+		       UPD_ID,
+		       DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE	
+          FROM PLAY
          LIMIT #{startPage}, #{recordsPerPage}
     </select>
 	

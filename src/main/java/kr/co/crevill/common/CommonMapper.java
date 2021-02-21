@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommonMapper {
 	public List<CommonCodeVo> selectCommonCode(CommonCodeDto commonCodeDto);
+	public List<CommonCodeVo> selectNationalCode();
 	public List<OfficeInfoVo> selectOfficeList();
+	public FileVo selectImageInfo(FileDto fileDto);
 	public FileVo selectImagesIdx();
 	public FileVo selectFileIdx();
 	public int insertImages(FileDto fileDto);

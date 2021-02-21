@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,14 +59,33 @@ public class StaffController {
 	}
 	
 	@GetMapping("nsList.view")
-	public ModelAndView nsList(HttpServletRequest request, StaffDto staffDto) {
+	public ModelAndView nsList(HttpServletRequest request, InstructorDto instructorDto) {
 		ModelAndView mav = new ModelAndView("staff/nsList");
+		mav.addObject("list", staffService.selectInstructorList(instructorDto));
 		return mav;
 	}
 	
 	@GetMapping("nsRegist.view")
-	public ModelAndView nsRegist(HttpServletRequest request, StaffDto staffDto) {
+	public ModelAndView nsRegist(HttpServletRequest request, InstructorDto instructorDto) {
 		ModelAndView mav = new ModelAndView("staff/nsRegist");
+		mav.addObject("nationalCode", commonService.selectNationalCode());
+		mav.addObject("officeList", commonService.selectOfficeList());
 		return mav;
+	}
+	
+	@PostMapping("nsRegist.proc")
+	@ResponseBody
+	public JSONObject nsRegistProc(HttpServletRequest request, @ModelAttribute InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.insertInstructorInfo(instructorDto);
+		return result;
+	}
+	
+	@PostMapping("checkInstructorTelNo.proc")
+	@ResponseBody
+	public JSONObject checkInstructorTelNo(HttpServletRequest request, @RequestBody InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.checkInstructorTelNo(instructorDto);
+		return result;
 	}
 }

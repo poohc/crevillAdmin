@@ -29,13 +29,7 @@ public class PlayService {
 		return playMapper.selectPlayCount(playDto);
 	}
 	
-	public List<PlayVo> selectPlayList(PlayDto playDto){
-		List<PlayVo> v = playMapper.selectPlayList(playDto);
-		logger.info("========================================================");
-		for(PlayVo p : v) {
-			logger.info(p.toString());
-		}
-		logger.info("========================================================");
+	public List<PlayVo> selectPlayList(PlayDto playDto) throws Exception{
 		return playMapper.selectPlayList(playDto);
 	}
 	
