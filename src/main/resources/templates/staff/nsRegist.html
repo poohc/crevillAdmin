@@ -46,7 +46,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label for="telNo">연락처</label>
-										<input class="form-control" v-validate="'required|numeric|min:10|max:11'" id="telNo" name="telNo" type="text" placeholder="- 없이 입력">
+										<input class="form-control" v-validate="'required|numeric|min:10|max:11|chkTelNo'" id="telNo" name="telNo" type="text" placeholder="- 없이 입력">
 										<label class="col-form-label-sm" for="telNo" v-if="errors.has('telNo')">{{ errors.first('telNo') }}</label>
 									</div>
 								</div>
@@ -119,7 +119,7 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn btn-primary" type="submit">등록</button>
-							<input class="btn btn-light" type="reset" value="취소">
+							<input class="btn btn-light" type="reset" value="취소" onclick="cancel();">
 						</div>
 					</div>
 					</form>

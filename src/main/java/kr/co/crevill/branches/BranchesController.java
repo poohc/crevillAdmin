@@ -28,6 +28,13 @@ public class BranchesController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@GetMapping("noticeList.view")
+	public ModelAndView noticeList(HttpServletRequest request, NoticeDto noticeDto) {
+		ModelAndView mav = new ModelAndView("branches/noticeList");
+		mav.addObject("list", branchesService.selectNoticeList(noticeDto));
+		return mav;
+	}
+	
 	@GetMapping("noticeWrite.view")
 	public ModelAndView noticeWrite(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("branches/noticeWrite");

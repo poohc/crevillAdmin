@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -10,173 +10,127 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12">
+					<form class="form theme-form" id="voucherForm" @submit.prevent="validateBeforeSubmit" action="/voucher/create.proc" method="post" enctype="multipart/form-data">
 					<div class="card">
 						<div class="card-header">
 							<h5>바우처 생성</h5>
 						</div>
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label for="exampleFormControlSelect29">바우처등급</label> <select
-												class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<option>일반회원</option>
-												<option>VIP회원[기명]</option>
-												<option>VIP회원[무기명]</option>
-												<option>1회권</option>
-											</select>
-										</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="grade">바우처등급</label>
+										<select class="form-control form-control-lg" id="grade" name="grade">
+											<option value="NORMAL">일반회원</option>
+											<option value="VIP_REGIST">VIP회원[기명]</option>
+											<option value="VIP_ANON">VIP회원[무기명]</option>
+											<option value="DISPOSABLE">1회권</option>
+										</select>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">바우처
-												티켓명</label> <input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="예) 20시간권">
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="ticketName">바우처 티켓명</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="ticketName" name="ticketName" type="text" placeholder="예) 20시간권">
+										<label class="col-form-label-sm" for="ticketName" v-if="errors.has('ticketName')">{{ errors.first('ticketName') }}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">정가</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="예) 500000">
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="price">정가</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="price" name="price" type="text" placeholder="예) 500000">
+										<label class="col-form-label-sm" for="price" v-if="errors.has('price')">{{ errors.first('price') }}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm28">판매금액</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="text" placeholder="예) 460000">
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="salePrice">판매금액</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="salePrice" name="salePrice" type="text" placeholder="예) 460000">
+										<label class="col-form-label-sm" for="salePrice" v-if="errors.has('salePrice')">{{ errors.first('salePrice') }}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">이용시간</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="number"
-												placeholder="예)시간단위 숫자입력 / 무제한은 0">
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="useTime">이용시간</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="useTime" name="useTime" type="number" placeholder="예)시간단위 숫자입력 / 무제한은 0">
+										<label class="col-form-label-sm" for="salePrice" v-if="errors.has('useTime')">{{ errors.first('useTime') }}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">유효기간</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm28" type="number"
-												placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0">
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="endDate">유효기간</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0">
+										<label class="col-form-label-sm" for="endDate" v-if="errors.has('endDate')">{{ errors.first('endDate') }}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group">
-											<label for="exampleFormControlSelect29">할인코드</label> <select
-												class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<option>30%</option>
-												<option>40%</option>
-												<option>50%</option>
-												<option>60%</option>
-											</select>
-										</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="exampleFormControlSelect29">할인코드</label>
+										<select class="form-control form-control-lg" id="saleCode" name="saleCode">
+											<option value="30">30%</option>
+											<option value="40">40%</option>
+											<option value="50">50%</option>
+											<option value="60">60%</option>
+										</select>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<p>바우처 티켓 속성</p>
-									</div>
-									<div class="col">
-										<div class="form-group m-t-15 m-checkbox-inline mb-0">
-											<div class="checkbox checkbox-dark">
-												<input id="inline-1" type="checkbox"> <label
-													for="inline-1">CLASS</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-2" type="checkbox"> <label
-													for="inline-2">TUTORING</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-3" type="checkbox"> <label
-													for="inline-3">SPECIAL CAMP</label>
-											</div>
-											<div class="checkbox checkbox-dark">
-												<input id="inline-4" type="checkbox"> <label
-													for="inline-4">가족공유</label>
-											</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<p>바우처 티켓 속성</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<div class="checkbox checkbox-dark">
+											<input id="attributeA" type="checkbox" name="attribute" value="CLASS">
+											<label for="attributeA">CLASS</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeB" type="checkbox" name="attribute" value="TUTORING">
+											<label for="attributeB">TUTORING</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeC" type="checkbox" name="attribute" value="SPECIAL CAMP">
+											<label for="attributeC">SPECIAL CAMP</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeD" type="checkbox" name="attribute" value="가족공유">
+											<label for="attributeD">가족공유</label>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button class="btn btn-primary" type="submit"
-									data-toggle="modal" data-target="#addchild_result">등록</button>
-								<input class="btn btn-light" type="reset" value="RESET">
+							<div class="row">
+								<div class="col-sm-12">
+									<p>바우처이미지</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<input class="form-control" type="file" id="image" name="image">
+									</div>
+								</div>
 							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<!--보호자등록 popup modal-->
-			<div class="modal fade" id="sign_result" tabindex="-1" role="dialog"
-				aria-labelledby="sign_result" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">회원등록 결과</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
 						</div>
-						<div class="modal-body">
-							<form>
-								<div class="form-group">
-									<h6 style="text-align: center;">정상처리 되었습니다.</h6>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-primary" type="button"
-								data-dismiss="modal">확인</button>
+						<div class="card-footer">
+							<button class="btn btn-primary" type="submit">등록</button>
+							<input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">
 						</div>
 					</div>
+					</form>
 				</div>
-			</div>
-			<div class="modal fade" id="addchild_result" tabindex="-1"
-				role="dialog" aria-labelledby="addchild_result" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">등록 결과</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
-								<div class="form-group">
-									<h6 style="text-align: center;">정상처리 되었습니다.</h6>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-primary" type="button"
-								data-dismiss="modal">확인</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			</div>			
 		</div>
 		<!-- Container-fluid Ends-->
 	</div>

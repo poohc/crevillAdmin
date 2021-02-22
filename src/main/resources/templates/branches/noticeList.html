@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Individual column searching (text inputs) Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive product-table">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>제목</th>
+											<th>알림구분</th>
+											<th>전달매체</th>
+											<th>내용</th>
+											<th>등록일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${list}">
+											<td th:text=${list.title}></td>
+											<td th:text=${list.noticeType}></td>
+											<td th:text=${list.noticeSendType}></td>
+											<td th:text=${list.contents}></td>
+											<td th:text=${list.regDate}></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Individual column searching (text inputs) Ends-->
+			</div>
+		</div>
+		<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

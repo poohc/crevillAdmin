@@ -60,7 +60,6 @@ new Vue({
 			formdata.append("address", $('#address').val());
 			formdata.append("startDate", $('#startDate').val());
 			formdata.append("officeId", $('#officeId').val());
-			formdata.append("staffGrade", $('input[name="staffGrade"]:checked').val());
 			
 			if($("#picture")[0].files[0] != undefined){
 				formdata.append("picture", $("#picture")[0].files[0]);	
@@ -92,4 +91,8 @@ new Vue({
       });
     }
   }
-}) 
+}); 
+
+function cancel(){
+	location.href = '/staff/nsRegist.view';
+}

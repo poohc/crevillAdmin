@@ -90,6 +90,9 @@ public class CrevillAop {
         		if(servletPath.indexOf("noticeWrite.view") > -1) {
         			menu = "공지작성";
         		}
+        		if(servletPath.indexOf("noticeList.view") > -1) {
+        			menu = "공지리스트";
+        		}
         		if(servletPath.indexOf("list.view") > -1) {
         			menuDto.setUpperMenu("지점관리");
         			menu = "지점리스트";
@@ -127,6 +130,9 @@ public class CrevillAop {
         		}
         		if(servletPath.indexOf("list.view") > -1) {
         			menu = "바우처리스트";
+        		}
+        		if(servletPath.indexOf("sale.view") > -1) {
+        			menu = "바우처판매";
         		}
         	}
         	

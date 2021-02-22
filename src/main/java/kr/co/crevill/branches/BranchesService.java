@@ -1,5 +1,7 @@
 package kr.co.crevill.branches;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,10 @@ public class BranchesService {
 	private BranchesMapper branchesMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	public List<NoticeVo> selectNoticeList(NoticeDto noticeDto){
+		return branchesMapper.selectNoticeList(noticeDto);
+	}
 	
 	/**
 	 * 공지 INSERT 처리 

@@ -16,10 +16,15 @@ public class ReservationController {
 		return mav;
 	}
 	
-	@RequestMapping("todayList.view")
-	public ModelAndView todayList(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("reservation/todayList");
+	@RequestMapping("search.view")
+	public ModelAndView search(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("reservation/search");
 		return mav;
 	}
 	
+	@RequestMapping("regist.view")
+	public ModelAndView regist(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("reservation/regist");
+		return mav;
+	}
 }
