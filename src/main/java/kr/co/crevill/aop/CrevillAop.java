@@ -122,6 +122,12 @@ public class CrevillAop {
         		if(servletPath.indexOf("regist.view") > -1) {
         			menu = "바우처등록";
         		}
+        		if(servletPath.indexOf("create.view") > -1) {
+        			menu = "바우처생성";
+        		}
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "바우처리스트";
+        		}
         	}
         	
         	if(contextPath.indexOf("store") > -1) {
