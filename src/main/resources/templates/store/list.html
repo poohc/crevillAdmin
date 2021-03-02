@@ -29,99 +29,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><img
-												src="../assets/images/ecommerce/store_thumb.png" alt=""></td>
+										<tr th:each="list : ${list}">
+											<td><img th:src="@{/common/getImage(imageIdx=${list.thumbnailImageIdx})}"></td>
 											<td>
-												<h6>판교</h6>
-												<span>경기도 성남시 분당구 판교.....</span>
+												<h6 th:text="${list.storeName}"></h6>
+												<span th:text="${list.address}"></span>
 											</td>
-											<td>직영점</td>
-											<td>운영중</td>
-											<td class="font-success">4</td>
-											<td>매주 월요일</td>
-											<td>031-444-4444</td>
-											<td>CLASS, TUTORING, SC</td>
-											<td>
-												<button class="btn btn-danger btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">삭제</button>
-												<button class="btn btn-success btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">수정</button>
-											</td>
-										</tr>
-										<tr>
-											<td><img
-												src="../assets/images/ecommerce/store_thumb.png" alt=""></td>
-											<td>
-												<h6>판교</h6>
-												<span>경기도 성남시 분당구 판교.....</span>
-											</td>
-											<td>직영점</td>
-											<td>운영중</td>
-											<td class="font-success">4</td>
-											<td>매주 월요일</td>
-											<td>031-444-4444</td>
-											<td>CLASS, TUTORING, SC</td>
-											<td>
-												<button class="btn btn-danger btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">삭제</button>
-												<button class="btn btn-success btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">수정</button>
-											</td>
-										</tr>
-										<tr>
-											<td><img
-												src="../assets/images/ecommerce/store_thumb.png" alt=""></td>
-											<td>
-												<h6>판교</h6>
-												<span>경기도 성남시 분당구 판교.....</span>
-											</td>
-											<td>직영점</td>
-											<td>운영중</td>
-											<td class="font-success">4</td>
-											<td>매주 월요일</td>
-											<td>031-444-4444</td>
-											<td>CLASS, TUTORING, SC</td>
-											<td>
-												<button class="btn btn-danger btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">삭제</button>
-												<button class="btn btn-success btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">수정</button>
-											</td>
-										</tr>
-										<tr>
-											<td><img
-												src="../assets/images/ecommerce/store_thumb.png" alt=""></td>
-											<td>
-												<h6>판교</h6>
-												<span>경기도 성남시 분당구 판교.....</span>
-											</td>
-											<td>직영점</td>
-											<td>운영중</td>
-											<td class="font-success">4</td>
-											<td>매주 월요일</td>
-											<td>031-444-4444</td>
-											<td>CLASS, TUTORING, SC</td>
-											<td>
-												<button class="btn btn-danger btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">삭제</button>
-												<button class="btn btn-success btn-xs" type="button"
-													data-original-title="btn btn-danger btn-xs" title="">수정</button>
-											</td>
-										</tr>
-										<tr>
-											<td><img
-												src="../assets/images/ecommerce/store_thumb.png" alt=""></td>
-											<td>
-												<h6>판교</h6>
-												<span>경기도 성남시 분당구 판교.....</span>
-											</td>
-											<td>직영점</td>
-											<td>운영중</td>
-											<td class="font-success">4</td>
-											<td>매주 월요일</td>
-											<td>031-444-4444</td>
-											<td>CLASS, TUTORING, SC</td>
+											<td th:text="${list.storeType}"></td>
+											<td th:text="${list.storeStatus}"></td>
+											<td class="font-success"></td>
+											<td th:text="${list.closeDay}"></td>
+											<td th:text="${list.telNo}"></td>
+											<td th:text="${list.playName}"></td>
 											<td>
 												<button class="btn btn-danger btn-xs" type="button"
 													data-original-title="btn btn-danger btn-xs" title="">삭제</button>

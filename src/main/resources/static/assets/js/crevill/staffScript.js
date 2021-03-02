@@ -8,7 +8,7 @@ Vue.use(VeeValidate, {
    			  telNo : '연락처',		  
 			  address : '주소',
 			  startDate : '입사일',
-			  officeId : '근무지점',
+			  storeId : '근무지점',
 			  staffGrade : '권한구분',
 		    }
 	  	}
@@ -23,7 +23,7 @@ new Vue({
 		telNo : '',	  	
 		address : '',
 	  	startDate : '',
-	  	officeId : '',
+	  	storeId : '',
 	  	staffGrade : '',
     },
 	methods: {
@@ -38,7 +38,7 @@ new Vue({
 			formdata.append("telNo", $('#telNo').val());
 			formdata.append("address", $('#address').val());
 			formdata.append("startDate", $('#startDate').val());
-			formdata.append("officeId", $('#officeId').val());
+			formdata.append("storeId", $('#storeId').val());
 			formdata.append("staffGrade", $('input[name="staffGrade"]:checked').val());
 			
 			if($("#idPicture")[0].files[0] != undefined){
@@ -72,3 +72,7 @@ new Vue({
     }
   }
 }); 
+
+function cancel(){
+	location.href = '/staff/regist.view';
+}

@@ -29,7 +29,7 @@ public class PlayService {
 		return playMapper.selectPlayCount(playDto);
 	}
 	
-	public List<PlayVo> selectPlayList(PlayDto playDto) throws Exception{
+	public List<PlayVo> selectPlayList(PlayDto playDto){
 		return playMapper.selectPlayList(playDto);
 	}
 	

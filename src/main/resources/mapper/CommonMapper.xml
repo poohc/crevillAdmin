@@ -38,17 +38,7 @@
          WHERE CODE_TYPE = 'NATIONALITY'
       ORDER BY SORDER
     </select>
-	
-	<select id="selectOfficeList" resultType="kr.co.crevill.common.OfficeInfoVo">
-		SELECT OFFICE_ID,
-			   OFFICE_NAME,
-			   OFFICE_DESCRIPTION,
-			   TEL_NO,
-			   SORT_RANK
-		  FROM OFFICE_INFO
-	  ORDER BY SORT_RANK 
-	</select>
-	
+    
 	<select id="selectImageInfo" parameterType="kr.co.crevill.common.FileDto" resultType="kr.co.crevill.common.FileVo">
 		SELECT IMAGE_IDX,
 			   DATA,

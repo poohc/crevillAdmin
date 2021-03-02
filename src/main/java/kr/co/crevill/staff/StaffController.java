@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
 
 @Controller
 @RequestMapping("staff")
@@ -24,6 +26,9 @@ public class StaffController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private StoreService storeService;
 	
 	@Autowired
 	private StaffService staffService;
@@ -46,7 +51,8 @@ public class StaffController {
 		mav.addObject("workerType", commonService.selectCommonCode(commonCodeDto));
 		commonCodeDto.setCodeType("STAFF_GRADE");
 		mav.addObject("staffGrade", commonService.selectCommonCode(commonCodeDto));
-		mav.addObject("officeList", commonService.selectOfficeList());
+		StoreDto storeDto = new StoreDto();
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	
@@ -69,7 +75,8 @@ public class StaffController {
 	public ModelAndView nsRegist(HttpServletRequest request, InstructorDto instructorDto) {
 		ModelAndView mav = new ModelAndView("staff/nsRegist");
 		mav.addObject("nationalCode", commonService.selectNationalCode());
-		mav.addObject("officeList", commonService.selectOfficeList());
+		StoreDto storeDto = new StoreDto();
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	

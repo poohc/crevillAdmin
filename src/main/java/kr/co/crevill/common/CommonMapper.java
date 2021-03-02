@@ -5,12 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import kr.co.crevill.store.StoreVo;
+
 @Mapper
 @Repository
 public interface CommonMapper {
 	public List<CommonCodeVo> selectCommonCode(CommonCodeDto commonCodeDto);
 	public List<CommonCodeVo> selectNationalCode();
-	public List<OfficeInfoVo> selectOfficeList();
 	public FileVo selectImageInfo(FileDto fileDto);
 	public FileVo selectImagesIdx();
 	public FileVo selectFileIdx();

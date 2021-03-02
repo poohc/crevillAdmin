@@ -13,7 +13,7 @@ public class InstructorVo {
 	private String telNo;
 	private String address;
 	private String startDate;
-	private String officeId;
+	private String storeId;
 	private String pictureIdx;
 	private String criminalRecordsIdx;
 	private String resumeIdx;

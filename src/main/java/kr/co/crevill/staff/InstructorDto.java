@@ -15,7 +15,7 @@ public class InstructorDto {
 	private String telNo;
 	private String address;
 	private String startDate;
-	private String officeId;
+	private String storeId;
 	private MultipartFile picture;
 	private MultipartFile criminalRecords;
 	private MultipartFile resume;

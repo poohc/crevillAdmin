@@ -30,7 +30,7 @@ Vue.use(VeeValidate, {
    			  telNo : '연락처',		  
 			  address : '주소',
 			  startDate : '입사일',
-			  officeId : '근무지점',
+			  storeId : '근무지점',
 		    }
 	  	}
   }
@@ -45,7 +45,7 @@ new Vue({
 		telNo : '',	  	
 		address : '',
 	  	startDate : '',
-	  	officeId : '',	  
+	  	storeId : '',	  
     },
 	methods: {
     validateBeforeSubmit() {
@@ -59,7 +59,7 @@ new Vue({
 			formdata.append("telNo", $('#telNo').val());
 			formdata.append("address", $('#address').val());
 			formdata.append("startDate", $('#startDate').val());
-			formdata.append("officeId", $('#officeId').val());
+			formdata.append("storeId", $('#storeId').val());
 			
 			if($("#picture")[0].files[0] != undefined){
 				formdata.append("picture", $("#picture")[0].files[0]);	

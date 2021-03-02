@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.store.StoreMapper">
+	
+	<select id="selectStoreId" resultType="String">
+		SELECT STORE_ID_SEQ_NEXTVAL()
+	</select>
+	
+	<select id="selectStoreCount" parameterType="kr.co.crevill.store.StoreDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM STORE
+    </select>
+	
+    <select id="selectStoreList" parameterType="kr.co.crevill.store.StoreDto" resultType="kr.co.crevill.store.StoreVo">
+        SELECT STORE_ID,
+			   STORE_NAME,
+			   STORE_NAME_REG,
+			   CASE WHEN LENGTH(TEL_NO) = 11 THEN CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,4),'-',SUBSTRING(TEL_NO,8,4))
+            	    ELSE CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,3),'-',SUBSTRING(TEL_NO,7,4)) END AS TEL_NO,
+			   SORT_RANK,
+			   REGISTRATION_NUMBER,
+			   CEO,
+			   ADDRESS,
+			   OPEN_DAY,
+			   CASE WHEN CLOSE_DAY = 'MON' THEN '매주 월요일'
+			        WHEN CLOSE_DAY = 'TUE' THEN '매주 화요일'
+			        WHEN CLOSE_DAY = 'WED' THEN '매주 수요일'
+			        WHEN CLOSE_DAY = 'THU' THEN '매주 목요일'
+			        WHEN CLOSE_DAY = 'FRI' THEN '매주 금요일'
+			        WHEN CLOSE_DAY = 'SAT' THEN '매주 토요일'
+			        WHEN CLOSE_DAY = 'SUN' THEN '매주 일요일'
+			        ELSE '휴무없음' END AS CLOSE_DAY,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_TYPE' AND CODE_KEY = STORE.STORE_TYPE) STORE_TYPE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_STATUS' AND CODE_KEY = STORE.STORE_STATUS) STORE_STATUS,
+			   (SELECT GROUP_CONCAT(B.NAME SEPARATOR ',') FROM STORE_PLAY A, PLAY B WHERE A.STORE_ID = STORE.STORE_ID AND A.PLAY_ID = B.PLAY_ID) PLAY_NAME,
+			   REGISTRATION_CERTIFICATE_IDX,
+			   PLAYGROUND_CERTIFICATE_IDX,
+			   INSURANCE_CERTIFICATE_IDX,
+			   ETC_FILE_1_IDX,
+			   ETC_FILE_2_IDX,
+			   ETC_FILE_3_IDX,
+			   ETC_FILE_4_IDX,
+			   THUMBNAIL_IMAGE_IDX,
+			   IMAGE_1_IDX,
+			   IMAGE_2_IDX,
+			   IMAGE_3_IDX,
+			   IMAGE_4_IDX,
+			   IMAGE_5_IDX,
+			   IMAGE_6_IDX,
+			   REG_ID,
+			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+			   UPD_ID,
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+          FROM STORE
+      ORDER BY SORT_RANK   
+         LIMIT #{startPage}, #{recordsPerPage}
+    </select>
+	
+	<insert id="insertStore" parameterType="kr.co.crevill.store.StoreDto">
+    	INSERT INTO STORE (
+   						   STORE_ID,
+						   STORE_NAME,
+						   STORE_NAME_REG,
+						   STORE_TYPE,
+						   TEL_NO,
+						   SORT_RANK,
+						   REGISTRATION_NUMBER,
+						   CEO,
+						   ADDRESS,
+						   OPEN_DAY,
+						   CLOSE_DAY,
+						   REGISTRATION_CERTIFICATE_IDX,
+						   PLAYGROUND_CERTIFICATE_IDX,
+						   INSURANCE_CERTIFICATE_IDX,
+						   ETC_FILE_1_IDX,
+						   ETC_FILE_2_IDX,
+						   ETC_FILE_3_IDX,
+						   ETC_FILE_4_IDX,
+						   THUMBNAIL_IMAGE_IDX,
+						   IMAGE_1_IDX,
+						   IMAGE_2_IDX,
+						   IMAGE_3_IDX,
+						   IMAGE_4_IDX,
+						   IMAGE_5_IDX,
+						   IMAGE_6_IDX,
+						   REG_ID,
+						   REG_DATE					
+   					      )
+				   VALUES (
+						   #{storeId},
+						   #{storeName},
+						   #{storeNameReg},
+						   #{storeType},
+						   #{telNo},
+						   SORT_RANK_NEXTVAL(),
+						   #{registrationNumber},
+						   #{ceo},
+						   #{address},
+						   #{openDay},
+						   #{closeDay},
+						   #{registrationCertificateIdx},
+						   #{playgroundCertificateIdx},
+						   #{insuranceCertificateIdx},
+						   #{etcFile1Idx},
+						   #{etcFile2Idx},
+						   #{etcFile3Idx},
+						   #{etcFile4Idx},
+						   #{thumbnailImageIdx},
+						   #{image1Idx},
+						   #{image2Idx},
+						   #{image3Idx},
+						   #{image4Idx},
+						   #{image5Idx},
+						   #{image6Idx},
+						   #{regId},
+						   NOW()
+						  )
+    </insert>
+	
+	<insert id="insertStorePlay" parameterType="kr.co.crevill.store.StoreDto">
+		INSERT INTO STORE_PLAY(
+							   STORE_ID,
+							   PLAY_ID,
+							   REG_ID,
+							   REG_DATE		
+							  )
+	                   VALUES (
+	                   		   #{storeId},
+							   #{playId},
+							   #{regId},
+							   NOW()
+	                          )
+	</insert>
+	
+</mapper>

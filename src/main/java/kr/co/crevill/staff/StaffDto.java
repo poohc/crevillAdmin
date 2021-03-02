@@ -16,7 +16,7 @@ public class StaffDto {
 	private String endDate;
 	private String workerType;
 	private String staffGrade;
-	private String officeId;
+	private String storeId;
 	private MultipartFile idPicture;
 	private MultipartFile healthCertificate;
 	private MultipartFile resume;

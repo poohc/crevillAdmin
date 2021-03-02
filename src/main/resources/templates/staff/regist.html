@@ -26,7 +26,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="name">성함(한글)</label>
-										<input class="form-control form-control-lg" v-validate="'required'" v-model="name" id="name" name="name"  type="text" placeholder="성함">
+										<input class="form-control form-control-lg" v-validate="'required'" id="name" name="name"  type="text" placeholder="성함">
 										<label class="col-form-label-sm" for="name" v-if="errors.has('name')">{{ errors.first('name') }}</label>
 									</div>
 								</div>
@@ -70,9 +70,9 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label for="officeId">근무지점</label>
-											<select class="form-control form-control-lg" id="officeId" name="officeId">
-												<option th:each="officeList : ${officeList}" th:text="${officeList.officeName}" th:value="${officeList.officeId}"></option>
+										<label for="storeId">근무지점</label>
+											<select class="form-control form-control-lg" id="storeId" name="storeId">
+												<option th:each="storeList : ${storeList}" th:text="${storeList.storeName}" th:value="${storeList.storeId}"></option>
 											</select>
 									</div>
 								</div>
@@ -133,7 +133,7 @@
 							</div>
 							<div class="card-footer">
 								<button class="btn btn-primary" type="submit">등록</button>
-								<input class="btn btn-light" type="reset" value="취소">
+								<input class="btn btn-light" type="reset" value="취소" onclick="cancel();">
 							</div>
 					</div>
 					</form>

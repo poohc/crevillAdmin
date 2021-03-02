@@ -27,8 +27,4 @@ public class CommonService {
 		return commonMapper.selectNationalCode();
 	}
 	
-	public List<OfficeInfoVo> selectOfficeList(){
-		return commonMapper.selectOfficeList();
-	}
-	
 }
