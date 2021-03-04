@@ -32,7 +32,7 @@
 												<img th:src="@{/common/getImage(imageIdx=${list.imageIdx})}">
 											</td>
 											<td>
-												<h6>20시간권</h6>
+												<h6 th:text="${list.ticketName}"></h6>
 												<span>
 													<th:block th:each="attributeList, i : ${attributeList}">
 														<span th:if="${i.index == 0}" class="badge badge-primary" th:text=${attributeList.attribute}></span>

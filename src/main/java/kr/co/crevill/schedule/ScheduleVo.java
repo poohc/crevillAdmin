@@ -1,27 +1,23 @@
-package kr.co.crevill.voucher;
-
-import org.springframework.web.multipart.MultipartFile;
+package kr.co.crevill.schedule;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class VoucherDto {
-	private String voucherNo;
-	private String grade;
-	private String ticketName;
-	private String price;
-	private String salePrice;
-	private String useTime;
-	private String endDate;
+public class ScheduleVo {
+	private String scheduleId;
+	private String operationType;
+	private String playId;
+	private String playName;
+	private String numberOfPeople;
+	private String tutoringNumber;
+	private String scheduleDate;
+	private String scheduleTime;
 	private String regId;
 	private String regDate;
 	private String updId;
 	private String updDate;
-	private String attribute;
-	private MultipartFile image;
-	private String imageIdx;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;
@@ -31,7 +27,7 @@ public class VoucherDto {
 	private String searchType;
 	
 	//페이징 초기 설정
-	public VoucherDto() {
+	public ScheduleVo() {
 		this.currentPageNo = 1;
 		this.recordsPerPage = 10;
 		this.pageSize = 10;

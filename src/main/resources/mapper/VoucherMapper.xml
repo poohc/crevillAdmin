@@ -19,8 +19,7 @@
 			   FORMAT(PRICE , 0) PRICE,
 			   FORMAT(SALE_PRICE , 0) SALE_PRICE,
 			   USE_TIME,
-			   CONCAT(END_DATE,'일') END_DATE,
-			   SALE_CODE,
+			   CONCAT(END_DATE,'개월') END_DATE,
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
 			   UPD_ID,
@@ -48,7 +47,6 @@
 						     SALE_PRICE,
 						     USE_TIME,
 						     END_DATE,
-						     SALE_CODE,
 						     REG_ID,
 						     REG_DATE,
 						     IMAGE_IDX								
@@ -61,7 +59,6 @@
 						     #{salePrice},
 						     #{useTime},
 						     #{endDate},
-						     #{saleCode},
 						     #{regId},
 						     NOW(),
 						     #{imageIdx}

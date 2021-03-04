@@ -1,5 +1,7 @@
 package kr.co.crevill.play;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -25,11 +27,19 @@ public class PlayController {
 	private PlayService playService;
 	
 	@GetMapping("list.view")
-	public ModelAndView list(HttpServletRequest request, @ModelAttribute PlayDto playDto) throws Exception {
+	public ModelAndView list(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
 		ModelAndView mav = new ModelAndView("play/list");
 		mav.addObject("count", playService.selectPlayCount(playDto));
 		mav.addObject("list", playService.selectPlayList(playDto));
 		return mav;
+	}
+	
+	@PostMapping("playList.view")
+	@ResponseBody
+	public List<PlayVo> playList(HttpServletRequest request, String operationType) {
+		PlayDto playDto = new PlayDto();
+		playDto.setOperationType(operationType);
+		return playService.selectPlayList(playDto);
 	}
 	
 	@GetMapping("master.view")

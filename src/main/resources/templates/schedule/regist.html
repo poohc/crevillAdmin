@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
+			<form class="form theme-form" id="scheduleForm" @submit.prevent="validateBeforeSubmit" action="/schedule/regist.proc" method="post" enctype="multipart/form-data">
 	        <div class="card">
 	            <div class="card-body">
 	                <div class="row date-range-picker">
@@ -17,13 +18,14 @@
 	                        <div class="theme-form">
 	                            <div class="form-group m-t-15 m-checkbox-inline mb-0">
 	                                <div class="checkbox checkbox-dark">
-	                                    <input id="inline-1" type="checkbox">
-	                                    <label for="inline-1">평일운영</label>
+	                                    <input id="operationTypeA" name="operationType" type="checkbox" v-validate="'required'" value="WEEKDAY">
+	                                    <label for="operationTypeA">평일운영</label>
 	                                </div>
 	                                <div class="checkbox checkbox-dark">
-	                                    <input id="inline-2" type="checkbox">
-	                                    <label for="inline-2">주말/공휴일 운영</label>
+	                                    <input id="operationTypeB" name="operationType" type="checkbox" v-validate="'required'" value="WEEKEND">
+	                                    <label for="operationTypeB">주말/공휴일 운영</label>
 	                                </div>
+	                                <label class="col-form-label-sm" for="operationType" v-if="errors.has('operationType')">{{ errors.first('operationType') }}</label>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -32,8 +34,9 @@
 	                        <p>스케쥴에 등록 된 인원은 예약인원이 초과할 경우 수정이 불가함</p>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <input class="form-control" id="input-number" type="number">
+	                                <input class="form-control" v-validate="'required|numeric|min:1'" id="numberOfPeople" name="numberOfPeople" type="number">
 	                            </div>
+	                            <label class="col-form-label-sm" for="operationType" v-if="errors.has('numberOfPeople')">{{ errors.first('numberOfPeople') }}</label>
 	                        </div>
 	                    </div>
 	                    <div class="col-xl-6">
@@ -41,12 +44,7 @@
 	                        <p>관리자에서 설정한 클래스명으로 검색</p>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <select class="form-control form-control-lg" id="exampleFormControlSelect29">
-	                                    <option>GYM</option>
-	                                    <option>BLOCK</option>
-	                                    <option>PLAY</option>
-	                                    <option>스페셜캠프</option>
-	                                    <option>튜터링</option>
+	                                <select class="form-control form-control-lg" id="playId" name="playId">
 	                                </select>
 	                            </div>
 	                        </div>
@@ -56,27 +54,39 @@
 	                        <p>이용시간 단위의 1/2 으로 설정</p>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <input class="form-control" id="input-number" type="number">
+	                                <input class="form-control" v-validate="'required|numeric|min:1'" id="tutoringNumber" name="tutoringNumber" type="number">
 	                            </div>
+	                            <label class="col-form-label-sm" for="tutoringNumber" v-if="errors.has('tutoringNumber')">{{ errors.first('tutoringNumber') }}</label>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-12">
-	                        <h6 class="sub-title">날짜/시간선택</h6>
-	                        <p>날짜의 범위는 상관없으나 시간은 30분단위 선택</p>
+	                        <h6 class="sub-title">날짜선택</h6>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <input class="form-control" type="text" name="daterange2" value="">
+	                                <input class="form-control" v-validate="'required|numeric|min:8|max:8'" type="text" id="scheduleDate" name="scheduleDate">
+	                            </div>
+	                            <label class="col-form-label-sm" for="scheduleDate" v-if="errors.has('scheduleDate')">{{ errors.first('scheduleDate') }}</label>
+	                        </div>
+	                    </div>
+	                    <div class="col-lg-12">
+	                        <h6 class="sub-title">시작시간선택</h6>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <select id="scheduleTime" name="scheduleTime">
+	                                	<th:block th:each="timeList : ${timeList}">
+	                                		<option th:value="${timeList}" th:text=${timeList}></option>
+	                                </select>
 	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
 	            <div class="card-footer">
-	                <button class="btn btn-primary" type="submit" data-toggle="modal"
-	                    data-target="#addchild_result">등록</button>
-	                <input class="btn btn-light" type="reset" value="RESET">
+	                <button class="btn btn-primary" type="submit">등록</button>
+	                <input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">
 	            </div>
 	        </div>
+	        </form>
 	    </div>
 	</div>
 </th:block>

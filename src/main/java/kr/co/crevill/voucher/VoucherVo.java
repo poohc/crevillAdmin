@@ -13,7 +13,6 @@ public class VoucherVo {
 	private String salePrice;
 	private String useTime;
 	private String endDate;
-	private String saleCode;
 	private String regId;
 	private String regDate;
 	private String updId;
