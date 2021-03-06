@@ -334,10 +334,9 @@
 							data-feather="maximize"></i></a></li>
 					<li class="profile-nav onhover-dropdown p-0 mr-0">
 						<div class="media profile-media">
-							<img class="b-r-10" th:src="@{/assets/images/dashboard/profile.jpg}"
-								alt="">
+							<img class="b-r-10" th:src="@{/common/getImage(imageIdx=${session.staffVo.idPictureIdx})}" alt="직원프로필사진" style="width: 37px;height: 37px;">
 							<div class="media-body">
-								<span>홍길동</span>
+								<span th:text="${session.staffVo.name}"></span>
 								<p class="mb-0 font-roboto">
 									Supervisor <i class="middle fa fa-angle-down"></i>
 								</p>

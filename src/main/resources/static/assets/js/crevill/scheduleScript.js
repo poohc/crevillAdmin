@@ -6,8 +6,7 @@ Vue.use(VeeValidate, {
 		      operationType : '운영구분',
 			  numberOfPeople : '이용인원',
    			  tutoringNumber : '튜터링인원',		  
-			  scheduleDate : '날짜선택',
-			  scheduleTime : '시작시간',
+			  scheduleDate : '시작날짜선택'
 		    }
 	  	}
   }
@@ -19,8 +18,7 @@ new Vue({
     	operationType : '',
 	  	numberOfPeople : '',
 		tutoringNumber : '',	  	
-		scheduleDate : '',
-		scheduleTime : '',
+		scheduleStart : ''
     },
 	methods: {
     validateBeforeSubmit() {
@@ -38,8 +36,7 @@ new Vue({
 			formdata.append("numberOfPeople", $('#numberOfPeople').val());
 			formdata.append("playId", $('select[name="playId"]').val());
 			formdata.append("tutoringNumber", $('#tutoringNumber').val());
-			formdata.append("scheduleDate", $('#scheduleDate').val());
-			formdata.append("scheduleTime", $('select[name="scheduleTime"]').val());
+			formdata.append("scheduleStart", $('#scheduleStart').val().replace(/[^0-9]/g,""));
 			
 			axios.post('/schedule/regist.proc', formdata,{
 				  headers: {
@@ -65,6 +62,20 @@ function cancel(){
 	location.href = '/schedule/regist.view';
 }
 
+moment.locale('ko');
+
+$('input[name="scheduleStart"]').daterangepicker({
+	timePicker: true,
+    timePickerIncrement: 30,
+	singleDatePicker : true,
+	locale: {
+      format: 'YYYY/MM/DD HH:mm',
+      separator: '',
+      applyLabel: "적용",
+      cancelLabel: "닫기"
+    } 	
+});
+
 $('input[name="operationType"]').change(function(){
 	$("select[name='playId'] option").remove();
 	
@@ -82,5 +93,4 @@ $('input[name="operationType"]').change(function(){
 			}
 		});	
 	} 
-	
 });

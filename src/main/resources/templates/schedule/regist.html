@@ -60,23 +60,12 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-12">
-	                        <h6 class="sub-title">날짜선택</h6>
+	                        <h6 class="sub-title">시작날짜선택</h6>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <input class="form-control" v-validate="'required|numeric|min:8|max:8'" type="text" id="scheduleDate" name="scheduleDate">
+	                                <input class="form-control" v-validate="'required|min:16|max:16'" type="text" id="scheduleStart" name="scheduleStart">
 	                            </div>
-	                            <label class="col-form-label-sm" for="scheduleDate" v-if="errors.has('scheduleDate')">{{ errors.first('scheduleDate') }}</label>
-	                        </div>
-	                    </div>
-	                    <div class="col-lg-12">
-	                        <h6 class="sub-title">시작시간선택</h6>
-	                        <div class="theme-form">
-	                            <div class="form-group">
-	                                <select id="scheduleTime" name="scheduleTime">
-	                                	<th:block th:each="timeList : ${timeList}">
-	                                		<option th:value="${timeList}" th:text=${timeList}></option>
-	                                </select>
-	                            </div>
+	                            <label class="col-form-label-sm" for="scheduleStart" v-if="errors.has('scheduleStart')">{{ errors.first('scheduleStart') }}</label>
 	                        </div>
 	                    </div>
 	                </div>

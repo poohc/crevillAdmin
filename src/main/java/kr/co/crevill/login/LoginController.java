@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.staff.StaffDto;
+
 @Controller
 @RequestMapping("login")
 public class LoginController {
@@ -21,15 +23,15 @@ public class LoginController {
 	
 	@GetMapping("login.view")
 	public ModelAndView login(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index");
+		ModelAndView mav = new ModelAndView("/login/login");
 		return mav;
 	}
 	
 	@PostMapping("login.proc")
 	@ResponseBody
-	public JSONObject loginProc(HttpServletRequest request, @ModelAttribute LoginDto loginDto) {
+	public JSONObject loginProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
 		JSONObject result = new JSONObject();
-		result = loginService.loginProcess(loginDto, request);
+		result = loginService.loginProcess(staffDto, request);
 		return result;
 	}
 }

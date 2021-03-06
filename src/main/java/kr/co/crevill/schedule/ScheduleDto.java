@@ -11,8 +11,9 @@ public class ScheduleDto {
 	private String playId;
 	private String numberOfPeople;
 	private String tutoringNumber;
-	private String scheduleDate;
-	private String scheduleTime;
+	private String scheduleType;
+	private String scheduleStart;
+	private String scheduleEnd;
 	private String regId;
 	private String regDate;
 	private String updId;

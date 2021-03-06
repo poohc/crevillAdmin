@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleListScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -12,122 +12,88 @@
 	            <div class="col-sm-12">
 	                <div class="card">
 	                    <div class="card-header bg-light-primary">
-	                        <form class="theme-form">
+	                        <form class="theme-form" id="scheduleForm" name="scheduleForm" method="get" action="/schedule/list.view">
+	                        	<input type="hidden" id="scheduleStart" name="scheduleStart">
 	                            <div class="input-group m-0">
-	                                <input class="form-control-plaintext" type="date" placeholder="Pixelstrap ..">
-	                                <div class="input-group-append"><span class="btn btn-primary">검색</span>
-	                                </div>
+	                                <input class="form-control-plaintext" type="date" placeholder="검색날짜입력" id="scheduleDate" name="scheduleDate" th:value="${scheduleDate}" />
+                                	<div class="input-group-append">
+                                		<span class="btn btn-primary" id="scheduleSearch">검색</span>
+                                	</div>
 	                            </div>
 	                        </form>
 	                    </div>
 	                    <div class="card-body">
 	                        <div class="text-center">
 	                            <ul class="nav nav-tabs search-list" id="top-tab" role="tablist">
-	                                <li class="nav-item"><a class="nav-link active" id="all-link" data-toggle="tab"
-	                                        href="#all-links" role="tab" aria-selected="true"><i
-	                                            class="icon-target"></i>모든일정</a></li>
-	                                <li class="nav-item"><a class="nav-link" id="image-link" data-toggle="tab"
-	                                        href="#ex-links" role="tab" aria-selected="false"><i
-	                                            class="icon-image"></i>진행예정</a></li>
-	                                <li class="nav-item"><a class="nav-link" id="video-link" data-toggle="tab"
-	                                        href="#end-links" role="tab" aria-selected="false"><i
-	                                            class="icon-video-clapper"></i>종료</a></li>
+	                            	<li class="nav-item">
+	                                	<a class="nav-link active" id="all" data-toggle="tab" href="#allLinks" role="tab" aria-selected="true">
+	                                		<i class="icon-target"></i>모든일정
+	                                	</a>
+	                                </li>
+	                                <li class="nav-item">
+	                                	<a class="nav-link" id="ing" data-toggle="tab" href="#ingLinks" role="tab" aria-selected="false">
+	                                		<i class="icon-image"></i>진행예정
+	                                	</a>
+	                                </li>
+	                                <li class="nav-item">
+	                                	<a class="nav-link" id="end" data-toggle="tab" href="#endLinks" role="tab" aria-selected="false">
+	                                		<i class="icon-video-clapper"></i>종료
+	                                	</a>
+	                                </li>
 	                            </ul>
 	                        </div>
 	                        <div class="tab-content" id="top-tabContent">
-	                            <div class="search-links tab-pane fade show active" id="all-links" role="tabpanel"
-	                                aria-labelledby="all-link">
+	                            <div class="search-links tab-pane fade show active" id="allLinks" role="tabpanel" aria-labelledby="allLinks">
 	                                <div class="row">
 	                                    <div class="col-xl-12 box-col-12">
-	                                        <h6 class="mb-2">2021년 2월 5일 일정</h6>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>11:00 | 12:00</h6>
-	                                            <p>정원 15/15</p>
+	                                        <th:block th:each="allList : ${allList}">
+	                                        <h6 class="mb-2" th:text="${allList.scheduleDate}"></h6>
+	                                        <div class="info-block"><a href="" th:text="${allList.playName}"></a>
+	                                            <h6 th:text="${allList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">
 	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
+	                                                    <li th:text="|클래스, ${allList.numberOfPeople}|"></li>
+	                                                    <li th:text="|튜터링, ${allList.tutoringNumber}|"></li>
 	                                                </ul>
 	                                            </div>
 	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>12:00 | 13:00</h6>
-	                                            <p>정원 15/15</p>
+	                                        </th:block>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="search-links tab-pane fade" id="ingLinks" role="tabpanel" aria-labelledby="ingLinks">
+	                            	<div class="row">
+	                                    <div class="col-xl-12 box-col-12">
+	                                    	<th:block th:each="ingList : ${ingList}">
+	                                        <h6 class="mb-2" th:text="${ingList.scheduleDate}"></h6>
+	                                        <div class="info-block"><a href="" th:text="${ingList.playName}"></a>
+	                                            <h6 th:text="${ingList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">
 	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
+	                                                    <li th:text="|클래스, ${ingList.numberOfPeople}|"></li>
+	                                                    <li th:text="|튜터링, ${ingList.tutoringNumber}|"></li>
 	                                                </ul>
 	                                            </div>
 	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>13:00 | 14:00</h6>
-	                                            <p>정원 15/15</p>
+	                                        </th:block>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="search-links tab-pane fade" id="endLinks" role="tabpanel" aria-labelledby="endLinks">
+	                                <div class="row">
+	                                    <div class="col-xl-12 box-col-12">
+	                                    	<th:block th:each="endList : ${endList}">
+	                                        <h6 class="mb-2" th:text="${endList.scheduleDate}"></h6>
+	                                        <div class="info-block"><a href="" th:text="${endList.playName}"></a>
+	                                            <h6 th:text="${endList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">
 	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
+	                                                    <li th:text="|클래스, ${endList.numberOfPeople}|"></li>
+	                                                    <li th:text="|튜터링, ${endList.tutoringNumber}|"></li>
 	                                                </ul>
 	                                            </div>
 	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>14:00 | 15:00</h6>
-	                                            <p>정원 15</p>
-	                                            <div class="star-ratings">
-	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
-	                                                </ul>
-	                                            </div>
-	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>14:00 | 15:00</h6>
-	                                            <p>정원 15</p>
-	                                            <div class="star-ratings">
-	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
-	                                                </ul>
-	                                            </div>
-	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>15:00 | 16:00</h6>
-	                                            <p>정원 15</p>
-	                                            <div class="star-ratings">
-	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
-	                                                </ul>
-	                                            </div>
-	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>16:00 | 17:00</h6>
-	                                            <p>정원 15</p>
-	                                            <div class="star-ratings">
-	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
-	                                                </ul>
-	                                            </div>
-	                                        </div>
-	                                        <div class="info-block"><a href="">GYM CLASS</a>
-	                                            <h6>17:00 | 18:00</h6>
-	                                            <p>정원 15</p>
-	                                            <div class="star-ratings">
-	                                                <ul class="search-info">
-	                                                    <li>시간제 10 </li>
-	                                                    <li>클래스 2</li>
-	                                                    <li>튜터링 2</li>
-	                                                </ul>
-	                                            </div>
-	                                        </div>
+	                                        </th:block>
 	                                    </div>
 	                                </div>
 	                            </div>

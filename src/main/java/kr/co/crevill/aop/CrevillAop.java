@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.MenuDto;
 
@@ -29,9 +32,23 @@ public class CrevillAop {
 	@Around("execution(* kr.co.crevill..*Controller.*(..))")
     public Object Around(ProceedingJoinPoint joinPoint) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
 		String requestUri = request.getRequestURI();
-		String contextPath = requestUri.split("/")[1];
-		String servletPath = requestUri.split("/")[2];
+		String contextPath = ""; 
+		String servletPath = "";
+		
+		if(requestUri.split("/").length > 1) {
+			contextPath = requestUri.split("/")[1];
+			servletPath = requestUri.split("/")[2];	
+		} 
+		
+		logger.info("servletPath : " + servletPath);
+		
+		if(session.getAttribute("staffVo") == null && !servletPath.contains("login")) {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("redirect:/login/login.view");
+			return mav;
+		}
 		
         try {
         	logger.info("==================== Logging 시작 ====================");
@@ -43,7 +60,6 @@ public class CrevillAop {
         	logger.info("requestUri 확인 : " + requestUri);
         	logger.info("contextPath 확인 : " + contextPath);
         	logger.info("servletPath 확인 : " + servletPath);
-        	
         	
         	String menu = "";
         	if(contextPath.indexOf("member") > -1) {

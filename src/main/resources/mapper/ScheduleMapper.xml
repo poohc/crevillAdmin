@@ -13,14 +13,30 @@
 			   OPERATION_TYPE,
 			   NUMBER_OF_PEOPLE,
 			   TUTORING_NUMBER,
-			   SCHEDULE_DATE,
-			   SCHEDULE_TIME,
-			   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = SCHEDULE.PLAY_ID) PLAY_NAME
+			   SCHEDULE_START,
+			   SCHEDULE_END,
+			   CONCAT(DATE_FORMAT(SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(SCHEDULE_END,'%H:%i')) SCHEDULE_TIME,
+			   CONCAT(DATE_FORMAT(SCHEDULE_START,'%Y년 %m월 %d일'), ' 일정') SCHEDULE_DATE,
+			   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = SCHEDULE.PLAY_ID) PLAY_NAME,
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM SCHEDULE
+        <where>
+           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
+           AND SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+           </if>                         
+		   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+		   AND SCHEDULE_END BETWEEN NOW() 
+                                AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	
+		   </if>
+		   <if test="scheduleType != null and scheduleType == 'END'.toString()">
+		   AND SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                AND NOW()                                    	
+		   </if>
+        </where>
          LIMIT #{startPage}, #{recordsPerPage}
     </select>
 	
@@ -29,8 +45,8 @@
    					          OPERATION_TYPE,
 						      NUMBER_OF_PEOPLE,
 						      TUTORING_NUMBER,
-						      SCHEDULE_DATE,
-						      SCHEDULE_TIME,
+						      SCHEDULE_START,
+						      SCHEDULE_END,
 						      PLAY_ID,
 						      REG_ID,
 						      REG_DATE					
@@ -39,8 +55,8 @@
 					  		  #{operationType},
 						      #{numberOfPeople},
 						      #{tutoringNumber},
-						      #{scheduleDate},
-						      #{scheduleTime},
+						      DATE_FORMAT(STR_TO_DATE(#{scheduleStart}, '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S'),
+						      DATE_ADD(DATE_FORMAT(STR_TO_DATE(#{scheduleStart}, '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S'), INTERVAL #{scheduleEnd} MINUTE),
 						      #{playId},
 						      #{regId},
 						      NOW()

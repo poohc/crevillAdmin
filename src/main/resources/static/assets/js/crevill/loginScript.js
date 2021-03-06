@@ -31,9 +31,11 @@ new Vue({
 				  }
 				}).then((response) => {
 				if (response.data.resultCd == '00') {
-			      	alert('정상처리 되었습니다.');
-					location.href = '/main/main.view';
-			    }
+			      	location.href = '/';
+			    } else {
+					alert('ID 혹은 비밀번호를 확인해주세요.');
+					return false;
+				}
 				
 			});	
         } else {

@@ -12,6 +12,8 @@ public class ScheduleVo {
 	private String playName;
 	private String numberOfPeople;
 	private String tutoringNumber;
+	private String scheduleStart;
+	private String scheduleEnd;
 	private String scheduleDate;
 	private String scheduleTime;
 	private String regId;

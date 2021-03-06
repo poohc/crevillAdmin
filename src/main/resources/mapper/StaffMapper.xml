@@ -5,41 +5,58 @@
 	
 	<select id="selectStaffCount" parameterType="kr.co.crevill.staff.StaffDto" resultType="Integer">
         SELECT COUNT(*)
-          FROM STAFF_INFO A 
-          	   LEFT OUTER JOIN IMAGES B ON A.ID_PICTURE_IDX = B.IMAGE_IDX
-               LEFT OUTER JOIN FILES C  ON A.HEALTH_CERTIFICATE_IDX = C.FILE_IDX   
-               LEFT OUTER JOIN FILES D  ON A.RESUME_IDX = C.FILE_IDX
+          FROM STAFF_INFO
     </select>
 	
     <select id="selectStaffList" parameterType="kr.co.crevill.staff.StaffDto" resultType="kr.co.crevill.staff.StaffVo">
-        SELECT A.NAME,
-			   A.NAME_ENG,
-			   CASE WHEN LENGTH(A.TEL_NO) = 11 THEN CONCAT(SUBSTRING(A.TEL_NO,1,3),'-',SUBSTRING(A.TEL_NO,4,4),'-',SUBSTRING(A.TEL_NO,8,4))
-            	    ELSE CONCAT(SUBSTRING(A.TEL_NO,1,3),'-',SUBSTRING(A.TEL_NO,4,3),'-',SUBSTRING(A.TEL_NO,7,4)) END AS TEL_NO,
-			   A.ADDRESS,
-			   DATE_FORMAT(A.START_DATE, '%Y/%m/%d') START_DATE,
-			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = A.WORKER_TYPE) WORKER_TYPE,
-			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = A.STAFF_GRADE) STAFF_GRADE,
-			   (SELECT STORE_NAME FROM STORE WHERE STORE_ID = A.STORE_ID) STORE_ID,
-			   A.ID_PICTURE_IDX,
-			   A.HEALTH_CERTIFICATE_IDX,
-			   A.RESUME_IDX,
-			   A.REG_DATE,
-			   A.REG_ID,
-			   A.UPD_DATE,
-			   A.UPD_ID,
-			   A.STAFF_ID,
-			   CASE WHEN A.STATUS = 'A' THEN '근무'
+        SELECT NAME,
+			   NAME_ENG,
+			   CASE WHEN LENGTH(TEL_NO) = 11 THEN CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,4),'-',SUBSTRING(TEL_NO,8,4))
+            	    ELSE CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,3),'-',SUBSTRING(TEL_NO,7,4)) END AS TEL_NO,
+			   ADDRESS,
+			   DATE_FORMAT(START_DATE, '%Y/%m/%d') START_DATE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = WORKER_TYPE) WORKER_TYPE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = STAFF_GRADE) STAFF_GRADE,
+			   (SELECT STORE_NAME FROM STORE WHERE STORE_ID = STAFF_INFO.STORE_ID) STORE_ID,
+			   ID_PICTURE_IDX,
+			   HEALTH_CERTIFICATE_IDX,
+			   RESUME_IDX,
+			   REG_DATE,
+			   REG_ID,
+			   UPD_DATE,
+			   UPD_ID,
+			   STAFF_ID,
+			   CASE WHEN STATUS = 'A' THEN '근무'
 			        ELSE '퇴근' END AS STATUS,
-			   DATE_FORMAT(A.END_DATE, '%Y/%m/%d') END_DATE,
-			   B.DATA ID_PICTURE,
-			   C.DATA HEALTH_CERTIFICATE,
-			   D.DATA RESUME
-          FROM STAFF_INFO A 
-          	   LEFT OUTER JOIN IMAGES B ON A.ID_PICTURE_IDX = B.IMAGE_IDX
-               LEFT OUTER JOIN FILES C  ON A.HEALTH_CERTIFICATE_IDX = C.FILE_IDX   
-               LEFT OUTER JOIN FILES D  ON A.RESUME_IDX = C.FILE_IDX
+			   DATE_FORMAT(END_DATE, '%Y/%m/%d') END_DATE
+          FROM STAFF_INFO
          LIMIT #{startPage}, #{recordsPerPage}
+    </select>
+	
+	 <select id="selectStaffInfo" parameterType="kr.co.crevill.staff.StaffDto" resultType="kr.co.crevill.staff.StaffVo">
+        SELECT NAME,
+			   NAME_ENG,
+			   CASE WHEN LENGTH(TEL_NO) = 11 THEN CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,4),'-',SUBSTRING(TEL_NO,8,4))
+            	    ELSE CONCAT(SUBSTRING(TEL_NO,1,3),'-',SUBSTRING(TEL_NO,4,3),'-',SUBSTRING(TEL_NO,7,4)) END AS TEL_NO,
+			   ADDRESS,
+			   DATE_FORMAT(START_DATE, '%Y/%m/%d') START_DATE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = WORKER_TYPE) WORKER_TYPE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_KEY = STAFF_GRADE) STAFF_GRADE,
+			   (SELECT STORE_NAME FROM STORE WHERE STORE_ID = STAFF_INFO.STORE_ID) STORE_ID,
+			   ID_PICTURE_IDX,
+			   HEALTH_CERTIFICATE_IDX,
+			   RESUME_IDX,
+			   REG_DATE,
+			   REG_ID,
+			   UPD_DATE,
+			   UPD_ID,
+			   STAFF_ID,
+			   CASE WHEN STATUS = 'A' THEN '근무'
+			        ELSE '퇴근' END AS STATUS,
+			   DATE_FORMAT(END_DATE, '%Y/%m/%d') END_DATE
+          FROM STAFF_INFO
+         WHERE STAFF_ID = #{staffId}
+           AND STORE_ID = #{storeId}
     </select>
 	
 	<select id="selectInstructorCount" parameterType="kr.co.crevill.staff.InstructorDto" resultType="Integer">

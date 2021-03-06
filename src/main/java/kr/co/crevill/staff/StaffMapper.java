@@ -12,6 +12,7 @@ public interface StaffMapper {
 	public List<StaffVo> selectStaffList(StaffDto staffDto);
 	public int insertStaffInfo(StaffDto staffDto);
 	public int checkExistTelNo(InstructorDto instructorDto);
+	public StaffVo selectStaffInfo(StaffDto staffDto);
 	public int selectInstructorCount(InstructorDto instructorDto);
 	public List<InstructorVo> selectInstructorList(InstructorDto instructorDto);
 	public int insertInstructorInfo(InstructorDto instructorDto);

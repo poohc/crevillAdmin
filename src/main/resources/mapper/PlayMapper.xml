@@ -29,6 +29,24 @@
          LIMIT #{startPage}, #{recordsPerPage}
     </select>
 	
+	<select id="selectPlayInfo" parameterType="kr.co.crevill.play.PlayDto" resultType="kr.co.crevill.play.PlayVo">
+        SELECT PLAY_ID,
+		       NAME,
+		       DESCRIPTION,
+		       PLAY_TIME,
+		       OPERATION_TYPE,
+		       THUMBNAIL_IDX,
+		       PICTURE_IDX,
+		       REG_ID,
+		       DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+		       UPD_ID,
+		       DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE	
+          FROM PLAY
+        <where>
+           AND PLAY_ID = #{playId}
+        </where>
+    </select>
+	
 	<insert id="insertPlay" parameterType="kr.co.crevill.play.PlayDto">
     	INSERT INTO PLAY (
    					      PLAY_ID,
