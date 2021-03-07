@@ -1,5 +1,7 @@
 package kr.co.crevill.voucher;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -43,7 +45,22 @@ public class VoucherController {
 	@ResponseBody
 	public JSONObject createProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
-		result = voucherService.insertVoucher(voucherDto);
+		result = voucherService.insertVoucher(voucherDto, request);
 		return result;
 	}
+	
+	@PostMapping("sale.proc")
+	@ResponseBody
+	public JSONObject sale(HttpServletRequest request, @ModelAttribute VoucherSaleDto voucherSaleDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.voucherSaleProc(voucherSaleDto, request);
+		return result;
+	}
+	
+	@PostMapping("getVoucherList.proc")
+	@ResponseBody
+	public List<VoucherVo> getVoucherList(VoucherDto voucherDto){
+		return voucherService.getVoucherList(voucherDto);
+	}
+	
 }

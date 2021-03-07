@@ -2,6 +2,8 @@ package kr.co.crevill.voucher;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class VoucherService {
@@ -31,6 +34,9 @@ public class VoucherService {
 	public List<VoucherVo> selectVoucherList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherList(voucherDto);
 	}
+	public List<VoucherVo> getVoucherList(VoucherDto voucherDto){
+		return voucherMapper.getVoucherList(voucherDto);
+	}
 	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherAttributeList(voucherDto);
 	}
@@ -43,11 +49,9 @@ public class VoucherService {
 	 * @param voucherDto
 	 * @return
 	 */
-	public JSONObject insertVoucher(VoucherDto voucherDto) {
+	public JSONObject insertVoucher(VoucherDto voucherDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
-		//TODO 로그인 세션처리시 삭제할것
-		voucherDto.setRegId("devjyp");
-		
+		voucherDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		
 		if(voucherDto.getImage() != null && !voucherDto.getImage().isEmpty()) {
@@ -74,6 +78,26 @@ public class VoucherService {
 			if(cnt == insCnt) {
 				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 			}
+		}
+		return result;
+	}	
+	
+	/**
+	 * VOUCHER_SALE 테이블 INSERT 처리
+	 * @methodName : voucherSaleProc
+	 * @author : Juyoung Park
+	 * @date : 2021.03.08
+	 * @param voucherSaleDto
+	 * @param request
+	 * @return
+	 */
+	public JSONObject voucherSaleProc(VoucherSaleDto voucherSaleDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		voucherSaleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;
 	}	

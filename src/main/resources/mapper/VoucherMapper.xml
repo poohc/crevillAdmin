@@ -26,9 +26,42 @@
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   IMAGE_IDX	
           FROM VOUCHER
+        <where>
+           <if test="gradeType != null and gradeType == 'REGIST'.toString()">
+           AND GRADE = 'VIP_REGIST'
+           </if>
+           <if test="gradeType != null and gradeType == 'ANON'.toString()">
+           AND GRADE IN ('VIP_ANON', 'NORMAL')
+           </if>
+        </where>
          LIMIT #{startPage}, #{recordsPerPage}
     </select>
-	
+    
+    <select id="getVoucherList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+        SELECT A.VOUCHER_NO,
+			   A.GRADE,
+			   A.TICKET_NAME,
+			   FORMAT(A.PRICE , 0) PRICE,
+			   FORMAT(A.SALE_PRICE , 0) SALE_PRICE,
+			   A.USE_TIME,
+			   CONCAT(A.END_DATE,'개월') END_DATE,
+			   A.REG_ID,
+			   DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
+			   A.UPD_ID,
+			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
+			   A.IMAGE_IDX,
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE 
+          FROM VOUCHER A
+         <where>
+           <if test="gradeType != null and gradeType == 'REGIST'.toString()">
+           AND A.GRADE = 'VIP_REGIST'
+           </if>
+           <if test="gradeType != null and gradeType == 'ANON'.toString()">
+           AND A.GRADE IN ('VIP_ANON', 'NORMAL')
+           </if>
+		 </where>           
+    </select>
+    	
 	<select id="selectVoucherAttributeList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
 		SELECT VOUCHER_NO,
 			   ATTRIBUTE,
@@ -78,6 +111,29 @@
 								      #{regId},
 								      NOW()	
 					      		     )			 
+	</insert>
+	
+	<insert id="insertVoucherSale" parameterType="kr.co.crevill.voucher.VoucherSaleDto">
+		INSERT INTO VOUCHER_SALE(
+							     VOUCHER_NO,
+								 BUY_CELL_PHONE,
+								 USED_CHILDREN_NAME,
+								 PG_TYPE,
+								 APPROVAL_NO,
+								 STORE_ID,
+								 REG_ID,
+								 REG_DATE
+								)
+					     VALUES (
+				      		     #{voucherNo},       
+								 #{buyCellPhone},    
+								 #{usedChildrenName},
+								 #{pgType},         
+								 #{approvalNo},      
+								 #{storeId},     
+								 #{regId},
+								 NOW()           	
+					      		)			 
 	</insert>
 	
 </mapper>

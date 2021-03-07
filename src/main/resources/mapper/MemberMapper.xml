@@ -39,10 +39,13 @@
                B.LEARNING_LEVEL
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
-         WHERE A.NAME = B.PARNET_NAME
-           AND A.CELL_PHONE = B.PARENT_CELL_PHONE
+         WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+           <if test="name != null and name != ''">
            AND A.NAME = #{name}
+           </if>
+           <if test="cellPhone != null and cellPhone != ''">
            AND A.CELL_PHONE = #{cellPhone}
+           </if>
     </select>
 
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">

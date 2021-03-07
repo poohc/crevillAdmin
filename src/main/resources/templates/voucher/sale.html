@@ -1,138 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherSaleScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
+			<form class="form theme-form" id="voucherSaleForm" @submit.prevent="validateBeforeSubmit" action="/voucher/voucherSale.proc" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-sm-12 col-xl-12">
-					<form class="form theme-form">
-						<div class="card-body">
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm26">고객전화번호
-											입력</label> <input class="form-control form-control-lg"
-											id="colFormLabelSm26" type="number" placeholder="전화번호">
-									</div>
-								</div>
-							</div>
-							<div class="card-footer text-right">
-								<button class="btn btn-primary m-r-15" type="submit">검색</button>
-							</div>
-							<p>홍길동 고객님</p>
-							<br>
-							<div class="row">
-								<div class="col">
-									<div class="form-group mb-0">
-										<label for="exampleFormControlSelect31">바우처 구분</label> <select
-											class="form-control form-control-sm"
-											id="exampleFormControlSelect31">
-											<option>기명</option>
-											<option>무기명</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<br>
-							<div class="row">
-								<div class="col">
-									<div class="form-group mb-0">
-										<label for="exampleFormControlSelect31">기명일 경우 회원의
-											[아동선택]</label> <select class="form-control form-control-sm"
-											id="exampleFormControlSelect31">
-											<option>홍철이</option>
-											<option>홍순이</option>
-										</select>
-									</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="col-form-label-sm" for="colFormLabelSm26">고객전화번호 입력</label>
+									<input class="form-control form-control-lg" v-validate="'required'" id="buyCellPhone" name="buyCellPhone" type="number" placeholder="전화번호">
+									<label class="col-form-label-sm" for="buyCellPhone" v-if="errors.has('buyCellPhone')">{{ errors.first('buyCellPhone') }}</label>
 								</div>
 							</div>
 						</div>
-					</form>
+						<div class="card-footer text-right">
+							<button class="btn btn-primary m-r-15" id="searchMemberNameBtn" type="button">검색</button>
+						</div>
+						<p id="searchResultName"></p>
+						<br>
+						<div class="row">
+							<div class="col">
+								<div class="form-group mb-0">
+									<label for="exampleFormControlSelect31">바우처 구분</label>
+									<select class="form-control form-control-sm" id="gradeType" name="gradeType">
+										<option value="REGIST">기명</option>
+										<option value="ANON">무기명</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="row" id="usedChildrenNameDiv">
+							<div class="col">
+								<div class="form-group mb-0">
+									<label for="exampleFormControlSelect31">기명일 경우 회원의[아동선택]</label>
+									<select class="form-control form-control-sm" id="usedChildrenName" name="usedChildrenName">
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-sm-12">
 					<div class="card-body megaoptions-border-space-sm">
-						<form class="mega-inline">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="card">
-										<div class="media p-20">
-											<div class="radio radio-primary mr-3">
-												<input id="radio19" type="radio" name="radio1"
-													value="option1"> <label for="radio19"></label>
-											</div>
-											<div class="media-body">
-												<h6 class="mt-0 mega-title-badge">
-													20시간권<span class="badge badge-primary pull-right">360,000</span>
-												</h6>
-												<span class="badge badge-secondary">직계가족공유</span> <span
-													class="badge badge-info">스페셜캠프</span></span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="card">
-										<div class="media p-20">
-											<div class="radio radio-secondary mr-3">
-												<input id="radio20" type="radio" name="radio1"
-													value="option1"> <label for="radio20"></label>
-											</div>
-											<div class="media-body">
-												<h6 class="mt-0 mega-title-badge">
-													50시간권<span class="badge badge-secondary pull-right">450,000
-													</span>
-												</h6>
-												<span class="badge badge-secondary">직계가족공유</span> <span
-													class="badge badge-info">스페셜캠프</span></span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
+						<div class="row" id="voucherListDiv">
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-12 col-xl-12">
-					<form class="form theme-form">
-						<div class="card-body">
-							<p>결제정보입력</p>
-							<br>
-							<div class="row">
-								<div class="col">
-									<div class="form-group mb-0">
-										<label for="exampleFormControlSelect31">결제구분</label> <select
-											class="form-control form-control-sm"
-											id="exampleFormControlSelect31">
-											<option>수수료매장</option>
-											<option>자체승인</option>
-										</select>
-									</div>
+					<div class="card-body">
+						<p>결제정보입력</p>
+						<br>
+						<div class="row">
+							<div class="col">
+								<div class="form-group mb-0">
+									<label for="exampleFormControlSelect31">결제구분</label>
+									<select class="form-control form-control-sm" id="pgType" name="pgType">
+										<option value="DEPT">백화점</option>
+										<option value="ROAD">로드샵 신용카드</option>
+										<option value="CASH">현금영수증</option>
+									</select>
 								</div>
-							</div>
-							<br>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm26">승인번호
-											입력</label> <input class="form-control form-control-lg"
-											id="colFormLabelSm26" type="text"
-											placeholder="승인번호 입력[향후 환불처리 시 필요">
-									</div>
-								</div>
-							</div>
-							<div class="card-footer text-right">
-								<button class="btn btn-primary m-r-15" type="submit">바우처
-									등록</button>
 							</div>
 						</div>
-					</form>
+						<br>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="col-form-label-sm" for="colFormLabelSm26">승인번호입력</label>
+									<input class="form-control form-control-lg" id="approvalNo" name="approvalNo" type="text" placeholder="승인번호 입력[향후 환불처리 시 필요">
+								</div>
+							</div>
+						</div>
+						<div class="card-footer text-right">
+							<button class="btn btn-primary m-r-15" type="submit">바우처 등록</button>
+						</div>
+					</div>
 				</div>
 			</div>
+			</form>
 		</div>
 		<!-- Container-fluid Ends-->
 	</div>

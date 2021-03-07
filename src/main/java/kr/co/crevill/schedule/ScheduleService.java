@@ -53,8 +53,6 @@ public class ScheduleService {
 		playDto.setPlayId(scheduleDto.getPlayId());
 		PlayVo playVo = playMapper.selectPlayInfo(playDto);
 		scheduleDto.setScheduleEnd(playVo.getPlayTime());
-		
-		//TODO 세션처리 되면 삭제할 것
 		scheduleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
 		//직원정보 INSERT 

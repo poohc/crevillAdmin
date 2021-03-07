@@ -11,7 +11,7 @@ public interface MemberMapper {
 	public int checkExistCellPhone(MemberDto memberDto);
 	public int selectMemberCount(MemberDto memberDto);
 	public List<MemberVo> selectMemberList(MemberDto memberDto);
-	public MemberVo selectMemberInfo(MemberDto memberDto);
+	public List<MemberVo> selectMemberInfo(MemberDto memberDto);
 	public int insertMemberParent(MemberDto memberDto);
 	public int insertMemberChildren(MemberDto memberDto);
 }

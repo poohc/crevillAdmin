@@ -52,7 +52,7 @@ public class MemberService {
 		return result;
 	}
 	
-	public MemberVo getMemberInfo(MemberDto memberDto){
+	public List<MemberVo> getMemberInfo(MemberDto memberDto){
 		return memberMapper.selectMemberInfo(memberDto);
 	}
 	

@@ -1,5 +1,7 @@
 package kr.co.crevill.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -72,6 +74,12 @@ public class MemberController {
 	public ModelAndView history(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/history");
 		return mav;
+	}
+	
+	@PostMapping("getMemberInfo.proc")
+	@ResponseBody
+	public List<MemberVo> getMemberInfo(HttpServletRequest request, MemberDto memberDto) {
+		return memberService.getMemberInfo(memberDto);
 	}
 	
 }
