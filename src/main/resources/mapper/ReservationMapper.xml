@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.reservation.ReservationMapper">
+	
+	<select id="selectReservationCount" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM RESERVATION
+    </select>
+	
+    <select id="selectReservationList" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+        SELECT RESERVATION_ID
+			   CASE WHEN LENGTH(CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,4),'-',SUBSTRING(CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,3),'-',SUBSTRING(CELL_PHONE,7,4)) END AS CELL_PHONE
+			   VOUCHER_NO,
+			   SCHEDULE_ID,
+			   STATUS,
+			   REG_ID,
+			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+			   UPD_ID,
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+          FROM SCHEDULE
+         LIMIT #{startPage}, #{recordsPerPage}
+    </select>
+	
+	<insert id="insertReservation" parameterType="kr.co.crevill.reservation.ReservationDto">
+    	INSERT INTO RESERVATION (
+   					       		 CELL_PHONE,
+								 VOUCHER_NO,
+								 SCHEDULE_ID,
+								 STATUS,
+								 REG_ID,
+								 REG_DATE		
+   						        )
+				         VALUES (
+					  		     #{cellPhone},
+								 #{voucherNo},
+								 #{scheduleId},
+								 #{status},
+						         #{regId},
+						         NOW()
+					   		    )
+    </insert>
+	
+</mapper>

@@ -215,11 +215,11 @@
 							<div class="row">
 								<div class="col-xl-6 col-xs-12 col-md-6 col-sm-6">
 									<div class="cal-info text-center">
-										<h2>20</h2>
+										<h2 th:text="|${currentDay}|"></h2>
 										<div class="d-inline-block mt-2">
-											<span class="b-r-dark pr-3">1월</span><span class="pl-3">2021년</span>
+											<span class="b-r-dark pr-3" th:text="|${currentMonth}월|"></span><span class="pl-3" th:text="|${currentYear}년|"></span>
 										</div>
-										<p class="mt-4 f-16 text-muted">CREVILL 현대백화점 판교점</p>
+										<p class="mt-4 f-16 text-muted" th:text="${session.staffVo.storeName}"></p>
 									</div>
 								</div>
 								<div class="col-xl-6 col-xs-12 col-md-6 col-sm-6">
@@ -430,102 +430,21 @@
 										<tr>
 											<th scope="col">Name</th>
 											<th scope="col">National</th>
-											<th scope="col">English Skill</th>
-											<th scope="col">Experience</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="list : ${nstaffList}">
 											<td class="bd-t-none u-s-tb">
 												<div class="align-middle image-sm-size">
-													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/4.jpg}" alt="">
+													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="">
 													<div class="d-inline-block">
-														<h6>
-															John Deo <span class="text-muted"></span>
+														<h6 th:text="${list.fullName}">
+															<span class="text-muted"></span>
 														</h6>
 													</div>
 												</div>
 											</td>
-											<td>USA</td>
-											<td>
-												<div class="progress-showcase">
-													<div class="progress" style="height: 8px;">
-														<div class="progress-bar bg-primary" role="progressbar"
-															style="width: 30%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</td>
-											<td>2 Year</td>
-										</tr>
-										<tr>
-											<td class="bd-t-none u-s-tb">
-												<div class="align-middle image-sm-size">
-													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/1.jpg}" alt="">
-													<div class="d-inline-block">
-														<h6>
-															Holio Mako <span class="text-muted"></span>
-														</h6>
-													</div>
-												</div>
-											</td>
-											<td>England</td>
-											<td>
-												<div class="progress-showcase">
-													<div class="progress" style="height: 8px;">
-														<div class="progress-bar bg-secondary" role="progressbar"
-															style="width: 70%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</td>
-											<td>3 Year</td>
-										</tr>
-										<tr>
-											<td class="bd-t-none u-s-tb">
-												<div class="align-middle image-sm-size">
-													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="">
-													<div class="d-inline-block">
-														<h6>
-															Mohsib lara<span class="text-muted"></span>
-														</h6>
-													</div>
-												</div>
-											</td>
-											<td>Canada</td>
-											<td>
-												<div class="progress-showcase">
-													<div class="progress" style="height: 8px;">
-														<div class="progress-bar bg-primary" role="progressbar"
-															style="width: 60%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</td>
-											<td>5 Month</td>
-										</tr>
-										<tr>
-											<td class="bd-t-none u-s-tb">
-												<div class="align-middle image-sm-size">
-													<img class="img-radius align-top m-r-15 rounded-circle" th:src="@{/assets/images/user/6.jpg}" alt="">
-													<div class="d-inline-block">
-														<h6>
-															Hileri Soli <span class="text-muted"></span>
-														</h6>
-													</div>
-												</div>
-											</td>
-											<td>USA</td>
-											<td>
-												<div class="progress-showcase">
-													<div class="progress" style="height: 8px;">
-														<div class="progress-bar bg-secondary" role="progressbar"
-															style="width: 30%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</td>
-											<td>3 Month</td>
+											<td th:text="${list.nationality}"></td>
 										</tr>
 									</tbody>
 								</table>

@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationScript.js')}">
 
 <th:block layout:fragment="content">
-	<div class="page-body">
-		<th:block
-			th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
@@ -37,45 +36,37 @@
 									</div>
 								</div>
 							</div>
-							<form action="#" method="POST">
+							<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" action="/reservation/regist.proc" method="post" enctype="multipart/form-data">
 								<div class="setup-content" id="step-1">
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group mb-3">
-												<label class="control-label">휴대폰번호</label> <input
-													class="form-control" type="number" placeholder="- 없이"
-													required="required">
+												<label class="control-label">휴대폰번호</label>
+												<input class="form-control" type="number" v-validate="'required'" id="cellPhone" name="cellPhone" placeholder="- 없이" required="required">
+												<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
 											</div>
-											<button class="btn btn-primary nextBtn pull-right"
-												type="button">검색</button>
-											<p>alert : 1.회원이 아닙니다. 2.바우처가 없습니다. 3.바우처가 확인되었습니다.</p>
+											<button class="btn btn-primary nextBtn pull-right" type="button" id="voucherSearchBtn">검색</button>
 											<br>
-											<br> <label for="exampleFormControlSelect29">보유바우처
-												선택</label> <select class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<option>[VIP]50회권[회원 검색 후 보유바우처 list</option>
-												<option>[VVIP]무제한권</option>
-											</select><br>
-											<button class="btn btn-primary nextBtn pull-right"
-												type="button">다음</button>
+											<br>
+											<label for="exampleFormControlSelect29">보유바우처 선택</label>
+												<select class="form-control form-control-lg" v-validate="'required'" id="voucherNo" name="voucherNo">
+												</select>
+												<label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
+											<br>
 										</div>
-
 									</div>
 								</div>
 								<div class="setup-content" id="step-2">
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group">
-												<label for="exampleFormControlSelect29">매장선택</label> <select
-													class="form-control form-control-lg"
-													id="exampleFormControlSelect29">
-													<option>StoreCode(판교)</option>
-													<option>StoreCode(반포)</option>
-													<option>StoreCode(천안불당)</option>
+												<label for="exampleFormControlSelect29">매장선택</label>
+												<select class="form-control form-control-lg" id="storeId" name="storeId">
+													<th:block th:each="list : ${storeList}">
+														<option th:value="${list.storeId}" th:text="${list.storeName}"></option>
+													</th:block>
 												</select>
 											</div>
-											<button class="btn btn-primary nextBtn pull-right"
-												type="button">다음</button>
 										</div>
 									</div>
 								</div>
@@ -83,51 +74,18 @@
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group mb-3">
-												<label class="control-label">스케쥴조회</label> <input
-													class="form-control" type="date" required="required">
+												<label class="control-label">스케쥴조회</label>
+												<input class="form-control" type="date" v-validate="'required'" required="required" id="scheduleDate" name="scheduleDate">
+												<label class="col-form-label-sm" for="scheduleDate" v-if="errors.has('scheduleDate')">{{ errors.first('scheduleDate') }}</label>
+												<br/>
+												<button class="btn btn-primary nextBtn pull-right" type="button" id="scheduleSearch">검색</button>												
 											</div>
 											<div class="form-group">
-												<label for="exampleFormControlSelect29">수업선택</label> <select
-													class="form-control form-control-lg"
-													id="exampleFormControlSelect29">
-													<option><span>FULL</span> 10:00
-													</option>
-													<option><span>POSS</span> 11:00
-													</option>
-													<option><span>FULL</span> 12:00
-													</option>
-													<option><span>POSS</span> 13:00
-													</option>
-													<option><span>FULL</span> 14:00
-													</option>
-													<option><span>POSS</span> 15:00
-													</option>
-													<option><span>FULL</span> 16:00
-													</option>
-													<option><span>POSS</span> 17:00
-													</option>
-													<option><span>FULL</span> 18:00
-													</option>
-													<option><span>POSS</span> 19:00
-													</option>
+												<label for="exampleFormControlSelect29">수업선택</label>
+												<select class="form-control form-control-lg" v-validate="'required'" id="scheduleId" name="scheduleId">
 												</select>
+												<label class="col-form-label-sm" for="scheduleId" v-if="errors.has('scheduleId')">{{ errors.first('scheduleId') }}</label>
 											</div>
-											<div class="form-group">
-												<label for="exampleFormControlSelect29">수업선택</label> <select
-													class="form-control form-control-lg"
-													id="exampleFormControlSelect29">
-													<option><span>[R1]</span> CLASS
-													</option>
-													<option><span>[FULL]</span> TUTORING
-													</option>
-													<option><span>[R2]</span> TIME PLAY
-													</option>
-													<option><span>[X]</span> SPECIAL CAMP
-													</option>
-												</select>
-											</div>
-											<button class="btn btn-primary nextBtn pull-right"
-												type="button">다음</button>
 										</div>
 									</div>
 								</div>
@@ -135,14 +93,13 @@
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group mb-3">
-												<label class="control-label">휴대폰번호 : <span>010-0000-0000</span></label><br>
-												<label class="control-label">이용일 : 2021-02-25</label><br>
-												<label class="control-label">이용시간 : 11:00 </label><br>
-												<label class="control-label">수업 : GYM CLASS </label><br>
-												<label class="control-label">보유바우처 : [VIP]50회권</label><br>
-												<label class="control-label">차감시간 : 2시간</label><br> <label
-													class="control-label">잔여시간 : 24시간</label><br> <label
-													class="control-label"><완료하면 알림톡 전송></label><br>
+<!-- 												<label class="control-label">휴대폰번호 :  <span id="cellPhoneTxt"></span></label><br> -->
+<!-- 												<label class="control-label">이용일 :     <span id="useDateTxt"></span></label><br> -->
+<!-- 												<label class="control-label">이용시간 :    <span id="useTimeTxt"></span> </label><br> -->
+<!-- 												<label class="control-label">수업 :       <span id="useClassTxt"></span> </label><br> -->
+<!-- 												<label class="control-label">보유바우처 :   <span id="usedVoucherTxt"></span></label><br> -->
+<!-- 												<label class="control-label">차감예상시간 :  <span id="usedTimeTxt"></span></label><br> -->
+<!-- 												<label class="control-label">잔여예상시간 :  <span id="remainTimeTxt"></span></label><br> -->
 												<button class="btn btn-success pull-right" type="submit">완료</button>
 											</div>
 										</div>

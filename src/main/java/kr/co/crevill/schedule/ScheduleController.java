@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.CrevillConstants;
 
 @Controller
 @RequestMapping("schedule")
@@ -70,6 +71,20 @@ public class ScheduleController {
 	public JSONObject registProc(HttpServletRequest request, @ModelAttribute ScheduleDto scheduleDto) {
 		JSONObject result = new JSONObject();
 		result = scheduleService.insertSchedule(scheduleDto, request);
+		return result;
+	}
+	
+	@PostMapping("getScheduleList.proc")
+	@ResponseBody
+	public JSONObject getScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		scheduleDto.setScheduleType("ING");
+		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
+		if(scheduleList != null && scheduleList.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("scheduleList", scheduleList);
+		}
 		return result;
 	}
 }

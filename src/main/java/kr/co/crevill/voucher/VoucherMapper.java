@@ -13,7 +13,10 @@ public interface VoucherMapper {
 	public List<VoucherVo> selectVoucherList(VoucherDto voucherDto);
 	public List<VoucherVo> getVoucherList(VoucherDto voucherDto);
 	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto);
+	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto);
 	public int insertVoucher(VoucherDto voucherDto);
 	public int insertVoucherAttribute(VoucherDto voucherDto);
 	public int insertVoucherSale(VoucherSaleDto voucherSaleDto);
+	public int updateVoucher(VoucherDto voucherDto);
+	public int updateVoucherSale(VoucherSaleDto voucherSaleDto);
 }

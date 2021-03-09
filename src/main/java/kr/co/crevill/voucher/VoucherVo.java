@@ -19,6 +19,7 @@ public class VoucherVo {
 	private String updDate;
 	private String attribute;
 	private String imageIdx;
+	private String status;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

@@ -71,6 +71,22 @@
          WHERE VOUCHER_NO = #{voucherNo} 
 	</select>
 	
+	<select id="getMemberVoucherList" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT A.VOUCHER_NO,
+			   A.TICKET_NAME, 	
+		       A.GRADE,
+		       A.PRICE,
+		       A.USE_TIME 
+		  FROM VOUCHER A,
+		       VOUCHER_SALE B,
+		       VOUCHER_USE_VIEW C
+		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   AND B.VOUCHER_NO = C.VOUCHER_NO 
+		   AND B.BUY_CELL_PHONE = #{buyCellPhone}
+		   AND A.STATUS = '12'
+		   AND (C.TIME_LEFT_HOUR = 'UNLIMITED' OR C.TIME_LEFT_HOUR  > 0)
+	</select>
+	
 	<insert id="insertVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">
     	INSERT INTO VOUCHER (
    						     VOUCHER_NO,
@@ -82,7 +98,8 @@
 						     END_DATE,
 						     REG_ID,
 						     REG_DATE,
-						     IMAGE_IDX								
+						     IMAGE_IDX,
+						     STATUS								
    							)
 					 VALUES (
 							 #{voucherNo},
@@ -91,10 +108,11 @@
 						     #{price},
 						     #{salePrice},
 						     #{useTime},
-						     #{endDate},
+						     DATE_FORMAT(DATE_ADD(REG_DATE, INTERVAL #{endDate} MONTH), '%Y%m%d'),
 						     #{regId},
 						     NOW(),
-						     #{imageIdx}
+						     #{imageIdx},
+						     #{status}
 							)
     </insert>
 	
@@ -135,5 +153,37 @@
 								 NOW()           	
 					      		)			 
 	</insert>
+	
+	<update id="updateVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">
+		UPDATE VOUCHER
+		 <set>
+	         <if test="grade != null">GRADE = #{grade},</if>
+	         <if test="ticketName != null">TICKET_NAME = #{ticketName},</if>
+	         <if test="price != null">PRICE = #{price},</if>
+	         <if test="salePrice != null">SALE_PRICE = #{salePrice},</if>
+	         <if test="useTime != null">USE_TIME = #{useTime},</if>
+	         <if test="endDate != null">END_DATE = #{endDate},</if>
+	         <if test="imageIdx != null">IMAGE_IDX = #{imageIdx},</if>
+	         <if test="status != null">STATUS = #{status},</if>
+	         UPD_ID = #{updId},
+	         UPD_DATE = NOW(),
+    	 </set>
+       WHERE VOUCHER_NO = #{voucherNo} 	 		 
+	</update>
+	
+	<update id="updateVoucherSale" parameterType="kr.co.crevill.voucher.VoucherSaleDto">
+		UPDATE VOUCHER_SALE
+		 <set>
+	         <if test="buyCellPhone != null">BUY_CELL_PHONE = #{buyCellPhone},</if>
+	         <if test="usedChildrenName != null">USED_CHILDREN_NAME = #{usedChildrenName},</if>
+	         <if test="pgType != null">PG_TYPE = #{pgType},</if>
+	         <if test="approvalNo != null">APPROVAL_NO = #{approvalNo},</if>
+	         <if test="storeId != null">STORE_ID = #{storeId},</if>
+	         <if test="buyCellPhone != null">BUY_CELL_PHONE = #{buyCellPhone},</if>
+	         UPD_ID = #{updId},
+	         UPD_DATE = NOW(),
+    	 </set>		 
+       WHERE VOUCHER_NO = #{voucherNo} 
+	</update>
 	
 </mapper>

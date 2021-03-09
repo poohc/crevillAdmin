@@ -40,7 +40,9 @@ public class VoucherService {
 	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherAttributeList(voucherDto);
 	}
-	
+	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto){
+		return voucherMapper.getMemberVoucherList(voucherSaleDto);
+	}
 	/**
 	 * 직원 저장 처리 
 	 * @methodName : insertVoucher
@@ -64,6 +66,11 @@ public class VoucherService {
 		}
 		//VOUCHER_NO 설정
 		voucherDto.setVoucherNo(voucherMapper.selectVoucherNo());
+		
+		//무제한일 경우 UNLIMIT INSERT
+		if("0".equals(voucherDto.getUseTime())){ 
+			voucherDto.setUseTime(CrevillConstants.VOUCHER_UNLIMITED_TIME);
+		}
 		
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC
@@ -97,7 +104,12 @@ public class VoucherService {
 		voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
-			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			VoucherDto voucherDto = new VoucherDto();
+			voucherDto.setVoucherNo(voucherSaleDto.getVoucherNo());
+			voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
+			if(voucherMapper.updateVoucher(voucherDto) > 0) {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+			}
 		}
 		return result;
 	}	
