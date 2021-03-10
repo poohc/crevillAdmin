@@ -1,5 +1,9 @@
 package kr.co.crevill.reservation;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 
@@ -26,8 +31,9 @@ public class ReservationController {
 	private StoreService storeService;
 	
 	@GetMapping("list.view")
-	public ModelAndView list(HttpServletRequest request) {
+	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("reservation/list");
+		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
 		return mav;
 	}
 	
@@ -51,5 +57,15 @@ public class ReservationController {
 		JSONObject result = new JSONObject();
 		result = reservationService.insertReservation(reservationDto, request);
 		return result;
+	}
+	
+	@PostMapping("getReservationList.proc")
+	@ResponseBody
+	public List<ReservationVo> getReservationList(HttpServletRequest request, @ModelAttribute ScheduleDto scheduleDto) {
+		if(scheduleDto.getScheduleStart().isEmpty()) {
+			scheduleDto.setScheduleType("ALL");
+			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		}
+		return reservationService.selectReservationSearchList(scheduleDto);
 	}
 }

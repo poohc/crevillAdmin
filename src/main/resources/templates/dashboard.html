@@ -20,7 +20,7 @@
 								</div>
 								<div class="media-body">
 									<span class="m-0">바우처판매</span>
-									<h4 class="mb-0 counter">10000</h4>
+									<h4 class="mb-0 counter" th:text="${statInfo.voucherTimeLeftHour}"></h4>
 									<i class="icon-bg" data-feather="database"></i>
 								</div>
 							</div>
@@ -36,7 +36,7 @@
 								</div>
 								<div class="media-body">
 									<span class="m-0">매장회원</span>
-									<h4 class="mb-0 counter">88888</h4>
+									<h4 class="mb-0 counter" th:text="${statInfo.memberCount}"></h4>
 									<i class="icon-bg" data-feather="shopping-bag"></i>
 								</div>
 							</div>
@@ -52,7 +52,7 @@
 								</div>
 								<div class="media-body">
 									<span class="m-0">예약</span>
-									<h4 class="mb-0 counter">1000</h4>
+									<h4 class="mb-0 counter" th:text="${statInfo.reservationCount}"></h4>
 									<i class="icon-bg" data-feather="message-circle"></i>
 								</div>
 							</div>
@@ -68,7 +68,7 @@
 								</div>
 								<div class="media-body">
 									<span class="m-0">오늘 신규회원</span>
-									<h4 class="mb-0 counter">100</h4>
+									<h4 class="mb-0 counter" th:text="${statInfo.todayJoinMemberCount}"></h4>
 									<i class="icon-bg" data-feather="user-plus"></i>
 								</div>
 							</div>
@@ -85,11 +85,16 @@
 										<h4 class="mb-0">오늘</h4>
 									</div>
 									<div class="media-body align-self-center">
-										<i class="font-primary" data-feather="arrow-down"></i>
+										<th:block th:if="${statInfo.todayArrow == 'UP'}">
+											<i class="font-primary" data-feather="arrow-up"></i>
+										</th:block>
+										<th:block th:if="${statInfo.todayArrow == 'DOWN'}">
+											<i class="font-primary" data-feather="arrow-down"></i>
+										</th:block>
 									</div>
 									<div class="media-body">
 										<h5 class="mb-0">
-											₩<span class="counter">999,999,999</span>
+											₩<span class="counter" th:text="${statInfo.todayVoucherSalePrice}"></span>
 									</div>
 								</div>
 							</div>
@@ -100,11 +105,16 @@
 										<h4 class="mb-0">월간</h4>
 									</div>
 									<div class="media-body align-self-center">
-										<i class="font-primary" data-feather="arrow-up"></i>
+										<th:block th:if="${statInfo.todayArrow == 'UP'}">
+											<i class="font-primary" data-feather="arrow-up"></i>
+										</th:block>
+										<th:block th:if="${statInfo.todayArrow == 'DOWN'}">
+											<i class="font-primary" data-feather="arrow-down"></i>
+										</th:block>
 									</div>
 									<div class="media-body pl-2">
 										<h5 class="mb-0">
-											₩<span class="counter">999,999,999</span>
+											₩<span class="counter" th:text="${statInfo.lastweekVoucherSalePrice}"></span>
 										</h5>
 									</div>
 								</div>
@@ -116,11 +126,16 @@
 										<h4 class="mb-0">주간</h4>
 									</div>
 									<div class="media-body align-self-center">
-										<i class="font-primary" data-feather="arrow-up"></i>
+										<th:block th:if="${statInfo.weekArrow == 'UP'}">
+											<i class="font-primary" data-feather="arrow-up"></i>
+										</th:block>
+										<th:block th:if="${statInfo.weekArrow == 'DOWN'}">
+											<i class="font-primary" data-feather="arrow-down"></i>
+										</th:block>
 									</div>
 									<div class="media-body">
 										<h5 class="mb-0">
-											₩<span class="counter">999,999,999</span>
+											₩<span class="counter" th:text="${statInfo.lastweekVoucherSalePrice}"></span>
 										</h5>
 									</div>
 								</div>
@@ -348,58 +363,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td class="f-w-600">송강호</td>
+										<tr th:each="list : ${reservationList}">
+											<td class="f-w-600" th:text="${list.customerName}"></td>
 											<td>1</td>
-											<td class="font-primary">1회권</td>
+											<td class="font-primary" th:text="${list.voucherType}"></td>
 											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
+												<div class="span badge badge-pill pill-badge-secondary" th:text="${list.statusName}">
 												</div>
-											</td>
-										</tr>
-										<tr>
-											<td class="f-w-600">최민식</td>
-											<td>1</td>
-											<td class="font-secondary">바우처</td>
-											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
-												
-											</td>
-										</tr>
-										<tr>
-											<td class="f-w-600">최무룡</td>
-											<td>1</td>
-											<td class="font-secondary">바우처</td>
-											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
-												
-											</td>
-										</tr>
-										<tr>
-											<td class="f-w-600">류승용</td>
-											<td>1</td>
-											<td class="font-primary">바우처</td>
-											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
-												
-											</td>
-										</tr>
-										<tr>
-											<td class="f-w-600">김건모</td>
-											<td>1</td>
-											<td class="font-primary">바우처</td>
-											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
-												
-											</td>
-										</tr>
-										<tr>
-											<td class="f-w-600">전지현</td>
-											<td>1</td>
-											<td class="font-secondary">바우처</td>
-											<td>
-												<div class="span badge badge-pill pill-badge-secondary">예약대기
-												
 											</td>
 										</tr>
 									</tbody>

@@ -20,6 +20,7 @@ public class VoucherVo {
 	private String attribute;
 	private String imageIdx;
 	private String status;
+	private String voucherTimeLeftHour;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

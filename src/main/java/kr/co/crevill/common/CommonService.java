@@ -27,4 +27,8 @@ public class CommonService {
 		return commonMapper.selectNationalCode();
 	}
 	
+	public CommonVo selectStatInfo() {
+		return commonMapper.selectStatInfo();
+	}
+	
 }

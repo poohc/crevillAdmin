@@ -15,6 +15,7 @@ import kr.co.crevill.common.CommonMapper;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.play.PlayMapper;
+import kr.co.crevill.schedule.ScheduleDto;
 
 @Service
 public class ReservationService {
@@ -30,12 +31,16 @@ public class ReservationService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public int selectReservationCount(ReservationDto reservationDto) {
-		return reservationMapper.selectReservationCount(reservationDto);
+	public int selectReservationCount(ScheduleDto scheduleDto) {
+		return reservationMapper.selectReservationCount(scheduleDto);
 	}
 	
-	public List<ReservationVo> selectReservationList(ReservationDto reservationDto){
-		return reservationMapper.selectReservationList(reservationDto);
+	public List<ReservationVo> selectReservationList(ScheduleDto scheduleDto){
+		return reservationMapper.selectReservationList(scheduleDto);
+	}
+	
+	public List<ReservationVo> selectReservationSearchList(ScheduleDto scheduleDto){
+		return reservationMapper.selectReservationSearchList(scheduleDto);
 	}
 	
 	public JSONObject insertReservation(ReservationDto reservationDto, HttpServletRequest request) {

@@ -19,7 +19,7 @@
 			   FORMAT(PRICE , 0) PRICE,
 			   FORMAT(SALE_PRICE , 0) SALE_PRICE,
 			   USE_TIME,
-			   CONCAT(END_DATE,'개월') END_DATE,
+			   END_DATE,
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
 			   UPD_ID,
@@ -185,5 +185,5 @@
     	 </set>		 
        WHERE VOUCHER_NO = #{voucherNo} 
 	</update>
-	
+		
 </mapper>

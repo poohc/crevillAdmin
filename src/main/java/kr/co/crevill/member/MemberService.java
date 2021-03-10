@@ -19,6 +19,10 @@ public class MemberService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	public int selectMemberCount(MemberDto memberDto) {
+		return memberMapper.selectMemberCount(memberDto);
+	}
+	
 	public List<MemberVo> selectMemberList(MemberDto memberDto) {
 		List<MemberVo> memberList = new ArrayList<>();
 		int memberCount = memberMapper.selectMemberCount(memberDto);
