@@ -105,16 +105,16 @@
 										<h4 class="mb-0">월간</h4>
 									</div>
 									<div class="media-body align-self-center">
-										<th:block th:if="${statInfo.todayArrow == 'UP'}">
+										<th:block th:if="${statInfo.monthArrow == 'UP'}">
 											<i class="font-primary" data-feather="arrow-up"></i>
 										</th:block>
-										<th:block th:if="${statInfo.todayArrow == 'DOWN'}">
+										<th:block th:if="${statInfo.monthArrow == 'DOWN'}">
 											<i class="font-primary" data-feather="arrow-down"></i>
 										</th:block>
 									</div>
 									<div class="media-body pl-2">
 										<h5 class="mb-0">
-											₩<span class="counter" th:text="${statInfo.lastweekVoucherSalePrice}"></span>
+											₩<span class="counter" th:text="${statInfo.lastmonthVoucherSalePrice}"></span>
 										</h5>
 									</div>
 								</div>
@@ -147,11 +147,16 @@
 										<h4 class="mb-0">년간</h4>
 									</div>
 									<div class="media-body align-self-center pl-3">
-										<i class="font-primary" data-feather="arrow-up"></i>
+										<th:block th:if="${statInfo.yearArrow == 'UP'}">
+											<i class="font-primary" data-feather="arrow-up"></i>
+										</th:block>
+										<th:block th:if="${statInfo.yearArrow == 'DOWN'}">
+											<i class="font-primary" data-feather="arrow-down"></i>
+										</th:block>
 									</div>
 									<div class="media-body pl-2">
 										<h5 class="mb-0">
-											₩<span class="counter">999,999,999</span>
+											₩<span class="counter" th:text="${statInfo.lastyearVoucherSalePrice}"></span>
 										</h5>
 									</div>
 								</div>

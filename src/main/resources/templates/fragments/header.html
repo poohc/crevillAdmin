@@ -30,10 +30,12 @@
 			<div class="left-header col horizontal-wrapper pl-0">
 				<ul class="horizontal-menu">
 					<li class="mega-menu outside">
-						<a class="nav-link" href="#!">
-							<i data-feather="layers"></i>
-							<span>업무</span>
-						</a>
+						<th:block th:if="${session.staffVo.staffGrade == 'SUPERVISOR'}">
+							<a class="nav-link" href="#!">
+								<i data-feather="layers"></i>
+								<span>업무</span>
+							</a>
+						</th:block>
 						<div class="mega-menu-container nav-submenu menu-to-be-close">
 							<div class="container-fluid">
 								<div class="row">
@@ -54,7 +56,7 @@
 														</a>
 													</li>
 													<li>
-														<a href="">
+														<a href="/member/join.view">
 															<i data-feather="user-plus"></i>회원등록
 														</a>
 													</li>
@@ -65,12 +67,7 @@
 													</li>
 													<li>
 														<a href="">
-															<i data-feather="align-justify"></i>List
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
+															<i data-feather="align-justify"></i>체험신청리스트
 														</a>
 													</li>
 												</ul>
@@ -89,28 +86,13 @@
 												</div>
 												<ul class="svg-icon">
 													<li>
-														<a href="">
+														<a href="/reservation/search.view">
 															<i data-feather="clock"> </i>당일예약현황
 														</a>
 													</li>
 													<li>
-														<a href="">
+														<a href="/reservation/regist.view">
 															<i data-feather="plus-circle"></i>예약등록
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
 														</a>
 													</li>
 												</ul>
@@ -139,18 +121,29 @@
 														</a>
 													</li>
 													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
+														<a href="/play/list.view">
+															<i data-feather="align-justify"></i>플레이리스트
+														</a>
+													</li>
+													<li>
+														<a href="/play/master.view">
+															<i data-feather="align-justify"></i>플레이등록
+
+														</a>
+													</li>
+													<li>
+														<a href="/voucher/list.view">
+															<i data-feather="align-justify"></i>바우처리스트
+														</a>
+													</li>
+													<li>
+														<a href="/voucher/create.view">
+															<i data-feather="align-justify"></i>바우처생성
 														</a>
 													</li>
 													<li>
 														<a href="">
-															<i data-feather="align-justify"></i>List
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
+															<i data-feather="align-justify"></i>전지점 바우처 판매현황
 														</a>
 													</li>
 												</ul>
@@ -169,7 +162,7 @@
 												</div>
 												<ul class="svg-icon">
 													<li>
-														<a href="">
+														<a href="/staff/regist.view">
 															<i data-feather="home"></i>직원등록
 														</a>
 													</li>
@@ -184,13 +177,18 @@
 														</a>
 													</li>
 													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
+														<a href="/staff/list.view">
+															<i data-feather="align-justify"></i>직원리스트
 														</a>
 													</li>
 													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
+														<a href="/staff/nsRegist.view">
+															<i data-feather="align-justify"></i>원어민 등록
+														</a>
+													</li>
+													<li>
+														<a href="/staff/nsList.view">
+															<i data-feather="align-justify"></i>원어민 리스트
 														</a>
 													</li>
 												</ul>
@@ -226,11 +224,6 @@
 													<li>
 														<a href="">
 															<i data-feather="align-justify"></i>알림설정
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i data-feather="align-justify"></i>List
 														</a>
 													</li>
 												</ul>
@@ -337,16 +330,20 @@
 							<img class="b-r-10" th:src="@{/common/getImage(imageIdx=${session.staffVo.idPictureIdx})}" alt="직원프로필사진" style="width: 37px;height: 37px;">
 							<div class="media-body">
 								<span th:text="${session.staffVo.name}"></span>
-								<p class="mb-0 font-roboto">
-									Supervisor <i class="middle fa fa-angle-down"></i>
+								<p class="mb-0 font-roboto" th:text="${session.staffVo.staffGradeName}">> 
+									<i class="middle fa fa-angle-down"></i>
 								</p>
 							</div>
 						</div>
 						<ul class="profile-dropdown onhover-show-div">
-							<li><a href="#"><i data-feather="user"></i><span>계정</span></a></li>
-							<li><a href="#"><i data-feather="mail"></i><span>인트라넷</span></a></li>
-							<li><a href="#"><i data-feather="file-text"></i><span>업무목록</span></a></li>
-							<li><a href="#"><i data-feather="log-in"> </i><span>로그인</span></a></li>
+<!-- 							<li><a href="#"><i data-feather="user"></i><span>계정</span></a></li> -->
+<!-- 							<li><a href="#"><i data-feather="mail"></i><span>인트라넷</span></a></li> -->
+<!-- 							<li><a href="#"><i data-feather="file-text"></i><span>업무목록</span></a></li> -->
+							<li>
+								<a href="/login/logout.view">
+									<i data-feather="log-in"> </i><span>로그아웃</span>
+								</a>
+							</li>
 						</ul>
 					</li>
 				</ul>

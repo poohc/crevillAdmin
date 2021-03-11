@@ -1,6 +1,7 @@
 package kr.co.crevill.login;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,13 @@ public class LoginController {
 		JSONObject result = new JSONObject();
 		result = loginService.loginProcess(staffDto, request);
 		return result;
+	}
+	
+	@GetMapping("logout.view")
+	public ModelAndView logout(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/login/login");
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return mav;
 	}
 }

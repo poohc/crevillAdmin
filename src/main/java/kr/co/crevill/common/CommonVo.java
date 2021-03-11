@@ -14,6 +14,12 @@ public class CommonVo {
 	private String yesterdayVoucherSalePrice;
 	private String lastweekVoucherSalePrice;
 	private String lastTwWeekVoucherSalePrice;
+	private String lastmonthVoucherSalePrice;
+	private String lastTwMonthVoucherSalePrice;
+	private String lastyearVoucherSalePrice;
+	private String lastTwYearVoucherSalePrice;
 	private String todayArrow;
 	private String weekArrow;
+	private String monthArrow;
+	private String yearArrow;
 }

@@ -14,6 +14,7 @@ public class StaffVo {
 	private String endDate;
 	private String workerType;
 	private String staffGrade;
+	private String staffGradeName;
 	private String storeId;
 	private String storeName;
 	private byte[] idPicture;
