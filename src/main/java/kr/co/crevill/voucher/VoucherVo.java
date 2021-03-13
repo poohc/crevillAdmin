@@ -21,6 +21,8 @@ public class VoucherVo {
 	private String imageIdx;
 	private String status;
 	private String voucherTimeLeftHour;
+	private String storeId;
+	private String storeName;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

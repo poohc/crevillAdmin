@@ -16,4 +16,5 @@ public interface CommonMapper {
 	public int insertImages(FileDto fileDto);
 	public int insertFiles(FileDto fileDto);
 	public CommonVo selectStatInfo();
+	public List<CommonVo> selectVoucherStatInfo();
 }

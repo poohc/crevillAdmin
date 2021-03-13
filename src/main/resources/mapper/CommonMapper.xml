@@ -130,6 +130,12 @@
 		       ) A	
 	</select>
 	
-	
-			
+	<select id="selectVoucherStatInfo"  resultType="kr.co.crevill.common.CommonVo">
+		SELECT A.TICKET_NAME, 
+			   (IFNULL(B.CNT,0) / A.CNT) * 100 SALE_PER 
+		  FROM (SELECT TICKET_NAME, COUNT(*) CNT FROM VOUCHER GROUP BY TICKET_NAME) A LEFT OUTER JOIN  
+		       (SELECT TICKET_NAME, COUNT(*) CNT FROM VOUCHER WHERE STATUS IN ('04','12') GROUP BY TICKET_NAME) B 
+		    ON A.TICKET_NAME = B.TICKET_NAME
+	</select>
+					
 </mapper>

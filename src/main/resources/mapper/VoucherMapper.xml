@@ -24,7 +24,8 @@
 			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE,
-			   IMAGE_IDX	
+			   IMAGE_IDX,
+			   (SELECT STORE_NAME FROM STORE WHERE STORE.STORE_ID = STORE_ID) STORE_NAME	
           FROM VOUCHER
         <where>
            <if test="gradeType != null and gradeType == 'REGIST'.toString()">
@@ -53,6 +54,7 @@
 			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE 
           FROM VOUCHER A
          <where>
+           AND STATUS = '02'
            <if test="gradeType != null and gradeType == 'REGIST'.toString()">
            AND A.GRADE = 'VIP_REGIST'
            </if>
@@ -99,7 +101,8 @@
 						     REG_ID,
 						     REG_DATE,
 						     IMAGE_IDX,
-						     STATUS								
+						     STATUS,
+						     STORE_ID								
    							)
 					 VALUES (
 							 #{voucherNo},
@@ -112,7 +115,8 @@
 						     #{regId},
 						     NOW(),
 						     #{imageIdx},
-						     #{status}
+						     #{status},
+						     #{storeId}
 							)
     </insert>
 	

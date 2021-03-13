@@ -31,4 +31,7 @@ public class CommonService {
 		return commonMapper.selectStatInfo();
 	}
 	
+	public List<CommonVo> selectVoucherStatInfo() {
+		return commonMapper.selectVoucherStatInfo();
+	}
 }

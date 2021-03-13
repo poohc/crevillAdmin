@@ -21,7 +21,8 @@
 											<th>바우처내용</th>
 											<th>유효기간</th>
 											<th>금액</th>
-											<th>할인</th>
+											<th>판매가</th>
+											<th>생성매장</th>
 											<th>등록일</th>
 											<th>Action</th>
 										</tr>
@@ -45,6 +46,7 @@
 											<td th:text=${list.endDate}></td>
 											<td th:text=${list.price}></td>
 											<td class="font-success" th:text=${list.salePrice}></td>
+											<td class="font-success" th:text=${list.storeName}></td>
 											<td th:text=${list.regDate}></td>
 											<td>
 												<button class="btn btn-danger btn-xs" type="button"

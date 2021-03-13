@@ -42,6 +42,7 @@ public class CrevillController {
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
+		mav.addObject("voucherStatInfo", commonService.selectVoucherStatInfo());
 		mav.addObject("statInfo", commonService.selectStatInfo());
 		mav.addObject("memberCount", memberService.selectMemberCount(memberDto));
 		mav.addObject("nstaffList", staffService.selectInstructorList(instructorDto));

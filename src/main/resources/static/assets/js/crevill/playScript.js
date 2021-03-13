@@ -1,3 +1,5 @@
+var acceessableCount = 1; //동시접근제한수
+
 Vue.use(VeeValidate, {
   locale: 'ko',
   dictionary: {
@@ -29,37 +31,46 @@ new Vue({
       this.$validator.validate().then((result) => {
         if (result) {
 	        
- 			var formdata = new FormData()
-			var operType = '';
-			$("input[name=operationType]:checked").each(function() {
-				operType += $(this).val() + ',';
-			});
-			operType = operType.substr(0, operType.length - 1);
+			acceessableCount  = acceessableCount - 1; //count부터 뺀다
 			
-			formdata.append("operationType", operType);
-			formdata.append("name", $('#name').val());
-			formdata.append("playTime", $('select[name="playTime"]').val());
-			formdata.append("description", $('#description').val());
-			
-			if($("#thumbnail")[0].files[0] != undefined){
-				formdata.append("thumbnail", $("#thumbnail")[0].files[0]);	
-			}
-			
-			if($("#picture")[0].files[0] != undefined){
-				formdata.append("picture", $("#picture")[0].files[0]);	
-			}
-			
-			axios.post('/play/master.proc', formdata,{
-				  headers: {
-					'Content-Type': 'multipart/form-data'
-				  }
-				}).then((response) => {
-				if (response.data.resultCd == '00') {
-			      	alert('정상처리 되었습니다.');
-					location.href = '/play/master.view';
-			    }
+			if (acceessableCount < 0 ) {
+		    	alert("이미 작업이 수행중입니다.");
+		    } else {
+				var formdata = new FormData()
+				var operType = '';
+				$("input[name=operationType]:checked").each(function() {
+					operType += $(this).val() + ',';
+				});
+				operType = operType.substr(0, operType.length - 1);
 				
-			});	
+				formdata.append("operationType", operType);
+				formdata.append("name", $('#name').val());
+				formdata.append("playTime", $('select[name="playTime"]').val());
+				formdata.append("description", $('#description').val());
+				
+				if($("#thumbnail")[0].files[0] != undefined){
+					formdata.append("thumbnail", $("#thumbnail")[0].files[0]);	
+				}
+				
+				if($("#picture")[0].files[0] != undefined){
+					formdata.append("picture", $("#picture")[0].files[0]);	
+				}
+				
+				axios.post('/play/master.proc', formdata,{
+					  headers: {
+						'Content-Type': 'multipart/form-data'
+					  }
+					}).then((response) => {
+					if (response.data.resultCd == '00') {
+				      	alert('정상처리 되었습니다.');
+						location.href = '/play/master.view';
+				    }
+					
+				});	
+			}
+			
+			acceessableCount = acceessableCount + 1;
+ 			
         } else {
 			alert('항목을 올바르게 입력해주세요.');
 		}

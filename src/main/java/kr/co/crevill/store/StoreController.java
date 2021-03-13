@@ -47,8 +47,8 @@ public class StoreController {
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("STORE_TYPE");
 		mav.addObject("storeType", commonService.selectCommonCode(commonCodeDto));
-		PlayDto playDto = new PlayDto();
-		mav.addObject("playList", playService.selectPlayList(playDto));
+		commonCodeDto.setCodeType("CLASS_TYPE");
+		mav.addObject("playList", commonService.selectCommonCode(commonCodeDto));
 		return mav;
 	}
 	
@@ -56,7 +56,7 @@ public class StoreController {
 	@ResponseBody
 	public JSONObject registProc(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
 		JSONObject result = new JSONObject();
-		result = storeService.insertStore(storeDto);
+		result = storeService.insertStore(storeDto, request);
 		return result;
 	}
 }

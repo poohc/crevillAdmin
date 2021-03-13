@@ -35,7 +35,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="nameEng">성함(영문)</label>
-										<input class="form-control form-control-lg" v-validate="'required|alpha'" v-model="nameEng" id="nameEng" name="nameEng" type="text" placeholder="Name">
+										<input class="form-control form-control-lg" v-validate="'required|alpha'" id="nameEng" name="nameEng" type="text" placeholder="Name">
 										<label class="col-form-label-sm" for="nameEng" v-if="errors.has('nameEng')">{{ errors.first('nameEng') }}</label>
 									</div>
 								</div>
@@ -44,7 +44,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label for="telNo">연락처</label> 
-											<input class="form-control" v-validate="'required|numeric|min:10|max:11'" v-model="telNo" id="telNo" name="telNo" type="text" placeholder="- 없이 입력">
+											<input class="form-control" v-validate="'required|numeric|min:10|max:11'" id="telNo" name="telNo" type="text" placeholder="- 없이 입력">
 											<label class="col-form-label-sm" for="telNo" v-if="errors.has('telNo')">{{ errors.first('telNo') }}</label>
 									</div>
 								</div>
@@ -53,7 +53,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="address">주소</label>
-										<input class="form-control form-control-sm" v-validate="'required'" v-model="address" id="address" name="address" type="text" placeholder="주소">
+										<input class="form-control form-control-sm" v-validate="'required'" id="address" name="address" type="text" placeholder="주소">
 										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
 									</div>
 								</div>
@@ -62,7 +62,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="startDate">입사일</label>
-										<input class="form-control form-control-lg" v-validate="'required|date_format:yyyyMMdd'" v-model="startDate" id="startDate" name="startDate" type="text">
+										<input class="form-control form-control-lg" v-validate="'required'" id="startDate" name="startDate" type="text">
 										<label class="col-form-label-sm" for="startDate" v-if="errors.has('startDate')">{{ errors.first('startDate') }}</label>
 									</div>
 								</div>

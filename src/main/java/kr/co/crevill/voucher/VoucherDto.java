@@ -24,6 +24,7 @@ public class VoucherDto {
 	private MultipartFile image;
 	private String imageIdx;
 	private String status;
+	private String storeId;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

@@ -22,4 +22,6 @@ public class CommonVo {
 	private String weekArrow;
 	private String monthArrow;
 	private String yearArrow;
+	private String ticketName;
+	private String salePer;
 }

@@ -1,3 +1,5 @@
+var acceessableCount = 1; //동시접근제한수
+
 const checkMemberCellPhone = (value) => {
   	return axios.post('/member/checkMemberCellPhone.proc', {parentCellPhone: value}).then((response) => {
 		if (response.data.resultCd == '00') {
@@ -54,27 +56,36 @@ new Vue({
       this.$validator.validate().then((result) => {
         if (result) {
 	        
-			axios.post('/member/join.proc', {
-								            parentName : $('#parentName').val(),
-								            email : $('#email').val(),
-								            address : $('#address').val(),
-								            cellPhone : $('#cellPhone').val(),
-								            childName : $('#childName').val(),
-								            birthday : $('#birthday').val(),
-								            sex : $('input[name="sex"]:checked').val(),
-								            learningGrade : $('input[name="learningGrade"]:checked').val()
-		        }).then((response) => {
-				if (response.data.resultCd == '00') {
-			      	alert('정상처리 되었습니다.');
-					location.href = '/member/join.view';
-			    }
+			acceessableCount  = acceessableCount - 1; //count부터 뺀다
+			
+			if (acceessableCount < 0 ) {
+		    	alert("이미 작업이 수행중입니다.");
+		    } else {
+				axios.post('/member/join.proc', {
+									            parentName : $('#parentName').val(),
+									            email : $('#email').val(),
+									            address : $('#address').val(),
+									            cellPhone : $('#cellPhone').val(),
+									            childName : $('#childName').val(),
+									            birthday : $('#birthday').val(),
+									            sex : $('input[name="sex"]:checked').val(),
+									            learningGrade : $('input[name="learningGrade"]:checked').val()
+			        }).then((response) => {
+					if (response.data.resultCd == '00') {
+				      	alert('정상처리 되었습니다.');
+						location.href = '/member/join.view';
+				    }
+					
+					return {
+				      data: {
+				        message: '이미 가입되어 있는 번호입니다.'
+				      }
+				    };
+				});
+			}
+			
+			acceessableCount = acceessableCount + 1;
 				
-				return {
-			      data: {
-			        message: '이미 가입되어 있는 번호입니다.'
-			      }
-			    };
-			});	
         } else {
 			alert('항목을 올바르게 입력해주세요.');
 		}
@@ -82,4 +93,15 @@ new Vue({
       });
     }
   }
-}) 
+})
+
+
+$('input[name="birthday"]').daterangepicker({
+	singleDatePicker : true,
+	locale: {
+      format: 'YYYYMMDD',
+      separator: '',
+      applyLabel: "적용",
+      cancelLabel: "닫기"
+    } 	
+}); 

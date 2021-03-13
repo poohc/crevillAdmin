@@ -1,3 +1,5 @@
+var acceessableCount = 1; //동시접근제한수
+
 Vue.use(VeeValidate, {
   locale: 'ko',
   dictionary: {
@@ -19,23 +21,32 @@ new Vue({
       this.$validator.validate().then((result) => {
         if (result) {
 	        
- 			var formdata = new FormData();
-			formdata.append("buyCellPhone", $('#buyCellPhone').val());
-			formdata.append("voucherNo", $('input[name="voucherNo"]').val());
-			formdata.append("usedChildrenName", $('#usedChildrenName').val());
-			formdata.append("pgType", $('#pgType').val());
-			formdata.append("approvalNo", $('#approvalNo').val());
-			axios.post('/voucher/sale.proc', formdata,{
-				  headers: {
-					'Content-Type': 'multipart/form-data'
-				  }
-				}).then((response) => {
-				if (response.data.resultCd == '00') {
-			      	alert('정상처리 되었습니다.');
-					location.href = '/voucher/sale.view';
-			    }
-				
-			});	
+			acceessableCount  = acceessableCount - 1; //count부터 뺀다
+			
+			if (acceessableCount < 0 ) {
+		    	alert("이미 작업이 수행중입니다.");
+		    } else {
+				var formdata = new FormData();
+				formdata.append("buyCellPhone", $('#buyCellPhone').val());
+				formdata.append("voucherNo", $('input[name="voucherNo"]').val());
+				formdata.append("usedChildrenName", $('#usedChildrenName').val());
+				formdata.append("pgType", $('#pgType').val());
+				formdata.append("approvalNo", $('#approvalNo').val());
+				axios.post('/voucher/sale.proc', formdata,{
+					  headers: {
+						'Content-Type': 'multipart/form-data'
+					  }
+					}).then((response) => {
+					if (response.data.resultCd == '00') {
+				      	alert('정상처리 되었습니다.');
+						location.href = '/voucher/sale.view';
+				    }
+					
+				});	
+			}
+			
+			acceessableCount = acceessableCount + 1;	
+ 			
         } else {
 			alert('항목을 올바르게 입력해주세요.');
 		}
@@ -56,11 +67,18 @@ $('#searchMemberNameBtn').click(function(){
 		    },
 			url : '/member/getMemberInfo.proc',
 			success : function(data){
-				$('#searchResultName').text(data[0].name);
-				for(var i=0; i < data.length; i++){
-					$("#usedChildrenName").append('<option value="' + data[i].childName + '">' + data[i].childName + '</option');
+				
+				if(data.length > 0){
+					$('#searchResultName').text(data[0].name);
+					for(var i=0; i < data.length; i++){
+						$("#usedChildrenName").append('<option value="' + data[i].childName + '">' + data[i].childName + '</option');
+					}
+					$('#gradeType').trigger('change');	
+				} else {
+					alert('고객정보가 없습니다.');
+					return false;	
 				}
-				$('#gradeType').trigger('change');				
+								
 			},
 			error : function(error) {
 		        alert("이름검색 중 오류가 발생했습니다. 다시 시도하여 주세요.");

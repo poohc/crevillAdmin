@@ -1,3 +1,5 @@
+var acceessableCount = 1; //동시접근제한수
+
 Vue.use(VeeValidate, {
   locale: 'ko',
   dictionary: {
@@ -27,22 +29,31 @@ new Vue({
       this.$validator.validate().then((result) => {
         if (result) {
 	        
- 			var formdata = new FormData();
-			formdata.append("cellPhone", $('#cellPhone').val());
-			formdata.append("voucherNo", $('#voucherNo').val());
-			formdata.append("scheduleId", $('#scheduleId').val());
+			acceessableCount  = acceessableCount - 1; //count부터 뺀다
 			
-			axios.post('/reservation/regist.proc', formdata,{
-				  headers: {
-					'Content-Type': 'multipart/form-data'
-				  }
-				}).then((response) => {
-				if (response.data.resultCd == '00') {
-			      	alert('정상처리 되었습니다.');
-					location.href = '/reservation/regist.view';
-			    }
+			if (acceessableCount < 0 ) {
+		    	alert("이미 작업이 수행중입니다.");
+		    } else {
+				var formdata = new FormData();
+				formdata.append("cellPhone", $('#cellPhone').val());
+				formdata.append("voucherNo", $('#voucherNo').val());
+				formdata.append("scheduleId", $('#scheduleId').val());
 				
-			});	
+				axios.post('/reservation/regist.proc', formdata,{
+					  headers: {
+						'Content-Type': 'multipart/form-data'
+					  }
+					}).then((response) => {
+					if (response.data.resultCd == '00') {
+				      	alert('정상처리 되었습니다.');
+						location.href = '/reservation/regist.view';
+				    }
+					
+				});	
+			}
+			
+ 			acceessableCount = acceessableCount + 1;
+		
         } else {
 			alert('항목을 올바르게 입력해주세요.');
 		}

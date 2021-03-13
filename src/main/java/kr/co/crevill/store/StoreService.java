@@ -2,6 +2,8 @@ package kr.co.crevill.store;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class StoreService {
@@ -41,11 +44,10 @@ public class StoreService {
 	 * @param staffDto
 	 * @return
 	 */
-	public JSONObject insertStore(StoreDto storeDto) {
+	public JSONObject insertStore(StoreDto storeDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		//TODO 로그인되면 삭제할것
-		storeDto.setRegId("devjyp");
+		storeDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
 		if(storeDto.getRegistrationCertificate() != null && !storeDto.getRegistrationCertificate().isEmpty()) {
 			FileVo fileVo = commonMapper.selectFileIdx();

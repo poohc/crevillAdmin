@@ -81,6 +81,8 @@ public class VoucherController {
 		if(CrevillConstants.RESULT_FAIL.equals(result.get("resultCd"))) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);	//기회원 이므로 성공 코드 리턴
 			result.put("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));	
+		} else {
+			result.put("resultCd", CrevillConstants.RESULT_FAIL);	//기회원 이므로 성공 코드 리턴
 		}
 		return result;
 	}

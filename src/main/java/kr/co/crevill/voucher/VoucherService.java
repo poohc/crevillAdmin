@@ -71,7 +71,8 @@ public class VoucherService {
 		if("0".equals(voucherDto.getUseTime())){ 
 			voucherDto.setUseTime(CrevillConstants.VOUCHER_UNLIMITED_TIME);
 		}
-		
+		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC
 			int cnt = voucherDto.getAttribute().split(",").length;
