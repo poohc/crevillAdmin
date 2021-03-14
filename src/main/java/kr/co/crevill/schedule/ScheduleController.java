@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.SessionUtil;
 
 @Controller
 @RequestMapping("schedule")
@@ -35,6 +36,7 @@ public class ScheduleController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("schedule/list");
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		scheduleDto.setScheduleType("ALL");
 		mav.addObject("allList", scheduleService.selectScheduleList(scheduleDto));
 		scheduleDto.setScheduleType("ING");
@@ -79,7 +81,8 @@ public class ScheduleController {
 	public JSONObject getScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		scheduleDto.setScheduleType("ING");
+		scheduleDto.setScheduleType("ALL");
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
 		if(scheduleList != null && scheduleList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

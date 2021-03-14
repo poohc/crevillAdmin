@@ -34,4 +34,8 @@ public class CommonService {
 	public List<CommonVo> selectVoucherStatInfo() {
 		return commonMapper.selectVoucherStatInfo();
 	}
+	
+	public List<CommonVo> selectTodayReservationInfo(CommonDto commonDto){
+		return commonMapper.selectTodayReservationInfo(commonDto);
+	}
 }

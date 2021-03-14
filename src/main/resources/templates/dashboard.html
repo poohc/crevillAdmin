@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="layout/default">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/dashboardScript.js')}">
 
 <th:block layout:fragment="content">
-	<div class="page-body">
+	<div class="page-body" id="dashboardDiv">
 		<div class="container-fluid">
 			<div class="page-title"></div>
 		</div>
@@ -259,16 +259,10 @@
 							<div class="header-top">
 								<h5 class="m-0">시간대별 예약자</h5>
 								<div class="card-header-right-icon">
-									<select class="button btn btn-primary">
-										<option>11시</option>
-										<option>12시</option>
-										<option>13시</option>
-										<option>14시</option>
-										<option>15시</option>
-										<option>16시</option>
-										<option>17시</option>
-										<option>18시</option>
-										<option>19시</option>
+									<select class="button btn btn-primary" id="reservationTime" name="reservationTime" @change="예약검색($event)">
+										<th:block th:each="list : ${todayReservationList}">
+											<option th:text="|${list.reservationTime}시|"></option>
+										</th:block>
 									</select>
 								</div>
 							</div>
@@ -277,65 +271,39 @@
 							<div class="appointment-table table-responsive">
 								<table class="table table-bordernone">
 									<tbody>
-										<tr>
+										<tr v-for="item in list">
+<!-- 											<td> -->
+<!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
+<!-- 												<div class="status-circle bg-primary"></div> -->
+<!-- 											</td> -->
+											<td class="img-content-box">
+												<span class="d-block">{{item.reservationName}}</span>
+												<span class="font-roboto">{{item.cellPhone}}</span>
+											</td>
 											<td>
-												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
-												<div class="status-circle bg-primary"></div></td>
-											<td class="img-content-box"><span class="d-block">송강호</span><span
-												class="font-roboto">010-1234-1234</span></td>
-											<td>
-												<p class="m-0 font-primary">2021/01/20</p>
+												<p class="m-0 font-primary">{{item.reservationDate}}</p>
 											</td>
 											<td class="text-right">
 												<div class="button btn btn-primary">
-													입장<i class="fa fa-check-circle ml-2"></i>
+													{{item.reservationStatus}}<i class="fa fa-check-circle ml-2"></i>
 												</div>
 											</td>
 										</tr>
-										<tr>
-											<td>
-												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
-												<div class="status-circle bg-primary"></div></td>
-											<td class="img-content-box"><span class="d-block">김혜수</span><span
-												class="font-roboto">010-5555-8888</span></td>
-											<td>
-												<p class="m-0 font-primary">2021/01/20</p>
-											</td>
-											<td class="text-right">
-												<div class="button btn btn-danger">
-													지연<i class="fa fa-check-circle ml-2"></i>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td><img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
-												<div class="status-circle bg-primary"></div></td>
-											<td class="img-content-box"><span class="d-block">김혜수</span><span
-												class="font-roboto">010-5555-8888</span></td>
-											<td>
-												<p class="m-0 font-primary">2021/01/20</p>
-											</td>
-											<td class="text-right">
-												<div class="button btn btn-danger">
-													지연<i class="fa fa-check-circle ml-2"></i>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description">
-												<div class="status-circle bg-primary"></div></td>
-											<td class="img-content-box"><span class="d-block">김혜수</span><span
-												class="font-roboto">010-5555-8888</span></td>
-											<td>
-												<p class="m-0 font-primary">2021/01/20</p>
-											</td>
-											<td class="text-right">
-												<div class="button btn btn-danger">
-													지연<i class="fa fa-check-circle ml-2"></i>
-												</div>
-											</td>
-										</tr>
+<!-- 										<tr> -->
+<!-- 											<td> -->
+<!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
+<!-- 												<div class="status-circle bg-primary"></div></td> -->
+<!-- 											<td class="img-content-box"><span class="d-block">김혜수</span><span -->
+<!-- 												class="font-roboto">010-5555-8888</span></td> -->
+<!-- 											<td> -->
+<!-- 												<p class="m-0 font-primary">2021/01/20</p> -->
+<!-- 											</td> -->
+<!-- 											<td class="text-right"> -->
+<!-- 												<div class="button btn btn-danger"> -->
+<!-- 													지연<i class="fa fa-check-circle ml-2"></i> -->
+<!-- 												</div> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
 									</tbody>
 								</table>
 							</div>

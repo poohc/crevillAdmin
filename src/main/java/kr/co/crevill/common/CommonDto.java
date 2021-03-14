@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class CommonVo {
+public class CommonDto {
 	private String voucherTimeLeftHour;
 	private String reservationCount;
 	private String memberCount;

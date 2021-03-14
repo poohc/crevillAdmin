@@ -37,6 +37,8 @@ public class CrevillAop {
 		String contextPath = ""; 
 		String servletPath = "";
 		
+		logger.info("requestUri : " + requestUri);
+		
 		if(requestUri.split("/").length > 1) {
 			contextPath = requestUri.split("/")[1];
 			servletPath = requestUri.split("/")[2];	
