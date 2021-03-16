@@ -25,8 +25,7 @@
            <if test="operationType != null and operationType != 'BOTH'.toString()">
            AND OPERATION_TYPE = #{operationType}
            </if>
-        </where> 
-         LIMIT #{startPage}, #{recordsPerPage}
+        </where>
     </select>
 	
 	<select id="selectPlayInfo" parameterType="kr.co.crevill.play.PlayDto" resultType="kr.co.crevill.play.PlayVo">

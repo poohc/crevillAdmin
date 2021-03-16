@@ -54,8 +54,51 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM STORE
-      ORDER BY SORT_RANK   
-         LIMIT #{startPage}, #{recordsPerPage}
+      ORDER BY SORT_RANK
+    </select>
+	
+	<select id="selectStoreInfo" parameterType="kr.co.crevill.store.StoreDto" resultType="kr.co.crevill.store.StoreVo">
+        SELECT STORE_ID,
+			   STORE_NAME,
+			   STORE_NAME_REG,
+			   TEL_NO,
+			   SORT_RANK,
+			   REGISTRATION_NUMBER,
+			   CEO,
+			   ADDRESS,
+			   OPEN_DAY,
+			   CASE WHEN CLOSE_DAY = 'MON' THEN '매주 월요일'
+			        WHEN CLOSE_DAY = 'TUE' THEN '매주 화요일'
+			        WHEN CLOSE_DAY = 'WED' THEN '매주 수요일'
+			        WHEN CLOSE_DAY = 'THU' THEN '매주 목요일'
+			        WHEN CLOSE_DAY = 'FRI' THEN '매주 금요일'
+			        WHEN CLOSE_DAY = 'SAT' THEN '매주 토요일'
+			        WHEN CLOSE_DAY = 'SUN' THEN '매주 일요일'
+			        ELSE '휴무없음' END AS CLOSE_DAY,
+			   STORE_TYPE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_STATUS' AND CODE_KEY = STORE.STORE_STATUS) STORE_STATUS,
+			   (SELECT GROUP_CONCAT(B.CODE_KEY SEPARATOR ',') FROM STORE_PLAY A, COMMON_CODE B WHERE A.STORE_ID = STORE.STORE_ID AND A.PLAY_ID = B.CODE_KEY) PLAY_KEY,
+			   (SELECT GROUP_CONCAT(B.CODE_VALUE SEPARATOR ',') FROM STORE_PLAY A, COMMON_CODE B WHERE A.STORE_ID = STORE.STORE_ID AND A.PLAY_ID = B.CODE_KEY) PLAY_NAME,
+			   REGISTRATION_CERTIFICATE_IDX,
+			   PLAYGROUND_CERTIFICATE_IDX,
+			   INSURANCE_CERTIFICATE_IDX,
+			   ETC_FILE_1_IDX,
+			   ETC_FILE_2_IDX,
+			   ETC_FILE_3_IDX,
+			   ETC_FILE_4_IDX,
+			   THUMBNAIL_IMAGE_IDX,
+			   IMAGE_1_IDX,
+			   IMAGE_2_IDX,
+			   IMAGE_3_IDX,
+			   IMAGE_4_IDX,
+			   IMAGE_5_IDX,
+			   IMAGE_6_IDX,
+			   REG_ID,
+			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+			   UPD_ID,
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+          FROM STORE
+         WHERE STORE_ID = #{storeId}
     </select>
 	
 	<insert id="insertStore" parameterType="kr.co.crevill.store.StoreDto">
@@ -133,5 +176,50 @@
 							   NOW()
 	                          )
 	</insert>
+	
+	<update id="updateStore" parameterType="kr.co.crevill.store.StoreDto">
+		UPDATE STORE 				
+    	  <set>
+       	   <if test="storeName != null">STORE_NAME = #{storeName},</if>
+		   <if test="storeNameReg != null">STORE_NAME_REG = #{storeNameReg},</if>
+		   <if test="storeType != null">STORE_TYPE = #{storeType},</if>
+		   <if test="telNo != null">TEL_NO = #{telNo},</if>
+		   <if test="sortRank != null">SORT_RANK = #{sortRank},</if>
+		   <if test="registrationNumber != null">REGISTRATION_NUMBER = #{registrationNumber},</if>
+		   <if test="ceo != null">CEO = #{ceo},</if>
+		   <if test="address != null">ADDRESS = #{address},</if>
+		   <if test="openDay != null">OPEN_DAY = #{openDay},</if>
+		   <if test="closeDay != null">CLOSE_DAY = #{closeDay},</if>
+		   <if test="registrationCertificateIdx != null">REGISTRATION_CERTIFICATE_IDX = #{registrationCertificateIdx, jdbcType=VARCHAR},</if>
+		   <if test="playgroundCertificateIdx != null">PLAYGROUND_CERTIFICATE_IDX = #{playgroundCertificateIdx, jdbcType=VARCHAR},</if>
+		   <if test="insuranceCertificateIdx != null">INSURANCE_CERTIFICATE_IDX = #{insuranceCertificateIdx, jdbcType=VARCHAR},</if>
+		   <if test="etcFile1Idx != null">ETC_FILE_1_IDX = #{etcFile1Idx},</if>
+		   <if test="etcFile2Idx != null">ETC_FILE_2_IDX = #{etcFile2Idx},</if>
+		   <if test="etcFile3Idx != null">ETC_FILE_3_IDX = #{etcFile3Idx},</if>
+		   <if test="etcFile4Idx != null">ETC_FILE_4_IDX = #{etcFile4Idx},</if>
+		   <if test="thumbnailImageIdx != null">THUMBNAIL_IMAGE_IDX = #{thumbnailImageIdx},</if>
+		   <if test="image1Idx != null">IMAGE_1_IDX = #{image1Idx},</if>
+		   <if test="image2Idx != null">IMAGE_2_IDX = #{image2Idx},</if>
+		   <if test="image3Idx != null">IMAGE_3_IDX = #{image3Idx},</if>
+		   <if test="image4Idx != null">IMAGE_4_IDX = #{image4Idx},</if>
+		   <if test="image5Idx != null">IMAGE_5_IDX = #{image5Idx},</if>
+		   <if test="image6Idx != null">IMAGE_6_IDX = #{image6Idx},</if>
+		   UPD_ID = #{updId},
+		   UPD_DATE = NOW()
+    	  </set>		
+   		 WHERE STORE_ID = #{storeId}					   
+    </update>
+	
+	<delete id="deleteStore" parameterType="kr.co.crevill.store.StoreDto">
+		DELETE
+		  FROM STORE
+		 WHERE STORE_ID = #{storeId}
+	</delete>
+	
+	<delete id="deleteStorePlay" parameterType="kr.co.crevill.store.StoreDto">
+		DELETE
+		  FROM STORE_PLAY
+		 WHERE STORE_ID = #{storeId}
+	</delete>
 	
 </mapper>

@@ -1,5 +1,8 @@
 package kr.co.crevill.store;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -16,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
-import kr.co.crevill.play.PlayDto;
 import kr.co.crevill.play.PlayService;
 
 @Controller
@@ -52,11 +54,45 @@ public class StoreController {
 		return mav;
 	}
 	
+	@GetMapping("update.view")
+	public ModelAndView update(HttpServletRequest request, StoreDto storeDto) {
+		ModelAndView mav = new ModelAndView("store/update");
+		CommonCodeDto commonCodeDto = new CommonCodeDto();
+		commonCodeDto.setCodeType("STORE_TYPE");
+		mav.addObject("storeType", commonService.selectCommonCode(commonCodeDto));
+		commonCodeDto.setCodeType("CLASS_TYPE");
+		mav.addObject("playList", commonService.selectCommonCode(commonCodeDto));
+		StoreVo storeVo = storeService.selectStoreInfo(storeDto);
+		List<String> playKeyList = new ArrayList<String>();
+		for(String playKey : storeVo.getPlayKey().split(",")) {
+			playKeyList.add(playKey);
+		}
+		mav.addObject("info", storeVo);
+		mav.addObject("playKeyList", playKeyList);
+		return mav;
+	}
+	
 	@PostMapping("regist.proc")
 	@ResponseBody
 	public JSONObject registProc(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
 		JSONObject result = new JSONObject();
 		result = storeService.insertStore(storeDto, request);
+		return result;
+	}
+	
+	@PostMapping("update.proc")
+	@ResponseBody
+	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
+		JSONObject result = new JSONObject();
+		result = storeService.updateStore(storeDto, request);
+		return result;
+	}
+	
+	@PostMapping("delete.proc")
+	@ResponseBody
+	public JSONObject deleteProc(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
+		JSONObject result = new JSONObject();
+		result = storeService.deleteStore(storeDto, request);
 		return result;
 	}
 }

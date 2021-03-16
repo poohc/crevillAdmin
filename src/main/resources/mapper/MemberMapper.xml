@@ -25,7 +25,6 @@
                CASE WHEN STATUS = 'A' THEN 'Active'
             		ELSE 'Inactive' END AS STATUS
           FROM MEMBER_PARENT
-         LIMIT #{startPage}, #{recordsPerPage}
     </select>
 
     <select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">

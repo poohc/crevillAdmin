@@ -35,7 +35,6 @@
            AND GRADE IN ('VIP_ANON', 'NORMAL')
            </if>
         </where>
-         LIMIT #{startPage}, #{recordsPerPage}
     </select>
     
     <select id="getVoucherList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">

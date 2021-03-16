@@ -38,7 +38,6 @@
                                 AND NOW()                                    	
 		   </if>
         </where>
-         LIMIT #{startPage}, #{recordsPerPage}
     </select>
 	
 	<insert id="insertSchedule" parameterType="kr.co.crevill.schedule.ScheduleDto">

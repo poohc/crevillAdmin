@@ -45,8 +45,7 @@
           FROM RESERVATION A,
                SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
-      ORDER BY A.REG_DATE DESC  
-         LIMIT #{startPage}, #{recordsPerPage}
+      ORDER BY A.REG_DATE DESC
     </select>
 	
 	<select id="selectReservationSearchList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.reservation.ReservationVo">

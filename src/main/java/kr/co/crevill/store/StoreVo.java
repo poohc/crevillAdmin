@@ -8,6 +8,7 @@ import lombok.ToString;
 public class StoreVo {
 	private String storeId;
 	private String playId;
+	private String playKey;
 	private String playName;
 	private String storeName;
 	private String storeNameReg;
