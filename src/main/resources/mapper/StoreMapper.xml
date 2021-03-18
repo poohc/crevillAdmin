@@ -10,6 +10,7 @@
 	<select id="selectStoreCount" parameterType="kr.co.crevill.store.StoreDto" resultType="Integer">
         SELECT COUNT(*)
           FROM STORE
+         WHERE STORE_ID != 'ADMIN'          
     </select>
 	
     <select id="selectStoreList" parameterType="kr.co.crevill.store.StoreDto" resultType="kr.co.crevill.store.StoreVo">
@@ -54,6 +55,7 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM STORE
+         WHERE STORE_ID != 'ADMIN' 
       ORDER BY SORT_RANK
     </select>
 	

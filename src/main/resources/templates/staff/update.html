@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/staffUpdateScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<form class="form theme-form" id="staffForm" @submit.prevent="validateBeforeSubmit" action="/staff/regist.proc" method="post" enctype="multipart/form-data">
+					<input type="hidden" id="staffId" name="staffId" th:value="${info.staffId}">
+					<div class="card">
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="workerType">등록구분</label>
+											<select class="form-control form-control-lg" id="workerType" name="workerType">
+												<option th:each="workerType : ${workerType}" th:text="${workerType.codeValue}" th:value="${workerType.codeKey}" th:selected="${workerType.codeKey} == ${info.workerType}"></option>
+											</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="name">성함(한글)</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="name" name="name"  type="text" placeholder="성함" th:value="${info.name}">
+										<label class="col-form-label-sm" for="name" v-if="errors.has('name')">{{ errors.first('name') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="nameEng">성함(영문)</label>
+										<input class="form-control form-control-lg" v-validate="'required|alpha'" id="nameEng" name="nameEng" type="text" placeholder="Name" th:value="${info.nameEng}">
+										<label class="col-form-label-sm" for="nameEng" v-if="errors.has('nameEng')">{{ errors.first('nameEng') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="telNo">연락처</label> 
+											<input class="form-control" v-validate="'required|numeric|min:10|max:11'" id="telNo" name="telNo" type="text" placeholder="- 없이 입력" th:value="${info.telNo}">
+											<label class="col-form-label-sm" for="telNo" v-if="errors.has('telNo')">{{ errors.first('telNo') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="address">주소</label>
+										<input class="form-control form-control-sm" v-validate="'required'" id="address" name="address" type="text" placeholder="주소" th:value="${info.address}">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="startDate">입사일</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="startDate" name="startDate" type="text" th:value="${info.startDate}">
+										<label class="col-form-label-sm" for="startDate" v-if="errors.has('startDate')">{{ errors.first('startDate') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="storeId">근무지점</label>
+											<select class="form-control form-control-lg" id="storeId" name="storeId">
+												<option th:each="storeList : ${storeList}" th:text="${storeList.storeName}" th:value="${storeList.storeId}" th:selected="${storeList.storeId} == ${info.storeId}"></option>
+											</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<p>권한구분</p>
+								</div>
+								<div class="col">
+									<div class="radio radio-primary" th:each="staffGrade, i : ${staffGrade}">
+										<input id="radioinline1" v-validate="'required'" type="radio" th:id="'staffGrade' + ${i.index}" name="staffGrade" th:value=${staffGrade.codeKey}  th:checked="${staffGrade.codeKey} == ${info.staffGrade}" />
+										<label class="mb-0" th:for="'staffGrade' + ${i.index}" th:text="${staffGrade.codeValue}"></label>
+									</div>
+									<label class="col-form-label-sm" for="staffGrade" v-if="errors.has('staffGrade')">{{ errors.first('staffGrade') }}</label>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5>사진 및 서류 등록</h5>
+						</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">사진등록</label>
+											<div class="col-sm-9">
+												<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.idPictureIdx})}" style="width: 10%;float: left;">
+												<input class="form-control" type="file" id="idPicture" name="idPicture" style="width: 90%;">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">위생증 등록(option)</label>
+											<div class="col-sm-9">
+												<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.healthCertificateIdx})}" style="width: 10%;float: left;">
+												<input class="form-control" type="file" id="healthCertificate" name="healthCertificate" style="width: 90%;">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">이력서(option)</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="file" id="resume" name="resume">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<button class="btn btn-primary" type="submit">수정</button>
+								<input class="btn btn-light" type="reset" value="리스트" onclick="list();">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

@@ -11,10 +11,10 @@
     		<th:block th:replace="fragments/header :: headerFragment"></th:block>
     		<div class="page-body-wrapper sidebar-icon">
     			<!-- 사이드바-->
-    			<th:block th:if="${session.staffVo.staffGrade == 'SUPERVISOR'}">
+    			<th:block th:if="${session.staffVo.staffGrade == 'ADMIN'}">
             		<th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
             	</th:block>
-            	<th:block th:unless="${session.staffVo.staffGrade == 'SUPERVISOR'}">
+            	<th:block th:unless="${session.staffVo.staffGrade == 'ADMIN'}">
             		<th:block th:replace="fragments/sidebarSub :: sidebarSubFragment"></th:block>
             	</th:block>
             	<th:block layout:fragment="content"></th:block>

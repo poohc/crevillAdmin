@@ -30,7 +30,7 @@
 			<div class="left-header col horizontal-wrapper pl-0">
 				<ul class="horizontal-menu">
 					<li class="mega-menu outside">
-						<th:block th:if="${session.staffVo.staffGrade == 'SUPERVISOR'}">
+						<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
 							<a class="nav-link" href="#!">
 								<i data-feather="layers"></i>
 								<span>업무</span>

@@ -1,6 +1,10 @@
 package kr.co.crevill.staff;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -13,6 +17,7 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class StaffService {
@@ -41,6 +46,10 @@ public class StaffService {
 		return staffMapper.selectInstructorList(instructorDto);
 	}
 	
+	public StaffVo selectStaffInfo(StaffDto staffDto) {
+		return staffMapper.selectStaffInfo(staffDto);
+	}
+	
 	/**
 	 * 직원 저장 처리 
 	 * @methodName : insertStaffInfo
@@ -49,10 +58,10 @@ public class StaffService {
 	 * @param staffDto
 	 * @return
 	 */
-	public JSONObject insertStaffInfo(StaffDto staffDto) {
+	public JSONObject insertStaffInfo(StaffDto staffDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		
+		staffDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		if(staffDto.getIdPicture() != null && !staffDto.getIdPicture().isEmpty()) {
 			FileVo fileVo = commonMapper.selectImagesIdx();
 			staffDto.setIdPictureIdx(fileVo.getImageIdx());
@@ -82,6 +91,66 @@ public class StaffService {
 		
 		//직원정보 INSERT 
 		if(staffMapper.insertStaffInfo(staffDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}	
+	
+	/**
+	 * 직원 수정 처리 
+	 * @methodName : insertStaffInfo
+	 * @author : Juyoung Park
+	 * @date : 2021.02.16
+	 * @param staffDto
+	 * @return
+	 */
+	public JSONObject updateStaffInfo(StaffDto staffDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		staffDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(staffDto.getIdPicture() != null && !staffDto.getIdPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			staffDto.setIdPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("직원사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(staffDto.getHealthCertificate() != null && !staffDto.getHealthCertificate().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			staffDto.setHealthCertificateIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("보건증");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		if(staffDto.getResume() != null && !staffDto.getResume().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			staffDto.setResumeIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("이력서");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		//직원정보 업데이트 
+		if(staffMapper.updateStaffInfo(staffDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}	
+	
+	public JSONObject updateEnd(StaffDto staffDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		staffDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		//직원퇴사 처리
+		staffDto.setEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		staffDto.setStatus(CrevillConstants.STAFF_STATUS_INACTIVE);
+		if(staffMapper.updateStaffInfo(staffDto) > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;

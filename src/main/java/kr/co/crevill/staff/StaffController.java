@@ -56,11 +56,41 @@ public class StaffController {
 		return mav;
 	}
 	
+	@GetMapping("update.view")
+	public ModelAndView update(HttpServletRequest request, StaffDto staffDto) {
+		ModelAndView mav = new ModelAndView("staff/update");
+		CommonCodeDto commonCodeDto = new CommonCodeDto();
+		commonCodeDto.setCodeType("WORKER_TYPE");
+		mav.addObject("workerType", commonService.selectCommonCode(commonCodeDto));
+		commonCodeDto.setCodeType("STAFF_GRADE");
+		mav.addObject("staffGrade", commonService.selectCommonCode(commonCodeDto));
+		StoreDto storeDto = new StoreDto();
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("info", staffService.selectStaffInfo(staffDto));
+		return mav;
+	}
+	
 	@PostMapping("regist.proc")
 	@ResponseBody
 	public JSONObject registProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
 		JSONObject result = new JSONObject();
-		result = staffService.insertStaffInfo(staffDto);
+		result = staffService.insertStaffInfo(staffDto, request);
+		return result;
+	}
+	
+	@PostMapping("update.proc")
+	@ResponseBody
+	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.updateStaffInfo(staffDto, request);
+		return result;
+	}
+	
+	@PostMapping("updateEnd.proc")
+	@ResponseBody
+	public JSONObject updateEndProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.updateEnd(staffDto, request);
 		return result;
 	}
 	

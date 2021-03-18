@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/staffListScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body">
@@ -39,13 +39,8 @@
 											<td th:text="${staffList.telNo}"></td>
 											<td th:text="${staffList.storeId}"></td>
 											<td>
-												<a href="" type="button">
-													<span class="badge badge-primary">정보수정</span>
-												</a> 
-												<a href="" type="button">
-													<span class="badge badge-secondary">근태조회</span>
-												</a>
-												<a href="" type="button">
+												<span class="badge badge-primary" th:attr="onclick=|staffUpdate('${staffList.staffId}','${staffList.storeId}')|">정보수정</span>
+												<a href="" type="button" th:attr="onclick=|staffDelete('${staffList.staffId}')|">
 													<span class="badge badge-warning">퇴사처리</span>
 												</a>
 											</td>
