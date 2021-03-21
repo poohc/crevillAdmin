@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberUpdateScript.js')}">
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" action="/member/update.proc" method="post">
+					<th:block th:each="info : ${info}">
+					<input type="hidden" id="originCellPhone" name="originCellPhone" th:value="${info.cellPhone}">
+					<input type="hidden" id="qrCode" name="qrCode" th:value="${info.qrCode}">
+					<div class="card">
+						<div class="card-header">
+							<h5>보호자 정보</h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="parentName">고객성함</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="parentName" name="parentName" type="text" placeholder="고객성함" th:value="${info.name}">
+										<label class="col-form-label-sm" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="email">이메일주소</label>
+										<input class="form-control form-control-lg" v-validate="'required|email'" id="email" name="email" type="text" placeholder="이메일주소" th:value="${info.email}">
+										<label class="col-form-label-sm" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="address">
+											거주지역<시,군,구>
+										</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="address" name="address" type="text" placeholder="(예)서초구" th:value="${info.address}">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="cellPhone">휴대폰번호</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력" th:value="${info.cellPhone}">
+										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')"><font style="color: red">{{ errors.first('cellPhone') }}</font></label>
+										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5>등록 아동정보</h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
+										<input class="form-control form-control-lg" v-validate="'required'" id="childName" name="childName" type="text" placeholder="아동성명" th:value="${info.childName}">
+										<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" type="text" th:value="${info.birthday}">
+										<label class="col-form-label-sm" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<p>성별</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+										<div class="radio radio-primary">
+											<input id="radioinline1" v-validate="'required|included:M,F'" type="radio" name="sex" value="M" th:checked="${info.sex == 'M'}">
+											<label class="mb-0" for="radioinline1">남자</label>
+										</div>
+										<div class="radio radio-primary">
+											<input id="radioinline2" type="radio" name="sex" value="F" th:checked="${info.sex == 'F'}">
+											<label class="mb-0" for="radioinline2">여자</label>
+										</div>
+										<label class="col-form-label-sm" for="sex" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+								<div class="col-sm-12">
+									<p>영어 학습 수준</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<div class="checkbox checkbox-dark" th:each="learningGrade, i: ${learningGradeList}">
+											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade" th:value=${learningGrade.codeValue} th:checked="${learningGrade.codeValue} == ${info.learningGrade}">
+											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label>
+										</div>
+										<label class="col-form-label-sm" for="learningGrade" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-primary" type="submit" data-toggle="modal">수정</button>
+							<input class="btn btn-light" type="reset" value="취소">
+						</div>
+					</div>
+					</th:block>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Container-fluid Ends-->
+	</div>
+</th:block>
+</html>

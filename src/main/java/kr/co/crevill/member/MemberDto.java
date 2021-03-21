@@ -15,7 +15,7 @@ public class MemberDto {
 	private String childName;
 	private String birthday;
 	private String sex;
-	private String learningLevel;
+	private String learningGrade;
 	private String qrCode;
 	private String regDate;
 	private String regId;

@@ -7,6 +7,9 @@
         SELECT COUNT(*)
           FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone}
+         <if test="cellPhone != null and cellPhone != ''">
+           AND CELL_PHONE != #{cellPhone}
+         </if>
     </select>
 	
 	<select id="selectMemberCount" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
@@ -24,7 +27,7 @@
                DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
                CASE WHEN STATUS = 'A' THEN 'Active'
             		ELSE 'Inactive' END AS STATUS
-          FROM MEMBER_PARENT
+          FROM MEMBER_PARENT 
     </select>
 
     <select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -32,13 +35,17 @@
                A.CELL_PHONE,
                A.EMAIL,
                A.ADDRESS,
+               A.QR_CODE,
                B.NAME CHILD_NAME,
                B.BIRTHDAY,
                B.SEX,
-               B.LEARNING_LEVEL
+               B.LEARNING_GRADE
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+           <if test="qrCode != null and qrCode != ''">
+           AND A.QR_CODE = #{qrCode}
+           </if>
            <if test="name != null and name != ''">
            AND A.NAME = #{name}
            </if>
@@ -46,7 +53,7 @@
            AND A.CELL_PHONE = #{cellPhone}
            </if>
     </select>
-
+	
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (
     								NAME,
@@ -75,7 +82,7 @@
     								NAME,
     								BIRTHDAY,
     								SEX,
-    								LEARNING_LEVEL
+    								LEARNING_GRADE
     							   )
 							VALUES (
 									#{parentName},
@@ -83,8 +90,33 @@
 									#{childName},
 									#{birthday},
 									#{sex},
-									#{learningLevel}
+									#{learningGrade}
 								   )
     </insert>
+	
+	<update id="updateMemberParent" parameterType="kr.co.crevill.member.MemberDto">
+    	UPDATE MEMBER_PARENT 
+    	  <set>
+	       	  <if test="name != null">NAME = #{parentName},</if>
+	       	  <if test="name != null">CELL_PHONE = #{cellPhone},</if>
+	       	  <if test="name != null">EMAIL = #{email},</if>
+	       	  <if test="name != null">ADDRESS = #{address},</if>
+	       	  UPD_ID = #{updId},
+			  UPD_DATE = NOW()
+       	  </set>
+        WHERE QR_CODE = #{qrCode} 
+    </update>
+	
+	<delete id="deleteMemberParent">
+		DELETE
+		  FROM MEMBER_PARENT
+		 WHERE QR_CODE = #{qrCode}  
+	</delete>
+	
+	<delete id="deleteMemberChildren">
+		DELETE 
+		  FROM MEMBER_CHILDREN
+		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
+	</delete>
 	
 </mapper>

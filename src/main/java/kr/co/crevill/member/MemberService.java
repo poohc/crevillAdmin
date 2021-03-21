@@ -3,6 +3,8 @@ package kr.co.crevill.member;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class MemberService {
@@ -35,22 +38,48 @@ public class MemberService {
 	public JSONObject checkMemberCellPhone(MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		//TODO 등록자 ID 수정해 줄것
-		memberDto.setRegId("devjyp");
 		if(memberMapper.checkExistCellPhone(memberDto) == 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;
 	}
 	
-	public JSONObject insertMemberInfo(MemberDto memberDto) {
+	public JSONObject insertMemberInfo(MemberDto memberDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		memberDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		//부모 정보 INSERT 성공 시 자녀정보 INSERT
 		if(memberMapper.insertMemberParent(memberDto) > 0) {
 			//자녀정보 INSERT 성공 시 resultCd = SUCC
 			if(memberMapper.insertMemberChildren(memberDto) > 0) {
 				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			}
+		}
+		return result;
+	}
+	
+	public JSONObject updateMemberInfo(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		memberDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		//부모 정보 INSERT 성공 시 자녀정보 INSERT
+		if(memberMapper.updateMemberParent(memberDto) > 0) {
+			//자녀 정보는 DELETE 후 INSERT 로 처리
+			if(memberMapper.deleteMemberChildren(memberDto) > 0) {
+				if(memberMapper.insertMemberChildren(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
+				}
+			}
+		}
+		return result;
+	}
+	
+	public JSONObject deleteMemberInfo(MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
+			if(memberMapper.deleteMemberParent(memberDto) > 0) {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 			}
 		}
 		return result;
