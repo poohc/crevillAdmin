@@ -32,6 +32,7 @@
 			        WHEN CLOSE_DAY = 'SAT' THEN '매주 토요일'
 			        WHEN CLOSE_DAY = 'SUN' THEN '매주 일요일'
 			        ELSE '휴무없음' END AS CLOSE_DAY,
+			   EXPERIENCE_CLASS,     
 			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_TYPE' AND CODE_KEY = STORE.STORE_TYPE) STORE_TYPE,
 			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_STATUS' AND CODE_KEY = STORE.STORE_STATUS) STORE_STATUS,
 <!-- 			   (SELECT GROUP_CONCAT(B.NAME SEPARATOR ',') FROM STORE_PLAY A, PLAY B WHERE A.STORE_ID = STORE.STORE_ID AND A.PLAY_ID = B.PLAY_ID) PLAY_NAME, -->
@@ -77,6 +78,7 @@
 			        WHEN CLOSE_DAY = 'SAT' THEN '매주 토요일'
 			        WHEN CLOSE_DAY = 'SUN' THEN '매주 일요일'
 			        ELSE '휴무없음' END AS CLOSE_DAY,
+			   EXPERIENCE_CLASS,     
 			   STORE_TYPE,
 			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'STORE_STATUS' AND CODE_KEY = STORE.STORE_STATUS) STORE_STATUS,
 			   (SELECT GROUP_CONCAT(B.CODE_KEY SEPARATOR ',') FROM STORE_PLAY A, COMMON_CODE B WHERE A.STORE_ID = STORE.STORE_ID AND A.PLAY_ID = B.CODE_KEY) PLAY_KEY,
@@ -116,6 +118,7 @@
 						   ADDRESS,
 						   OPEN_DAY,
 						   CLOSE_DAY,
+						   EXPERIENCE_CLASS,
 						   REGISTRATION_CERTIFICATE_IDX,
 						   PLAYGROUND_CERTIFICATE_IDX,
 						   INSURANCE_CERTIFICATE_IDX,
@@ -145,6 +148,7 @@
 						   #{address},
 						   #{openDay},
 						   #{closeDay},
+						   #{experienceClass},
 						   #{registrationCertificateIdx},
 						   #{playgroundCertificateIdx},
 						   #{insuranceCertificateIdx},
@@ -192,6 +196,7 @@
 		   <if test="address != null">ADDRESS = #{address},</if>
 		   <if test="openDay != null">OPEN_DAY = #{openDay},</if>
 		   <if test="closeDay != null">CLOSE_DAY = #{closeDay},</if>
+		   <if test="experienceClass != null">EXPERIENCE_CLASS = #{experienceClass},</if>
 		   <if test="registrationCertificateIdx != null">REGISTRATION_CERTIFICATE_IDX = #{registrationCertificateIdx, jdbcType=VARCHAR},</if>
 		   <if test="playgroundCertificateIdx != null">PLAYGROUND_CERTIFICATE_IDX = #{playgroundCertificateIdx, jdbcType=VARCHAR},</if>
 		   <if test="insuranceCertificateIdx != null">INSURANCE_CERTIFICATE_IDX = #{insuranceCertificateIdx, jdbcType=VARCHAR},</if>

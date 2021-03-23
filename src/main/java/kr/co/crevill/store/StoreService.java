@@ -53,6 +53,11 @@ public class StoreService {
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		storeDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
+		//체험학습 가능 여부 체크가 되어 있지 않으면 무조건 N
+		if(!"Y".equals(storeDto.getExperienceClass())) {
+			storeDto.setExperienceClass("N");
+		}
+		
 		if(storeDto.getRegistrationCertificate() != null && !storeDto.getRegistrationCertificate().isEmpty()) {
 			FileVo fileVo = commonMapper.selectFileIdx();
 			storeDto.setRegistrationCertificateIdx(fileVo.getFileIdx());
@@ -201,6 +206,11 @@ public class StoreService {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		storeDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		
+		//체험학습 가능 여부 체크가 되어 있지 않으면 무조건 N
+		if(!"Y".equals(storeDto.getExperienceClass())) {
+			storeDto.setExperienceClass("N");
+		}
 		
 		if(storeDto.getRegistrationCertificate() != null && !storeDto.getRegistrationCertificate().isEmpty()) {
 			FileVo fileVo = commonMapper.selectFileIdx();

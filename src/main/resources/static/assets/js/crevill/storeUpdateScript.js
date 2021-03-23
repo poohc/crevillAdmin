@@ -55,6 +55,7 @@ new Vue({
 				formdata.append("address", $('#address').val());
 				formdata.append("openDay", $('#openDay').val());
 				formdata.append("closeDay", $('#closeDay').val());
+				formdata.append("experienceClass", $("input[name=experienceClass]:checked").val());
 				
 				var storePlay = '';
 				$("input[name=storePlay]:checked").each(function() {

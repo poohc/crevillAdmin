@@ -1,5 +1,6 @@
 package kr.co.crevill.voucher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,11 +49,42 @@ public class VoucherController {
 		return mav;
 	}
 	
+	@GetMapping("update.view")
+	public ModelAndView update(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("voucher/update");
+		VoucherVo info = voucherService.selectVoucherInfo(voucherDto);
+		List<String> attributeList = new ArrayList<String>();
+		if(info.getAttribute() != null && info.getAttribute().length() > 0) {
+			for(String attribute : info.getAttribute().split(",")) {
+				attributeList.add(attribute);
+			}
+			mav.addObject("attributeList", attributeList);
+		}
+		mav.addObject("info", info);
+		return mav;
+	}
+	
 	@PostMapping("create.proc")
 	@ResponseBody
 	public JSONObject createProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
 		result = voucherService.insertVoucher(voucherDto, request);
+		return result;
+	}
+	
+	@PostMapping("update.proc")
+	@ResponseBody
+	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.updateVoucher(voucherDto, request);
+		return result;
+	}
+	
+	@PostMapping("delete.proc")
+	@ResponseBody
+	public JSONObject deleteProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.deleteVoucher(voucherDto);
 		return result;
 	}
 	

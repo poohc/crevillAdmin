@@ -23,6 +23,7 @@ public class StoreDto {
 	private String address;
 	private String openDay;
 	private String closeDay;
+	private String experienceClass;
 	private MultipartFile registrationCertificate;
 	private MultipartFile playgroundCertificate;
 	private MultipartFile insuranceCertificate;

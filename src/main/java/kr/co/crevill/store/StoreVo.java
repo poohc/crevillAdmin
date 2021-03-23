@@ -22,6 +22,7 @@ public class StoreVo {
 	private String address;
 	private String openDay;
 	private String closeDay;
+	private String experienceClass;
 	private String registrationCertificateIdx;
 	private String playgroundCertificateIdx;
 	private String insuranceCertificateIdx;

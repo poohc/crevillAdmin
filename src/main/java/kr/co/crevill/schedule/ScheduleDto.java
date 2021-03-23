@@ -19,6 +19,7 @@ public class ScheduleDto {
 	private String updId;
 	private String updDate;
 	private String storeId;
+	private String subTopic;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

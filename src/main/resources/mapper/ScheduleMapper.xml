@@ -49,6 +49,7 @@
 						      SCHEDULE_END,
 						      PLAY_ID,
 						      STORE_ID,
+						      SUB_TOPIC,
 						      REG_ID,
 						      REG_DATE		
    						     )
@@ -60,6 +61,7 @@
 						      DATE_ADD(DATE_FORMAT(STR_TO_DATE(#{scheduleStart}, '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S'), INTERVAL #{scheduleEnd} MINUTE),
 						      #{playId},
 						      #{storeId},
+						      #{subTopic},
 						      #{regId},
 						      NOW()
 					   		 )

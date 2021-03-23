@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherUpdateScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -10,7 +10,8 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12">
-					<form class="form theme-form" id="voucherForm" @submit.prevent="validateBeforeSubmit" action="/voucher/create.proc" method="post" enctype="multipart/form-data">
+					<form class="form theme-form" id="voucherForm" @submit.prevent="validateBeforeSubmit" action="/voucher/update.proc" method="post" enctype="multipart/form-data">
+					<input type="hidden" id="voucherNo" name="voucherNo" th:value="${info.voucherNo}">
 					<div class="card">
 						<div class="card-header">
 							<h5>바우처 생성</h5>
@@ -21,10 +22,10 @@
 									<div class="form-group">
 										<label for="grade">바우처등급</label>
 										<select class="form-control form-control-lg" id="grade" name="grade">
-											<option value="NORMAL">일반회원</option>
-											<option value="VIP_REGIST">VIP회원[기명]</option>
-											<option value="VIP_ANON">VIP회원[무기명]</option>
-											<option value="DISPOSABLE">1회권</option>
+											<option value="NORMAL" th:selected="${info.grade == 'NORMAL'}">일반회원</option>
+											<option value="VIP_REGIST" th:selected="${info.grade == 'VIP_REGIST'}">VIP회원[기명]</option>
+											<option value="VIP_ANON" th:selected="${info.grade == 'VIP_ANON'}">VIP회원[무기명]</option>
+											<option value="DISPOSABLE" th:selected="${info.grade == 'DISPOSABLE'}">1회권</option>
 										</select>
 									</div>
 								</div>
@@ -33,7 +34,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="ticketName">바우처 티켓명</label>
-										<input class="form-control form-control-lg" v-validate="'required'" id="ticketName" name="ticketName" type="text" placeholder="예) 20시간권">
+										<input class="form-control form-control-lg" v-validate="'required'" id="ticketName" name="ticketName" type="text" placeholder="예) 20시간권" th:value="${info.ticketName}">
 										<label class="col-form-label-sm" for="ticketName" v-if="errors.has('ticketName')">{{ errors.first('ticketName') }}</label>
 									</div>
 								</div>
@@ -42,7 +43,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="price">정가</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="price" name="price" type="text" placeholder="예) 500000">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="price" name="price" type="text" placeholder="예) 500000" th:value="${info.price}">
 										<label class="col-form-label-sm" for="price" v-if="errors.has('price')">{{ errors.first('price') }}</label>
 									</div>
 								</div>
@@ -51,7 +52,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="salePrice">판매금액</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="salePrice" name="salePrice" type="text" placeholder="예) 460000">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="salePrice" name="salePrice" type="text" placeholder="예) 460000" th:value="${info.salePrice}">
 										<label class="col-form-label-sm" for="salePrice" v-if="errors.has('salePrice')">{{ errors.first('salePrice') }}</label>
 									</div>
 								</div>
@@ -60,7 +61,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="useTime">이용시간</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="useTime" name="useTime" type="number" placeholder="예)시간단위 숫자입력 / 무제한은 0">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="useTime" name="useTime" type="number" placeholder="예)시간단위 숫자입력 / 무제한은 0" th:value="${info.useTime}">
 										<label class="col-form-label-sm" for="salePrice" v-if="errors.has('useTime')">{{ errors.first('useTime') }}</label>
 									</div>
 								</div>
@@ -69,24 +70,11 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="endDate">유효기간</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0"  th:value="${info.endDate}">
 										<label class="col-form-label-sm" for="endDate" v-if="errors.has('endDate')">{{ errors.first('endDate') }}</label>
 									</div>
 								</div>
 							</div>
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col"> -->
-<!-- 									<div class="form-group"> -->
-<!-- 										<label for="exampleFormControlSelect29">할인코드</label> -->
-<!-- 										<select class="form-control form-control-lg" id="saleCode" name="saleCode"> -->
-<!-- 											<option value="30">30%</option> -->
-<!-- 											<option value="40">40%</option> -->
-<!-- 											<option value="50">50%</option> -->
-<!-- 											<option value="60">60%</option> -->
-<!-- 										</select> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
 							<div class="row">
 								<div class="col-sm-12">
 									<p>바우처 티켓 속성</p>
@@ -94,23 +82,23 @@
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
 										<div class="checkbox checkbox-dark">
-											<input id="attributeA" type="checkbox" name="attribute" value="CLASS">
+											<input id="attributeA" type="checkbox" name="attribute" value="CLASS" th:checked="${#strings.contains(attributeList,'CLASS')}">
 											<label for="attributeA">CLASS</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeB" type="checkbox" name="attribute" value="TUTORING">
+											<input id="attributeB" type="checkbox" name="attribute" value="TUTORING" th:checked="${#strings.contains(attributeList,'TUTORING')}">
 											<label for="attributeB">TUTORING</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeC" type="checkbox" name="attribute" value="SPECIAL CAMP">
+											<input id="attributeC" type="checkbox" name="attribute" value="SPECIAL CAMP" th:checked="${#strings.contains(attributeList,'SPECIAL CAMP')}">
 											<label for="attributeC">SPECIAL CAMP</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeD" type="checkbox" name="attribute" value="가족공유">
+											<input id="attributeD" type="checkbox" name="attribute" value="가족공유" th:checked="${#strings.contains(attributeList,'가족공유')}">
 											<label for="attributeD">가족공유</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeE" type="checkbox" name="attribute" value="비회원">
+											<input id="attributeE" type="checkbox" name="attribute" value="비회원" th:checked="${#strings.contains(attributeList,'비회원')}">
 											<label for="attributeE">비회원 사용가능</label>
 										</div>
 									</div>
@@ -122,13 +110,14 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
-										<input class="form-control" type="file" id="image" name="image">
+										<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.imageIdx})}" style="width: 10%;float: left;">
+										<input class="form-control" type="file" id="image" name="image" style="width: 90%;">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="card-footer">
-							<button class="btn btn-primary" type="submit">등록</button>
+							<button class="btn btn-primary" type="submit">수정</button>
 							<input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">
 						</div>
 					</div>

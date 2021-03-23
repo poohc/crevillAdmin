@@ -64,6 +64,16 @@ public class CrevillAop {
         	logger.info("servletPath 확인 : " + servletPath);
         	
         	String menu = "";
+        	if(contextPath.indexOf("entrance") > -1) {
+        		menuDto.setUpperMenu("고객입장");
+        		if(servletPath.indexOf("member.view") > -1) {
+        			menu = "회원입장";
+        		}
+        		if(servletPath.indexOf("nonMember.view") > -1) {
+        			menu = "비회원입장";
+        		}
+        	}
+        	
         	if(contextPath.indexOf("member") > -1) {
         		menuDto.setUpperMenu("고객관리");
         		if(servletPath.indexOf("list.view") > -1) {

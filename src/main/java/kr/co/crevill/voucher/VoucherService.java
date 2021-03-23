@@ -34,6 +34,9 @@ public class VoucherService {
 	public List<VoucherVo> selectVoucherList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherList(voucherDto);
 	}
+	public VoucherVo selectVoucherInfo(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherInfo(voucherDto);
+	}
 	public List<VoucherVo> getVoucherList(VoucherDto voucherDto){
 		return voucherMapper.getVoucherList(voucherDto);
 	}
@@ -71,6 +74,11 @@ public class VoucherService {
 		if("0".equals(voucherDto.getUseTime())){ 
 			voucherDto.setUseTime(CrevillConstants.VOUCHER_UNLIMITED_TIME);
 		}
+		
+		if("0".equals(voucherDto.getEndDate())){ 
+			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
+		}
+		
 		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
@@ -89,6 +97,80 @@ public class VoucherService {
 		}
 		return result;
 	}	
+	
+	/**
+	 * 바우처 수정처리
+	 * @methodName : updateVoucher
+	 * @author : Juyoung Park
+	 * @date : 2021.03.24
+	 * @param voucherDto
+	 * @param request
+	 * @return
+	 */
+	public JSONObject updateVoucher(VoucherDto voucherDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		voucherDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(voucherDto.getImage() != null && !voucherDto.getImage().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			voucherDto.setImageIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(voucherDto.getImage());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("바우처사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		//무제한일 경우 UNLIMIT INSERT
+		if("0".equals(voucherDto.getUseTime())){ 
+			voucherDto.setUseTime(CrevillConstants.VOUCHER_UNLIMITED_TIME);
+		}
+		
+		if("0".equals(voucherDto.getEndDate())){ 
+			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
+		}
+		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
+		
+		//VOUCHER_ATTRIBUTE 테이블 데이터 먼저 삭제
+		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
+			if(voucherMapper.updateVoucher(voucherDto) > 0) {
+				//선택된 전달매체 모두 INSERT 성공해야 SUCC
+				int cnt = voucherDto.getAttribute().split(",").length;
+				int insCnt = 0;
+				for(String attribute : voucherDto.getAttribute().split(",")) {
+					voucherDto.setAttribute(attribute);
+					if(voucherMapper.insertVoucherAttribute(voucherDto) > 0) {
+						insCnt++;
+					}	
+				}
+				if(cnt == insCnt) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 바우처 삭제처리
+	 * @methodName : updateVoucher
+	 * @author : Juyoung Park
+	 * @date : 2021.03.24
+	 * @param voucherDto
+	 * @return
+	 */
+	public JSONObject deleteVoucher(VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
+			if(voucherMapper.deleteVoucher(voucherDto) > 0) {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * VOUCHER_SALE 테이블 INSERT 처리

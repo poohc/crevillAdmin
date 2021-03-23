@@ -113,11 +113,22 @@
 <!-- 											<label th:for="'storePlay' + ${i.index}" th:text="${playList.name}"></label> -->
 <!-- 										</div> -->
 										<div class="checkbox checkbox-dark" th:each="playList, i: ${playList}">
-											<input v-validate="'required'" th:id="'storePlay' + ${i.index}" type="checkbox" name="storePlay" th:value="${playList.codeKey}" th:checked="${#strings.contains(playKeyList,playList.codeKey)} ">
+											<input v-validate="'required'" th:id="'storePlay' + ${i.index}" type="checkbox" name="storePlay" th:value="${playList.codeKey}" th:checked="${#strings.contains(playKeyList,playList.codeKey)}">
 											<label th:for="'storePlay' + ${i.index}" th:text="${playList.codeValue}"></label>
 											<div th:text="${isExist}"></div>
 										</div>
 										<label class="col-form-label-sm" for="storePlay" v-if="errors.has('storePlay')">{{ errors.first('storePlay') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<label class="col-form-label-sm" for="experienceClass">체험수업</label>
+										<div class="checkbox checkbox-dark">
+											<input type="checkbox" id="experienceClass" name="experienceClass" value="Y" th:checked="${info.experienceClass == 'Y'}">
+											<label for="experienceClass"></label>
+										</div>
 									</div>
 								</div>
 							</div>

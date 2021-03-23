@@ -8,7 +8,8 @@ Vue.use(VeeValidate, {
 		      operationType : '운영구분',
 			  numberOfPeople : '이용인원',
    			  tutoringNumber : '튜터링인원',		  
-			  scheduleDate : '시작날짜선택'
+			  scheduleDate : '시작날짜선택',
+			  subTopic : '소주제'
 		    }
 	  	}
   }
@@ -20,7 +21,8 @@ new Vue({
     	operationType : '',
 	  	numberOfPeople : '',
 		tutoringNumber : '',	  	
-		scheduleStart : ''
+		scheduleStart : '',
+		subTopic : ''
     },
 	methods: {
     validateBeforeSubmit() {
@@ -44,6 +46,7 @@ new Vue({
 				formdata.append("playId", $('select[name="playId"]').val());
 				formdata.append("tutoringNumber", $('#tutoringNumber').val());
 				formdata.append("scheduleStart", $('#scheduleStart').val().replace(/[^0-9]/g,""));
+				formdata.append("subTopic", $('#subTopic').val());
 				
 				axios.post('/schedule/regist.proc', formdata,{
 					  headers: {

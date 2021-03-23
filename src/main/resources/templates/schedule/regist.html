@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleScript.js')}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -59,13 +59,22 @@
 	                            <label class="col-form-label-sm" for="tutoringNumber" v-if="errors.has('tutoringNumber')">{{ errors.first('tutoringNumber') }}</label>
 	                        </div>
 	                    </div>
-	                    <div class="col-lg-12">
+	                    <div class="col-xl-6">
 	                        <h6 class="sub-title">시작날짜선택</h6>
 	                        <div class="theme-form">
 	                            <div class="form-group">
 	                                <input class="form-control" v-validate="'required|min:16|max:16'" type="text" id="scheduleStart" name="scheduleStart">
 	                            </div>
 	                            <label class="col-form-label-sm" for="scheduleStart" v-if="errors.has('scheduleStart')">{{ errors.first('scheduleStart') }}</label>
+	                        </div>
+	                    </div>
+	                    <div class="col-xl-6">
+	                        <h6 class="sub-title">소주제 입력</h6>
+	                        <div class="theme-form">
+	                            <div class="form-group">
+	                                <input class="form-control" v-validate="'required'" type="text" id="subTopic" name="subTopic">
+	                            </div>
+	                            <label class="col-form-label-sm" for="subTopic" v-if="errors.has('subTopic')">{{ errors.first('subTopic') }}</label>
 	                        </div>
 	                    </div>
 	                </div>

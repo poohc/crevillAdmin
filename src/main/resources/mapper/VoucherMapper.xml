@@ -25,7 +25,7 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   IMAGE_IDX,
-			   (SELECT STORE_NAME FROM STORE WHERE STORE.STORE_ID = STORE_ID) STORE_NAME	
+			   (SELECT STORE_NAME FROM STORE WHERE STORE.STORE_ID = VOUCHER.STORE_ID) STORE_NAME	
           FROM VOUCHER
         <where>
            <if test="gradeType != null and gradeType == 'REGIST'.toString()">
@@ -35,6 +35,26 @@
            AND GRADE IN ('VIP_ANON', 'NORMAL')
            </if>
         </where>
+    </select>
+    
+    <select id="selectVoucherInfo" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+        SELECT A.VOUCHER_NO,
+			   A.GRADE,
+			   A.TICKET_NAME,
+			   A.PRICE,
+			   A.SALE_PRICE,
+			   CASE WHEN A.USE_TIME = 'UNLIMITED' THEN '0'
+			        ELSE A.USE_TIME END AS USE_TIME,
+			   CASE WHEN A.END_DATE > '28000000' THEN '0'
+			        ELSE A.END_DATE END AS END_DATE,
+			   A.REG_ID,
+			   DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
+			   A.UPD_ID,
+			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
+			   A.IMAGE_IDX,
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE 
+          FROM VOUCHER A
+         WHERE VOUCHER_NO = #{voucherNo}        
     </select>
     
     <select id="getVoucherList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
@@ -110,7 +130,7 @@
 						     #{price},
 						     #{salePrice},
 						     #{useTime},
-						     DATE_FORMAT(DATE_ADD(REG_DATE, INTERVAL #{endDate} MONTH), '%Y%m%d'),
+						     DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{endDate} MONTH), '%Y%m%d'),
 						     #{regId},
 						     NOW(),
 						     #{imageIdx},
@@ -165,7 +185,7 @@
 	         <if test="price != null">PRICE = #{price},</if>
 	         <if test="salePrice != null">SALE_PRICE = #{salePrice},</if>
 	         <if test="useTime != null">USE_TIME = #{useTime},</if>
-	         <if test="endDate != null">END_DATE = #{endDate},</if>
+	         <if test="endDate != null">END_DATE = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{endDate} MONTH), '%Y%m%d'),</if>
 	         <if test="imageIdx != null">IMAGE_IDX = #{imageIdx},</if>
 	         <if test="status != null">STATUS = #{status},</if>
 	         UPD_ID = #{updId},
@@ -188,5 +208,17 @@
     	 </set>		 
        WHERE VOUCHER_NO = #{voucherNo} 
 	</update>
+	
+	<delete id="deleteVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">
+		DELETE 
+		  FROM VOUCHER
+		 WHERE VOUCHER_NO = #{voucherNo} 
+	</delete>
+	
+	<delete id="deleteVoucherAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
+		DELETE 
+		  FROM VOUCHER_ATTRIBUTE
+		 WHERE VOUCHER_NO = #{voucherNo} 
+	</delete>
 		
 </mapper>

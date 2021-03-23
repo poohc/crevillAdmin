@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h5>11시</h5>
+							<!--현재 시간 기준으로 변경 시간대로 예약자 데이터 불러옴-->
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-xl-4 col-md-6">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<img class="align-self-center img-fluid img-60"
+												src="../assets/images/ecommerce/product-table-6.png" alt="#">
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<h6>
+														<a href="#">고객명(아동이름)</a>
+													</h6>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">클래스</div>
+													: GYM
+												</div>
+												<div class="avaiabilty">
+													<div class="text-success">11:00</div>
+												</div>
+												<a class="btn btn-primary btn-xs" href="#">입장대기</a>
+												<!--입장대기 클릭하면 입장으로 변경 // SCHEDULE TABLE에 입장했는지 여부 필드 추가-->
+												<!--입장대기상태에서 입장완료로 변경 <a class="btn btn-primary btn-xs" href="#">입장완료</a>-->
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-md-6">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<img class="align-self-center img-fluid img-60"
+												src="../assets/images/ecommerce/product-table-6.png" alt="#">
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<h6>
+														<a href="#">고객명(아동이름)</a>
+													</h6>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">클래스</div>
+													: GYM
+												</div>
+												<div class="avaiabilty">
+													<div class="text-success">11:00</div>
+												</div>
+												<a class="btn btn-primary btn-xs" href="#">입장대기</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-md-6">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<img class="align-self-center img-fluid img-60"
+												src="../assets/images/ecommerce/product-table-6.png" alt="#">
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<h6>
+														<a href="#">고객명(아동이름)</a>
+													</h6>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">클래스</div>
+													: GYM
+												</div>
+												<div class="avaiabilty">
+													<div class="text-success">11:00</div>
+												</div>
+												<a class="btn btn-primary btn-xs" href="#">입장대기</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>
