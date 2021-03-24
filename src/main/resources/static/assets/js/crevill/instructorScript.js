@@ -30,7 +30,8 @@ Vue.use(VeeValidate, {
 			  name : '성함',
 			  fullName : '풀네임',
    			  telNo : '연락처',		  
-			  address : '주소',
+			  roadAddress : '도로명주소',
+			  detailAddress : '상세주소',
 			  startDate : '입사일',
 			  storeId : '근무지점',
 		    }
@@ -45,7 +46,8 @@ new Vue({
 	  	name : '',
 		fullName : '',	
 		telNo : '',	  	
-		address : '',
+		roadAddress : '',
+		detailAddress : '',
 	  	startDate : '',
 	  	storeId : '',	  
     },
@@ -63,7 +65,7 @@ new Vue({
 				formdata.append("name", $('#name').val());
 				formdata.append("fullName", $('#fullName').val());
 				formdata.append("telNo", $('#telNo').val());
-				formdata.append("address", $('#address').val());
+				formdata.append("address", $('#roadAddress').val() + ' | ' + $('#detailAddress').val());
 				formdata.append("startDate", $('#startDate').val());
 				formdata.append("storeId", $('#storeId').val());
 				

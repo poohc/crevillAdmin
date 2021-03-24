@@ -11,7 +11,8 @@ Vue.use(VeeValidate, {
 			  registrationNumber : '사업자등록번호',
 			  telNo : '전화번호',
 			  ceo : '대표자',
-			  address : '주소',
+			  roadAddress : '도로명주소',
+			  detailAddress : '상세주소',
 			  openDay : '오픈일',
 			  closeDay : '휴무일',
 	 		  storePlay : '수업',
@@ -29,7 +30,8 @@ new Vue({
 		registrationNumber : '',
 		telNo : '',
 	  	ceo : '',
-	  	address : '',
+	  	roadAddress : '',
+		detailAddress : '',
 	  	openDay : '',
 		closeDay : '',
 		storePlay : '',
@@ -51,7 +53,7 @@ new Vue({
 				formdata.append("registrationNumber", $('#registrationNumber').val());
 				formdata.append("telNo", $('#telNo').val());
 				formdata.append("ceo", $('#ceo').val());
-				formdata.append("address", $('#address').val());
+				formdata.append("address", $('#roadAddress').val() + ' | ' + $('#detailAddress').val());
 				formdata.append("openDay", $('#openDay').val());
 				formdata.append("closeDay", $('#closeDay').val());
 				formdata.append("experienceClass", $("input[name=experienceClass]:checked").val());

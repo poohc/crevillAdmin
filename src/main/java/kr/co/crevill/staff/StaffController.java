@@ -110,6 +110,16 @@ public class StaffController {
 		return mav;
 	}
 	
+	@GetMapping("nsUpdate.view")
+	public ModelAndView nsUpdate(HttpServletRequest request, InstructorDto instructorDto) {
+		ModelAndView mav = new ModelAndView("staff/nsUpdate");
+		mav.addObject("nationalCode", commonService.selectNationalCode());
+		StoreDto storeDto = new StoreDto();
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("info", staffService.selectInstructorInfo(instructorDto));
+		return mav;
+	}
+	
 	@PostMapping("nsRegist.proc")
 	@ResponseBody
 	public JSONObject nsRegistProc(HttpServletRequest request, @ModelAttribute InstructorDto instructorDto) {
@@ -123,6 +133,22 @@ public class StaffController {
 	public JSONObject checkInstructorTelNo(HttpServletRequest request, @RequestBody InstructorDto instructorDto) {
 		JSONObject result = new JSONObject();
 		result = staffService.checkInstructorTelNo(instructorDto);
+		return result;
+	}
+	
+	@PostMapping("nsDelete.proc")
+	@ResponseBody
+	public JSONObject nsDelete(HttpServletRequest request, @ModelAttribute InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.nsDelete(instructorDto, request);
+		return result;
+	}
+	
+	@PostMapping("nsUpdate.proc")
+	@ResponseBody
+	public JSONObject nsUpdateProc(HttpServletRequest request, @ModelAttribute InstructorDto instructorDto) {
+		JSONObject result = new JSONObject();
+		result = staffService.updateNstaffInfo(instructorDto, request);
 		return result;
 	}
 }

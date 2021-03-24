@@ -12,6 +12,8 @@ public class InstructorVo {
 	private String fullName;
 	private String telNo;
 	private String address;
+	private String roadAddress;
+	private String detailAddress;
 	private String startDate;
 	private String storeId;
 	private String pictureIdx;

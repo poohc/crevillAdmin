@@ -22,7 +22,7 @@
 			   SORT_RANK,
 			   REGISTRATION_NUMBER,
 			   CEO,
-			   ADDRESS,
+			   REPLACE(ADDRESS,'|','') ADDRESS
 			   OPEN_DAY,
 			   CASE WHEN CLOSE_DAY = 'MON' THEN '매주 월요일'
 			        WHEN CLOSE_DAY = 'TUE' THEN '매주 화요일'
@@ -68,7 +68,10 @@
 			   SORT_RANK,
 			   REGISTRATION_NUMBER,
 			   CEO,
-			   ADDRESS,
+			   REPLACE(ADDRESS,'|','') ADDRESS,
+			   SUBSTRING_INDEX(ADDRESS, '|', 1) ROAD_ADDRESS,
+			   CASE WHEN INSTR(ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(ADDRESS, '|', -1)
+			        ELSE '' END AS DETAIL_ADDRESS,
 			   OPEN_DAY,
 			   CASE WHEN CLOSE_DAY = 'MON' THEN '매주 월요일'
 			        WHEN CLOSE_DAY = 'TUE' THEN '매주 화요일'

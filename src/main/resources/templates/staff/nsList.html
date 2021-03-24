@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/nstaffListScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body">
@@ -9,34 +9,50 @@
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xl">
-					<div class="row">
-						<div class="col-xl" th:each="list : ${list}">
-							<div class="card">
-								<div class="blog-box blog-grid text-center product-box">
-									<div class="product-img">
-										<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}">
-										<div class="product-hover">
-											<ul>
-												<li><i class="icon-import"></i></li>
-											</ul>
-										</div>
-									</div>
-									<div class="blog-details-main">
-										<ul class="blog-social">
-											<li th:text="${list.regId}"></li>
-											<li th:text="${list.storeId}"></li>
-											<li th:text="${list.nationality}"></li>
-										</ul>
-										<hr>
-										<h6 class="blog-bottom-details" th:text="${list.fullName}"></h6>
-									</div>
-								</div>
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>사원번호</th>
+											<th>사진</th>
+											<th>국적</th>
+											<th>성함</th>
+											<th>FULL NAME</th>
+											<th>입사일</th>
+											<th>전화번호</th>
+											<th>근무처</th>
+											<th>직원정보</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${list}">
+											<td th:text="${list.nsId}"></td>
+											<td><img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}"></td>
+											<td th:text="${list.nationality}"></td>
+											<td th:text="${list.name}"></td>
+											<td th:text="${list.fullName}"></td>
+											<td th:text="${list.startDate}"></td>
+											<td th:text="${list.telNo}"></td>
+											<td th:text="${list.storeId}"></td>
+											<td>
+												<span class="badge badge-primary" th:attr="onclick=|nstaffUpdate('${list.nsId}')|">정보수정</span>
+												<a href="" type="button" th:attr="onclick=|nstaffDelete('${list.nsId}')|">
+													<span class="badge badge-warning">퇴사처리</span>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- Zero Configuration  Ends-->
 		</div>
 	</div>
 </th:block>

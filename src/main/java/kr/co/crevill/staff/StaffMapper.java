@@ -15,6 +15,7 @@ public interface StaffMapper {
 	public StaffVo selectStaffInfo(StaffDto staffDto);
 	public int selectInstructorCount(InstructorDto instructorDto);
 	public List<InstructorVo> selectInstructorList(InstructorDto instructorDto);
+	public InstructorVo selectInstructorInfo(InstructorDto instructorDto);
 	public int insertInstructorInfo(InstructorDto instructorDto);
 	public int updateStaffInfo(StaffDto staffDto);
 	public int updateInstructorInfo(InstructorDto instructorDto);

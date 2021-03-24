@@ -13,7 +13,10 @@ public class InstructorDto {
 	private String name;
 	private String fullName;
 	private String telNo;
+	private String originTelNo;
 	private String address;
+	private String roadAddress;
+	private String detailAddress;
 	private String startDate;
 	private String storeId;
 	private MultipartFile picture;

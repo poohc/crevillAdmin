@@ -20,6 +20,8 @@ public class StoreVo {
 	private String registrationNumber;
 	private String ceo;
 	private String address;
+	private String roadAddress;
+	private String detailAddress;
 	private String openDay;
 	private String closeDay;
 	private String experienceClass;

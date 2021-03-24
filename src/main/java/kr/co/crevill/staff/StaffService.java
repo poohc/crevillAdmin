@@ -46,6 +46,10 @@ public class StaffService {
 		return staffMapper.selectInstructorList(instructorDto);
 	}
 	
+	public InstructorVo selectInstructorInfo(InstructorDto instructorDto) {
+		return staffMapper.selectInstructorInfo(instructorDto);
+	}
+	
 	public StaffVo selectStaffInfo(StaffDto staffDto) {
 		return staffMapper.selectStaffInfo(staffDto);
 	}
@@ -202,4 +206,51 @@ public class StaffService {
 		}
 		return result;
 	}
+	
+	public JSONObject nsDelete(InstructorDto instructorDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(staffMapper.deleteInstructorInfo(instructorDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
+	
+	public JSONObject updateNstaffInfo(InstructorDto instructorDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		instructorDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		if(instructorDto.getPicture() != null && !instructorDto.getPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("원어민강사사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(instructorDto.getCriminalRecords() != null && !instructorDto.getCriminalRecords().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			instructorDto.setCriminalRecordsIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getCriminalRecords());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("범죄경력증명서");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		if(instructorDto.getResume() != null && !instructorDto.getResume().isEmpty()) {
+			FileVo fileVo = commonMapper.selectFileIdx();
+			instructorDto.setResumeIdx(fileVo.getFileIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getResume());
+			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setDescription("이력서");
+			commonMapper.insertFiles(fileDto);
+		}
+		
+		//직원정보 INSERT 
+		if(staffMapper.updateInstructorInfo(instructorDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}	
 }

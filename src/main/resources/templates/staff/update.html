@@ -54,8 +54,14 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="address">주소</label>
-										<input class="form-control form-control-sm" v-validate="'required'" id="address" name="address" type="text" placeholder="주소" th:value="${info.address}">
-										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+										<input class="col-form-label-sm" type="text" id="postcode" placeholder="우편번호">
+										<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+										<input type="text" v-validate="'required'" id="roadAddress" name="roadAddress" placeholder="도로명주소" th:value="${info.roadAddress}">
+										<span id="guide" style="color:#999;display:none"></span>
+										<input type="text" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소" th:value="${info.detailAddress}">
+										<input type="text" id="extraAddress" placeholder="참고항목">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('roadAddress')">{{ errors.first('roadAddress') }}</label>
+										<label class="col-form-label-sm" for="address" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
 									</div>
 								</div>
 							</div>

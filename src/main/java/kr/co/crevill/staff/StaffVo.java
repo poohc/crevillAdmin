@@ -10,6 +10,8 @@ public class StaffVo {
 	private String nameEng;
 	private String telNo;
 	private String address;
+	private String roadAddress;
+	private String detailAddress;
 	private String startDate;
 	private String endDate;
 	private String workerType;
