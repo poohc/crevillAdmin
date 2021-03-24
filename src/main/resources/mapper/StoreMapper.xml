@@ -22,7 +22,7 @@
 			   SORT_RANK,
 			   REGISTRATION_NUMBER,
 			   CEO,
-			   REPLACE(ADDRESS,'|','') ADDRESS
+			   REPLACE(ADDRESS,'|','') ADDRESS,
 			   OPEN_DAY,
 			   CASE WHEN CLOSE_DAY = 'MON' THEN '매주 월요일'
 			        WHEN CLOSE_DAY = 'TUE' THEN '매주 화요일'
