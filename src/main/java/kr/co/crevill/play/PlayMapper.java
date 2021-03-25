@@ -12,4 +12,6 @@ public interface PlayMapper {
 	public List<PlayVo> selectPlayList(PlayDto playDto);
 	public PlayVo selectPlayInfo(PlayDto playDto);
 	public int insertPlay(PlayDto playDto);
+	public int updatePlay(PlayDto playDto);
+	public int deletePlay(PlayDto playDto);
 }

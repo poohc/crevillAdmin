@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
 
 @Controller
 @RequestMapping("schedule")
@@ -30,6 +32,9 @@ public class ScheduleController {
 	
 	@Autowired
 	private ScheduleService scheduleService;
+	
+	@Autowired
+	private StoreService storeService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -65,6 +70,8 @@ public class ScheduleController {
 			}
 		}
 		mav.addObject("timeList", timeList);
+		StoreDto storeDto = new StoreDto();
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	

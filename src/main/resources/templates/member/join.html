@@ -104,9 +104,14 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
-										<div class="checkbox checkbox-dark" th:each="learningGrade, i: ${learningGradeList}">
-											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade" th:value=${learningGrade.codeValue}>
-											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label>
+										<div class="checkbox checkbox-dark">
+											<select id="learningGrade" name="learningGrade">
+												<th:block th:each="learningGrade, i: ${learningGradeList}">
+													<option th:value=${learningGrade.codeKey} th:text="${learningGrade.codeValue}"></option>
+												</th:block>
+											</select>
+<!-- 											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade"> -->
+<!-- 											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label> -->
 										</div>
 										<label class="col-form-label-sm" for="learningGrade" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>
 									</div>
@@ -119,56 +124,6 @@
 						</div>
 					</div>
 					</form>
-				</div>
-			</div>
-			<!--보호자등록 popup modal-->
-			<div class="modal fade" id="sign_result" tabindex="-1" role="dialog" aria-labelledby="sign_result" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">회원등록 결과</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
-								<div class="form-group">
-									<h6 style="text-align: center;">정상처리 되었습니다.</h6>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-primary" type="button"
-								data-dismiss="modal">확인</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal fade" id="addchild_result" tabindex="-1"
-				role="dialog" aria-labelledby="addchild_result" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">등록 결과</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
-								<div class="form-group">
-									<h6 style="text-align: center;">정상처리 되었습니다.</h6>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-primary" type="button"
-								data-dismiss="modal">확인</button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

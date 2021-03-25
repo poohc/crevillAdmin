@@ -2,6 +2,8 @@ package kr.co.crevill.play;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class PlayService {
@@ -33,7 +36,11 @@ public class PlayService {
 		return playMapper.selectPlayList(playDto);
 	}
 	
-	public JSONObject insertPlay(PlayDto playDto) {
+	public PlayVo selectPlayInfo(PlayDto playDto) {
+		return playMapper.selectPlayInfo(playDto);
+	}
+	
+	public JSONObject insertPlay(PlayDto playDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		
@@ -59,8 +66,7 @@ public class PlayService {
 			playDto.setOperationType("BOTH");
 		}
 		
-		//TODO 세션처리 되면 삭제할 것
-		playDto.setRegId("devjyp");
+		playDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		//직원정보 INSERT 
 		if(playMapper.insertPlay(playDto) > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
@@ -68,6 +74,47 @@ public class PlayService {
 		return result;
 	}
 	
+	public JSONObject updatePlay(PlayDto playDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(playDto.getThumbnail() != null && !playDto.getThumbnail().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			playDto.setThumbnailIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(playDto.getThumbnail());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("플레이 썸네일 이미지");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(playDto.getPicture() != null && !playDto.getPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			playDto.setPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(playDto.getPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("플레이 이미지");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(playDto.getOperationType().split(",").length > 1) {
+			playDto.setOperationType("BOTH");
+		}
+		
+		playDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		//직원정보 INSERT 
+		if(playMapper.updatePlay(playDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
 	
+	public JSONObject deletePlay(PlayDto playDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(playMapper.deletePlay(playDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
 	
 }

@@ -157,5 +157,7 @@ $('input[name="openDay"]').daterangepicker({
 });
 
 function cancel(){
-	location.href = '/store/regist.view';
+	if(confirm('매장수정을 취소하고 리스트로 이동하시겠습니까?')){
+		location.href = '/store/list.view';	
+	}
 }

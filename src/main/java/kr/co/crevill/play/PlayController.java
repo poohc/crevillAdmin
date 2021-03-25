@@ -48,11 +48,34 @@ public class PlayController {
 		return mav;
 	}
 	
+	@GetMapping("update.view")
+	public ModelAndView master(HttpServletRequest request, PlayDto playDto) {
+		ModelAndView mav = new ModelAndView("play/update");
+		mav.addObject("info", playService.selectPlayInfo(playDto));
+		return mav;
+	}
+	
 	@PostMapping("master.proc")
 	@ResponseBody
 	public JSONObject masterProc(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
 		JSONObject result = new JSONObject();
-		result = playService.insertPlay(playDto);
+		result = playService.insertPlay(playDto, request);
+		return result;
+	}
+	
+	@PostMapping("update.proc")
+	@ResponseBody
+	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
+		JSONObject result = new JSONObject();
+		result = playService.updatePlay(playDto, request);
+		return result;
+	}
+	
+	@PostMapping("delete.proc")
+	@ResponseBody
+	public JSONObject deleteProc(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
+		JSONObject result = new JSONObject();
+		result = playService.deletePlay(playDto);
 		return result;
 	}
 }

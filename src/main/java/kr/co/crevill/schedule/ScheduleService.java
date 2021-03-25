@@ -54,7 +54,6 @@ public class ScheduleService {
 		PlayVo playVo = playMapper.selectPlayInfo(playDto);
 		scheduleDto.setScheduleEnd(playVo.getPlayTime());
 		scheduleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		
 		//직원정보 INSERT 
 		if(scheduleMapper.insertSchedule(scheduleDto) > 0) {

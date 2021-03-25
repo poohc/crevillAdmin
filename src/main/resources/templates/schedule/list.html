@@ -46,8 +46,8 @@
 	                            <div class="search-links tab-pane fade show active" id="allLinks" role="tabpanel" aria-labelledby="allLinks">
 	                                <div class="row">
 	                                    <div class="col-xl-12 box-col-12">
-	                                        <th:block th:each="allList : ${allList}">
-	                                        <h6 class="mb-2" th:text="${allList.scheduleDate}"></h6>
+	                                        <th:block th:each="allList, i : ${allList}">
+	                                        <h6 th:if="${i.index == 0}" class="mb-2" th:text="${allList.scheduleDate}"></h6>
 	                                        <div class="info-block"><a href="" th:text="${allList.playName}"></a>
 	                                            <h6 th:text="${allList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">
@@ -64,8 +64,8 @@
 	                            <div class="search-links tab-pane fade" id="ingLinks" role="tabpanel" aria-labelledby="ingLinks">
 	                            	<div class="row">
 	                                    <div class="col-xl-12 box-col-12">
-	                                    	<th:block th:each="ingList : ${ingList}">
-	                                        <h6 class="mb-2" th:text="${ingList.scheduleDate}"></h6>
+	                                    	<th:block th:each="ingList, i : ${ingList}">
+	                                    	<h6 th:if="${i.index == 0}" class="mb-2" th:text="${ingList.scheduleDate}"></h6>
 	                                        <div class="info-block"><a href="" th:text="${ingList.playName}"></a>
 	                                            <h6 th:text="${ingList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">
@@ -82,8 +82,8 @@
 	                            <div class="search-links tab-pane fade" id="endLinks" role="tabpanel" aria-labelledby="endLinks">
 	                                <div class="row">
 	                                    <div class="col-xl-12 box-col-12">
-	                                    	<th:block th:each="endList : ${endList}">
-	                                        <h6 class="mb-2" th:text="${endList.scheduleDate}"></h6>
+	                                    	<th:block th:each="endList, i : ${endList}">
+	                                        <h6 th:if="${i.index == 0}" class="mb-2" th:text="${endList.scheduleDate}"></h6>
 	                                        <div class="info-block"><a href="" th:text="${endList.playName}"></a>
 	                                            <h6 th:text="${endList.scheduleTime}"></h6>
 	                                            <div class="star-ratings">

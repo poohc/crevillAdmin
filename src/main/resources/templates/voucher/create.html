@@ -94,25 +94,26 @@
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
 										<div class="checkbox checkbox-dark">
-											<input id="attributeA" type="checkbox" name="attribute" value="CLASS">
+											<input id="attributeA" type="checkbox" v-validate="'required'" name="attribute" value="CLASS">
 											<label for="attributeA">CLASS</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeB" type="checkbox" name="attribute" value="TUTORING">
+											<input id="attributeB" type="checkbox" v-validate="'required'" name="attribute" value="TUTORING">
 											<label for="attributeB">TUTORING</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeC" type="checkbox" name="attribute" value="SPECIAL CAMP">
+											<input id="attributeC" type="checkbox" v-validate="'required'" name="attribute" value="SPECIAL CAMP">
 											<label for="attributeC">SPECIAL CAMP</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeD" type="checkbox" name="attribute" value="가족공유">
+											<input id="attributeD" type="checkbox" v-validate="'required'" name="attribute" value="가족공유">
 											<label for="attributeD">가족공유</label>
 										</div>
 										<div class="checkbox checkbox-dark">
-											<input id="attributeE" type="checkbox" name="attribute" value="비회원">
+											<input id="attributeE" type="checkbox" v-validate="'required'" name="attribute" value="비회원">
 											<label for="attributeE">비회원 사용가능</label>
 										</div>
+										<label class="col-form-label-sm" for="attribute" v-if="errors.has('attribute')">{{ errors.first('attribute') }}</label>
 									</div>
 								</div>
 							</div>

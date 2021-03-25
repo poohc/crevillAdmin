@@ -77,35 +77,31 @@ function cancel(){
 	location.href = '/schedule/regist.view';
 }
 
-moment.locale('ko');
 
-$('input[name="scheduleStart"]').daterangepicker({
-	timePicker: true,
-    timePickerIncrement: 30,
-	singleDatePicker : true,
-	locale: {
-      format: 'YYYY/MM/DD HH:mm',
-      separator: '',
-      applyLabel: "적용",
-      cancelLabel: "닫기"
-    } 	
-});
-
-$('input[name="operationType"]').change(function(){
-	$("select[name='playId'] option").remove();
+function entrance(reservationId){
+	var formdata = new FormData()
+	formdata.append("reservationId", reservationId);
 	
-	if($('input[name="operationType"]:checked').length > 0){
-		$.ajax({
-			type : "POST",
-			data: {
-		            operationType : $('input[name="operationType"]:checked').val()
-		    },
-			url : '/play/playList.view',
-			success : function(data){
-				for(var i=0; i < data.length; i++){
-					$("#playId").append('<option value="' + data[i].playId + '">' + data[i].name + '</option');
-				}
-			}
-		});	
-	} 
-});
+	axios.post('/entrance/checkVoucher.proc', formdata,{
+		  headers: {
+			'Content-Type': 'multipart/form-data'
+		  }
+		}).then((response) => {
+		if (response.data.resultCd != '00') {
+	      	alert('해당 고객 바우처로는 이 수업을 들을 수 없습니다(바우처 시간 부족)');
+	    } else {
+			$('#entranceText').text('입장');
+			axios.post('/entrance/entrance.proc', formdata,{
+					  headers: {
+						'Content-Type': 'multipart/form-data'
+					  }
+					}).then((response) => {
+					if (response.data.resultCd == '00') {
+				      	alert('정상처리 되었습니다.');
+						location.href = '/entrance/member.view';
+				    }
+				});
+		}
+		
+	});
+}

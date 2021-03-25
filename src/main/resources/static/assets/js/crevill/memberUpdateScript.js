@@ -69,7 +69,7 @@ new Vue({
 									            childName : $('#childName').val(),
 									            birthday : $('#birthday').val(),
 									            sex : $('input[name="sex"]:checked').val(),
-									            learningGrade : $('input[name="learningGrade"]:checked').val(),
+									            learningGrade : $('#learningGrade').val(),
 												qrCode : $('#qrCode').val()
 			        }).then((response) => {
 					if (response.data.resultCd == '00') {

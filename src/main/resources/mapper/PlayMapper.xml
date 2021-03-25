@@ -71,4 +71,25 @@
 				   		 )
     </insert>
 	
+	<update id="updatePlay" parameterType="kr.co.crevill.play.PlayDto">
+    	UPDATE PLAY 
+    	  <set>
+    	   <if test="name != null">NAME = #{name},</if>
+		   <if test="description != null">DESCRIPTION = #{description},</if>
+		   <if test="playTime != null">PLAY_TIME = #{playTime},</if>
+		   <if test="operationType != null">OPERATION_TYPE = #{operationType},</if>
+		   <if test="thumbnailIdx != null">THUMBNAIL_IDX = #{thumbnailIdx},</if>
+		   <if test="pictureIdx != null">PICTURE_IDX = #{pictureIdx},</if>
+		   UPD_ID = #{updId},
+		   UPD_DATE = NOW()
+    	 </set>
+    	 WHERE PLAY_ID = #{playId}
+    </update>
+	
+	<delete id="deletePlay" parameterType="kr.co.crevill.play.PlayDto">
+		DELETE 
+		  FROM PLAY
+		 WHERE PLAY_ID = #{playId}
+	</delete>
+	
 </mapper>
