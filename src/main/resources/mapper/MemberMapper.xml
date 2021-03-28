@@ -97,10 +97,10 @@
 	<update id="updateMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	UPDATE MEMBER_PARENT 
     	  <set>
-	       	  <if test="name != null">NAME = #{parentName},</if>
-	       	  <if test="name != null">CELL_PHONE = #{cellPhone},</if>
-	       	  <if test="name != null">EMAIL = #{email},</if>
-	       	  <if test="name != null">ADDRESS = #{address},</if>
+	       	  <if test="parentName != null">NAME = #{parentName},</if>
+	       	  <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
+	       	  <if test="email != null">EMAIL = #{email},</if>
+	       	  <if test="address != null">ADDRESS = #{address},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
