@@ -45,15 +45,11 @@ public class EntranceService {
 		entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 		entranceDto.setScheduleId(entranceVo.getScheduleId());
 		entranceDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
- 	    
-		//바우처 사용 시간 기록
-		if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-			entranceDto.setChildrenName(entranceVo.getChildrenName());
-			entranceDto.setMemberQrCode(entranceVo.getMemberQrCode());
-			
-			if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
-				result.put("resultCd", CrevillConstants.RESULT_SUCC);
-			}
+ 	    entranceDto.setChildrenName(entranceVo.getChildrenName());
+		entranceDto.setMemberQrCode(entranceVo.getMemberQrCode());
+		
+		if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;
 	}

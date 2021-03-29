@@ -24,7 +24,9 @@
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM SCHEDULE
         <where>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND STORE_ID = #{storeId}
+           </if>
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
            AND SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
                                   AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')

@@ -82,7 +82,9 @@
     								NAME,
     								BIRTHDAY,
     								SEX,
-    								LEARNING_GRADE
+    								LEARNING_GRADE,
+    								REG_ID,
+    								REG_DATE
     							   )
 							VALUES (
 									#{parentName},
@@ -90,7 +92,9 @@
 									#{childName},
 									#{birthday},
 									#{sex},
-									#{learningGrade}
+									#{learningGrade},
+									#{regId}
+									NOW()
 								   )
     </insert>
 	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
@@ -33,6 +34,7 @@ public class ReservationController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("reservation/list");
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
 		return mav;
 	}
@@ -66,6 +68,7 @@ public class ReservationController {
 			scheduleDto.setScheduleType("ALL");
 			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		}
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		return reservationService.selectReservationSearchList(scheduleDto);
 	}
 }

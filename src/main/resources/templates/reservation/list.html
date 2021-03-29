@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationListScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body">
@@ -14,6 +14,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="table-responsive">
+								예약날짜 : <input id="scheduleStart" name="scheduleStart" type="text">&nbsp;&nbsp;<button id="searchBtn">검색</button>
 								<table class="display" id="basic-1">
 									<thead>
 										<tr>
@@ -39,55 +40,15 @@
 <!-- 											<td>동반</td> -->
 											<td th:text="${list.cellPhone}"></td>
 											<td>
-												<a href="" type="button" data-toggle="modal" data-target="#tooltipmodal">
-													<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>
-													<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary" th:text="${list.statusName}"></span>
-													<span th:if="${list.status.toString().equals('05')}" class="badge badge-danger" th:text="${list.statusName}"></span>
-												</a>
+												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>
+												<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary" th:text="${list.statusName}"></span>
+												<span th:if="${list.status.toString().equals('05')}" class="badge badge-danger" th:text="${list.statusName}"></span>
 											</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--popup modal-->
-		<div class="modal fade" id="reserModal" tabindex="-1" role="dialog"
-			aria-labelledby="reserModal" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">송강호님</h5>
-						<button class="close" type="button" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="form-group">
-								<div class="row">
-									<label class="col-form-label" for="recipient-name">
-										예약요청일 </label> <label class="col-form-label" for="recipient-name">
-										<font color="red"> 2021/01/20 </font> <font color="blue">
-											16:00</font>
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-form-label" for="message-text">알림톡 내용:</label>
-								<textarea class="form-control"></textarea>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" type="button" data-dismiss="modal">예약승인</button>
-						<button class="btn btn-secondary" type="button"
-							data-dismiss="modal">예약거절</button>
-						<button class="btn btn-danger" type="button" data-dismiss="modal">예약취소</button>
 					</div>
 				</div>
 			</div>

@@ -8,6 +8,9 @@
           FROM RESERVATION A,
                SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if>
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
            AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
                                     AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
@@ -45,6 +48,11 @@
           FROM RESERVATION A,
                SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if>
+           AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
       ORDER BY A.REG_DATE DESC
     </select>
 	
@@ -73,6 +81,9 @@
           FROM RESERVATION A,
                SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if> 
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
            AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
                                     AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
@@ -87,6 +98,58 @@
 		   </if>
       GROUP BY A.SCHEDULE_ID
     </select>
+	
+	<select id="checkReservationYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT <![CDATA[
+			   CASE WHEN CNT >= NUMBER_OF_PEOPLE THEN 'N'
+		            ELSE 'Y' END AS RESERVATION_YN
+		       ]]>     
+		  FROM (
+				SELECT COUNT(A.RESERVATION_ID) CNT,
+				       B.NUMBER_OF_PEOPLE
+				  FROM RESERVATION A,
+				       SCHEDULE B
+				 WHERE A.CELL_PHONE = #{cellPhone}
+				   AND A.SCHEDULE_ID = #{scheduleId}
+				   AND A.STATUS = '02'
+				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
+				GROUP BY B.NUMBER_OF_PEOPLE
+		       ) SUB
+	</select>
+	
+	<select id="checkVoucherYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT <![CDATA[
+			   CASE WHEN C.PLAY_TIME > D.TIME_LEFT_MINUTE THEN 'N'
+		            ELSE 'Y' END AS VOUCHER_YN,
+		       ]]>     
+		       C.PLAY_TIME
+		  FROM RESERVATION A,
+		       SCHEDULE B,
+		       PLAY C,
+		       VOUCHER_USE_VIEW D
+		 WHERE A.CELL_PHONE = #{cellPhone}
+		   AND A.SCHEDULE_ID = #{scheduleId}
+		   AND A.STATUS = '02'
+		   AND A.SCHEDULE_ID  = B.SCHEDULE_ID 
+		   AND B.PLAY_ID  = C.PLAY_ID
+		   AND A.VOUCHER_NO  = D.VOUCHER_NO
+	</select>
+	
+	<select id="checkAlreadyReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+		SELECT COUNT(*) 
+		  FROM RESERVATION
+		 WHERE CELL_PHONE = #{cellPhone}
+		   AND SCHEDULE_ID = #{scheduleId}
+		   AND STATUS = '02'
+	</select>
+	
+	<select id="selectReservationPlayInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT B.PLAY_TIME
+		  FROM SCHEDULE A,
+		       PLAY B
+         WHERE A.SCHEDULE_ID = #{scheduleId}
+		   AND A.PLAY_ID = B.PLAY_ID		       
+	</select>
 	
 	<insert id="insertReservation" parameterType="kr.co.crevill.reservation.ReservationDto">
     	INSERT INTO RESERVATION (

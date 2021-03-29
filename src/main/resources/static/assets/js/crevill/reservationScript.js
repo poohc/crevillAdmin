@@ -47,7 +47,10 @@ new Vue({
 					if (response.data.resultCd == '00') {
 				      	alert('정상처리 되었습니다.');
 						location.href = '/reservation/regist.view';
-				    }
+				    } else {
+						alert(response.data.resultMsg);
+						return false;
+					}
 					
 				});	
 			}

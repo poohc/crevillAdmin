@@ -28,6 +28,9 @@ public class ReservationVo {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private String reservationYn;
+	private String voucherYn;
+	private String playTime;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

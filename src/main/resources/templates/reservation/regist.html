@@ -61,11 +61,18 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="exampleFormControlSelect29">매장선택</label>
+												<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
 												<select class="form-control form-control-lg" id="storeId" name="storeId">
 													<th:block th:each="list : ${storeList}">
 														<option th:value="${list.storeId}" th:text="${list.storeName}"></option>
 													</th:block>
 												</select>
+												</th:block>
+												<th:block th:unless="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
+													<select class="form-control form-control-lg" id="storeId" name="storeId">
+														<option th:value="${session.staffVo.storeId}" th:text="${session.staffVo.storeName}"></option>
+													</select>
+												</th:block>
 											</div>
 										</div>
 									</div>
