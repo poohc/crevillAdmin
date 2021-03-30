@@ -22,6 +22,7 @@ public class MemberDto {
 	private String updDate;
 	private String updId;
 	private String status;	
+	private String storeId;
 	/* 페이징 관련 */
 	private int currentPageNo;
 	private int recordsPerPage;

@@ -20,6 +20,7 @@ public class ScheduleVo {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private String subTopic;
 	
 	/* 페이징 관련 */
 	private int currentPageNo;

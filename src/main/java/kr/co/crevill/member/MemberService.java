@@ -48,6 +48,7 @@ public class MemberService {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		memberDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		//부모 정보 INSERT 성공 시 자녀정보 INSERT
 		if(memberMapper.insertMemberParent(memberDto) > 0) {
 			//자녀정보 INSERT 성공 시 resultCd = SUCC

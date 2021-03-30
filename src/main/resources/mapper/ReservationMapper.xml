@@ -109,8 +109,7 @@
 				       B.NUMBER_OF_PEOPLE
 				  FROM RESERVATION A,
 				       SCHEDULE B
-				 WHERE A.CELL_PHONE = #{cellPhone}
-				   AND A.SCHEDULE_ID = #{scheduleId}
+				 WHERE A.SCHEDULE_ID = #{scheduleId}
 				   AND A.STATUS = '02'
 				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
 				GROUP BY B.NUMBER_OF_PEOPLE

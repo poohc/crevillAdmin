@@ -89,6 +89,11 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE
           FROM NS_INSTRUCTOR
+        <where>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+           </if>
+       </where> 
 	</select>
 	
 	<select id="selectInstructorInfo" parameterType="kr.co.crevill.staff.InstructorDto" resultType="kr.co.crevill.staff.InstructorVo">

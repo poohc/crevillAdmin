@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.SessionUtil;
 
 /**
  * 
@@ -69,6 +70,7 @@ public class MemberController {
 	@ResponseBody
 	public JSONObject checkMemberCellPhone(HttpServletRequest request, @RequestBody MemberDto memberDto) {
 		JSONObject result = new JSONObject();
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result = memberService.checkMemberCellPhone(memberDto);
 		return result;
 	}

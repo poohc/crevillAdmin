@@ -21,7 +21,8 @@
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
 			   UPD_ID,
-			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   SUB_TOPIC
           FROM SCHEDULE
         <where>
            <if test="storeId != null and storeId != 'CST00001'.toString()">

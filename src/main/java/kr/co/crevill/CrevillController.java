@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CommonVo;
+import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
 import kr.co.crevill.reservation.ReservationService;
@@ -43,6 +44,7 @@ public class CrevillController {
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("dashboard");
 		InstructorDto instructorDto = new InstructorDto();
+		instructorDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		ScheduleDto scheduleDto = new ScheduleDto();
 		MemberDto memberDto = new MemberDto();
 		CommonDto commonDto = new CommonDto();

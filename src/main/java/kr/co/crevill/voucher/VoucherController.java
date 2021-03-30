@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
 
@@ -104,10 +105,11 @@ public class VoucherController {
 	
 	@PostMapping("getMemberVoucherList.proc")
 	@ResponseBody
-	public JSONObject getMemberVoucherList(VoucherSaleDto voucherSaleDto){
+	public JSONObject getMemberVoucherList(HttpServletRequest request, VoucherSaleDto voucherSaleDto){
 		JSONObject result = new JSONObject();
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(voucherSaleDto.getBuyCellPhone());
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result = memberService.checkMemberCellPhone(memberDto);
 		//기회원 바우처 리스트 가져오기
 		if(CrevillConstants.RESULT_FAIL.equals(result.get("resultCd"))) {

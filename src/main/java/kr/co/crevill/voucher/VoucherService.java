@@ -185,13 +185,15 @@ public class VoucherService {
 		JSONObject result = new JSONObject();
 		voucherSaleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
-			VoucherDto voucherDto = new VoucherDto();
-			voucherDto.setVoucherNo(voucherSaleDto.getVoucherNo());
-			voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
-			if(voucherMapper.updateVoucher(voucherDto) > 0) {
-				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);		
+		if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
+			if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
+				VoucherDto voucherDto = new VoucherDto();
+				voucherDto.setVoucherNo(voucherSaleDto.getVoucherNo());
+				voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
+				if(voucherMapper.updateVoucher(voucherDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+				}
 			}
 		}
 		return result;

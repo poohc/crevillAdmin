@@ -10,6 +10,9 @@
          <if test="cellPhone != null and cellPhone != ''">
            AND CELL_PHONE != #{cellPhone}
          </if>
+         <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+         </if>
     </select>
 	
 	<select id="selectMemberCount" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
@@ -27,7 +30,12 @@
                DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
                CASE WHEN STATUS = 'A' THEN 'Active'
             		ELSE 'Inactive' END AS STATUS
-          FROM MEMBER_PARENT 
+          FROM MEMBER_PARENT
+        <where> 
+          <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+         </if>
+       </where>
     </select>
 
     <select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -62,7 +70,8 @@
     								ADDRESS,
     								QR_CODE,
 									REG_DATE,
-									REG_ID    								
+									REG_ID,
+									STORE_ID    								
     							   )
 							VALUES (
 									#{parentName},
@@ -71,7 +80,8 @@
 									#{address},
 									QR_SEQ_NEXTVAL(),
 									NOW(),
-									#{regId}
+									#{regId},
+									#{storeId}
 								   )
     </insert>
 
