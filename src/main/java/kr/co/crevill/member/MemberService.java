@@ -53,7 +53,25 @@ public class MemberService {
 		if(memberMapper.insertMemberParent(memberDto) > 0) {
 			//자녀정보 INSERT 성공 시 resultCd = SUCC
 			if(memberMapper.insertMemberChildren(memberDto) > 0) {
-				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+				//자녀 영어수준 INSERT 추가
+				int learningGradeCount = memberDto.getLearningGrade().split(",").length;
+				int tmpCnt = 0;
+				
+				if(learningGradeCount > 0) {
+					for(String learningGrade : memberDto.getLearningGrade().split(",")) {
+						memberDto.setLearningGrade(learningGrade);
+						if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+							tmpCnt++;
+						}
+					}
+					if(learningGradeCount == tmpCnt) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				} else {
+					if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				}
 			}
 		}
 		return result;
@@ -68,7 +86,26 @@ public class MemberService {
 			//자녀 정보는 DELETE 후 INSERT 로 처리
 			if(memberMapper.deleteMemberChildren(memberDto) > 0) {
 				if(memberMapper.insertMemberChildren(memberDto) > 0) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
+						int learningGradeCount = memberDto.getLearningGrade().split(",").length;
+						int tmpCnt = 0;
+						
+						if(learningGradeCount > 0) {
+							for(String learningGrade : memberDto.getLearningGrade().split(",")) {
+								memberDto.setLearningGrade(learningGrade);
+								if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+									tmpCnt++;
+								}
+							}
+							if(learningGradeCount == tmpCnt) {
+								result.put("resultCd", CrevillConstants.RESULT_SUCC);
+							}
+						} else {
+							if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+								result.put("resultCd", CrevillConstants.RESULT_SUCC);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -80,7 +117,9 @@ public class MemberService {
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
 			if(memberMapper.deleteMemberParent(memberDto) > 0) {
-				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+				if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+				}	
 			}
 		}
 		return result;

@@ -61,6 +61,12 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
+				var learningGrade = '';
+				$("input[name=learningGrade]:checked").each(function() {
+					learningGrade += $(this).val() + ',';
+				});
+				learningGrade = learningGrade.substr(0, learningGrade.length - 1);
+			
 				axios.post('/member/update.proc', {
 									            parentName : $('#parentName').val(),
 									            email : $('#email').val(),
@@ -69,7 +75,7 @@ new Vue({
 									            childName : $('#childName').val(),
 									            birthday : $('#birthday').val(),
 									            sex : $('input[name="sex"]:checked').val(),
-									            learningGrade : $('#learningGrade').val(),
+									            learningGrade : learningGrade,
 												qrCode : $('#qrCode').val()
 			        }).then((response) => {
 					if (response.data.resultCd == '00') {

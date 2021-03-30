@@ -104,14 +104,15 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
-										<div class="checkbox checkbox-dark">
-											<select id="learningGrade" name="learningGrade">
-												<th:block th:each="learningGrade, i: ${learningGradeList}">
-													<option th:value=${learningGrade.codeKey} th:text="${learningGrade.codeValue}"></option>
-												</th:block>
-											</select>
-<!-- 											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade"> -->
-<!-- 											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label> -->
+<!-- 										<div class="checkbox checkbox-dark"> -->
+<!-- 											<select id="learningGrade" name="learningGrade"> -->
+<!-- 												<th:block th:each="learningGrade, i: ${learningGradeList}"> -->
+<!-- 													<option th:value=${learningGrade.codeKey} th:text="${learningGrade.codeValue}"></option> -->
+<!-- 												</th:block> -->
+<!-- 											</select> -->
+										<div class="checkbox checkbox-dark" th:each="learningGrade, i: ${learningGradeList}">
+											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade" th:value=${learningGrade.codeValue}>
+											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label>
 										</div>
 										<label class="col-form-label-sm" for="learningGrade" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>
 									</div>

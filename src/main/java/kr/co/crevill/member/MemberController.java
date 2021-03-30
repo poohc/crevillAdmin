@@ -1,5 +1,6 @@
 package kr.co.crevill.member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,13 @@ public class MemberController {
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("LEARNING_GRADE");
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
-		mav.addObject("info", memberService.getMemberInfo(memberDto));
+		List<MemberVo> infoList = memberService.getMemberInfo(memberDto);
+		mav.addObject("info", infoList);
+		List<String> learningGradeList = new ArrayList<String>();
+		for(String learningGrade : infoList.get(0).getLearningGrade().split(",")) {
+			learningGradeList.add(learningGrade);
+		}
+		mav.addObject("checkedlearningGradeList", learningGradeList);
 		return mav;
 	}
 	
