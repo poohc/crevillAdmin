@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/entranceNonMemberScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
 		<div class="container-fluid credit-card">
+			<form class="form theme-form" id="nonMemberForm" @submit.prevent="validateBeforeSubmit" action="/entrance/nonMemberEntrance.proc" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="playTime" name="playTime" th:value="${list?.playTime}">
 			<div class="row">
-				<!-- Individual column searching (text inputs) Starts-->
 				<div class="col-xl-8 box-col-12">
 					<div class="card">
 						<div class="card-header py-4">
@@ -18,75 +19,69 @@
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
-									<form class="theme-form mega-form">
-										<div class="form-group">
-											<input class="form-control" type="text" placeholder="성함[한글]">
-										</div>
-										<div class="form-group">
-											<input class="form-control" type="text"
-												placeholder="NAME[Enlgish]">
-										</div>
-										<div class="form-group">
-											<input class="form-control" type="date" placeholder="생년월일">
-										</div>
-										<div class="form-group">
-											<select class="form-control" size="1">
-												<option>성별</option>
-												<option>남자</option>
-												<option>여자</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<input class="form-control" type="number" placeholder="연락처">
-										</div>
-									</form>
+									<div class="form-group">
+										<input class="form-control" type="text" v-validate="'required'" placeholder="성함[한글]" id="childName" name="childName">
+										<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="date" v-validate="'required'" placeholder="생년월일" id="childBirthday" name="childBirthday">
+										<label class="col-form-label-sm" for="childBirthday" v-if="errors.has('childBirthday')">{{ errors.first('childBirthday') }}</label>
+									</div>
+									<div class="form-group">
+										<select class="form-control" v-validate="'required|included:M,F'" size="1" id="childSex" name="childSex">
+											<option value="">성별</option>
+											<option value="M">남자</option>
+											<option value="F">여자</option>
+										</select>
+										<label class="col-form-label-sm" for="childSex" v-if="errors.has('childSex')">{{ errors.first('childSex') }}</label>
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="number" placeholder="연락처" v-validate="'required|numeric|min:10|max:11'" id="cellPhone" name="cellPhone">
+										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- Individual column searching (text inputs) Ends-->
-				<!-- Debit Card Starts-->
 				<div class="col-xl-4 col-lg-6 box-col-6 debit-card">
 					<div class="card">
 						<div class="card-header py-4">
 							<h5>입장가능 클래스</h5>
 						</div>
 						<div class="card-body">
-							<form class="theme-form e-commerce-form row">
-								<!--현재 시간 기준으로 조회하여 1 time만 나오도록...-->
-								<!-- 예를 들어 10:05분에 입장하고 싶다고 카운터로 오면 10:00time 만 조회되게..-->
-								<!-- SCHEDULE TABLE에서 예약자조회와 예약해 놓고 오지 않는 noshow 중 비어있는 예약공간을 조회..-->
-								<div class="form-group col-12 p-r-0">
-									<select class="form-control" size="1">
-										<option>[잔여:1]10:00</option>
-									</select>
-								</div>
-								<div class="form-group col-12 p-r-0">
-									<select class="form-control" size="1">
-										<option>클래스 : GYM</option>
-									</select>
-								</div>
-								<!-- VOUCHER 생성 시 비회원 체크박스 선택하고 조회 할 수 있게 처리-->
-								<div class="form-group col-12 p-r-0">
-									<select class="form-control" size="1">
-										<option>바우처 2시간권</option>
-									</select>
-								</div>
-								<div class="form-group col-12 p-r-0">
-									<select class="form-control" size="1">
-										<option>40,000원</option>
-									</select>
-								</div>
-								<div class="form-group col-12 p-r-0">
-									<button class="btn btn-primary btn-block" type="button"
-										title="">입장</button>
-								</div>
-							</form>
+							<div class="form-group col-12 p-r-0">
+								<select class="form-control" size="1" id="scheduleId" name="scheduleId">
+									<option th:text="|[잔여 : ${list?.remainCount}]${list?.scheduleStart}|" th:value="${list?.scheduleId}"></option>
+								</select>
+								<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
+							</div>
+							<div class="form-group col-12 p-r-0">
+								<select class="form-control" size="1" id="playName" name="playName">
+									<option th:text="|클래스 : ${list?.playName}|"></option>
+								</select>
+								<label class="col-form-label-sm" for="playName" v-if="errors.has('playName')">{{ errors.first('playName') }}</label>
+							</div>
+							<div class="form-group col-12 p-r-0">
+								<select class="form-control" size="1" id="voucherNo" name="voucherNo">
+									<option th:value="${voucherList?.voucherNo}" th:text="${voucherList?.ticketName}"></option>
+								</select>
+								<label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
+							</div>
+							<div class="form-group col-12 p-r-0">
+								<select class="form-control" size="1" id="price" name="price">
+									<option th:if="${voucherList?.price != null}" th:text="|${voucherList?.price}원|"></option>
+								</select>
+								<label class="col-form-label-sm" for="price" v-if="errors.has('price')">{{ errors.first('price') }}</label>
+							</div>
+							<div class="form-group col-12 p-r-0">
+								<button class="btn btn-primary btn-block">입장</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
 </th:block>

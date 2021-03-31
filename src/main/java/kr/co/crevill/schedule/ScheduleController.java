@@ -89,7 +89,6 @@ public class ScheduleController {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		scheduleDto.setScheduleType("ALL");
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
 		if(scheduleList != null && scheduleList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

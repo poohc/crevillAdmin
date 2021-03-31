@@ -28,7 +28,7 @@ new Vue({
 		    } else {
 				var formdata = new FormData();
 				formdata.append("buyCellPhone", $('#buyCellPhone').val());
-				formdata.append("voucherNo", $('input[name="voucherNo"]').val());
+				formdata.append("voucherNo", $('input[name="voucherNo"]:checked').val());
 				formdata.append("usedChildrenName", $('#usedChildrenName').val());
 				formdata.append("pgType", $('#pgType').val());
 				formdata.append("approvalNo", $('#approvalNo').val());

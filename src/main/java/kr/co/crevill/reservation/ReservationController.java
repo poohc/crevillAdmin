@@ -35,6 +35,10 @@ public class ReservationController {
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("reservation/list");
 		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		
+		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty()) {
+			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		}
 		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
 		return mav;
 	}

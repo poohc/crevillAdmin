@@ -108,18 +108,16 @@ $('#scheduleSearch').click(function(){
 	$.ajax({
 		type : "POST",
 		data: {
-	            scheduleStart : $('#scheduleDate').val().replace(/[^0-9]/g,"")
+	            scheduleStart : $('#scheduleDate').val().replace(/[^0-9]/g,""),
+				storeId : $('#storeId').val()
 	    },
 		url : '/schedule/getScheduleList.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
-				
 				$("select[name='scheduleId'] option").remove();
-				
 				for(var i=0; i < data.scheduleList.length; i++){
 					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
 				}
-				setText();
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
 				return false;	
@@ -133,7 +131,6 @@ $('#scheduleSearch').click(function(){
 	});
 	
 });
-
 
 function setText(){
 	$('#useDateTxt').text($('#scheduleDate').val());

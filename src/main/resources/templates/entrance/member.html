@@ -20,9 +20,10 @@
 								<div class="col-xl-4 col-md-6" th:each="list : ${list}">
 									<div class="prooduct-details-box">
 										<div class="media">
+											<th:block th:if="${list.childName != null}">
 											<div class="media-body ml-3">
 												<div class="product-name">
-													<h6 th:text="|고객명(${list.childrenName})|"></h6>
+													<h6 th:text="|고객명(${list.childName})|"></h6>
 												</div>
 												<div class="price d-flex">
 													<div class="text-muted mr-2">클래스</div>
@@ -39,6 +40,12 @@
 													<a class="btn btn-primary btn-xs" id="entranceText">입장완료 </a>
 												</th:block>
 											</div>
+											</th:block>
+											<th:block th:unless="${list.childName != null}">
+											<div class="media-body ml-3">
+												예약데이터가 없습니다.
+											</div>
+											</th:block>
 										</div>
 									</div>
 								</div>

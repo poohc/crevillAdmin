@@ -20,7 +20,7 @@
 			   COUNT(*) RESERVATION_CNT,
 			   FORMAT(((COUNT(*) / B.NUMBER_OF_PEOPLE) * 100), 0) AS RESERVATION_PER,
 			   DATE_FORMAT(B.SCHEDULE_START,'%H%i') SCHEDULE_START,
-			   D.NAME CHILDREN_NAME,
+			   D.NAME CHILD_NAME,
 			   E.NAME PLAY_NAME,
 			   C.QR_CODE MEMBER_QR_CODE,
 			   (SELECT COUNT(*) FROM SCHEDULE_ENTRANCE_MEMBER SEM WHERE SEM.SCHEDULE_ID = A.SCHEDULE_ID AND C.QR_CODE = SEM.MEMBER_QR_CODE) ENTRANCE_COUNT
@@ -53,10 +53,12 @@
 			   COUNT(*) RESERVATION_CNT,
 			   FORMAT(((COUNT(*) / B.NUMBER_OF_PEOPLE) * 100), 0) AS RESERVATION_PER,
 			   DATE_FORMAT(B.SCHEDULE_START,'%H%i') SCHEDULE_START,
-			   D.NAME CHILDREN_NAME,
+			   D.NAME CHILD_NAME,
+			   D.BIRTHDAY CHILD_BIRTHDAY,
 			   E.NAME PLAY_NAME,
 			   C.QR_CODE MEMBER_QR_CODE,
-			   E.PLAY_TIME
+			   E.PLAY_TIME,
+			   D.SEX CHILD_SEX
           FROM RESERVATION A,
                SCHEDULE B,
                MEMBER_PARENT C,
@@ -68,6 +70,54 @@
            AND C.CELL_PHONE = D.PARENT_CELL_PHONE
            AND B.PLAY_ID = E.PLAY_ID
     </select>
+	
+	<select id="selectNonMemberScheduleList" resultType="kr.co.crevill.entrance.EntranceVo">
+		 SELECT SUB.SCHEDULE_ID,
+                SUB.CNT RESERVATION_COUNT,
+                (SUB.NUMBER_OF_PEOPLE - SUB.CNT) REMAIN_COUNT,
+                SUB.NUMBER_OF_PEOPLE,
+			    SUB.SCHEDULE_START,
+			    SUB.NAME PLAY_NAME,
+			    SUB.PLAY_TIME
+           FROM (
+				SELECT B.SCHEDULE_ID,
+				       COUNT(A.RESERVATION_ID) CNT,
+				       B.NUMBER_OF_PEOPLE,
+				       B.SCHEDULE_START,
+				       C.NAME,
+				       C.PLAY_TIME 
+				  FROM RESERVATION A,
+				       (SELECT *
+				          FROM SCHEDULE
+				         WHERE SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y%m%d') , '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+		                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y%m%d'), '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')) B,
+				       PLAY C
+				 WHERE A.STATUS = '02'
+				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
+				   AND B.PLAY_ID = C.PLAY_ID 
+				GROUP BY B.SCHEDULE_ID, B.NUMBER_OF_PEOPLE, B.SCHEDULE_START, C.NAME, C.PLAY_TIME 
+			    ORDER BY ABS(DATEDIFF(NOW(), SCHEDULE_START)) ASC
+		           LIMIT 1
+		        ) SUB
+	</select>
+	
+	<select id="selectNonMemberVoucherList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
+		SELECT A.VOUCHER_NO,
+		       FORMAT(A.PRICE, 0) PRICE,
+		       A.TICKET_NAME 
+		  FROM VOUCHER A,
+		       VOUCHER_ATTRIBUTE B
+		 WHERE A.STATUS = '02'
+		   <![CDATA[
+		   AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
+		   ]]>
+		   AND A.VOUCHER_NO  = B.VOUCHER_NO 
+		   AND B.ATTRIBUTE = '비회원'
+		   <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND A.STORE_ID = #{storeId}
+           </if>
+         LIMIT 1
+	</select>
 	
 	<select id="checkVoucher" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
 		SELECT <![CDATA[
@@ -90,14 +140,20 @@
 		INSERT INTO SCHEDULE_ENTRANCE_MEMBER(
 											 SCHEDULE_ID,
 											 MEMBER_QR_CODE,
-											 CHILDREN_NAME,
+											 CHILD_NAME,
+											 CELL_PHONE,
+											 CHILD_BIRTHDAY,
+											 CHILD_SEX,
 											 REG_ID,
 											 REG_DATE
 											)
 							         VALUES (
 							         	     #{scheduleId},
 							         	     #{memberQrCode},
-							         	     #{childrenName},
+							         	     #{childName},
+							         	     #{cellPhone},
+							         	     #{childBirthday},
+							         	     #{childSex},
 							         	     #{regId},
 							         	     NOW()		
 							         		)				

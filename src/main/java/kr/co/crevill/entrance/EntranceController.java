@@ -31,8 +31,10 @@ public class EntranceController {
 	}
 	
 	@GetMapping("nonMember.view")
-	public ModelAndView nonMember(HttpServletRequest request) {
+	public ModelAndView nonMember(HttpServletRequest request, EntranceDto entranceDto) {
 		ModelAndView mav = new ModelAndView("entrance/nonMember");
+		mav.addObject("list", entranceService.selectNonMemberScheduleList());
+		mav.addObject("voucherList", entranceService.selectNonMemberVoucherList(entranceDto));
 		return mav;
 	}
 	
@@ -49,6 +51,14 @@ public class EntranceController {
 	public JSONObject entranceProc(HttpServletRequest request, EntranceDto entranceDto) {
 		JSONObject result = new JSONObject();
 		result = entranceService.entrance(entranceDto, request); 
+		return result;
+	}
+	
+	@PostMapping("nonMemberEntrance.proc")
+	@ResponseBody
+	public JSONObject nonMemberEntranceProc(HttpServletRequest request, EntranceDto entranceDto) {
+		JSONObject result = new JSONObject();
+		result = entranceService.nonMemberEntrance(entranceDto, request); 
 		return result;
 	}
 }

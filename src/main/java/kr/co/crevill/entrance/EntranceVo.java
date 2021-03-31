@@ -9,6 +9,8 @@ public class EntranceVo {
 	private String reservationId;
 	private String cellPhone;
 	private String voucherNo;
+	private String price;
+	private String ticketName;
 	private String scheduleId;
 	private String scheduleTime; 
     private String numberOfPeople;
@@ -17,15 +19,20 @@ public class EntranceVo {
 	private String reservationCnt;
 	private String scheduleStart;
 	private String memberQrCode;
-	private String childrenName;
+	private String childName;
+	private String childBirthday;
+	private String childSex;
 	private String playName;
 	private String playTime;
 	private String voucherAvailableYn;
 	private String timeLeftMinute;
 	private String useTime;
 	private String entranceCount;
+	private String reservationCount;
+	private String remainCount;
+	private String storeId;
     private String regId;
 	private String regDate;
 	private String updId;
-	private String updDate;
+	private String updDate; 
 }
