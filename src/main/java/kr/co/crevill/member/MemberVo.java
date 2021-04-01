@@ -22,6 +22,8 @@ public class MemberVo {
 	private String updDate;
 	private String updId;
 	private String status;
+	private String voucherCount;
+	private String storeName;
 	/* 페이징 관련 */
 	private int currentPageNo;
 	private int recordsPerPage;

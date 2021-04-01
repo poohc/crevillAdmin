@@ -65,42 +65,14 @@
 <!-- 														<p>FULL RESERVATION</p> -->
 <!-- 													</div> -->
 <!-- 												</div> -->
-												<p>전체정원 : {{item.numberOfPeople}}</p>
+												<p>CLASS정원 : {{item.numberOfPeople}}</p>
 												<p>튜터링정원 : {{item.tutoringNumber}}</p>
 												<div class="row details">
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TIME USER </span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-													
 													<div class="col-6">
 														<span>CLASS</span>
 													</div>
 													<div class="col-6 text-primary">{{item.reservationCnt}}</div>
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TUTORING</span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">{{item.tutoringNumber}}</div> -->
 												</div>
-<!-- 												<div class="customers"> -->
-<!-- 													<ul> -->
-<!-- 														<a href=""> 예약고객 정보 link -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 															<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 													</ul> -->
-<!-- 												</div> -->
 												<div class="project-status mt-4">
 													<div class="media mb-0">
 														<p>{{item.reservationPer}}%</p>
@@ -112,6 +84,23 @@
 														<div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" :style="{width: item.reservationPer + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div>
 													</div>
 												</div>
+<!-- 												<div class="row details"> -->
+<!-- 													<div class="col-6"> -->
+<!-- 														<span>TUTORING</span> -->
+<!-- 													</div> -->
+<!-- 													<div class="col-6 text-primary">{{item.reservationCnt}}</div> -->
+<!-- 												</div> -->
+<!-- 												<div class="project-status mt-4"> -->
+<!-- 													<div class="media mb-0"> -->
+<!-- 														<p>{{item.reservationPer}}%</p> -->
+<!-- 														<div class="media-body text-right"> -->
+<!-- 															<span>FULL</span> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 													<div class="progress" style="height: 5px"> -->
+<!-- 														<div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" :style="{width: item.reservationPer + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
 											</div>
 										</div>
 									</div>

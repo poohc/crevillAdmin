@@ -19,6 +19,7 @@
 									<thead>
 										<tr>
 											<th>고객명</th>
+											<th>아동명</th>
 											<th>예약신청일</th>
 											<th>이용예약일</th>
 											<th>예약시간</th>
@@ -32,6 +33,7 @@
 									<tbody>
 										<tr th:each="list : ${list}">
 											<td th:text="${list.customerName}"></td>
+											<td th:text="${list.childName}"></td>
 											<td th:text="${list.reservationSignUpDate}"></td>
 											<td th:text="${list.reservationDate}"></td>
 											<td th:text="${list.reservationTime}"></td>
@@ -42,7 +44,8 @@
 											<td>
 												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>
 												<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary" th:text="${list.statusName}"></span>
-												<span th:if="${list.status.toString().equals('05')}" class="badge badge-danger" th:text="${list.statusName}"></span>
+												<span th:if="${list.status.toString().equals('05')}" class="badge badge-warning" th:text="${list.statusName}"></span>
+												<span class="badge badge-danger"><a th:attr="onclick=|cancel('${list.reservationId}')|">예약취소처리</a></span>
 											</td>
 										</tr>
 									</tbody>

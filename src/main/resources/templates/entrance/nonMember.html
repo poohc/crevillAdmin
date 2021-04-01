@@ -64,13 +64,17 @@
 							</div>
 							<div class="form-group col-12 p-r-0">
 								<select class="form-control" size="1" id="voucherNo" name="voucherNo">
-									<option th:value="${voucherList?.voucherNo}" th:text="${voucherList?.ticketName}"></option>
+									<th:block th:each="voucherList : ${voucherList}">
+										<option th:value="${voucherList?.voucherNo}" th:text="${voucherList?.ticketName}"></option>
+									</th:block>
 								</select>
 								<label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
 							</div>
 							<div class="form-group col-12 p-r-0">
 								<select class="form-control" size="1" id="price" name="price">
-									<option th:if="${voucherList?.price != null}" th:text="|${voucherList?.price}원|"></option>
+									<th:block th:each="voucherList : ${voucherList}">
+										<option th:if="${voucherList?.price != null}" th:value="${voucherList?.voucherNo}" th:text="|${voucherList?.price}원|"></option>
+									</th:block>
 								</select>
 								<label class="col-form-label-sm" for="price" v-if="errors.has('price')">{{ errors.first('price') }}</label>
 							</div>

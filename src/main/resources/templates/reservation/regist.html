@@ -59,6 +59,17 @@
 								<div class="setup-content" id="step-2">
 									<div class="col-xs-12">
 										<div class="col-md-12">
+											<label for="exampleFormControlSelect29">아동명선택</label>
+												<select class="form-control form-control-lg" v-validate="'required'" id="childName" name="childName">
+												</select>
+												<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+											<br>
+										</div>
+									</div>
+								</div>
+								<div class="setup-content" id="step-3">
+									<div class="col-xs-12">
+										<div class="col-md-12">
 											<div class="form-group">
 												<label for="exampleFormControlSelect29">매장선택</label>
 												<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
@@ -77,18 +88,18 @@
 										</div>
 									</div>
 								</div>
-								<div class="setup-content" id="step-3">
+								<div class="setup-content" id="step-4">
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group mb-3">
 												<label class="control-label">스케쥴조회</label>
-												<input class="form-control" type="date" v-validate="'required'" required="required" id="scheduleDate" name="scheduleDate">
+												<input class="form-control" type="date" v-validate="'required'" id="scheduleDate" name="scheduleDate">
 												<label class="col-form-label-sm" for="scheduleDate" v-if="errors.has('scheduleDate')">{{ errors.first('scheduleDate') }}</label>
 												<br/>
 												<button class="btn btn-primary nextBtn pull-right" type="button" id="scheduleSearch">검색</button>												
 											</div>
 											<div class="form-group">
-												<label for="exampleFormControlSelect29">수업선택</label>
+												<label for="scheduleId">수업선택</label>
 												<select class="form-control form-control-lg" v-validate="'required'" id="scheduleId" name="scheduleId">
 												</select>
 												<label class="col-form-label-sm" for="scheduleId" v-if="errors.has('scheduleId')">{{ errors.first('scheduleId') }}</label>
@@ -96,7 +107,17 @@
 										</div>
 									</div>
 								</div>
-								<div class="setup-content" id="step-4">
+								<div class="setup-content" id="step-6">
+									<div class="col-xs-12">
+										<div class="col-md-12">
+											<div class="form-group mb-3">
+												<label for="scheduleId">튜터링여부(튜터링 체크 시 선택된 수업은 예약되지 않습니다.)</label>
+												<input class="form-control" type="checkbox" id="tutoringYn" name="tutoringYn" value="Y">		
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="setup-content" id="step-6">
 									<div class="col-xs-12">
 										<div class="col-md-12">
 											<div class="form-group mb-3">

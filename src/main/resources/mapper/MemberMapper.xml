@@ -21,19 +21,23 @@
     </select>
 	
     <select id="selectMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-        SELECT NAME,
-               CASE WHEN LENGTH(CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,4),'-',SUBSTRING(CELL_PHONE,8,4))
-            	    ELSE CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,3),'-',SUBSTRING(CELL_PHONE,7,4)) END AS CELL_PHONE,
-               EMAIL,
-               ADDRESS,
-               QR_CODE,
-               DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
-               CASE WHEN STATUS = 'A' THEN 'Active'
-            		ELSE 'Inactive' END AS STATUS
-          FROM MEMBER_PARENT
-        <where> 
+        SELECT A.NAME,
+               CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+               A.EMAIL,
+               A.ADDRESS,
+               A.QR_CODE,
+               DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+               CASE WHEN A.STATUS = 'A' THEN 'Active'
+            		ELSE 'Inactive' END AS STATUS,
+               (SELECT COUNT(*) FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE) VOUCHER_COUNT,
+               B.STORE_NAME
+          FROM MEMBER_PARENT A,
+               STORE B
+        <where>
+           AND A.STORE_ID = B.STORE_ID 
           <if test="storeId != null and storeId != 'CST00001'.toString()">
-           AND STORE_ID = #{storeId}
+           AND A.STORE_ID = #{storeId}
          </if>
        </where>
     </select>

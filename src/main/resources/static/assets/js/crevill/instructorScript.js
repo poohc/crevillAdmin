@@ -91,7 +91,17 @@ new Vue({
 						location.href = '/staff/nsRegist.view';
 				    }
 					
-				});	
+				}).catch(function (error) {
+				    if (error.response) {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+				    else if (error.request) {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+				    else {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+			  });	
 			}
 			
 			acceessableCount = acceessableCount + 1;

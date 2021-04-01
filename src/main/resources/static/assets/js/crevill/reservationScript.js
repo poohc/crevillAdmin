@@ -35,10 +35,12 @@ new Vue({
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
 				var formdata = new FormData();
-				formdata.append("cellPhone", $('#cellPhone').val());
-				formdata.append("voucherNo", $('#voucherNo').val());
-				formdata.append("scheduleId", $('#scheduleId').val());
-				
+					formdata.append("cellPhone",  $('#cellPhone').val());
+					formdata.append("voucherNo",  $('#voucherNo').val());
+					formdata.append("tutoringYn",   $("input[name=tutoringYn]:checked").val());
+					formdata.append("scheduleId", $('#scheduleId').val());
+					formdata.append("childName",  $('#childName').val());
+					
 				axios.post('/reservation/regist.proc', formdata,{
 					  headers: {
 						'Content-Type': 'multipart/form-data'
@@ -85,7 +87,12 @@ $('#voucherSearchBtn').click(function(){
 					$('#cellPhoneTxt').text($('#cellPhone').val());
 					$("select[name='voucherNo'] option").remove();
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">' + data.voucherList[i].ticketName + '</option');
+						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">' + data.voucherList[i].ticketName + '</option>');
+					}
+					
+					$("select[name='childName'] option").remove();
+					for(var i=0; i < data.childList.length; i++){
+						$("#childName").append('<option value="' + data.childList[i] + '">' + data.childList[i] + '</option>');
 					}
 				}
 				
@@ -132,14 +139,25 @@ $('#scheduleSearch').click(function(){
 	
 });
 
-function setText(){
-	$('#useDateTxt').text($('#scheduleDate').val());
-	$('#useTimeTxt').text($('#scheduleTime').val());
-	$('#useClassTxt').text($('#scheduleId').text());
-	$('#usedVoucherTxt').text($('#voucherNo').val());
-	$('#usedTimeTxt').text();
-	$('#remainTimeTxt').text();
-}
+//$('#scheduleId').change(function(){
+//	if($(this).val() != ''){
+//		if($("input[name=tutoring]:checked").val() == 'Y'){
+//			alert('클래스와 튜터링중 하나만 선택 가능합니다.');
+//			$("input[name=tutoring]").prop('checked', false);
+//			return;	
+//		}
+//	}
+//});
+//
+//$('#tutoring').change(function(){
+//	if($("input[name=tutoring]:checked").val() == 'Y'){
+//		if($('#scheduleId').val() != ''){
+//			alert('클래스와 튜터링중 하나만 선택 가능합니다.');
+//			$('#scheduleId').val('');
+//			return;	
+//		}
+//	}
+//});
 
 function cancel(){
 	location.href = '/reservation/regist.view';

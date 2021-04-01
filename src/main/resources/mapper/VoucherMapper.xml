@@ -97,15 +97,18 @@
 			   A.TICKET_NAME, 	
 		       A.GRADE,
 		       A.PRICE,
-		       A.USE_TIME 
+		       A.USE_TIME,
+		       D.NAME
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
-		       VOUCHER_USE_VIEW C
+		       VOUCHER_USE_VIEW C,
+		       MEMBER_CHILDREN D
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = #{buyCellPhone}
 		   AND A.STATUS = '12'
 		   AND (C.TIME_LEFT_HOUR = 'UNLIMITED' OR C.TIME_LEFT_HOUR  > 0)
+		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
 	</select>
 	
 	<insert id="insertVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">

@@ -1,6 +1,7 @@
 package kr.co.crevill.voucher;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -114,7 +115,15 @@ public class VoucherController {
 		//기회원 바우처 리스트 가져오기
 		if(CrevillConstants.RESULT_FAIL.equals(result.get("resultCd"))) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);	//기회원 이므로 성공 코드 리턴
-			result.put("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));	
+			List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+			List<String> tempChildList = new ArrayList<String>();
+			for(VoucherVo vo : voucherList) {
+				tempChildList.add(vo.getName());
+			}
+			HashSet<String> distinctChildSet = new HashSet<String>(tempChildList);
+			List<String> childList = new ArrayList<String>(distinctChildSet);
+			result.put("voucherList", voucherList);
+			result.put("childList", childList);
 		} else {
 			result.put("resultCd", CrevillConstants.RESULT_FAIL);	//기회원 이므로 성공 코드 리턴
 		}

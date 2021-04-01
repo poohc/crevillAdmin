@@ -23,6 +23,8 @@ public class MemberDto {
 	private String updId;
 	private String status;	
 	private String storeId;
+	private String voucherCount;
+	private String storeName;
 	/* 페이징 관련 */
 	private int currentPageNo;
 	private int recordsPerPage;

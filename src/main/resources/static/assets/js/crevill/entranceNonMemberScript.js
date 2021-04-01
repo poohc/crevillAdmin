@@ -77,3 +77,7 @@ new Vue({
 $('#enterBtn').click(function(){
 	$('#nonMemberForm').submit();
 });
+
+$('#voucherNo').change(function(){
+	$('#price').val($(this).val()).prop("selected", true);
+});

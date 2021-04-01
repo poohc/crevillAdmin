@@ -116,7 +116,6 @@
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
-         LIMIT 1
 	</select>
 	
 	<select id="checkVoucher" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">

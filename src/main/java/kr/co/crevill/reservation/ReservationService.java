@@ -38,6 +38,7 @@ public class ReservationService {
 	
 	private final String MSG_ALREADY_RESERVATION = "해당 회원으로 동일한 예약내역이 있습니다.";
 	private final String MSG_CLASS_FULL = "해당 클래스는 예약이 모두 완료된 클래스입니다.";
+	private final String MSG_TUTORING_FULL = "해당 튜터링은 예약이 모두 완료된 튜터링입니다.";
 	private final String MSG_LESS_TIME_LEFT_VOUCHER = "바우처의 남은 시간이 부족합니다.";
 	
 	public int selectReservationCount(ScheduleDto scheduleDto) {
@@ -73,29 +74,45 @@ public class ReservationService {
 			if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
 				result.put("resultMsg", MSG_CLASS_FULL);
 			} else {
-				reservationVo = reservationMapper.checkVoucherYn(reservationDto);
-				if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
-					result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+				reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
+				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+					result.put("resultMsg", MSG_TUTORING_FULL);
 				} else {
-					//선택 수업의 플레이타임 가져오기
-					ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
-					EntranceDto entranceDto = new EntranceDto(); 
-					entranceDto.setVoucherNo(reservationDto.getVoucherNo());
-	         	    entranceDto.setUseTime(rVo.getPlayTime());
-	         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-	         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
-	         	    entranceDto.setRegId(reservationDto.getRegId());
-					//바우처 사용 처리
-	         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-	         	    	//예약등록 처리
-	         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
-							result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					reservationVo = reservationMapper.checkVoucherYn(reservationDto);
+					if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
+						result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+					} else {
+						//선택 수업의 플레이타임 가져오기
+						ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
+						EntranceDto entranceDto = new EntranceDto(); 
+						entranceDto.setVoucherNo(reservationDto.getVoucherNo());
+		         	    entranceDto.setUseTime(rVo.getPlayTime());
+		         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+		         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
+		         	    entranceDto.setRegId(reservationDto.getRegId());
+						//바우처 사용 처리
+		         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+		         	    	//예약등록 처리
+		         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
+								result.put("resultCd", CrevillConstants.RESULT_SUCC);
+							}
 						}
 					}
 				}
 			}
 		}
 		
+		return result;
+	}
+	
+	public JSONObject cancelReservation(ReservationDto reservationDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_CANCEL);
+		reservationDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		if(reservationMapper.updateReservation(reservationDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+		}
 		return result;
 	}
 }

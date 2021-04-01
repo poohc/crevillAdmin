@@ -23,22 +23,5 @@ public class VoucherVo {
 	private String voucherTimeLeftHour;
 	private String storeId;
 	private String storeName;
-	
-	/* 페이징 관련 */
-	private int currentPageNo;
-	private int recordsPerPage;
-	private int pageSize;
-	private String searchKeyword;
-	private String searchType;
-	
-	//페이징 초기 설정
-	public VoucherVo() {
-		this.currentPageNo = 1;
-		this.recordsPerPage = 10;
-		this.pageSize = 10;
-	}	
-	
-	public int getStartPage() {
-		return (currentPageNo - 1) * recordsPerPage;
-	}
+	private String name;
 }

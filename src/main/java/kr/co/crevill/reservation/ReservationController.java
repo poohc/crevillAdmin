@@ -75,4 +75,12 @@ public class ReservationController {
 		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		return reservationService.selectReservationSearchList(scheduleDto);
 	}
+	
+	@PostMapping("cancel.proc")
+	@ResponseBody
+	public JSONObject cancelProc(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
+		JSONObject result = new JSONObject();
+		result = reservationService.cancelReservation(reservationDto, request);
+		return result;
+	}
 }

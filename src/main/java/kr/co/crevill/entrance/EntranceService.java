@@ -39,7 +39,7 @@ public class EntranceService {
 		return entranceMapper.selectNonMemberScheduleList();
 	}
 	
-	public EntranceVo selectNonMemberVoucherList(EntranceDto entranceDto){
+	public List<EntranceVo> selectNonMemberVoucherList(EntranceDto entranceDto){
 		return entranceMapper.selectNonMemberVoucherList(entranceDto);
 	}
 	

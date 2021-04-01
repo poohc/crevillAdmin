@@ -15,7 +15,9 @@ public interface ReservationMapper {
 	public List<ReservationVo> selectReservationSearchList(ScheduleDto scheduleDto);
 	public int checkAlreadyReservation(ReservationDto reservationDto);
 	public ReservationVo checkReservationYn(ReservationDto reservationDto);
+	public ReservationVo checkTutoringReservationYn(ReservationDto reservationDto);
 	public ReservationVo checkVoucherYn(ReservationDto reservationDto);
 	public ReservationVo selectReservationPlayInfo(ReservationDto reservationDto);
 	public int insertReservation(ReservationDto reservationDto);
+	public int updateReservation(ReservationDto reservationDto);
 }
