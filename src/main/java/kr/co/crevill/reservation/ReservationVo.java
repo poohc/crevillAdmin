@@ -33,4 +33,7 @@ public class ReservationVo {
 	private String playTime;
 	private String childName;
 	private String tutoringYn;
+	private String tutoringCnt;
+	private String tutoringPer;
+	private String voucherUseId;
 }

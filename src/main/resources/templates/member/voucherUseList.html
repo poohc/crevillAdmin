@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberVoucherUseListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
+			<div class="row">
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h5 th:text="${memberName}"></h5>
+							<select class="form-control form-control-lg" id="voucherNo" name="voucherNo">
+								<option th:each="voucherList : ${voucherList}" th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|" th:value="${voucherList.voucherNo}" th:selected="${voucherList.voucherNo == voucherNo}"></option>
+							</select>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>날짜</th>
+											<th>매장</th>
+											<th>이용자(자녀)</th>
+											<th>바우처명</th>
+											<th>이용클래스</th>
+											<th>사용시간</th>
+											<th>튜터링사용시간</th>
+											<th>사용취소</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${list}">
+											<td th:text="${list.regDate}"></td>
+											<td th:text="${list.storeName}"></td>
+											<td th:text="${list.childName}"></td>
+											<td th:text="${list.ticketName}"></td>
+											<td th:text="${list.playName}"></td>
+											<td th:text="${list.useTime}"></td>
+											<td th:text="${list.useTutoringTime}"></td>
+											<td>
+												<th:block th:if="${list.status == '02'}">
+												<a href="" type="button" th:attr="onclick=|deleteVoucherUseInfo('${list.reservationId}','${list.cellPhone}','${list.voucherNo}','${list.voucherUseId}')|">
+													<span class="badge badge-warning">이용취소</span>
+												</a>
+												</th:block>
+												<th:block th:unless="${list.status == '02'}">
+													<span class="badge badge-danger">취소완료</span>
+												</th:block>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Zero Configuration  Ends-->
+		</div>
+	</div>
+</th:block>
+</html>

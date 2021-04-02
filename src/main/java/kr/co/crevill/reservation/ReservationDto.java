@@ -17,4 +17,5 @@ public class ReservationDto {
 	private String updDate;
 	private String childName;
 	private String tutoringYn;
+	private String voucherUseId;
 }

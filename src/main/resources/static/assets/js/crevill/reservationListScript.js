@@ -12,11 +12,12 @@ $('input[name="scheduleStart"]').daterangepicker({
     } 	
 });
 
-function cancel(reservationId){
+function cancel(reservationId, voucherUseId){
 	
 	if(confirm('예약을 취소처리 하시겠습니까?')){
 		var formdata = new FormData();
 		formdata.append("reservationId", reservationId);
+		formdata.append("voucherUseId", voucherUseId);
 		
 		axios.post('/reservation/cancel.proc', formdata,{
 			  headers: {

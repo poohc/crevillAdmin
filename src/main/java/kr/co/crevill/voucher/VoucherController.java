@@ -86,7 +86,7 @@ public class VoucherController {
 	@ResponseBody
 	public JSONObject deleteProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
-		result = voucherService.deleteVoucher(voucherDto);
+		result = voucherService.deleteVoucher(voucherDto, request);
 		return result;
 	}
 	

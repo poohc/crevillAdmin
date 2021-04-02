@@ -29,3 +29,8 @@ function updateMemberInfo(qrCode){
 	var url = '/member/update.view?qrCode=' + qrCode;
 	location.href = url;
 }
+
+function memberVoucherUseList(cellPhone){
+	var url = '/member/voucherUseList.view?cellPhone=' + cellPhone.replace(/[^0-9]/g,"");
+	location.href = url;
+}

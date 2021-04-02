@@ -45,7 +45,9 @@
 												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>
 												<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary" th:text="${list.statusName}"></span>
 												<span th:if="${list.status.toString().equals('05')}" class="badge badge-warning" th:text="${list.statusName}"></span>
-												<span class="badge badge-danger"><a th:attr="onclick=|cancel('${list.reservationId}')|">예약취소처리</a></span>
+												<th:block th:if="${list.status.toString().equals('02')}">
+													<span class="badge badge-danger"><a th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}')|">예약취소처리</a></span>
+												</th:block>
 											</td>
 										</tr>
 									</tbody>

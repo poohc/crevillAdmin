@@ -40,9 +40,9 @@
 											<td th:text="${memberList.storeName}"></td>
 											<td>
 												<span class="badge badge-primary" th:attr="onclick=|updateMemberInfo('${memberList.qrCode}')|"><font style="cursor: hand;">정보수정</font></span>
-<!-- 													<a href="" type="button"> -->
-<!-- 													<span class="badge badge-secondary">바우처 사용이력</span> -->
-<!-- 												</a> -->
+												<th:block th:if="${memberList.voucherCount != '0'}">
+												<span class="badge badge-secondary" th:attr="onclick=|memberVoucherUseList('${memberList.cellPhone}')|"><font style="cursor: hand;">바우처 사용이력</font></span>
+												</th:block>
 												<a href="" type="button" th:attr="onclick=|deleteMemberInfo('${memberList.qrCode}','${memberList.cellPhone}')|">
 													<span class="badge badge-warning">탈퇴</span>
 												</a>

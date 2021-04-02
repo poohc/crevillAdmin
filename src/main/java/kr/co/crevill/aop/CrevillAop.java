@@ -82,6 +82,10 @@ public class CrevillAop {
         		if(servletPath.indexOf("join.view") > -1) {
         			menu = "신규고객등록";
         		}
+        		
+        		if(servletPath.indexOf("voucherUseList.view") > -1) {
+        			menu = "바우처사용내역";
+        		}
         	}
         	
         	if(contextPath.indexOf("staff") > -1) {

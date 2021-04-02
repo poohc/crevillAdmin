@@ -34,10 +34,16 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
+				var tutoringYn = $("input[name=tutoringYn]:checked").val();
+				
+				if(typeof tutoringYn == "undefined" || tutoringYn == null || tutoringYn == ""){
+					tutoringYn = 'N';
+				}
+				
 				var formdata = new FormData();
 					formdata.append("cellPhone",  $('#cellPhone').val());
 					formdata.append("voucherNo",  $('#voucherNo').val());
-					formdata.append("tutoringYn",   $("input[name=tutoringYn]:checked").val());
+					formdata.append("tutoringYn",   tutoringYn);
 					formdata.append("scheduleId", $('#scheduleId').val());
 					formdata.append("childName",  $('#childName').val());
 					

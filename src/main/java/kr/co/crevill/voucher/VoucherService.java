@@ -31,20 +31,37 @@ public class VoucherService {
 	public int selectVoucherCount(VoucherDto voucherDto) {
 		return voucherMapper.selectVoucherCount(voucherDto);
 	}
+	
 	public List<VoucherVo> selectVoucherList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherList(voucherDto);
 	}
+	
 	public VoucherVo selectVoucherInfo(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherInfo(voucherDto);
 	}
+	
 	public List<VoucherVo> getVoucherList(VoucherDto voucherDto){
 		return voucherMapper.getVoucherList(voucherDto);
 	}
+	
 	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherAttributeList(voucherDto);
 	}
+	
+	public VoucherVo selectVoucherTimeInfo(VoucherDto voucherDto) {
+		return voucherMapper.selectVoucherTimeInfo(voucherDto);
+	}
+	
 	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto){
 		return voucherMapper.getMemberVoucherList(voucherSaleDto);
+	}
+	
+	public List<VoucherVo> getMemberVoucherAllList(VoucherDto voucherDto){
+		return voucherMapper.getMemberVoucherAllList(voucherDto);
+	}
+	
+	public List<VoucherVo> getMemberVoucherUseList(VoucherDto voucherDto){
+		return voucherMapper.getMemberVoucherUseList(voucherDto);
 	}
 	/**
 	 * 직원 저장 처리 
@@ -161,14 +178,20 @@ public class VoucherService {
 	 * @param voucherDto
 	 * @return
 	 */
-	public JSONObject deleteVoucher(VoucherDto voucherDto) {
+	public JSONObject deleteVoucher(VoucherDto voucherDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
-			if(voucherMapper.deleteVoucher(voucherDto) > 0) {
-				result.put("resultCd", CrevillConstants.RESULT_SUCC);
-			}
+//		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
+//			if(voucherMapper.deleteVoucher(voucherDto) > 0) {
+//				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+//			}
+//		}
+		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_CANCEL);
+		if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
+		
 		return result;
 	}
 	

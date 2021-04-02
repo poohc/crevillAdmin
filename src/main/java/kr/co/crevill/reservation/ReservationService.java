@@ -18,6 +18,8 @@ import kr.co.crevill.entrance.EntranceDto;
 import kr.co.crevill.entrance.EntranceMapper;
 import kr.co.crevill.play.PlayMapper;
 import kr.co.crevill.schedule.ScheduleDto;
+import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherMapper;
 
 @Service
 public class ReservationService {
@@ -33,6 +35,9 @@ public class ReservationService {
 	
 	@Autowired
 	private EntranceMapper entranceMapper;
+	
+	@Autowired
+	private VoucherMapper voucherMapper; 
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -111,7 +116,13 @@ public class ReservationService {
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_CANCEL);
 		reservationDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		if(reservationMapper.updateReservation(reservationDto) > 0) {
-			result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+			VoucherDto voucherDto = new VoucherDto();
+			voucherDto.setVoucherUseId(reservationDto.getVoucherUseId());
+			voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_CANCEL);;
+			voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+			if(voucherMapper.updateVoucherUse(voucherDto) > 0) {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+			}	
 		}
 		return result;
 	}

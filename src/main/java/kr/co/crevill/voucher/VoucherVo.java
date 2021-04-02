@@ -24,4 +24,12 @@ public class VoucherVo {
 	private String storeId;
 	private String storeName;
 	private String name;
+	private String childName;
+	private String playName;
+	private String useTutoringTime;
+	private String reservationId;
+	private String cellPhone;
+	private String timeLeftHour;
+    private String timeLeftMinute;
+    private String voucherUseId; 
 }

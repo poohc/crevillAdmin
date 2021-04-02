@@ -19,6 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherService;
+import kr.co.crevill.voucher.VoucherVo;
 
 /**
  * 
@@ -41,6 +44,9 @@ public class MemberController {
 	@Autowired
 	private CommonService commonService;
 
+	@Autowired
+	private VoucherService voucherService; 
+	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
@@ -106,12 +112,24 @@ public class MemberController {
 		return result;
 	}
 	
-	@GetMapping("history.view")
-	public ModelAndView history(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("member/history");
+	@GetMapping("voucherUseList.view")
+	public ModelAndView history(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("member/voucherUseList");
+		List<VoucherVo> voucherList = voucherService.getMemberVoucherAllList(voucherDto);
+		mav.addObject("voucherList", voucherList);
+		
+		if(voucherDto.getVoucherNo() == null) {
+			voucherDto.setVoucherNo(voucherList.get(0).getVoucherNo());
+		}
+		
+		mav.addObject("memberName", voucherList.get(0).getName());
+		mav.addObject("cellPhone", voucherDto.getCellPhone());
+		mav.addObject("voucherNo", voucherDto.getVoucherNo());
+//		mav.addObject("voucherTimeInfo", voucherService.selectVoucherTimeInfo(voucherDto));
+		mav.addObject("list", voucherService.getMemberVoucherUseList(voucherDto));
 		return mav;
 	}
-	
+		
 	@PostMapping("getMemberInfo.proc")
 	@ResponseBody
 	public List<MemberVo> getMemberInfo(HttpServletRequest request, MemberDto memberDto) {
