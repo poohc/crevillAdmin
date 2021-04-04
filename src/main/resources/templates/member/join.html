@@ -63,7 +63,7 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
+										<label class="col-form-label-sm" for="childName">아동-성명</label>
 										<input class="form-control form-control-lg" v-validate="'required'" id="childName" name="childName" type="text" placeholder="아동성명">
 										<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
 									</div>
@@ -72,7 +72,7 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
+										<label class="col-form-label-sm" for="birthday">아동-생년월일</label>
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" type="text">
 										<label class="col-form-label-sm" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
 									</div>
