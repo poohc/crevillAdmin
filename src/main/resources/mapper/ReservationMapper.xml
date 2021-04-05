@@ -46,7 +46,8 @@
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
 			   A.CHILD_NAME,
-			   C.VOUCHER_USE_ID
+			   C.VOUCHER_USE_ID,
+			   (SELECT D.NAME FROM PLAY D WHERE D.PLAY_ID = B.PLAY_ID) PLAY_NAME
           FROM RESERVATION A,
                SCHEDULE B,
                VOUCHER_USE C

@@ -34,16 +34,16 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-				var tutoringYn = $("input[name=tutoringYn]:checked").val();
-				
-				if(typeof tutoringYn == "undefined" || tutoringYn == null || tutoringYn == ""){
-					tutoringYn = 'N';
-				}
+//				var tutoringYn = $("input[name=tutoringYn]:checked").val();
+//				
+//				if(typeof tutoringYn == "undefined" || tutoringYn == null || tutoringYn == ""){
+//					tutoringYn = 'N';
+//				}
 				
 				var formdata = new FormData();
 					formdata.append("cellPhone",  $('#cellPhone').val());
 					formdata.append("voucherNo",  $('#voucherNo').val());
-					formdata.append("tutoringYn",   tutoringYn);
+					formdata.append("tutoringYn", $('#tutoringYn').val());
 					formdata.append("scheduleId", $('#scheduleId').val());
 					formdata.append("childName",  $('#childName').val());
 					
@@ -93,7 +93,7 @@ $('#voucherSearchBtn').click(function(){
 					$('#cellPhoneTxt').text($('#cellPhone').val());
 					$("select[name='voucherNo'] option").remove();
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">' + data.voucherList[i].ticketName + '</option>');
+						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
 					}
 					
 					$("select[name='childName'] option").remove();
@@ -122,14 +122,20 @@ $('#scheduleSearch').click(function(){
 		type : "POST",
 		data: {
 	            scheduleStart : $('#scheduleDate').val().replace(/[^0-9]/g,""),
-				storeId : $('#storeId').val()
+				storeId : $('#storeId').val(),
+				voucherNo : $('voucherNo').val()
 	    },
 		url : '/schedule/getScheduleList.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
 				$("select[name='scheduleId'] option").remove();
+				$("select[name='tutoringYn'] option").remove();
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
+					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
+				}
+				$("#tutoringYn").append('<option value="N">튜터링선택안함</option');
+				for(var i=0; i < data.scheduleList.length; i++){
+					$("#tutoringYn").append('<option value="Y">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']</option');
 				}
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
@@ -145,25 +151,39 @@ $('#scheduleSearch').click(function(){
 	
 });
 
-//$('#scheduleId').change(function(){
-//	if($(this).val() != ''){
-//		if($("input[name=tutoring]:checked").val() == 'Y'){
-//			alert('클래스와 튜터링중 하나만 선택 가능합니다.');
-//			$("input[name=tutoring]").prop('checked', false);
-//			return;	
-//		}
-//	}
-//});
-//
-//$('#tutoring').change(function(){
-//	if($("input[name=tutoring]:checked").val() == 'Y'){
-//		if($('#scheduleId').val() != ''){
-//			alert('클래스와 튜터링중 하나만 선택 가능합니다.');
-//			$('#scheduleId').val('');
-//			return;	
-//		}
-//	}
-//});
+var today = new Date();
+var year = today.getFullYear(); // 년도
+var month = today.getMonth() + 1;  // 월
+var date = today.getDate();  // 날짜
+
+year = year + '';
+month = month + '';
+date = date + '';
+if(month < 10) month = '0' + month;
+if(date < 10) date = '0' + date;
+
+console.log(year + month + date);
+
+$('input[name="scheduleDate"]').daterangepicker({
+    "singleDatePicker": true,
+    "startDate": year + month + date,
+    "minDate": year + month + date,
+	"locale": {
+        "format": "YYYYMMDD",
+        "separator": " - ",
+        "applyLabel": "적용",
+        "cancelLabel": "취소",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ]}
+});
 
 function cancel(){
 	location.href = '/reservation/regist.view';

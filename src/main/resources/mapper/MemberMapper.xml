@@ -51,7 +51,8 @@
                B.NAME CHILD_NAME,
                B.BIRTHDAY,
                B.SEX,
-               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE
+               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
+               A.STORE_ID
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
@@ -64,6 +65,27 @@
            <if test="cellPhone != null and cellPhone != ''">
            AND A.CELL_PHONE = #{cellPhone}
            </if>
+    </select>
+	
+	<select id="getMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+        SELECT NAME,
+               CELL_PHONE,
+               EMAIL,
+               ADDRESS,
+               QR_CODE,
+               STORE_ID
+          FROM MEMBER_PARENT
+        <where>
+           <if test="qrCode != null and qrCode != ''">
+           AND QR_CODE = #{qrCode}
+           </if>
+           <if test="name != null and name != ''">
+           AND NAME = #{name}
+           </if>
+           <if test="cellPhone != null and cellPhone != ''">
+           AND CELL_PHONE = #{cellPhone}
+           </if>
+        </where>
     </select>
 	
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
@@ -136,6 +158,7 @@
 	       	  <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
+	       	  <if test="storeId != null">STORE_ID = #{storeId},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>

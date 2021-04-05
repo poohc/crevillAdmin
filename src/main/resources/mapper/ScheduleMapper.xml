@@ -22,16 +22,30 @@
 			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
-			   SUB_TOPIC
+			   SUB_TOPIC,
+			   NUMBER_OF_PEOPLE - (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'N') CLASS_AVA_CNT, 
+			   TUTORING_NUMBER - (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_AVA_CNT,
+			   (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'N') CLASS_CNT,
+			   (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_CNT
           FROM SCHEDULE
         <where>
+           <if test="grade != null and grade != 'VIP'.toString()">	
+           AND OPERATION_TYPE = 'WEEKDAY'
+           </if>
+           <if test="grade != null and grade == 'VIP'.toString()">	
+           AND OPERATION_TYPE = 'WEEKEND'
+           </if>
            <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND STORE_ID = #{storeId}
            </if>
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
            AND SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
                                   AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
-           </if>                         
+           </if>      
+           <if test="scheduleType != null and scheduleType == 'NOW'.toString()">	
+           AND SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(), '%Y%m%d%H'), '0000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+           </if>           
 		   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
 		   AND SCHEDULE_END BETWEEN NOW() 
                                 AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	

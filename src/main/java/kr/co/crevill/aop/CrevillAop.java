@@ -72,6 +72,9 @@ public class CrevillAop {
         		if(servletPath.indexOf("nonMember.view") > -1) {
         			menu = "비회원입장";
         		}
+        		if(servletPath.indexOf("nonMemberList.view") > -1) {
+        			menu = "비회원입장리스트";
+        		}
         	}
         	
         	if(contextPath.indexOf("member") > -1) {

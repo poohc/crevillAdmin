@@ -110,7 +110,8 @@
 		       A.GRADE,
 		       A.PRICE,
 		       A.USE_TIME,
-		       D.NAME
+		       D.NAME,
+		       C.TIME_LEFT_HOUR
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
 		       VOUCHER_USE_VIEW C,

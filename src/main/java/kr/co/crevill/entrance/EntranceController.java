@@ -38,6 +38,13 @@ public class EntranceController {
 		return mav;
 	}
 	
+	@GetMapping("nonMemberList.view")
+	public ModelAndView nonMemberList(HttpServletRequest request, EntranceDto entranceDto) {
+		ModelAndView mav = new ModelAndView("entrance/nonMemberList");
+		mav.addObject("list", entranceService.selectNonMemberEntranceList(entranceDto));
+		return mav;
+	}
+	
 	@PostMapping("checkVoucher.proc")
 	@ResponseBody
 	public JSONObject checkVoucher(HttpServletRequest request, EntranceDto entranceDto) {

@@ -16,6 +16,9 @@ import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.member.MemberDto;
+import kr.co.crevill.member.MemberMapper;
+import kr.co.crevill.member.MemberVo;
 
 @Service
 public class VoucherService {
@@ -25,6 +28,9 @@ public class VoucherService {
 
 	@Autowired
 	private CommonMapper commonMapper;
+	
+	@Autowired
+	private MemberMapper memberMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -209,6 +215,18 @@ public class VoucherService {
 		voucherSaleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);		
+		
+		MemberDto memberDto = new MemberDto();
+		memberDto.setCellPhone(voucherSaleDto.getBuyCellPhone());
+		MemberVo memberVo = memberMapper.getMemberInfo(memberDto);
+		
+		//모바일 가입 회원의 경우 판매 매장 STORE_ID 로 업데이트
+		if(memberVo != null && "MOBILE".equals(memberVo.getStoreId())) {
+			memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+			memberDto.setQrCode(memberVo.getQrCode());
+			memberMapper.updateMemberParent(memberDto);
+		}
+		
 		if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
 			if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
 				VoucherDto voucherDto = new VoucherDto();

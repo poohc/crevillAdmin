@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/playListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+	        <div class="row">
+	            <!-- Individual column searching (text inputs) Starts-->
+	            <div class="col-sm-12">
+	                <div class="card">
+	                    <div class="card-body">
+	                        <div class="table-responsive product-table">
+	                            <table class="display" id="basic-1">
+	                                <thead>
+	                                    <tr>
+	                                        <th>입장일시</th>
+	                                        <th>성함(아동)</th>
+	                                        <th>생년월일</th>
+	                                        <th>성별</th>
+	                                        <th>보호자연락처</th>
+	                                        <th>입장지점</th>
+	                                        <th>클래스명</th>
+	                                        <th>입장권종</th>
+	                                        <th>이용금액</th>
+	                                        <th>업무처리자</th>
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                    <tr th:each="list : ${list}">
+	                                    	<td th:text="${list.scheduleStart}"></td>
+	                                    	<td th:text="${list.childName}"></td>
+	                                    	<td th:text="${list.childBirthday}"></td>
+	                                    	<td th:text="${list.childSex}"></td>
+	                                    	<td th:text="${list.cellPhone}"></td>
+	                                    	<td th:text="${list.storeName}"></td>
+	                                    	<td th:text="${list.playName}"></td>
+	                                    	<td th:text="${list.ticketName}"></td>
+	                                    	<td th:text="${list.price}"></td>
+	                                    	<td th:text="${list.staffName}"></td>
+	                                    </tr>
+	                                </tbody>
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</th:block>
+</html>

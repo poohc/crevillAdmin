@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,9 @@ import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherService;
+import kr.co.crevill.voucher.VoucherVo;
 
 @Controller
 @RequestMapping("schedule")
@@ -32,6 +36,9 @@ public class ScheduleController {
 	
 	@Autowired
 	private ScheduleService scheduleService;
+	
+	@Autowired
+	private VoucherService voucherService;
 	
 	@Autowired
 	private StoreService storeService;
@@ -88,7 +95,18 @@ public class ScheduleController {
 	public JSONObject getScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		scheduleDto.setScheduleType("ALL");
+		scheduleDto.setScheduleType("NOW");
+		
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setVoucherNo(scheduleDto.getVoucherNo());
+		VoucherVo voucherVo = voucherService.selectVoucherInfo(voucherDto);
+		String grade = "normal";
+		
+		//TODO VIP 권종 늘어나면 수정할 것
+		if(voucherVo != null && StringUtils.equalsAny(voucherVo.getGrade(), "VIP_REGIST", "VIP_ANON")) {
+			grade = "VIP";
+		}
+		scheduleDto.setGrade(grade);
 		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
 		if(scheduleList != null && scheduleList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

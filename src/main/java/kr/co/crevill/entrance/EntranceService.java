@@ -42,6 +42,10 @@ public class EntranceService {
 	public List<EntranceVo> selectNonMemberVoucherList(EntranceDto entranceDto){
 		return entranceMapper.selectNonMemberVoucherList(entranceDto);
 	}
+
+	public List<EntranceVo> selectNonMemberEntranceList(EntranceDto entranceDto){
+		return entranceMapper.selectNonMemberEntranceList(entranceDto);
+	}
 	
 	public JSONObject checkVoucher(EntranceDto entranceDto) {
 		JSONObject result = new JSONObject();

@@ -52,13 +52,23 @@
 						<div class="card-body">
 							<div class="form-group col-12 p-r-0">
 								<select class="form-control" size="1" id="scheduleId" name="scheduleId">
+									<th:block th:if="${list != null}">
 									<option th:text="|[잔여 : ${list?.remainCount}]${list?.scheduleStart}|" th:value="${list?.scheduleId}"></option>
+									</th:block>
+									<th:block th:unless="${list != null}">
+									<option>잔여시간 없음</option>
+									</th:block>
 								</select>
 								<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
 							</div>
 							<div class="form-group col-12 p-r-0">
 								<select class="form-control" size="1" id="playName" name="playName">
+									<th:block th:if="${list != null}">
 									<option th:text="|클래스 : ${list?.playName}|"></option>
+									</th:block>
+									<th:block th:unless="${list != null}">
+									<option>잔여수업 없음</option>
+									</th:block>
 								</select>
 								<label class="col-form-label-sm" for="playName" v-if="errors.has('playName')">{{ errors.first('playName') }}</label>
 							</div>

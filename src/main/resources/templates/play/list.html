@@ -18,6 +18,7 @@
 	                                <thead>
 	                                    <tr>
 	                                        <th>THUMB</th>
+	                                        <th>PLAY_ID</th>
 	                                        <th>PLAY</th>
 	                                        <th>놀이시간[분]</th>
 	                                        <th>평일/주말구분</th>
@@ -30,11 +31,11 @@
 	                                    	<td>	
 	                                        	<img th:src="@{/common/getImage(imageIdx=${playList.thumbnailIdx})}">
 	                                        </td>
+	                                        <td th:text="${playList.playId}"></td>
 	                                        <td>
 	                                            <h6 th:text="${playList.name}"></h6><span th:text="${playList.description}"></span>
 	                                        </td>
 	                                        <td th:text="${playList.playTime}"></td>
-	                                        
 	                                        <th:block th:if="${playList.operationType == 'BOTH'}">
 											    <td class="font-success">평일/주말</td>
 											</th:block>

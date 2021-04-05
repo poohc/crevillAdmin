@@ -14,7 +14,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="table-responsive">
-								예약날짜 : <input id="scheduleStart" name="scheduleStart" type="text">&nbsp;&nbsp;<button id="searchBtn">검색</button>
+								예약날짜 : <input id="scheduleStart" name="scheduleStart" type="text" th:value="${scheduleStart}">&nbsp;&nbsp;<button id="searchBtn">검색</button>
 								<table class="display" id="basic-1">
 									<thead>
 										<tr>
@@ -24,8 +24,7 @@
 											<th>이용예약일</th>
 											<th>예약시간</th>
 											<th>이용구분</th>
-<!-- 											<th>이용인원</th> -->
-<!-- 											<th>동반입장</th> -->
+											<th>예약클래스</th>
 											<th>전화번호</th>
 											<th>진행상황</th>
 										</tr>
@@ -37,9 +36,8 @@
 											<td th:text="${list.reservationSignUpDate}"></td>
 											<td th:text="${list.reservationDate}"></td>
 											<td th:text="${list.reservationTime}"></td>
+											<td th:text="${list.playName}"></td>
 											<td th:text="${list.voucherType}"></td>
-<!-- 											<td>1</td> -->
-<!-- 											<td>동반</td> -->
 											<td th:text="${list.cellPhone}"></td>
 											<td>
 												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>

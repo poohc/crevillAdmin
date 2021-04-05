@@ -12,7 +12,7 @@ public class EntranceVo {
 	private String price;
 	private String ticketName;
 	private String scheduleId;
-	private String scheduleTime; 
+	private String scheduleTime;
     private String numberOfPeople;
     private String tutoringNumber; 
 	private String status;
@@ -31,6 +31,8 @@ public class EntranceVo {
 	private String reservationCount;
 	private String remainCount;
 	private String storeId;
+	private String storeName;
+	private String staffName;
     private String regId;
 	private String regDate;
 	private String updId;

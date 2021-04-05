@@ -12,6 +12,7 @@ public interface EntranceMapper {
 	public EntranceVo selectEntranceInfo(EntranceDto entranceDto);
 	public EntranceVo selectNonMemberScheduleList();
 	public List<EntranceVo> selectNonMemberVoucherList(EntranceDto entranceDto);
+	public List<EntranceVo> selectNonMemberEntranceList(EntranceDto entranceDto);
 	public EntranceVo checkVoucher(EntranceDto entranceDto);
 	public int insertScheduleEntranceMember(EntranceDto entranceDto);
 	public int insertVoucherUse(EntranceDto entranceDto);
