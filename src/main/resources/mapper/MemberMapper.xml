@@ -18,6 +18,11 @@
 	<select id="selectMemberCount" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
         SELECT COUNT(*)
           FROM MEMBER_PARENT
+        <where>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+		   AND STORE_ID = #{storeId}
+		   </if> 
+       </where>
     </select>
 	
     <select id="selectMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">

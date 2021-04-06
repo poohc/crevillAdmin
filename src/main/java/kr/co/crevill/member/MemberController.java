@@ -50,6 +50,7 @@ public class MemberController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
 		return mav;
 	}

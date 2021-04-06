@@ -15,7 +15,7 @@ public interface CommonMapper {
 	public FileVo selectFileIdx();
 	public int insertImages(FileDto fileDto);
 	public int insertFiles(FileDto fileDto);
-	public CommonVo selectStatInfo();
+	public CommonVo selectStatInfo(CommonDto commonDto);
 	public List<CommonVo> selectVoucherStatInfo();
 	public List<CommonVo> selectTodayReservationInfo(CommonDto commonDto);
 }

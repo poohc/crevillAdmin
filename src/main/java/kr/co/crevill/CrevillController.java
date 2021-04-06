@@ -46,13 +46,16 @@ public class CrevillController {
 		InstructorDto instructorDto = new InstructorDto();
 		instructorDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		ScheduleDto scheduleDto = new ScheduleDto();
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		MemberDto memberDto = new MemberDto();
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		CommonDto commonDto = new CommonDto();
+		commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
 		mav.addObject("voucherStatInfo", commonService.selectVoucherStatInfo());
-		mav.addObject("statInfo", commonService.selectStatInfo());
+		mav.addObject("statInfo", commonService.selectStatInfo(commonDto));
 		mav.addObject("memberCount", memberService.selectMemberCount(memberDto));
 		mav.addObject("nstaffList", staffService.selectInstructorList(instructorDto));
 		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));

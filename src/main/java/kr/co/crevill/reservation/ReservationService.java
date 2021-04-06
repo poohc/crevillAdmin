@@ -72,6 +72,12 @@ public class ReservationService {
 		 * 3. 바우처 사용 시간 체크
 		 */
 		
+		//튜터링 선택 시 튜터링 스케쥴 ID 를 넣어주고 TUTORING_YN = 'Y' 처리
+    	if(reservationDto.getTutoringYn() != null && !"N".equals(reservationDto.getTutoringYn())) {
+    		reservationDto.setScheduleId(reservationDto.getTutoringYn());
+    		reservationDto.setTutoringYn("Y");
+    	}
+		
 		if(reservationMapper.checkAlreadyReservation(reservationDto) >= 1) {
 			result.put("resultMsg", MSG_ALREADY_RESERVATION);
 		} else {

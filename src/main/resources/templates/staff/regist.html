@@ -35,7 +35,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="nameEng">성함(영문)</label>
-										<input class="form-control form-control-lg" v-validate="'required|alpha'" id="nameEng" name="nameEng" type="text" placeholder="Name">
+										<input class="form-control form-control-lg" v-validate="'required|alpha_spaces'" id="nameEng" name="nameEng" type="text" placeholder="Name">
 										<label class="col-form-label-sm" for="nameEng" v-if="errors.has('nameEng')">{{ errors.first('nameEng') }}</label>
 									</div>
 								</div>

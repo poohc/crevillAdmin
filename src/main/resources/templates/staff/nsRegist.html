@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/instructorScript.js')}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/instructorScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -37,7 +37,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="fullName">FULL NAME</label>
-										<input class="form-control form-control-lg" id="fullName" name="fullName" type="text" placeholder="Name">
+										<input class="form-control form-control-lg" v-validate="'required|alpha_spaces'" id="fullName" name="fullName" type="text" placeholder="Name">
 										<label class="col-form-label-sm" for="fullName" v-if="errors.has('fullName')">{{ errors.first('fullName') }}</label>
 									</div>
 								</div>

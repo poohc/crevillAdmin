@@ -34,33 +34,34 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-//				var tutoringYn = $("input[name=tutoringYn]:checked").val();
-//				
-//				if(typeof tutoringYn == "undefined" || tutoringYn == null || tutoringYn == ""){
-//					tutoringYn = 'N';
-//				}
-				
-				var formdata = new FormData();
+			
+				if($('#scheduleId').val() != 'N' && $('#tutoringYn').val() != 'N'){
+					alert('클래스와 튜터링은 동시에 선택할 수는 없습니다.');
+					acceessableCount = 1;
+					return false;
+				} else {
+					var formdata = new FormData();
 					formdata.append("cellPhone",  $('#cellPhone').val());
 					formdata.append("voucherNo",  $('#voucherNo').val());
 					formdata.append("tutoringYn", $('#tutoringYn').val());
 					formdata.append("scheduleId", $('#scheduleId').val());
 					formdata.append("childName",  $('#childName').val());
 					
-				axios.post('/reservation/regist.proc', formdata,{
-					  headers: {
-						'Content-Type': 'multipart/form-data'
-					  }
-					}).then((response) => {
-					if (response.data.resultCd == '00') {
-				      	alert('정상처리 되었습니다.');
-						location.href = '/reservation/regist.view';
-				    } else {
-						alert(response.data.resultMsg);
-						return false;
-					}
-					
-				});	
+					axios.post('/reservation/regist.proc', formdata,{
+						  headers: {
+							'Content-Type': 'multipart/form-data'
+						  }
+						}).then((response) => {
+						if (response.data.resultCd == '00') {
+					      	alert('정상처리 되었습니다.');
+							location.href = '/reservation/regist.view';
+					    } else {
+							alert(response.data.resultMsg);
+							return false;
+						}
+						
+					});		
+				}	
 			}
 			
  			acceessableCount = acceessableCount + 1;
@@ -130,12 +131,13 @@ $('#scheduleSearch').click(function(){
 			if(data.resultCd == '00'){
 				$("select[name='scheduleId'] option").remove();
 				$("select[name='tutoringYn'] option").remove();
+				$("#scheduleId").append('<option value="N">선택</option');
 				for(var i=0; i < data.scheduleList.length; i++){
 					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
 				}
-				$("#tutoringYn").append('<option value="N">튜터링선택안함</option');
+				$("#tutoringYn").append('<option value="N">선택</option');
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#tutoringYn").append('<option value="Y">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']</option');
+					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
 				}
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
