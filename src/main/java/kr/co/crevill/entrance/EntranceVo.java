@@ -24,6 +24,7 @@ public class EntranceVo {
 	private String childSex;
 	private String playName;
 	private String playTime;
+	private String voucherTime;
 	private String voucherAvailableYn;
 	private String timeLeftMinute;
 	private String useTime;

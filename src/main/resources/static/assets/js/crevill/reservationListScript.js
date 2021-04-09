@@ -40,6 +40,6 @@ function cancel(reservationId, voucherUseId){
 		      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
 		    }
 	    });	
-	}	
+	}
 	
 }

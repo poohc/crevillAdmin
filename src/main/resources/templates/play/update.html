@@ -45,11 +45,9 @@
 	                        <div class="theme-form">
 	                            <div class="form-group">
 	                                <select class="form-control form-control-lg" v-validate="'required'" id="playTime" name="playTime">
-	                                    <option th:selected="${info.playTime == '30'}">30</option>
-	                                    <option th:selected="${info.playTime == '60'}">60</option>
-	                                    <option th:selected="${info.playTime == '90'}">90</option>
-	                                    <option th:selected="${info.playTime == '120'}">120</option>
-	                                    <option th:selected="${info.playTime == '240'}">240</option>
+	                                    <th:block th:each="num : ${#numbers.sequence(1,18)}">
+		                                    <option th:value="${num * 30}" th:text="${num * 30}" th:selected="${info.playTime} == ${num * 30}"></option>
+	                                    </th:block>
 	                                </select>
 	                                <label class="col-form-label-sm" for="playTime" v-if="errors.has('playTime')">{{ errors.first('playTime') }}</label>
 	                            </div>
@@ -87,6 +85,20 @@
 	                    </div>
 	                </div>
 	            </div>
+	            <div class="col-xl-6">
+                    <h6 class="sub-title">바우처 소진시간</h6>
+                    <p>바우처소진시간 설정 (분 단위)</p>
+                    <div class="theme-form">
+                        <div class="form-group">
+                            <select class="form-control form-control-lg" v-validate="'required'" id="voucherTime" name="voucherTime">
+                                <th:block th:each="num : ${#numbers.sequence(1,18)}">
+                                 <option th:value="${num * 30}" th:text="${num * 30}" th:selected="${info.voucherTime} == ${num * 30}"></option>
+                                </th:block>
+                            </select>
+                            <label class="col-form-label-sm" for="voucherTime" v-if="errors.has('voucherTime')">{{ errors.first('voucherTime') }}</label>
+                        </div>
+                    </div>
+                </div>
 	            <div class="card-footer">
 	                <button class="btn btn-primary" type="submit" data-toggle="modal">수정</button>
 	                <input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">

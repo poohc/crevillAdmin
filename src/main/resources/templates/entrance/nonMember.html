@@ -10,6 +10,7 @@
 		<div class="container-fluid credit-card">
 			<form class="form theme-form" id="nonMemberForm" @submit.prevent="validateBeforeSubmit" action="/entrance/nonMemberEntrance.proc" method="post" enctype="multipart/form-data">
 			<input type="hidden" id="playTime" name="playTime" th:value="${list?.playTime}">
+			<input type="hidden" id="voucherTime" name="voucherTime" th:value="${list?.voucherTime}">
 			<div class="row">
 				<div class="col-xl-8 box-col-12">
 					<div class="card">

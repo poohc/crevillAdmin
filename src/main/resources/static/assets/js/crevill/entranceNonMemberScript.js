@@ -49,6 +49,7 @@ new Vue({
 				formdata.append("scheduleId", $('#scheduleId').val());
 				formdata.append("voucherNo", $('#voucherNo').val());
 				formdata.append("playTime", $('#playTime').val());
+				formdata.append("voucherTime", $('#voucherTime').val());
 				
 				axios.post('/entrance/nonMemberEntrance.proc', formdata,{
 					  headers: {

@@ -97,7 +97,7 @@ public class ReservationService {
 						ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
 						EntranceDto entranceDto = new EntranceDto(); 
 						entranceDto.setVoucherNo(reservationDto.getVoucherNo());
-		         	    entranceDto.setUseTime(rVo.getPlayTime());
+		         	    entranceDto.setUseTime(rVo.getVoucherTime());
 		         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 		         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
 		         	    entranceDto.setRegId(reservationDto.getRegId());

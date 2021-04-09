@@ -7,7 +7,8 @@ Vue.use(VeeValidate, {
 		    attributes: {
 		      operationType : '운영구분',
 			  name : '플레이 이름',
-   			  playTime : '이용시간',		  
+   			  playTime : '이용시간',		
+			  voucherTime : '바우처 소진시간',	  
 			  description : '플레이 설명',
 			  thumbnail : '썸네일',
 			  picture : '놀이사진',
@@ -21,7 +22,8 @@ new Vue({
     data: {
     	operationType : '',
 	  	name : '',
-		playTime : '',	  	
+		playTime : '',	 
+		voucherTime : '', 	
 		description : '',
 		thumbnail : '',
 		picture : '',
@@ -46,6 +48,7 @@ new Vue({
 				formdata.append("operationType", operType);
 				formdata.append("name", $('#name').val());
 				formdata.append("playTime", $('select[name="playTime"]').val());
+				formdata.append("voucherTime", $('select[name="voucherTime"]').val());
 				formdata.append("description", $('#description').val());
 				
 				if($("#thumbnail")[0].files[0] != undefined){

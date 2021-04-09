@@ -58,6 +58,7 @@
 			   E.NAME PLAY_NAME,
 			   C.QR_CODE MEMBER_QR_CODE,
 			   E.PLAY_TIME,
+			   E.VOUCHER_TIME,
 			   D.SEX CHILD_SEX
           FROM RESERVATION A,
                SCHEDULE B,
@@ -78,14 +79,16 @@
                 SUB.NUMBER_OF_PEOPLE,
 			    SUB.SCHEDULE_START,
 			    SUB.NAME PLAY_NAME,
-			    SUB.PLAY_TIME
+			    SUB.PLAY_TIME,
+			    SUB.VOUCHER_TIME
            FROM (
 				SELECT B.SCHEDULE_ID,
 				       COUNT(A.RESERVATION_ID) CNT,
 				       B.NUMBER_OF_PEOPLE,
 				       B.SCHEDULE_START,
 				       C.NAME,
-				       C.PLAY_TIME 
+				       C.PLAY_TIME,
+				       C.VOUCHER_TIME 
 				  FROM RESERVATION A,
 				       (SELECT *
 				          FROM SCHEDULE

@@ -91,7 +91,7 @@ public class EntranceService {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 
-		entranceDto.setUseTime(entranceDto.getPlayTime());
+		entranceDto.setUseTime(entranceDto.getVoucherTime());
 		entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 		entranceDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
