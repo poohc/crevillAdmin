@@ -64,9 +64,13 @@ public class StoreController {
 		mav.addObject("playList", commonService.selectCommonCode(commonCodeDto));
 		StoreVo storeVo = storeService.selectStoreInfo(storeDto);
 		List<String> playKeyList = new ArrayList<String>();
-		for(String playKey : storeVo.getPlayKey().split(",")) {
-			playKeyList.add(playKey);
+		
+		if(storeVo.getPlayKey() != null && storeVo.getPlayKey().length() > 0) {
+			for(String playKey : storeVo.getPlayKey().split(",")) {
+				playKeyList.add(playKey);
+			}	
 		}
+		
 		mav.addObject("info", storeVo);
 		mav.addObject("playKeyList", playKeyList);
 		return mav;
