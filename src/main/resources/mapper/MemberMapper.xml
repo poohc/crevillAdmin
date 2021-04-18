@@ -36,6 +36,7 @@
                CASE WHEN A.STATUS = 'A' THEN 'Active'
             		ELSE 'Inactive' END AS STATUS,
                (SELECT COUNT(*) FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE) VOUCHER_COUNT,
+               IFNULL((SELECT STORE_NAME FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
                B.STORE_NAME
           FROM MEMBER_PARENT A,
                STORE B
@@ -61,6 +62,9 @@
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+           <if test="storeId != null and storeId != ''">
+           AND A.STORE_ID = #{storeId}
+           </if>
            <if test="qrCode != null and qrCode != ''">
            AND A.QR_CODE = #{qrCode}
            </if>

@@ -134,6 +134,7 @@ public class MemberController {
 	@PostMapping("getMemberInfo.proc")
 	@ResponseBody
 	public List<MemberVo> getMemberInfo(HttpServletRequest request, MemberDto memberDto) {
+		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		return memberService.getMemberInfo(memberDto);
 	}
 	

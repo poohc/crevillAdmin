@@ -22,4 +22,5 @@ public class ScheduleDto {
 	private String subTopic;
 	private String voucherNo;
 	private String grade;
+	private String isFree;
 }

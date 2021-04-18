@@ -44,6 +44,19 @@ public class ReservationController {
 		return mav;
 	}
 	
+	@GetMapping("freeList.view")
+	public ModelAndView freeList(HttpServletRequest request, ScheduleDto scheduleDto) {
+		ModelAndView mav = new ModelAndView("reservation/freeList");
+		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		scheduleDto.setIsFree("Y");
+		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty()) {
+			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		}
+		mav.addObject("scheduleStart", scheduleDto.getScheduleStart());
+		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
+		return mav;
+	}
+	
 	@GetMapping("search.view")
 	public ModelAndView search(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("reservation/search");

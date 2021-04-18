@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationFreeListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								예약날짜 : <input id="scheduleStart" name="scheduleStart" type="text" th:value="${scheduleStart}">&nbsp;&nbsp;<button id="searchBtn">검색</button>
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>고객명</th>
+											<th>가입일</th>
+											<th>전화번호</th>
+											<th>주소</th>
+											<th>신청일</th>
+											<th>예약시간</th>
+											<th>아동명</th>
+											<th>아동생년월일</th>
+											<th>처리상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${list}">
+											<td th:text="${list.customerName}"></td>
+											<td th:text="${list.memberRegDate}"></td>
+											<td th:text="${list.cellPhone}"></td>
+											<td th:text="${list.address}"></td>
+											<td th:text="${list.reservationDate}"></td>
+											<td th:text="${list.reservationTime}"></td>
+											<td th:text="${list.childName}"></td>
+											<td th:text="${list.childBirthday}"></td>
+											<td>
+												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary">접수확인</span>
+												<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary">체험완료</span>
+												<span th:if="${list.status.toString().equals('05')}" class="badge badge-warning">거절</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

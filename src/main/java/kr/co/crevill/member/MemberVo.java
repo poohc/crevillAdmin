@@ -25,4 +25,5 @@ public class MemberVo {
 	private String voucherCount;
 	private String storeName;
 	private String storeId;
+	private String voucherStoreName;
 }

@@ -38,4 +38,7 @@ public class ReservationVo {
 	private String tutoringCnt;
 	private String tutoringPer;
 	private String voucherUseId;
+	private String memberRegDate;
+	private String address;
+	private String childBirthday;
 }

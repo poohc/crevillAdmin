@@ -24,6 +24,7 @@
 											<th>전화번호</th>
 											<th>지역</th>
 											<th>바우처보유</th>
+											<th>바우처등록매장</th>
 											<th>최근방문매장</th>
 											<th>회원정보</th>
 										</tr>
@@ -37,6 +38,7 @@
 											<td th:text="${memberList.cellPhone}"></td>
 											<td th:text="${memberList.address}"></td>
 											<td th:text="${memberList.voucherCount}"></td>
+											<td th:text="${memberList.voucherStoreName}"></td>
 											<td th:text="${memberList.storeName}"></td>
 											<td>
 												<span class="badge badge-primary" th:attr="onclick=|updateMemberInfo('${memberList.qrCode}')|"><font style="cursor: hand;">정보수정</font></span>

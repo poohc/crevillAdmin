@@ -374,9 +374,11 @@
 										<tr>
 											<th scope="col">Name</th>
 											<th scope="col">National</th>
+											<th scope="col">근무매장</th>
 										</tr>
 									</thead>
 									<tbody>
+										<th:block th:if="${#lists.size(nstaffList) > 0}">
 										<tr th:each="list : ${nstaffList}">
 											<td class="bd-t-none u-s-tb">
 												<div class="align-middle image-sm-size">
@@ -389,7 +391,14 @@
 												</div>
 											</td>
 											<td th:text="${list.nationality}"></td>
+											<td th:text="${list.storeId}"></td>
 										</tr>
+										</th:block>
+										<th:block th:unless="${#lists.size(nstaffList) > 0}">
+										<tr>
+											<td colspan="3">등록된 원어민이 없습니다.</td>
+										</tr>
+										</th:block>
 									</tbody>
 								</table>
 							</div>

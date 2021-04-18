@@ -344,7 +344,8 @@ public class StoreService {
 			int storePlayCnt = storeDto.getStorePlay().split(",").length;
 			int tmpCnt = 0;
 			for(String playId : storeDto.getStorePlay().split(",")) {
-				storeDto.setPlayId(playId);
+				storeDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+				storeDto.setClassType(playId);
 				if(storeMapper.insertStorePlay(storeDto) > 0) {
 					tmpCnt++;
 				}

@@ -23,7 +23,12 @@
 											<th:block th:if="${list.childName != null}">
 											<div class="media-body ml-3">
 												<div class="product-name">
-													<h6 th:text="|고객명(${list.childName})|"></h6>
+													<th:block th:if="${list.voucherNo == 'FREE'}">	
+														<h6 th:text="|고객명(${list.childName}) 무료체험신청고객|"></h6>
+													</th:block>
+													<th:block th:unless="${list.voucherNo == 'FREE'}">
+														<h6 th:text="|고객명(${list.childName})|"></h6>
+													</th:block>
 												</div>
 												<div class="price d-flex">
 													<div class="text-muted mr-2">클래스</div>
