@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="layout/default">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/noticeHeadquarterListScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body">
@@ -9,28 +9,31 @@
 		<!-- Container-fluid starts-->
 		<div class="container-fluid">
 			<div class="row">
-				<!-- Individual column searching (text inputs) Starts-->
+				<!-- Zero Configuration  Starts-->
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-body">
-							<div class="table-responsive product-table">
+							<div class="table-responsive">
 								<table class="display" id="basic-1">
 									<thead>
 										<tr>
+											<th>날짜</th>
+											<th>공지구분</th>
+											<th>글쓴이</th>
 											<th>제목</th>
-											<th>알림구분</th>
-											<th>전달매체</th>
-											<th>내용</th>
-											<th>등록일</th>
+											<th>상태</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="list : ${list}">
-											<td th:text=${list.title}></td>
-											<td th:text=${list.noticeType}></td>
-											<td th:text=${list.noticeSendType}></td>
-											<td th:text=${list.contents}></td>
 											<td th:text=${list.regDate}></td>
+											<td th:text=${list.noticeType}></td>
+											<td th:text=${list.title}></td>
+											<td th:text=${list.contents}></td>
+											<td>
+												<span class="badge badge-primary" th:attr="onclick=|deleteNotice('${list.noticeId}')|">삭제</span>
+												<span class="badge badge-secondary" th:attr="onclick=|updateNotice('${list.noticeId}')|">수정</span>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -38,10 +41,8 @@
 						</div>
 					</div>
 				</div>
-				<!-- Individual column searching (text inputs) Ends-->
 			</div>
 		</div>
-		<!-- Container-fluid Ends-->
 	</div>
 </th:block>
 </html>

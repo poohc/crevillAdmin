@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.branches.BranchesService;
+import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.CommonDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CommonVo;
@@ -38,6 +40,9 @@ public class CrevillController {
 	private MemberService memberService;
 	
 	@Autowired
+	private BranchesService branchesService;
+	
+	@Autowired
 	private CommonService commonService;
 	
 	@GetMapping("/")
@@ -51,10 +56,12 @@ public class CrevillController {
 		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		CommonDto commonDto = new CommonDto();
 		commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		NoticeDto noticeDto = new NoticeDto();
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
 		mav.addObject("voucherStatInfo", commonService.selectVoucherStatInfo());
+		mav.addObject("noticeList", branchesService.selectHeadquarterNoticeList(noticeDto));
 		mav.addObject("statInfo", commonService.selectStatInfo(commonDto));
 		mav.addObject("memberCount", memberService.selectMemberCount(memberDto));
 		mav.addObject("nstaffList", staffService.selectInstructorList(instructorDto));

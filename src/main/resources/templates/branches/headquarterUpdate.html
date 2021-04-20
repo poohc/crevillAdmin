@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/noticeHeadquarterUpdateScript.js')}">
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Zero Configuration  Starts-->
+				<div class="col-sm-12">
+					<form class="form theme-form" id="noticeForm" @submit.prevent="validateBeforeSubmit" action="/branches/noticeUpdate.proc" method="post">
+					<input type="hidden" id="noticeId" name="noticeId" th:value="${info.noticeId}">
+						<fieldset>
+							<h6 class="m-t-10">공지글 입력</h6>
+							<hr>
+							<div class="form-group row">
+								<label class="col-lg-12 control-label text-lg-left" for="noticeType">글종류 선택</label>
+								<div class="col-lg-12">
+									<select v-validate="'required'" id="noticeType" name="noticeType" class="form-control btn-square">
+										<option value="OPERATION" th:selected="${info.noticeType == 'OPERATION'}">운영공지</option>
+										<option value="SYSTEM" th:selected="${info.noticeType == 'SYSTEM'}">시스템공지</option>
+										<option value="EMERGENCY" th:selected="${info.noticeType == 'EMERGENCY'}">긴급공지</option>
+									</select>
+								</div>
+								<label class="col-form-label-sm" for="noticeType" v-if="errors.has('noticeType')">{{ errors.first('noticeType') }}</label>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-12 control-label text-lg-left" for="title">글제목</label>
+								<div class="col-lg-12">
+									<input v-validate="'required'" id="title" name="title" type="text" class="form-control btn-square input-md" th:value="${info.title}">
+								</div>
+								<label class="col-form-label-sm" for="title" v-if="errors.has('title')">{{ errors.first('title') }}</label>
+							</div>
+							<div class="form-group row mb-0">
+								<label class="col-lg-12 control-label text-lg-left" for="contents">글입력</label>
+								<div class="col-lg-12">
+									<textarea v-validate="'required'" class="form-control btn-square" id="contents" name="contents"  th:text="${info.contents}"></textarea>
+								</div>
+								<label class="col-form-label-sm" for="contents" v-if="errors.has('contents')">{{ errors.first('contents') }}</label>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-12 control-label text-lg-left" for=""></label>
+								<div class="col-lg-12">
+									<button type="submit" class="btn btn-primary" id="write">수정</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

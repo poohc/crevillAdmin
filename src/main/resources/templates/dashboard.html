@@ -164,69 +164,88 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-6 xl-100 box-col-12">
-					<div class="widget-joins card">
-						<div class="row">
-							<th:block th:each="voucherStat : ${voucherStatInfo}">
-								<div class="col-sm-6 pr-0">
-									<div class="media border-after-xs">
-										<div class="align-self-center mr-3" th:text="|${voucherStat.salePer}%|">
-											<i class="fa fa-angle-up ml-2"></i>
+<!-- 				<div class="col-xl-6 xl-100 box-col-12"> -->
+<!-- 					<div class="widget-joins card"> -->
+<!-- 						<div class="row"> -->
+<!-- 							<th:block th:each="voucherStat : ${voucherStatInfo}"> -->
+<!-- 								<div class="col-sm-6 pr-0"> -->
+<!-- 									<div class="media border-after-xs"> -->
+<!-- 										<div class="align-self-center mr-3" th:text="|${voucherStat.salePer}%|"> -->
+<!-- 											<i class="fa fa-angle-up ml-2"></i> -->
+<!-- 										</div> -->
+<!-- 										<div class="media-body details pl-3"> -->
+<!-- 											<h4 class="mb-0 counter"  th:text="${voucherStat.ticketName}"></h4> -->
+<!-- 										</div> -->
+<!-- 										<div class="media-body align-self-center"> -->
+<!-- 											<i class="font-primary float-left ml-2" data-feather="shopping-bag"></i> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</th:block> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+				<div class="col-xl-6 xl-50 box-col-12">
+					<div class="card">
+						<div class="card-header card-no-border">
+							<h5>본사공지</h5>
+							<div class="card-header-right">
+								<ul class="list-unstyled card-option">
+									<li><a href="/branches/headquarterList.view"><i class="fa fa-spin fa-cog"></i></a></li>
+									<li><i class="view-html fa fa-code"></i></li>
+									<li><i class="icofont icofont-maximize full-card"></i></li>
+									<li><i class="icofont icofont-minus minimize-card"></i></li>
+									<li><i class="icofont icofont-refresh reload-card"></i></li>
+									<li><i class="icofont icofont-error close-card"></i></li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body new-update pt-0">
+							<div class="activity-timeline">
+								<th:block th:if="${#lists.size(noticeList) > 0}">
+									<th:block th:each="list, i : ${noticeList}">
+										<th:block th:if="${i.index == 0}">
+										<div class="media">
+											<div class="activity-line"></div>
+											<div class="activity-dot-secondary"></div>
+											<div class="media-body">
+												<span th:text="${list.title}"></span>
+												<p class="font-roboto" th:text="${list.contents}"></p>
+											</div>
 										</div>
-										<div class="media-body details pl-3">
-<!-- 											<span class="mb-1">New</span> -->
-											<h4 class="mb-0 counter"  th:text="${voucherStat.ticketName}"></h4>
+										</th:block>
+										<th:block th:if="${i.index != 0 && i.index % 2 == 0}">
+										<div class="media">
+											<div class="activity-dot-secondary"></div>
+											<div class="media-body">
+												<span th:text="${list.title}">크레빌이 좋습니다.
+												<i class="fa fa-circle circle-dot-secondary pull-right"></i></span>
+												<p class="font-roboto" th:text="${list.contents}"></p>
+											</div>
 										</div>
-										<div class="media-body align-self-center">
-											<i class="font-primary float-left ml-2" data-feather="shopping-bag"></i>
+										</th:block>
+										<th:block th:unless="${i.index % 2 == 0}">
+										<div class="media">
+											<div class="activity-dot-primary"></div>
+											<div class="media-body">
+												<span th:text="${list.title}"></span>
+												<p class="font-roboto" th:text="${list.contents}"></p>
+											</div>
 										</div>
+										</th:block>
+									</th:block>
+								</th:block>
+								<th:block th:unless="${#lists.size(noticeList) > 0}">
+								<div class="media">
+									<div class="activity-line"></div>
+									<div class="activity-dot-secondary"></div>
+									<div class="media-body">
+										<span>공지사항이 없습니다.</span>
+										<p class="font-roboto"></p>
 									</div>
-								</div>
-							</th:block>
-<!-- 							<div class="col-sm-6 pl-0"> -->
-<!-- 								<div class="media"> -->
-<!-- 									<div class="align-self-center mr-3"> -->
-<!-- 										12%<i class="fa fa-angle-down ml-2"></i> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body details pl-3"> -->
-<!-- 										<span class="mb-1">Pending</span> -->
-<!-- 										<h4 class="mb-0 counter">783</h4> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body align-self-center"> -->
-<!-- 										<i class="font-primary float-left ml-3" data-feather="layers"></i> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-sm-6 pr-0"> -->
-<!-- 								<div class="media border-after-xs"> -->
-<!-- 									<div class="align-self-center mr-3"> -->
-<!-- 										68%<i class="fa fa-angle-up ml-2"></i> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body details pl-3 pt-0"> -->
-<!-- 										<span class="mb-1">Done</span> -->
-<!-- 										<h4 class="mb-0 counter">3674</h4> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body align-self-center"> -->
-<!-- 										<i class="font-primary float-left ml-2" -->
-<!-- 											data-feather="shopping-cart"></i> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-sm-6 pl-0"> -->
-<!-- 								<div class="media"> -->
-<!-- 									<div class="align-self-center mr-3"> -->
-<!-- 										68%<i class="fa fa-angle-up ml-2"></i> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body details pl-3 pt-0"> -->
-<!-- 										<span class="mb-1">Cancel</span> -->
-<!-- 										<h4 class="mb-0 counter">069</h4> -->
-<!-- 									</div> -->
-<!-- 									<div class="media-body align-self-center"> -->
-<!-- 										<i class="font-primary float-left ml-2" -->
-<!-- 											data-feather="dollar-sign"></i> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
+								</div>	
+								</th:block>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -316,7 +335,7 @@
 							<h5>예약알림</h5>
 							<div class="card-header-right">
 								<ul class="list-unstyled card-option">
-									<li><i class="fa fa-spin fa-cog"></i></li>
+									<li><a href="/reservation/list.view"><i class="fa fa-spin fa-cog"></i></a></li>
 									<li><i class="view-html fa fa-code"></i></li>
 									<li><i class="icofont icofont-maximize full-card"></i></li>
 									<li><i class="icofont icofont-minus minimize-card"></i></li>
@@ -358,7 +377,7 @@
 							<h5>지점 원어민 리스트</h5>
 							<div class="card-header-right">
 								<ul class="list-unstyled card-option">
-									<li><i class="fa fa-spin fa-cog"></i></li>
+									<li><a href="/staff/nsList.view"><i class="fa fa-spin fa-cog"></i></a></li>
 									<li><i class="view-html fa fa-code"></i></li>
 									<li><i class="icofont icofont-maximize full-card"></i></li>
 									<li><i class="icofont icofont-minus minimize-card"></i></li>
