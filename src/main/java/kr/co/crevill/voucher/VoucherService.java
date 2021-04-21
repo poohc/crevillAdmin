@@ -70,7 +70,7 @@ public class VoucherService {
 		return voucherMapper.getMemberVoucherUseList(voucherDto);
 	}
 	/**
-	 * 직원 저장 처리 
+	 * 바우처 저장 처리 
 	 * @methodName : insertVoucher
 	 * @author : Juyoung Park
 	 * @date : 2021.02.22
