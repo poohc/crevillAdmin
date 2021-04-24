@@ -251,36 +251,31 @@
 					<li class="onhover-dropdown">
 						<div class="notification-box">
 							<i data-feather="bell"></i>
-							<span class="badge badge-pill badge-secondary">4</span>
+							<span class="badge badge-pill badge-secondary" th:text="${#lists.size(reservationList)}"></span>
 						</div>
 						<ul class="notification-dropdown onhover-show-div">
-							<li><i data-feather="bell"></i>
-								<h6 class="f-18 mb-0">예약알림</h6></li>
 							<li>
+								<i data-feather="bell"></i>
+								<h6 class="f-18 mb-0">예약알림</h6>
+							</li>
+							<th:block th:if="${#lists.size(reservationList) > 0}">
+							<li th:each="list : ${reservationList}">
 								<p>
-									<i class="fa fa-circle-o mr-3 font-primary"> </i>홍길동님 예약요청 <span
-										class="pull-right">카카오챗봇</span>
+									<i class="fa fa-circle-o mr-3 font-primary"></i>
+									<span th:text="|${list.customerName}님 예약요청|">홍길동님 예약요청</span> 
+<!-- 									<span class="pull-right">카카오챗봇</span> -->
 								</p>
 							</li>
+							</th:block>
+							<th:block th:unless="${#lists.size(reservationList) > 0}">
 							<li>
 								<p>
-									<i class="fa fa-circle-o mr-3 font-success"></i>홍길동님 예약요청<span
-										class="pull-right">모바일</span>
+									<i class="fa fa-circle-o mr-3 font-primary"></i>
+									<span>예약없음</span>
 								</p>
 							</li>
-							<li>
-								<p>
-									<i class="fa fa-circle-o mr-3 font-info"></i>홍길동님 예약요청<span
-										class="pull-right">전화</span>
-								</p>
-							</li>
-							<li>
-								<p>
-									<i class="fa fa-circle-o mr-3 font-danger"></i>홍길동님 예약요청<span
-										class="pull-right">카카오챗봇</span>
-								</p>
-							</li>
-							<li><a class="btn btn-primary" href="#">예약요청리스트 바로가기</a></li>
+							</th:block>
+							<li><a class="btn btn-primary" href="/reservation/list.view">예약요청리스트 바로가기</a></li>
 						</ul>
 					</li>
 	

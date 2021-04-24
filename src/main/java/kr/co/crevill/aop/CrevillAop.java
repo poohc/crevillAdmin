@@ -1,5 +1,7 @@
 package kr.co.crevill.aop;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -13,12 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.MenuDto;
+import kr.co.crevill.reservation.ReservationService;
+import kr.co.crevill.schedule.ScheduleDto;
 
 @Aspect
 @Component
@@ -28,6 +32,9 @@ public class CrevillAop {
 	
 	@Autowired
 	private MenuDto menuDto;
+	
+	@Autowired
+	private ReservationService reservationService; 
 	
 	@Around("execution(* kr.co.crevill..*Controller.*(..))")
     public Object Around(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -185,6 +192,12 @@ public class CrevillAop {
     		menuDto.setCurrentMenu(menu);
     		logger.info("menuDto : " + menuDto.toString());
         	request.setAttribute("menu", menuDto);
+        	
+        	ScheduleDto scheduleDto = new ScheduleDto(); 
+        	scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        	scheduleDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
+        	request.setAttribute("reservationList", reservationService.selectReservationList(scheduleDto)); 
+        	
         	logger.info("==================== Logging 종료 ====================");
         	Object result = joinPoint.proceed();
             return result;

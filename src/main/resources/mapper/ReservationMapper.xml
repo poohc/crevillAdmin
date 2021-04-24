@@ -50,7 +50,11 @@
 			   (SELECT D.NAME FROM PLAY D WHERE D.PLAY_ID = B.PLAY_ID) PLAY_NAME,
 			   DATE_FORMAT(D.REG_DATE, '%Y/%m/%d') MEMBER_REG_DATE,
 			   SUBSTRING_INDEX(D.ADDRESS, ' ', 2) ADDRESS,
-			   (SELECT DATE_FORMAT(M.BIRTHDAY, '%Y/%m/%d') FROM MEMBER_CHILDREN M WHERE M.PARENT_CELL_PHONE = A.CELL_PHONE AND M.NAME = A.CHILD_NAME) CHILD_BIRTHDAY 
+			   (SELECT DATE_FORMAT(M.BIRTHDAY, '%Y/%m/%d') FROM MEMBER_CHILDREN M WHERE M.PARENT_CELL_PHONE = A.CELL_PHONE AND M.NAME = A.CHILD_NAME) CHILD_BIRTHDAY,
+			   A.TUTORING_YN,
+			   (SELECT COUNT(*) FROM RESERVATION E WHERE B.SCHEDULE_ID = E.SCHEDULE_ID AND A.TUTORING_YN = 'N') RESERVATION_CNT,
+			   (SELECT COUNT(*) FROM RESERVATION E WHERE B.SCHEDULE_ID = E.SCHEDULE_ID AND A.TUTORING_YN = 'Y') TUTORING_CNT,
+			   (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME 
           FROM RESERVATION A,
                SCHEDULE B,
                VOUCHER_USE C,
@@ -64,6 +68,9 @@
            </if>
            <if test="isFree != null and isFree == 'Y'.toString()">
            AND C.VOUCHER_NO = 'FREE'
+           </if>
+           <if test="status != null">
+           AND A.STATUS = #{status}
            </if>
            AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
                                     AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')

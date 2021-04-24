@@ -2,7 +2,10 @@ package kr.co.crevill;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +27,7 @@ import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
 import kr.co.crevill.reservation.ReservationService;
+import kr.co.crevill.reservation.ReservationVo;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.staff.InstructorDto;
 import kr.co.crevill.staff.StaffService;
@@ -75,4 +80,25 @@ public class CrevillController {
 	public List<CommonVo> selectTodayReservationInfo(HttpServletRequest request, @ModelAttribute CommonDto commonDto) {
 		return commonService.selectTodayReservationInfo(commonDto);
 	}
+	
+	@GetMapping("/send/getTodayReservationList.proc")
+	@ResponseBody
+	public List<Map<String, Object>> getTodayReservationList(HttpServletRequest request, @RequestParam String storeId){
+		ScheduleDto scheduleDto = new ScheduleDto();
+		scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		scheduleDto.setStoreId(storeId); 
+		List<ReservationVo> reservationList = reservationService.selectReservationList(scheduleDto);
+		List<Map<String, Object>> outList = new ArrayList<>();
+		for(ReservationVo rVo : reservationList){
+			Map<String, Object> tempMap = new HashMap<>();
+			tempMap.put("storeName", rVo.getStoreName());
+			tempMap.put("reservationDate", rVo.getReservationDate());
+			tempMap.put("reservationTime", rVo.getReservationTime());
+			tempMap.put("className", rVo.getPlayName() + "("+ rVo.getReservationCnt() +" / "+ rVo.getNumberOfPeople() +")");
+			tempMap.put("tutoringName", rVo.getPlayName() + "("+ rVo.getTutoringCnt() +" / "+ rVo.getTutoringNumber() +")");
+			outList.add(tempMap);
+		}
+		return outList;
+	}
+	
 }

@@ -23,4 +23,5 @@ public class ScheduleDto {
 	private String voucherNo;
 	private String grade;
 	private String isFree;
+	private String status;
 }

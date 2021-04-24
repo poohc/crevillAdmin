@@ -41,4 +41,5 @@ public class ReservationVo {
 	private String memberRegDate;
 	private String address;
 	private String childBirthday;
+	private String storeName;
 }
