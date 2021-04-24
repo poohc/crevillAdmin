@@ -196,7 +196,7 @@ public class CrevillAop {
         	ScheduleDto scheduleDto = new ScheduleDto(); 
         	scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
         	scheduleDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
-        	request.setAttribute("reservationList", reservationService.selectReservationList(scheduleDto)); 
+        	request.setAttribute("alarmReservationList", reservationService.selectReservationList(scheduleDto)); 
         	
         	logger.info("==================== Logging 종료 ====================");
         	Object result = joinPoint.proceed();

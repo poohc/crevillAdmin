@@ -251,23 +251,23 @@
 					<li class="onhover-dropdown">
 						<div class="notification-box">
 							<i data-feather="bell"></i>
-							<span class="badge badge-pill badge-secondary" th:text="${#lists.size(reservationList)}"></span>
+							<span class="badge badge-pill badge-secondary" th:text="${#lists.size(alarmReservationList)}"></span>
 						</div>
 						<ul class="notification-dropdown onhover-show-div">
 							<li>
 								<i data-feather="bell"></i>
 								<h6 class="f-18 mb-0">예약알림</h6>
 							</li>
-							<th:block th:if="${#lists.size(reservationList) > 0}">
-							<li th:each="list : ${reservationList}">
+							<th:block th:if="${#lists.size(alarmReservationList) > 0}">
+							<li th:each="list : ${alarmReservationList}">
 								<p>
 									<i class="fa fa-circle-o mr-3 font-primary"></i>
-									<span th:text="|${list.customerName}님 예약요청|">홍길동님 예약요청</span> 
+									<span th:text="|${list.customerName}님 예약요청|"></span> 
 <!-- 									<span class="pull-right">카카오챗봇</span> -->
 								</p>
 							</li>
 							</th:block>
-							<th:block th:unless="${#lists.size(reservationList) > 0}">
+							<th:block th:unless="${#lists.size(alarmReservationList) > 0}">
 							<li>
 								<p>
 									<i class="fa fa-circle-o mr-3 font-primary"></i>

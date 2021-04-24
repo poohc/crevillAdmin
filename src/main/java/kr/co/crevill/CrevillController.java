@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import kr.co.crevill.branches.BranchesService;
 import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.CommonDto;
