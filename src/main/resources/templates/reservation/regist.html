@@ -75,13 +75,13 @@
 												<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
 												<select class="form-control form-control-lg" id="storeId" name="storeId">
 													<th:block th:each="list : ${storeList}">
-														<option th:value="${list.storeId}" th:text="${list.storeName}"></option>
+														<option th:value="${list.storeId}" th:text="${list.storeName}" th:attr="data-time=${list.cntTimeClass}"></option>
 													</th:block>
 												</select>
 												</th:block>
 												<th:block th:unless="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
 													<select class="form-control form-control-lg" id="storeId" name="storeId">
-														<option th:value="${session.staffVo.storeId}" th:text="${session.staffVo.storeName}"></option>
+														<option th:value="${session.staffVo.storeId}" th:text="${session.staffVo.storeName}" th:attr="data-time=${list.cntTimeClass}"></option>
 													</select>
 												</th:block>
 											</div>

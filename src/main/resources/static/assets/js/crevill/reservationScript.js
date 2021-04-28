@@ -93,11 +93,13 @@ $('#voucherSearchBtn').click(function(){
 					alert('바우처가 확인되었습니다.');
 					$('#cellPhoneTxt').text($('#cellPhone').val());
 					$("select[name='voucherNo'] option").remove();
+					$("#voucherNo").append('<option value="">선택</option>');
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
+						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="'+data.voucherList[i].ticketName+'">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
 					}
 					
 					$("select[name='childName'] option").remove();
+					$("#childName").append('<option value="">선택</option>');
 					for(var i=0; i < data.childList.length; i++){
 						$("#childName").append('<option value="' + data.childList[i] + '">' + data.childList[i] + '</option>');
 					}
@@ -131,13 +133,13 @@ $('#scheduleSearch').click(function(){
 			if(data.resultCd == '00'){
 				$("select[name='scheduleId'] option").remove();
 				$("select[name='tutoringYn'] option").remove();
-				$("#scheduleId").append('<option value="N">선택</option');
+				$("#scheduleId").append('<option value="N">선택</option>');
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
+					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option>');
 				}
-				$("#tutoringYn").append('<option value="N">선택</option');
+				$("#tutoringYn").append('<option value="N">선택</option>');
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
+					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option>');
 				}
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
@@ -153,6 +155,22 @@ $('#scheduleSearch').click(function(){
 	
 });
 
+$('#storeId').change(function(){
+	if($('#storeId').find(':selected').data('time') == 0){
+		alert('1회권 사용이 불가능한 매장입니다.');		
+		$("#voucherNo option:eq(0)").prop("selected", true);
+		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
+		  item.style.display = 'none';
+		});
+	} else {
+		$("#voucherNo option:eq(0)").prop("selected", true);
+		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
+		  item.style.display = 'block';
+		});
+	}
+});
+
+
 var today = new Date();
 var year = today.getFullYear(); // 년도
 var month = today.getMonth() + 1;  // 월
@@ -163,8 +181,6 @@ month = month + '';
 date = date + '';
 if(month < 10) month = '0' + month;
 if(date < 10) date = '0' + date;
-
-console.log(year + month + date);
 
 $('input[name="scheduleDate"]').daterangepicker({
     "singleDatePicker": true,
