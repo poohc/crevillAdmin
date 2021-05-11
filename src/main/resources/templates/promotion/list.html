@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/promotionListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-- Individual column searching (text inputs) Starts-->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive product-table">
+								<table class="display" id="basic-1">
+									<thead>
+										<tr>
+											<th>프로모션명</th>
+											<th>프로모션 내용</th>
+											<th>만료일</th>
+											<th>프로모션구분</th>
+											<th>값</th>
+											<th>적용매장[중복]</th>
+											<th>등록일</th>
+											<th>상태</th>
+											<th>ACTION</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${list}">
+											<td th:text="${list.promotionName}"></td>
+											<td th:text="${list.promotionContents}"></td>
+											<td th:text="${list.endDate}"></td>
+											<td th:text="${list.promotionType}"></td>
+											<td th:text="${list.promotionValue}"></td>
+											<td th:text="${list.storeId}"></td>
+											<td th:text="${list.regDate}"></td>
+											<td th:text="${list.status}"></td>
+											<td>
+												<button class="btn btn-danger btn-xs" type="button" th:attr="onclick=|stopPromotion('${list.promotionId}')|">중지</button>
+												<button class="btn btn-success btn-xs" type="button" th:attr="onclick=|deletePromotion('${list.promotionId}')|">삭제</button>
+												<button class="btn btn-success btn-xs" type="button" th:attr="onclick=|updatePromotionInfo('${list.promotionId}')|">수정</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

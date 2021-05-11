@@ -188,6 +188,16 @@ public class CrevillAop {
         		}
         	}
         	
+        	if(contextPath.indexOf("promotion") > -1) {
+        		menuDto.setUpperMenu("프로모션관리");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "프로모션리스트";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "프로모션등록";
+        		}
+        	}
+        	
         	menuDto.setMenuName(menu);
     		menuDto.setCurrentMenu(menu);
     		logger.info("menuDto : " + menuDto.toString());
