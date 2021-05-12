@@ -198,6 +198,16 @@ public class CrevillAop {
         		}
         	}
         	
+        	if(contextPath.indexOf("storeProgram") > -1) {
+        		menuDto.setUpperMenu("프로그램관리");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "프로그램리스트";
+        		}
+        		if(servletPath.indexOf("regist.view") > -1) {
+        			menu = "프로그램등록";
+        		}
+        	}
+        	
         	menuDto.setMenuName(menu);
     		menuDto.setCurrentMenu(menu);
     		logger.info("menuDto : " + menuDto.toString());

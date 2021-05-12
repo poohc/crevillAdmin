@@ -101,8 +101,6 @@ public class VoucherService {
 		if("0".equals(voucherDto.getEndDate())){ 
 			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
 		}
-		
-		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC
@@ -153,7 +151,6 @@ public class VoucherService {
 		if("0".equals(voucherDto.getEndDate())){ 
 			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
 		}
-		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
 		
 		//VOUCHER_ATTRIBUTE 테이블 데이터 먼저 삭제

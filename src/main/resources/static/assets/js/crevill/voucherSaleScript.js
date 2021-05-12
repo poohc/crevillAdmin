@@ -26,23 +26,29 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-				var formdata = new FormData();
-				formdata.append("buyCellPhone", $('#buyCellPhone').val());
-				formdata.append("voucherNo", $('input[name="voucherNo"]:checked').val());
-				formdata.append("usedChildrenName", $('#usedChildrenName').val());
-				formdata.append("pgType", $('#pgType').val());
-				formdata.append("approvalNo", $('#approvalNo').val());
-				axios.post('/voucher/sale.proc', formdata,{
-					  headers: {
-						'Content-Type': 'multipart/form-data'
-					  }
-					}).then((response) => {
-					if (response.data.resultCd == '00') {
-				      	alert('정상처리 되었습니다.');
-						location.href = '/voucher/sale.view';
-				    }
-					
-				});	
+				if($('input[name="voucherNo"]:checked').val().length == 0){
+					alert('선택유형에 맞는 바우처가 없습니다. 바우처를 생성해주세요.');
+					return false;
+				} else {
+					var formdata = new FormData();
+					formdata.append("buyCellPhone", $('#buyCellPhone').val());
+					formdata.append("voucherNo", $('input[name="voucherNo"]:checked').val());
+					formdata.append("usedChildrenName", $('#usedChildrenName').val());
+					formdata.append("pgType", $('#pgType').val());
+					formdata.append("approvalNo", $('#approvalNo').val());
+					formdata.append("promotionId", $('#promotionId').val());
+					axios.post('/voucher/sale.proc', formdata,{
+						  headers: {
+							'Content-Type': 'multipart/form-data'
+						  }
+						}).then((response) => {
+						if (response.data.resultCd == '00') {
+					      	alert('정상처리 되었습니다.');
+							location.href = '/voucher/sale.view';
+					    }
+						
+					});	
+				}	
 			}
 			
 			acceessableCount = acceessableCount + 1;	
@@ -71,7 +77,8 @@ $('#searchMemberNameBtn').click(function(){
 				if(data.length > 0){
 					$('#searchResultName').text(data[0].name);
 					for(var i=0; i < data.length; i++){
-						$("#usedChildrenName").append('<option value="' + data[i].childName + '">' + data[i].childName + '</option');
+						$("#usedChildrenName").append('<option value="' + data[i].childName + '">' + data[i].childName + '</option>');
+						$("#usedChildrenName").data('memberStoreId', data[i].storeId);
 					}
 					$('#gradeType').trigger('change');	
 				} else {
@@ -98,7 +105,8 @@ $('#gradeType').change(function(){
 	$.ajax({
 			type : "POST",
 			data: {
-		            gradeType : $('#gradeType').val()
+		            gradeType : $('#gradeType').val(),
+				    storeId : $("#usedChildrenName").data('memberStoreId')
 		    },
 			url : '/voucher/getVoucherList.proc',
 			success : function(data){
@@ -130,6 +138,7 @@ $('#gradeType').change(function(){
 					appendDiv += '</div>';
 				}
 				$("#voucherListDiv").append(appendDiv);
+				setPromotion();
 			},
 			error : function(error) {
 		        alert("바우처 목록을 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
@@ -138,6 +147,33 @@ $('#gradeType').change(function(){
 	});	 
 });
 
+function setPromotion(){
+	$("select[name='promotionId'] option").remove();
+	$("#promotionId").append('<option value="">프로모션 없음</option>');
+	$.ajax({
+			type : "POST",
+			data: {
+		            storeId : $("#usedChildrenName").data('memberStoreId')
+		    },
+			url : '/promotion/getPromotionList.proc',
+			success : function(data){
+				
+				if(data.length > 0){
+					for(var i=0; i < data.length; i++){
+						$("#promotionId").append('<option value="' + data[i].promotionId + '">' + data[i].promotionName + '</option>');
+					}	
+				} else {
+					alert('사용가능한 프로모션이 없습니다.');
+					return false;	
+				}
+								
+			},
+			error : function(error) {
+		        alert("프로모션 검색 중 오류가 발생했습니다. 다시 시도하여 주세요.");
+				return false;
+		    }
+	});	 	
+}
 
 function cancel(){
 	location.href = '/voucher/sale.view';

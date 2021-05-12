@@ -21,6 +21,31 @@
           FROM PROMOTION
     </select>
 	
+	<select id="getPromotionList" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">
+        SELECT A.PROMOTION_ID,
+			   A.PROMOTION_NAME,
+			   A.PROMOTION_CONTENTS,
+			   DATE_FORMAT(STR_TO_DATE(A.END_DATE,'%Y%m%d'), '%Y-%m-%d') END_DATE,
+			   A.PROMOTION_TYPE,
+			   A.PROMOTION_VALUE,
+			   A.PROMOTION_BANNER_ID,
+			   A.PROMOTION_DETAIL_IMAGE_ID,
+			   (SELECT GROUP_CONCAT(S.STORE_NAME SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE A.PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID) STORE_ID,
+			   A.REG_ID,
+		       DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
+		       A.UPD_ID,
+		       DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
+		       A.STATUS	
+          FROM PROMOTION A,
+               PROMOTION_STORE B
+         WHERE A.PROMOTION_ID = B.PROMOTION_ID
+           <![CDATA[
+           AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
+           ]]>
+           AND A.STATUS = 'ACTIVE' 
+           AND B.STORE_ID = #{storeId}       
+    </select>
+	
 	<select id="selectPromotionInfo" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">
         SELECT PROMOTION_ID,
 			   PROMOTION_NAME,

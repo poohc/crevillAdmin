@@ -27,8 +27,12 @@ Vue.use(VeeValidate, {
     ko: {
 		    attributes: {
 		      parentName : '고객성함',
+			  parentBirthday : '고객생년월일',
+		      parentSex : '고객성별',
 			  email : '이메일',
 			  address : '주소',
+			  roadAddress : '도로명주소',
+			  detailAddress : '상세주소',
 			  cellPhone : '전화번호',
 			  childName : '아동이름',
 			  birthday : '생년월일',
@@ -43,8 +47,12 @@ new Vue({
     el: '#page-body',
     data: {
     	parentName : '',
+		parentBirthday : '',
+		parentSex : '',
 	  	email : '',
 	  	address : '',
+		roadAddress : '',
+		detailAddress : '',
 	  	cellPhone : '',
 	  	childName : '',
 	  	birthday : '',
@@ -69,8 +77,10 @@ new Vue({
 			
 				axios.post('/member/update.proc', {
 									            parentName : $('#parentName').val(),
+												parentBirthday : $('#parentBirthday').val(),	
+												parentSex : $('input[name="parentSex"]:checked').val(),
 									            email : $('#email').val(),
-									            address : $('#address').val(),
+									            address : $('#roadAddress').val() + ' | ' + $('#detailAddress').val(),
 									            cellPhone : $('#cellPhone').val(),
 									            childName : $('#childName').val(),
 									            birthday : $('#birthday').val(),

@@ -69,6 +69,17 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
+										<label class="col-form-label-sm" for="storeId">운영매장</label>
+										<select class="form-control form-control-lg" id="storeId" name="storeId" v-validate="'required'">
+											<option th:each="storeList : ${storeList}" th:value="${storeList.storeId}" th:text="${storeList.storeName}" th:selected="${storeList.storeId == info.storeId}"></option>
+										</select>
+										<label class="col-form-label-sm" for="storeId" v-if="errors.has('storeId')">{{ errors.first('storeId') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
 										<label class="col-form-label-sm" for="endDate">유효기간</label>
 										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0"  th:value="${info.endDate}">
 										<label class="col-form-label-sm" for="endDate" v-if="errors.has('endDate')">{{ errors.first('endDate') }}</label>

@@ -10,7 +10,11 @@ public class MemberVo {
 	private String cellPhone;
 	private String email;
 	private String address;
+	private String roadAddress;
+	private String detailAddress;
 	private String parentName;
+	private String parentBirthday;
+	private String parentSex;
 	private String parentCellPhone;
 	private String childName;
 	private String birthday;

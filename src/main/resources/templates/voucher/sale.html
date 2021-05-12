@@ -15,7 +15,7 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
-									<label class="col-form-label-sm" for="colFormLabelSm26">고객전화번호 입력</label>
+									<label class="col-form-label-sm" for="buyCellPhone">고객전화번호 입력</label>
 									<input class="form-control form-control-lg" v-validate="'required'" id="buyCellPhone" name="buyCellPhone" type="number" placeholder="전화번호">
 									<label class="col-form-label-sm" for="buyCellPhone" v-if="errors.has('buyCellPhone')">{{ errors.first('buyCellPhone') }}</label>
 								</div>
@@ -29,7 +29,7 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group mb-0">
-									<label for="exampleFormControlSelect31">바우처 구분</label>
+									<label for="gradeType">바우처 구분</label>
 									<select class="form-control form-control-sm" id="gradeType" name="gradeType">
 										<option value="REGIST">기명</option>
 										<option value="ANON">무기명</option>
@@ -41,7 +41,7 @@
 						<div class="row" id="usedChildrenNameDiv">
 							<div class="col">
 								<div class="form-group mb-0">
-									<label for="exampleFormControlSelect31">기명일 경우 회원의[아동선택]</label>
+									<label for="usedChildrenName">기명일 경우 회원의[아동선택]</label>
 									<select class="form-control form-control-sm" id="usedChildrenName" name="usedChildrenName">
 									</select>
 								</div>
@@ -62,7 +62,7 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group mb-0">
-									<label for="exampleFormControlSelect31">결제구분</label>
+									<label for="pgType">결제구분</label>
 									<select class="form-control form-control-sm" id="pgType" name="pgType">
 										<option value="DEPT">백화점</option>
 										<option value="ROAD">로드샵 신용카드</option>
@@ -72,6 +72,15 @@
 							</div>
 						</div>
 						<br>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="col-form-label-sm" for="promotionId">프로모션입력</label>
+									<select class="form-control form-control-sm" id="promotionId" name="promotionId">
+									</select>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col">
 								<div class="form-group">

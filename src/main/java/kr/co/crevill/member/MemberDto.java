@@ -11,6 +11,8 @@ public class MemberDto {
 	private String email;
 	private String address;
 	private String parentName;
+	private String parentBirthday;
+	private String parentSex;
 	private String parentCellPhone;
 	private String childName;
 	private String birthday;

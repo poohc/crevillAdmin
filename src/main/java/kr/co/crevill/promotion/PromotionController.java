@@ -90,4 +90,9 @@ public class PromotionController {
 		return result;
 	}
 	
+	@PostMapping("getPromotionList.proc")
+	@ResponseBody
+	public List<PromotionVo> getPromotionList(PromotionDto promotionDto){
+		return promotionService.getPromotionList(promotionDto);
+	}
 }

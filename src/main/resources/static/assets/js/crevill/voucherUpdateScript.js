@@ -10,6 +10,7 @@ Vue.use(VeeValidate, {
    			  price : '정가',		  
 			  salePrice : '판매금액',
 			  useTime : '이용시간',
+			  storeId : '운영매장',
 			  endDate : '유효기간',
 			  saleCode : '할인코드',
 			  attribute : '티켓속성',
@@ -26,7 +27,8 @@ new Vue({
 		price : '',	  	
 		salePrice : '',
 	  	useTime : '',
-	  	endDate : '',
+		storeId : '',	  	
+		endDate : '',
 	  	saleCode : '',
 		attribute : '',
     },
@@ -46,6 +48,7 @@ new Vue({
 				formdata.append("price", $('#price').val());
 				formdata.append("salePrice", $('#salePrice').val());
 				formdata.append("useTime", $('#useTime').val());
+				formdata.append("storeId", $('#storeId').val());
 				formdata.append("endDate", $('#endDate').val());
 				formdata.append("saleCode", $('#saleCode').val());
 				var attribute = '';

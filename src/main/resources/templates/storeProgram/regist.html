@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/promotionScript.js')}">
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<form class="form theme-form" id="storeProgramForm" @submit.prevent="validateBeforeSubmit" action="/storeProgram/regist.proc" method="post" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<form class="form theme-form">
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label for="exampleFormControlSelect29">연관클래스</label>
+											<!--play 리스트에서 데이터 가져옴 (VIP캠프, 스페셜캠프 모두 포함)-->
+											<select class="form-control form-control-lg"
+												id="exampleFormControlSelect29">
+												<!--개발적인 요소보다는 해당 클래스에 프로그램을 자세히 보여주고 싶은 기획-->
+												<option>GYM</option>
+												<option>ART</option>
+												<option>EIC</option>
+												<option>SPECIAL CAMP</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm26">프로그래명</label>
+											<input class="form-control form-control-lg"
+												id="colFormLabelSm26" type="text" placeholder="성함">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label class="col-form-label-sm" for="colFormLabelSm26">내용</label>
+											<input class="form-control form-control-lg"
+												id="colFormLabelSm26" type="text" placeholder="성함">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5>이미지 등록</h5>
+						</div>
+						<form class="form theme-form">
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">썸네일</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="file">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">프로그램사진</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="file">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group row">
+											<label class="col-sm-3 col-form-label">프로그램교안</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="file">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</th:block>
+</html>

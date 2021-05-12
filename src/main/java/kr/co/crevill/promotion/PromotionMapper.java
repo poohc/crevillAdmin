@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PromotionMapper {
 	public List<PromotionVo> selectPromotionList(PromotionDto promotionDto);
+	public List<PromotionVo> getPromotionList(PromotionDto promotionDto);
 	public PromotionVo selectPromotionInfo(PromotionDto promotionDto);
 	public String selectPromotionIdSeq();
 	public int insertPromotion(PromotionDto promotionDto);

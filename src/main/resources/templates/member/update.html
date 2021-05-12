@@ -29,6 +29,33 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
+										<label class="col-form-label-sm" for="parentBirthday">고객생년월일</label>
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="parentBirthday" name="parentBirthday" type="text" placeholder="고객생년월일" th:value="${info.parentBirthday}">
+										<label class="col-form-label-sm" for="parentBirthday" v-if="errors.has('parentBirthday')">{{ errors.first('parentBirthday') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<p>고객성별</p>
+								</div>
+								<div class="col">
+									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+										<div class="radio radio-primary">
+											<input id="parentSexRadio1" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="M" th:checked="${info.parentSex == 'M'}">
+											<label class="mb-0" for="parentSexRadio1">남자</label>
+										</div>
+										<div class="radio radio-primary">
+											<input id="parentSexRadio2" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="F" th:checked="${info.parentSex == 'F'}">
+											<label class="mb-0" for="parentSexRadio2">여자</label>
+										</div>
+										<label class="col-form-label-sm" for="parentSex" v-if="errors.has('parentSex')">{{ errors.first('parentSex') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
 										<label class="col-form-label-sm" for="email">이메일주소</label>
 										<input class="form-control form-control-lg" v-validate="'required|email'" id="email" name="email" type="text" placeholder="이메일주소" th:value="${info.email}">
 										<label class="col-form-label-sm" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
@@ -38,11 +65,15 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="address">
-											거주지역<시,군,구>
-										</label>
-										<input class="form-control form-control-lg" v-validate="'required'" id="address" name="address" type="text" placeholder="(예)서초구" th:value="${info.address}">
-										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+										<label class="col-form-label-sm" for="address">주소</label>
+										<input class="col-form-label-sm" type="text" id="postcode" placeholder="우편번호">
+										<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+										<input type="text" v-validate="'required'" id="roadAddress" name="roadAddress" placeholder="도로명주소" th:value="${info.roadAddress}">
+										<span id="guide" style="color:#999;display:none"></span>
+										<input type="text" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소" th:value="${info.detailAddress}">
+										<input type="text" id="extraAddress" placeholder="참고항목">
+										<label class="col-form-label-sm" for="address" v-if="errors.has('roadAddress')">{{ errors.first('roadAddress') }}</label>
+										<label class="col-form-label-sm" for="address" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
 									</div>
 								</div>
 							</div>

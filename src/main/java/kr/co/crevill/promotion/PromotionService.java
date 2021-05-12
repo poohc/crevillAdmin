@@ -32,6 +32,10 @@ public class PromotionService {
 		return promotionMapper.selectPromotionList(promotionDto);
 	}
 	
+	public List<PromotionVo> getPromotionList(PromotionDto promotionDto){
+		return promotionMapper.getPromotionList(promotionDto);
+	}
+	
 	public PromotionVo selectPromotionInfo(PromotionDto promotionDto) {
 		return promotionMapper.selectPromotionInfo(promotionDto);
 	}

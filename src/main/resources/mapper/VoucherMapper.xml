@@ -48,6 +48,7 @@
 			        ELSE A.USE_TIME END AS USE_TIME,
 			   CASE WHEN A.END_DATE > '28000000' THEN '0'
 			        ELSE TIMESTAMPDIFF(MONTH, DATE_FORMAT(A.REG_DATE, '%Y%m%d'), A.END_DATE) END AS END_DATE,
+			   A.STORE_ID,     
 			   A.REG_ID,
 			   DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
 			   A.UPD_ID,
@@ -71,7 +72,8 @@
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   A.IMAGE_IDX,
-			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE 
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE,
+			   A.STORE_ID 
           FROM VOUCHER A
          <where>
            AND STATUS = '02'
@@ -80,6 +82,9 @@
            </if>
            <if test="gradeType != null and gradeType == 'ANON'.toString()">
            AND A.GRADE IN ('VIP_ANON', 'NORMAL')
+           </if>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND A.STORE_ID = #{storeId}
            </if>
 		 </where>           
     </select>
@@ -238,6 +243,7 @@
 								 PG_TYPE,
 								 APPROVAL_NO,
 								 STORE_ID,
+								 PROMOTION_ID,
 								 REG_ID,
 								 REG_DATE
 								)
@@ -248,6 +254,7 @@
 								 #{pgType},         
 								 #{approvalNo},      
 								 #{storeId},     
+								 #{promotionId},
 								 #{regId},
 								 NOW()           	
 					      		)			 
@@ -264,6 +271,7 @@
 	         <if test="endDate != null">END_DATE = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{endDate} MONTH), '%Y%m%d'),</if>
 	         <if test="imageIdx != null">IMAGE_IDX = #{imageIdx},</if>
 	         <if test="status != null">STATUS = #{status},</if>
+	         <if test="storeId != null">STORE_ID = #{storeId},</if>
 	         UPD_ID = #{updId},
 	         UPD_DATE = NOW(),
     	 </set>
@@ -279,6 +287,7 @@
 	         <if test="approvalNo != null">APPROVAL_NO = #{approvalNo},</if>
 	         <if test="storeId != null">STORE_ID = #{storeId},</if>
 	         <if test="buyCellPhone != null">BUY_CELL_PHONE = #{buyCellPhone},</if>
+	         <if test="promotionId != null">PROMOTION_ID = #{promotionId},</if>
 	         UPD_ID = #{updId},
 	         UPD_DATE = NOW(),
     	 </set>		 

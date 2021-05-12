@@ -13,6 +13,7 @@ public class VoucherSaleDto {
 	private String pgType;
 	private String approvalNo;
 	private String storeId;
+	private String promotionId;
 	private String regId;
 	private String regDate;
 	private String updId;

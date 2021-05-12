@@ -20,6 +20,11 @@ import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
+import kr.co.crevill.promotion.PromotionDto;
+import kr.co.crevill.promotion.PromotionService;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
+import kr.co.crevill.store.StoreVo;
 
 @Controller
 @RequestMapping("voucher")
@@ -30,6 +35,12 @@ public class VoucherController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private StoreService storeService;
+	
+	@Autowired
+	private PromotionService promotionService;
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, VoucherDto voucherDto) {
@@ -42,12 +53,23 @@ public class VoucherController {
 	@GetMapping("sale.view")
 	public ModelAndView sale(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("voucher/sale");
+		PromotionDto promotionDto = new PromotionDto();
+		mav.addObject("promotionList", promotionService.selectPromotionList(promotionDto));
 		return mav;
 	}
 	
 	@GetMapping("create.view")
 	public ModelAndView create(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("voucher/create");
+		StoreDto storeDto = new StoreDto();
+		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
+		List<StoreVo> newStoreList = new ArrayList<StoreVo>();
+		for(StoreVo storeVo : storeList) {
+			if(!"CST00001".equals(storeVo.getStoreId())) {
+				newStoreList.add(storeVo);	
+			}
+		}
+		mav.addObject("storeList", newStoreList);
 		return mav;
 	}
 	
@@ -62,6 +84,15 @@ public class VoucherController {
 			}
 			mav.addObject("attributeList", attributeList);
 		}
+		StoreDto storeDto = new StoreDto();
+		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
+		List<StoreVo> newStoreList = new ArrayList<StoreVo>();
+		for(StoreVo storeVo : storeList) {
+			if(!"CST00001".equals(storeVo.getStoreId())) {
+				newStoreList.add(storeVo);	
+			}
+		}
+		mav.addObject("storeList", newStoreList);
 		mav.addObject("info", info);
 		return mav;
 	}

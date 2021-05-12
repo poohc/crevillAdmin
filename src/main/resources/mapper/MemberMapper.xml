@@ -27,10 +27,15 @@
 	
     <select id="selectMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
         SELECT A.NAME,
+        	   A.BIRTHDAY PARENT_BIRTHDAY,
+        	   A.SEX PARENT_SEX,
                CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
             	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
                A.EMAIL,
-               A.ADDRESS,
+               REPLACE(A.ADDRESS,'|','') ADDRESS,
+			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
+			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
+			        ELSE '' END AS DETAIL_ADDRESS,
                A.QR_CODE,
                DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
                CASE WHEN A.STATUS = 'A' THEN 'Active'
@@ -50,9 +55,14 @@
 
     <select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
         SELECT A.NAME,
+        	   A.BIRTHDAY PARENT_BIRTHDAY,
+        	   A.SEX PARENT_SEX,
                A.CELL_PHONE,
                A.EMAIL,
-               A.ADDRESS,
+               REPLACE(A.ADDRESS,'|','') ADDRESS,
+			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
+			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
+			        ELSE '' END AS DETAIL_ADDRESS,
                A.QR_CODE,
                B.NAME CHILD_NAME,
                B.BIRTHDAY,
@@ -78,9 +88,11 @@
 	
 	<select id="getMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
         SELECT NAME,
+        	   BIRTHDAY,
+        	   SEX,	
                CELL_PHONE,
                EMAIL,
-               ADDRESS,
+               REPLACE(ADDRESS,'|','') ADDRESS,
                QR_CODE,
                STORE_ID
           FROM MEMBER_PARENT
@@ -100,6 +112,8 @@
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (
     								NAME,
+    								BIRTHDAY,
+    								SEX,
     								CELL_PHONE,
     								EMAIL,
     								ADDRESS,
@@ -110,6 +124,8 @@
     							   )
 							VALUES (
 									#{parentName},
+									#{parentBirthday},
+									#{parentSex},
 									#{cellPhone},
 									#{email},
 									#{address},
@@ -164,6 +180,8 @@
     	UPDATE MEMBER_PARENT 
     	  <set>
 	       	  <if test="parentName != null">NAME = #{parentName},</if>
+	       	  <if test="parentBirthday != null">BIRTHDAY = #{parentBirthday},</if>
+	       	  <if test="parentSex != null">SEX = #{parentSex},</if>
 	       	  <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
