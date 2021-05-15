@@ -23,6 +23,8 @@ import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.storeProgram.StoreProgramDto;
+import kr.co.crevill.storeProgram.StoreProgramService;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherService;
 import kr.co.crevill.voucher.VoucherVo;
@@ -42,6 +44,9 @@ public class ScheduleController {
 	
 	@Autowired
 	private StoreService storeService;
+	
+	@Autowired
+	private StoreProgramService storeProgramService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -79,6 +84,10 @@ public class ScheduleController {
 		mav.addObject("timeList", timeList);
 		StoreDto storeDto = new StoreDto();
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		
+		StoreProgramDto storeProgramDto = new StoreProgramDto();
+		storeProgramDto.setStatus(CrevillConstants.PROGRAM_STATUS_ACTIVE);
+		mav.addObject("programList", storeProgramService.selectPromotionList(storeProgramDto));
 		return mav;
 	}
 	

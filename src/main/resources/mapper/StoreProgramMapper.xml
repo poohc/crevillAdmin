@@ -6,16 +6,23 @@
 	<select id="selectStoreProgramList" parameterType="kr.co.crevill.storeProgram.StoreProgramDto" resultType="kr.co.crevill.storeProgram.StoreProgramVo">
         SELECT PROGRAM_ID,
 			   CHAIN_CLASS,
+			   (SELECT NAME FROM PLAY P WHERE P.PLAY_ID = CHAIN_CLASS) CHAIN_CLASS_NAME,
 			   PROGRAM_NAME,
 			   PROGRAM_CONTENTS,
 			   THUMBNAIL_ID,
 			   PICTURE_ID,
 			   TEACHING_PLAN_IMG_ID,
+			   STATUS,
 			   REG_ID,
-			   REG_DATE,
+			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
 			   UPD_ID,
-			   UPD_DATE
+			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE
           FROM STORE_PROGRAM
+        <where>
+           <if test="status != null">
+           AND STATUS = #{status}	
+           </if>
+        </where> 
     </select>
 	
 	<select id="selectStoreProgramInfo" parameterType="kr.co.crevill.storeProgram.StoreProgramDto" resultType="kr.co.crevill.storeProgram.StoreProgramVo">
@@ -26,6 +33,7 @@
 			   THUMBNAIL_ID,
 			   PICTURE_ID,
 			   TEACHING_PLAN_IMG_ID,
+			   STATUS,
 			   REG_ID,
 			   REG_DATE,
 			   UPD_ID,
@@ -42,6 +50,7 @@
 								   THUMBNAIL_ID,
 								   PICTURE_ID,
 								   TEACHING_PLAN_IMG_ID,
+								   STATUS,
 								   REG_ID,
 								   REG_DATE		
    					              )
@@ -52,6 +61,7 @@
 								   #{thumbnailId},
 								   #{pictureId},
 								   #{teachingPlanImgId},
+								   #{status},
 								   #{regId},
 								   NOW()
 								  )
@@ -66,6 +76,7 @@
 		   <if test="thumbnailId != null">THUMBNAIL_ID = #{thumbnailId},</if>
 		   <if test="pictureId != null">PICTURE_ID = #{pictureId},</if>
 		   <if test="teachingPlanImgId != null">TEACHING_PLAN_IMG_ID = #{teachingPlanImgId},</if>
+		   <if test="status != null">STATUS = #{status},</if>
 		   UPD_ID = #{updId},
 		   UPD_DATE = NOW()
     	  </set>		

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/promotionScript.js')}">
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/storeProgramScript.js')}">
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
@@ -15,34 +15,27 @@
 								<div class="row">
 									<div class="col">
 										<div class="form-group">
-											<label for="exampleFormControlSelect29">연관클래스</label>
-											<!--play 리스트에서 데이터 가져옴 (VIP캠프, 스페셜캠프 모두 포함)-->
-											<select class="form-control form-control-lg"
-												id="exampleFormControlSelect29">
-												<!--개발적인 요소보다는 해당 클래스에 프로그램을 자세히 보여주고 싶은 기획-->
-												<option>GYM</option>
-												<option>ART</option>
-												<option>EIC</option>
-												<option>SPECIAL CAMP</option>
+											<label for="palyId">연관클래스</label>
+											<select class="form-control form-control-lg" id="chainClass" name="chainClass" v-validate="'required'">
+												<option th:each="list : ${playList}" th:value="${list.playId}" th:text="${list.name}"></option>
 											</select>
+											<label class="col-form-label-sm" for="chainClass" v-if="errors.has('chainClass')">{{ errors.first('chainClass') }}</label>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
 										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">프로그래명</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm26" type="text" placeholder="성함">
+											<label class="col-form-label-sm" for="programName">프로그래명</label>
+											<input class="form-control form-control-lg" id="programName" name="programName" type="text" placeholder="프로그래명" v-validate="'required'">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col">
 										<div class="form-group">
-											<label class="col-form-label-sm" for="colFormLabelSm26">내용</label>
-											<input class="form-control form-control-lg"
-												id="colFormLabelSm26" type="text" placeholder="성함">
+											<label class="col-form-label-sm" for="programContents">내용</label>
+											<input class="form-control form-control-lg" id="programContents" name="programContents" type="text" placeholder="내용" v-validate="'required'">
 										</div>
 									</div>
 								</div>
@@ -53,40 +46,41 @@
 						<div class="card-header">
 							<h5>이미지 등록</h5>
 						</div>
-						<form class="form theme-form">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">썸네일</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">프로그램사진</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<div class="form-group row">
-											<label class="col-sm-3 col-form-label">프로그램교안</label>
-											<div class="col-sm-9">
-												<input class="form-control" type="file">
-											</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">썸네일</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="thumbnail" name="thumbnail">
 										</div>
 									</div>
 								</div>
 							</div>
-						</form>
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">프로그램사진</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="picture" name="picture">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">프로그램교안</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="file" id="teachingPlanImg" name="teachingPlanImg">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-primary" type="submit">등록</button>
+						</div>
 					</div>
 				</div>
 			</div>

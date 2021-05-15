@@ -38,6 +38,7 @@ public class StoreProgramService {
 	
 	public JSONObject insertStoreProgram(StoreProgramDto storeProgramDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
+		storeProgramDto.setStatus(CrevillConstants.PROGRAM_STATUS_ACTIVE);
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		
 		if(storeProgramDto.getThumbnail() != null && !storeProgramDto.getThumbnail().isEmpty()) {
@@ -114,11 +115,12 @@ public class StoreProgramService {
 	}
 	
 	
-	public JSONObject deleteStoreProgram(StoreProgramDto storeProgramDto) {
+	public JSONObject stopStoreProgram(StoreProgramDto storeProgramDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		if(storeProgramMapper.deleteStoreProgram(storeProgramDto) > 0) {
-			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		storeProgramDto.setStatus(CrevillConstants.PROGRAM_STATUS_INACTIVE);
+		if(storeProgramMapper.updateStoreProgram(storeProgramDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 		}
 		return result;
 	}

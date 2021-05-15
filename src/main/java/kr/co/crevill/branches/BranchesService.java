@@ -10,7 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.crevill.common.CommonMapper;
+import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.FileDto;
+import kr.co.crevill.common.FileVo;
 import kr.co.crevill.common.SessionUtil;
 
 @Service
@@ -18,6 +22,9 @@ public class BranchesService {
 
 	@Autowired
 	private BranchesMapper branchesMapper;
+	
+	@Autowired
+	private CommonMapper commonMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -47,6 +54,16 @@ public class BranchesService {
 		noticeDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(noticeDto.getBanner() != null && !noticeDto.getBanner().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			noticeDto.setBannerId(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(noticeDto.getBanner());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("공지 배너이미지");
+			commonMapper.insertImages(fileDto);
+		}
+		
 		//공지사항 INSERT 성공 시 전달매체 테이블 INSERT 
 		if(branchesMapper.insertNotice(noticeDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC

@@ -38,6 +38,10 @@ new Vue({
 				formdata.append("noticeSendType", $('select[name="noticeSendType"]').val());
 				formdata.append("contents", $('#contents').val());
 				
+				if($("#banner")[0].files[0] != undefined){
+					formdata.append("banner", $("#banner")[0].files[0]);	
+				}
+				
 				axios.post('/branches/noticeWrite.proc', formdata,{
 					  headers: {
 						'Content-Type': 'multipart/form-data'

@@ -1,5 +1,7 @@
 package kr.co.crevill.branches;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +13,8 @@ public class NoticeDto {
 	private String noticeType;
 	private String noticeSendType;
 	private String contents;
+	private MultipartFile banner;
+	private String bannerId;
 	private String regId;
 	private String regDate;
 	private String updId;

@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.play.PlayDto;
+import kr.co.crevill.play.PlayService;
+
 @Controller
 @RequestMapping("storeProgram")
 public class StoreProgramController {
 	
 	@Autowired
 	private StoreProgramService storeProgramService;
+	
+	@Autowired
+	private PlayService playService;
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
@@ -29,6 +35,8 @@ public class StoreProgramController {
 	@GetMapping("regist.view")
 	public ModelAndView master(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("storeProgram/regist");
+		PlayDto playDto = new PlayDto();
+		mav.addObject("playList", playService.selectPlayList(playDto));
 		return mav;
 	}
 	
@@ -41,8 +49,11 @@ public class StoreProgramController {
 	}
 	
 	@GetMapping("update.view")
-	public ModelAndView master(HttpServletRequest request, StoreProgramDto promotionDto) {
+	public ModelAndView master(HttpServletRequest request, StoreProgramDto storeProgramDto) {
 		ModelAndView mav = new ModelAndView("storeProgram/update");
+		PlayDto playDto = new PlayDto();
+		mav.addObject("playList", playService.selectPlayList(playDto));
+		mav.addObject("info", storeProgramService.selectStoreProgramInfo(storeProgramDto));
 		return mav;
 	}
 	
@@ -54,11 +65,11 @@ public class StoreProgramController {
 		return result;
 	}
 	
-	@PostMapping("delete.proc")
+	@PostMapping("stop.proc")
 	@ResponseBody
-	public JSONObject deleteProc(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
+	public JSONObject stopProc(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
 		JSONObject result = new JSONObject();
-		result = storeProgramService.deleteStoreProgram(storeProgramDto);
+		result = storeProgramService.stopStoreProgram(storeProgramDto);
 		return result;
 	}
 }

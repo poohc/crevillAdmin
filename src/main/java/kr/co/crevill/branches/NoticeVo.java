@@ -10,6 +10,7 @@ public class NoticeVo {
 	private String noticeType;
 	private String noticeSendType;
 	private String contents;
+	private String bannerId;
 	private String regId;
 	private String regDate;
 	private String updId;

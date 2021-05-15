@@ -1,119 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/promotionUpdateScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/storeProgramUpdateScript.js')}">
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<div class="container-fluid">
-			<form class="form theme-form" id="promotionForm" @submit.prevent="validateBeforeSubmit" action="/promotion/update.proc" method="post" enctype="multipart/form-data">
-			<input type="hidden" id="promotionId" name="promotionId" th:value="${info.promotionId}">
+			<form class="form theme-form" id="storeProgramForm" @submit.prevent="validateBeforeSubmit" action="/storeProgram/update.proc" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="programId" name="programId" th:value="${info.programId}">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="card">
-						<div class="card-header">
-							<h5>프로모션 정보</h5>
-						</div>
 						<div class="card-body">
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="promotionName">프로모션명</label>
-										<input class="form-control form-control-lg" id="promotionName" name="promotionName" v-validate="'required'" type="text" placeholder="프로모션명" th:value="${info.promotionName}">
+										<label for="palyId">연관클래스</label>
+										<select class="form-control form-control-lg" id="chainClass" name="chainClass" v-validate="'required'">
+											<option th:each="list : ${playList}" th:value="${list.playId}" th:text="${list.name}" th:selected="${info.chainClass == list.playId}"></option>
+										</select>
+										<label class="col-form-label-sm" for="chainClass" v-if="errors.has('chainClass')">{{ errors.first('chainClass') }}</label>
 									</div>
 								</div>
-								<label class="col-form-label-sm" for="promotionName" v-if="errors.has('promotionName')">{{ errors.first('promotionName') }}</label>
 							</div>
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="promotionContents">프로모션내용[100글자이내]</label>
-										<input class="form-control form-control-lg" id="promotionContents" name="promotionContents" v-validate="'required|max:100'" type="text" placeholder="프로모션내용" th:value="${info.promotionContents}">
+										<label class="col-form-label-sm" for="programName">프로그래명</label>
+										<input class="form-control form-control-lg" id="programName" name="programName" type="text" placeholder="프로그래명" v-validate="'required'" th:value="${info.programName}">
 									</div>
 								</div>
-								<label class="col-form-label-sm" for="promotionContents" v-if="errors.has('promotionContents')">{{ errors.first('promotionContents') }}</label>
 							</div>
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label class="col-form-label-sm" for="endDate">만료일</label>
-										<input class="form-control form-control-lg" id="endDate" name="endDate" v-validate="'required'" type="date" th:value="${info.endDate}">
-									</div>
-								</div>
-								<label class="col-form-label-sm" for="endDate" v-if="errors.has('endDate')">{{ errors.first('endDate') }}</label>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<p>프로모션 구분</p>
-								</div>
-								<div class="col">
-									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
-										<div class="radio radio-primary">
-											<input id="promotionType1" type="radio" name="promotionType" value="DISCOUNT" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT'}">
-											<label class="mb-0" for="promotionType1">금액할인</label>
-										</div>
-										<div class="radio radio-primary">
-											<input id="promotionType2" type="radio" name="promotionType" value="ADD_TIME" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'ADD_TIME'}">
-											<label class="mb-0" for="promotionType2">시간추가</label>
-										</div>
-										<div class="radio radio-primary">
-											<input id="promotionType3" type="radio" name="promotionType" value="DISCOUNT_PER" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT_PER'}">
-											<label class="mb-0" for="promotionType3">%할인</label>
-										</div>
-									</div>
-									<label class="col-form-label-sm" for="promotionType" v-if="errors.has('promotionType')">{{ errors.first('promotionType') }}</label>
-								</div>
-							</div>
-							<br>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="promotionValue">값입력</label>
-										<input class="form-control form-control-lg" id="promotionValue" name="promotionValue" type="number" v-validate="'required'" th:value="${info.promotionValue}">
-									</div>
-									<label class="col-form-label-sm" for="promotionValue" v-if="errors.has('promotionValue')">{{ errors.first('promotionValue') }}</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group row">
-										<label class="col-sm-3 col-form-label">프로모션배너</label>
-										<!--모바일에 띄울 배너이미지등록-->
-										<div class="col-sm-9">
-											<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.promotionBannerId})}" style="width: 10%;float: left;">
-											<input class="form-control" type="file" id="promotionBanner" name="promotionBanner">
-										</div>
+										<label class="col-form-label-sm" for="programContents">내용</label>
+										<input class="form-control form-control-lg" id="programContents" name="programContents" type="text" placeholder="내용" v-validate="'required'" th:value="${info.programContents}">
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group row">
-										<label class="col-sm-3 col-form-label">프로모션 상세이미지</label>
-										<!--모바일에 띄울 배너이미지등록-->
-										<div class="col-sm-9">
-											<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.promotionDetailImageId})}" style="width: 10%;float: left;">
-											<input class="form-control" type="file" id="promotionDetailImage" name="promotionDetailImage">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>	
+						</div>
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h5>적용매장</h5>
+							<h5>이미지 등록</h5>
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<div class="col-sm-12">
-									<p>매장선택[중복]</p>
-								</div>
 								<div class="col">
-									<div class="form-group m-t-15 m-checkbox-inline mb-0">
-										<div class="checkbox checkbox-dark" th:each="list, i : ${storeList}">
-											<input th:id="'storeId_' + ${i.index}" type="checkbox" th:value="${list.storeId}" name="storeId" th:checked="${#strings.contains(checkedStoreList,list.storeId)}">
-											<label th:for="'storeId_' + ${i.index}" th:text="${list.storeName}"></label>
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">썸네일</label>
+										<div class="col-sm-9">
+											<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.thumbnailId})}" style="width: 10%;float: left;">
+											<input class="form-control" type="file" id="thumbnail" name="thumbnail">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">프로그램사진</label>
+										<div class="col-sm-9">
+											<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.pictureId})}" style="width: 10%;float: left;">
+											<input class="form-control" type="file" id="picture" name="picture">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">프로그램교안</label>
+										<div class="col-sm-9">
+											<img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${info.teachingPlanImgId})}" style="width: 10%;float: left;">
+											<input class="form-control" type="file" id="teachingPlanImg" name="teachingPlanImg">
 										</div>
 									</div>
 								</div>
@@ -121,13 +82,12 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn btn-primary" type="submit">수정</button>
-							<input class="btn btn-light" type="reset" value="취소" onclick="cancel();">
 						</div>
 					</div>
 				</div>
 			</div>
 			</form>
 		</div>
-	</div>		
+	</div>
 </th:block>
 </html>

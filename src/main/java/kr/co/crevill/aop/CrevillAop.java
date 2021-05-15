@@ -129,6 +129,12 @@ public class CrevillAop {
         	
         	if(contextPath.indexOf("branches") > -1) {
         		menuDto.setUpperMenu("지점업무");
+        		if(servletPath.indexOf("headquarterWrite.view") > -1) {
+        			menu = "본사공지";
+        		}
+        		if(servletPath.indexOf("headquarterList.view") > -1) {
+        			menu = "본사공지리스트";
+        		}
         		if(servletPath.indexOf("noticeWrite.view") > -1) {
         			menu = "공지작성";
         		}

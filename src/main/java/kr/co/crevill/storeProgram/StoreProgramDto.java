@@ -18,6 +18,7 @@ public class StoreProgramDto {
 	private String thumbnailId;
 	private String pictureId;
 	private String teachingPlanImgId;
+	private String status;
 	private String regId;
 	private String regDate;
 	private String updId;

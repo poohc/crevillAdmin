@@ -60,6 +60,9 @@
 							TITLE,
 							NOTICE_TYPE,
 							CONTENTS,
+							<if test="bannerId != null">
+							BANNER_ID,
+							</if>
 							REG_ID,
 							REG_DATE,
 							START_DATE,
@@ -70,6 +73,9 @@
 							#{title},
 							#{noticeType},
 							#{contents},
+							<if test="bannerId != null">
+							#{bannerId},
+							</if>
 							#{regId},
 							NOW(),
 							#{startDate, jdbcType=VARCHAR},
