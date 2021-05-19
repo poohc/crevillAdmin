@@ -74,7 +74,7 @@
 	                            <div class="form-group">
 <!-- 	                                <input class="form-control" v-validate="'required'" type="text" id="subTopic" name="subTopic"> -->
 	                                <select class="form-control form-control-lg" id="subTopic" name="subTopic">
-	                                	<option th:each="programList : ${programList}" th:value="${programList.programId}" th:text="${programList.programName}"></option>
+	                                	<option th:each="programList : ${programList}" th:value="${programList.programContents}" th:text="${programList.programName}"></option>
 	                                </select>
 	                            </div>
 	                            <label class="col-form-label-sm" for="subTopic" v-if="errors.has('subTopic')">{{ errors.first('subTopic') }}</label>
