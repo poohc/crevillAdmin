@@ -83,7 +83,7 @@
            <if test="gradeType != null and gradeType == 'ANON'.toString()">
            AND A.GRADE IN ('VIP_ANON', 'NORMAL')
            </if>
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != 'MOBILE'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
 		 </where>           
@@ -243,7 +243,9 @@
 								 PG_TYPE,
 								 APPROVAL_NO,
 								 STORE_ID,
+								 <if test="promotionId != null">
 								 PROMOTION_ID,
+								 </if>
 								 REG_ID,
 								 REG_DATE
 								)
@@ -254,7 +256,9 @@
 								 #{pgType},         
 								 #{approvalNo},      
 								 #{storeId},     
+								 <if test="promotionId != null">
 								 #{promotionId},
+								 </if>
 								 #{regId},
 								 NOW()           	
 					      		)			 

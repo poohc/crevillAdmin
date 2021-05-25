@@ -36,7 +36,9 @@ new Vue({
 					formdata.append("usedChildrenName", $('#usedChildrenName').val());
 					formdata.append("pgType", $('#pgType').val());
 					formdata.append("approvalNo", $('#approvalNo').val());
-					formdata.append("promotionId", $('#promotionId').val());
+					if($('#promotionId').val().length > 0){
+						formdata.append("promotionId", $('#promotionId').val());	
+					}
 					axios.post('/voucher/sale.proc', formdata,{
 						  headers: {
 							'Content-Type': 'multipart/form-data'
