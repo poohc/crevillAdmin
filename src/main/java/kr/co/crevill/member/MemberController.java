@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherService;
@@ -138,4 +139,17 @@ public class MemberController {
 		return memberService.getMemberInfo(memberDto);
 	}
 	
+	
+	@PostMapping("getChildList.proc")
+	@ResponseBody
+	public JSONObject getChildList(HttpServletRequest request, MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		List<MemberVo> childList = memberService.selectChildList(memberDto);
+		if(childList != null && childList.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("list", childList);
+		}
+		return result;
+	}
 }

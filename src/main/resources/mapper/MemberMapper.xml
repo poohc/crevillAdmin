@@ -109,6 +109,26 @@
         </where>
     </select>
 	
+	<select id="selectChildList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+        SELECT A.NAME,
+        	   A.BIRTHDAY,
+        	   A.SEX,	
+               A.CELL_PHONE,
+               A.EMAIL,
+               REPLACE(A.ADDRESS,'|','') ADDRESS,
+               A.QR_CODE,
+               A.STORE_ID,
+               B.NAME CHILD_NAME
+          FROM MEMBER_PARENT A,
+               MEMBER_CHILDREN B
+        <where>
+           <if test="cellPhone != null and cellPhone != ''">
+           AND A.CELL_PHONE = #{cellPhone}
+           </if>
+           AND A.CELL_PHONE = B.PARENT_CELL_PHONE
+        </where>
+    </select>
+	
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (
     								NAME,
