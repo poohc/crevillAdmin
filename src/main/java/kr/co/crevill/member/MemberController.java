@@ -120,15 +120,15 @@ public class MemberController {
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherAllList(voucherDto);
 		mav.addObject("voucherList", voucherList);
 		
-		if(voucherDto.getVoucherNo() == null) {
-			voucherDto.setVoucherNo(voucherList.get(0).getVoucherNo());
+		if(voucherList != null && voucherList.size() > 0) {
+			if(voucherDto.getVoucherNo() == null) {
+				voucherDto.setVoucherNo(voucherList.get(0).getVoucherNo());
+			}	
+			mav.addObject("memberName", voucherList.get(0).getName());
+			mav.addObject("cellPhone", voucherDto.getCellPhone());
+			mav.addObject("voucherNo", voucherDto.getVoucherNo());
+			mav.addObject("list", voucherService.getMemberVoucherUseList(voucherDto));
 		}
-		
-		mav.addObject("memberName", voucherList.get(0).getName());
-		mav.addObject("cellPhone", voucherDto.getCellPhone());
-		mav.addObject("voucherNo", voucherDto.getVoucherNo());
-//		mav.addObject("voucherTimeInfo", voucherService.selectVoucherTimeInfo(voucherDto));
-		mav.addObject("list", voucherService.getMemberVoucherUseList(voucherDto));
 		return mav;
 	}
 		

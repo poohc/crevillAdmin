@@ -18,11 +18,14 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE
           FROM STORE_PROGRAM
-        <where>
-           <if test="status != null">
+         <where>
+           <if test="chainClass != null and chainClass != ''">
+           AND CHAIN_CLASS = #{chainClass}	
+           </if>
+           <if test="status != null and status != ''">
            AND STATUS = #{status}	
            </if>
-        </where> 
+        </where>
     </select>
 	
 	<select id="selectStoreProgramInfo" parameterType="kr.co.crevill.storeProgram.StoreProgramDto" resultType="kr.co.crevill.storeProgram.StoreProgramVo">

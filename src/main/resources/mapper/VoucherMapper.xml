@@ -150,6 +150,7 @@
 		   AND B.BUY_CELL_PHONE = #{cellPhone}
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
 		   AND D.PARENT_CELL_PHONE = E.CELL_PHONE
+	  GROUP BY A.VOUCHER_NO
 	</select>
 	
 	<select id="getMemberVoucherUseList" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
@@ -186,7 +187,7 @@
 		   AND C.SCHEDULE_ID = F.SCHEDULE_ID
 		   AND R.SCHEDULE_ID = C.SCHEDULE_ID
 		   AND R.VOUCHER_NO = A.VOUCHER_NO
-		GROUP BY R.RESERVATION_ID, A.VOUCHER_NO, C.VOUCHER_USE_ID, D.CELL_PHONE, C.REG_DATE, F.STORE_ID, E.NAME, A.TICKET_NAME, G.NAME, R.TUTORING_YN, R.STATUS
+      GROUP BY R.RESERVATION_ID
 	</select>
 	
 	<insert id="insertVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">

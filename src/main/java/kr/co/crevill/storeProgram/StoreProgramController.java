@@ -1,5 +1,7 @@
 package kr.co.crevill.storeProgram;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -71,5 +73,11 @@ public class StoreProgramController {
 		JSONObject result = new JSONObject();
 		result = storeProgramService.stopStoreProgram(storeProgramDto);
 		return result;
+	}
+	
+	@PostMapping("getList.proc")
+	@ResponseBody
+	public List<StoreProgramVo> getList(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
+		return storeProgramService.selectPromotionList(storeProgramDto);
 	}
 }

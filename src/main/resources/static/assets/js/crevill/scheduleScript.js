@@ -109,3 +109,23 @@ $('input[name="operationType"]').change(function(){
 		});	
 	} 
 });
+
+$('#playId').click(function(){
+	$("select[name='subTopic'] option").remove();
+	
+	$.ajax({
+			type : "POST",
+			data: {
+		            chainClass : $('#playId').val()
+		    },
+			url : '/storeProgram/getList.proc',
+			success : function(data){
+				for(var i=0; i < data.length; i++){
+					$("#subTopic").append('<option value="' + data[i].programContents + '">' + data[i].programName + '</option');
+				}
+			}
+		});
+		 
+});
+
+	
