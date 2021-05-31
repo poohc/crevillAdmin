@@ -98,6 +98,40 @@ $('#voucherSearchBtn').click(function(){
 						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="'+data.voucherList[i].ticketName+'">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
 					}
 					
+					
+					$.ajax({
+						type : "POST",
+						data: {
+					            cellPhone : $('#cellPhone').val()
+					    },
+						url : '/member/getChildList.proc',
+						success : function(data){
+							if(data.resultCd == '00'){
+								
+								if(data.list.length == 0){
+									alert('등록된 자녀가 없습니다.');
+									return false;
+								} else {
+									$("select[name='childName'] option").remove();
+									$("#childName").append('<option value="">선택</option>');
+									for(var i=0; i < data.list.length; i++){
+										$("#childName").append('<option value="' + data.list[i].childName + '">' + data.list[i].childName + '</option>');
+									}
+								}
+								
+							} else {
+								alert('휴대폰 번호를 다시 입력해주세요.');
+								return false;	
+							}
+							
+						},
+						error : function(error) {
+					        alert('자녀 조회 중 오류가 발생했습니다. 다시 시도하여 주세요.');
+							return false;
+					    }
+					});
+					
+					
 //					$("select[name='childName'] option").remove();
 //					$("#childName").append('<option value="">선택</option>');
 //					for(var i=0; i < data.childList.length; i++){
@@ -113,43 +147,6 @@ $('#voucherSearchBtn').click(function(){
 		},
 		error : function(error) {
 	        alert("바우처 목록을 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
-			return false;
-	    }
-	});
-	
-});
-
-
-$('#childName').click(function(){
-	
-	$.ajax({
-		type : "POST",
-		data: {
-	            cellPhone : $('#cellPhone').val()
-	    },
-		url : '/member/getChildList.proc',
-		success : function(data){
-			if(data.resultCd == '00'){
-				
-				if(data.list.length == 0){
-					alert('등록된 자녀가 없습니다.');
-					return false;
-				} else {
-					$("select[name='childName'] option").remove();
-					$("#childName").append('<option value="">선택</option>');
-					for(var i=0; i < data.list.length; i++){
-						$("#childName").append('<option value="' + data.list[i].childName + '">' + data.list[i].childName + '</option>');
-					}
-				}
-				
-			} else {
-				alert('휴대폰 번호를 다시 입력해주세요.');
-				return false;	
-			}
-			
-		},
-		error : function(error) {
-	        alert('자녀 조회 중 오류가 발생했습니다. 다시 시도하여 주세요.');
 			return false;
 	    }
 	});
