@@ -76,21 +76,21 @@ public class StaffService {
 		}
 		
 		if(staffDto.getHealthCertificate() != null && !staffDto.getHealthCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			staffDto.setHealthCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			staffDto.setHealthCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("보건증");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(staffDto.getResume() != null && !staffDto.getResume().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			staffDto.setResumeIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			staffDto.setResumeIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("이력서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		//직원정보 INSERT 
@@ -123,21 +123,21 @@ public class StaffService {
 		}
 		
 		if(staffDto.getHealthCertificate() != null && !staffDto.getHealthCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			staffDto.setHealthCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			staffDto.setHealthCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("보건증");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(staffDto.getResume() != null && !staffDto.getResume().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			staffDto.setResumeIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			staffDto.setResumeIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(staffDto.getIdPicture());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("이력서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		//직원정보 업데이트 
@@ -174,21 +174,21 @@ public class StaffService {
 		}
 		
 		if(instructorDto.getCriminalRecords() != null && !instructorDto.getCriminalRecords().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			instructorDto.setCriminalRecordsIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setCriminalRecordsIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getCriminalRecords());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("범죄경력증명서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(instructorDto.getResume() != null && !instructorDto.getResume().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			instructorDto.setResumeIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setResumeIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getResume());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("이력서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		//직원정보 INSERT 
@@ -230,21 +230,21 @@ public class StaffService {
 		}
 		
 		if(instructorDto.getCriminalRecords() != null && !instructorDto.getCriminalRecords().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			instructorDto.setCriminalRecordsIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setCriminalRecordsIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getCriminalRecords());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("범죄경력증명서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(instructorDto.getResume() != null && !instructorDto.getResume().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			instructorDto.setResumeIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			instructorDto.setResumeIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(instructorDto.getResume());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("이력서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		//직원정보 INSERT 

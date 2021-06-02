@@ -59,66 +59,66 @@ public class StoreService {
 		}
 		
 		if(storeDto.getRegistrationCertificate() != null && !storeDto.getRegistrationCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setRegistrationCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setRegistrationCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getRegistrationCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("사업자등록증");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getPlaygroundCertificate() != null && !storeDto.getPlaygroundCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setPlaygroundCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setPlaygroundCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getPlaygroundCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("놀이시설인증서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getInsuranceCertificate() != null && !storeDto.getInsuranceCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setInsuranceCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setInsuranceCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getInsuranceCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("보험증서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile1() != null && !storeDto.getEtcFile1().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile1Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile1Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile1());
-			fileDto.setFileIdx(fileVo.getFileIdx());
-			fileDto.setDescription("기타서류1");
-			commonMapper.insertFiles(fileDto);
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("스케쥴이미지");
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile2() != null && !storeDto.getEtcFile2().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile2Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile2Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile2());
-			fileDto.setFileIdx(fileVo.getFileIdx());
-			fileDto.setDescription("기타서류2");
-			commonMapper.insertFiles(fileDto);
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("시간표");
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile3() != null && !storeDto.getEtcFile3().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile3Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile3Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile3());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("기타서류3");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile4() != null && !storeDto.getEtcFile4().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile4Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile4Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile4());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("기타서류4");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getThumbnailImage() != null && !storeDto.getThumbnailImage().isEmpty()) {
@@ -213,66 +213,66 @@ public class StoreService {
 		}
 		
 		if(storeDto.getRegistrationCertificate() != null && !storeDto.getRegistrationCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setRegistrationCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setRegistrationCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getRegistrationCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("사업자등록증");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getPlaygroundCertificate() != null && !storeDto.getPlaygroundCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setPlaygroundCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setPlaygroundCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getPlaygroundCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("놀이시설인증서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getInsuranceCertificate() != null && !storeDto.getInsuranceCertificate().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setInsuranceCertificateIdx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setInsuranceCertificateIdx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getInsuranceCertificate());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("보험증서");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile1() != null && !storeDto.getEtcFile1().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile1Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile1Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile1());
-			fileDto.setFileIdx(fileVo.getFileIdx());
-			fileDto.setDescription("기타서류1");
-			commonMapper.insertFiles(fileDto);
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("스케쥴이미지");
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile2() != null && !storeDto.getEtcFile2().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile2Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile2Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile2());
-			fileDto.setFileIdx(fileVo.getFileIdx());
-			fileDto.setDescription("기타서류2");
-			commonMapper.insertFiles(fileDto);
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("시간표");
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile3() != null && !storeDto.getEtcFile3().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile3Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile3Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile3());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("기타서류3");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getEtcFile4() != null && !storeDto.getEtcFile4().isEmpty()) {
-			FileVo fileVo = commonMapper.selectFileIdx();
-			storeDto.setEtcFile4Idx(fileVo.getFileIdx());
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			storeDto.setEtcFile4Idx(fileVo.getImageIdx());
 			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(storeDto.getEtcFile4());
-			fileDto.setFileIdx(fileVo.getFileIdx());
+			fileDto.setImageIdx(fileVo.getImageIdx());
 			fileDto.setDescription("기타서류4");
-			commonMapper.insertFiles(fileDto);
+			commonMapper.insertImages(fileDto);
 		}
 		
 		if(storeDto.getThumbnailImage() != null && !storeDto.getThumbnailImage().isEmpty()) {
