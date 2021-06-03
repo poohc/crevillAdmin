@@ -42,4 +42,5 @@ public class ReservationVo {
 	private String address;
 	private String childBirthday;
 	private String storeName;
+	private String storeNameShort;
 }
