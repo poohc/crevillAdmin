@@ -1,208 +1,191 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/dashboardScript.js')}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/dashboardScript.js')}">
 
 <th:block layout:fragment="content">
-	<div class="page-body" id="dashboardDiv">
-		<div class="container-fluid">
-			<div class="page-title"></div>
-		</div>
-		<!-- Container-fluid starts-->
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-6 col-xl-3 col-lg-6">
-					<div class="card o-hidden">
-						<div class="bg-primary b-r-4 card-body">
-							<div class="media static-top-widget">
-								<div class="align-self-center text-center">
-									<i data-feather="credit-card"></i>
-								</div>
-								<div class="media-body">
-									<span class="m-0">바우처판매</span>
-									<h4 class="mb-0 counter" th:text="${statInfo.voucherTimeLeftHour}"></h4>
-									<i class="icon-bg" data-feather="database"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-xl-3 col-lg-6">
-					<div class="card o-hidden">
-						<div class="bg-secondary b-r-4 card-body">
-							<div class="media static-top-widget">
-								<div class="align-self-center text-center">
-									<i data-feather="shopping-bag"></i>
-								</div>
-								<div class="media-body">
-									<span class="m-0">매장회원</span>
-									<h4 class="mb-0 counter" th:text="${statInfo.memberCount}"></h4>
-									<i class="icon-bg" data-feather="shopping-bag"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-xl-3 col-lg-6">
-					<div class="card o-hidden">
-						<div class="bg-primary b-r-4 card-body">
-							<div class="media static-top-widget">
-								<div class="align-self-center text-center">
-									<i data-feather="message-circle"></i>
-								</div>
-								<div class="media-body">
-									<span class="m-0">예약</span>
-									<h4 class="mb-0 counter" th:text="${statInfo.reservationCount}"></h4>
-									<i class="icon-bg" data-feather="message-circle"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-xl-3 col-lg-6">
-					<div class="card o-hidden">
-						<div class="bg-primary b-r-4 card-body">
-							<div class="media static-top-widget">
-								<div class="align-self-center text-center">
-									<i data-feather="user-plus"></i>
-								</div>
-								<div class="media-body">
-									<span class="m-0">오늘 신규회원</span>
-									<h4 class="mb-0 counter" th:text="${statInfo.todayJoinMemberCount}"></h4>
-									<i class="icon-bg" data-feather="user-plus"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-6 xl-100 box-col-12">
-					<div class="widget-joins card widget-arrow">
-						<div class="row">
-							<div class="col-sm-6 pr-0">
-								<div class="media border-after-xs">
-									<div class="align-self-center mr-3 text-left">
-										<h6 class="mb-1">바우처판매</h6>
-										<h4 class="mb-0">오늘</h4>
-									</div>
-									<div class="media-body align-self-center">
-										<th:block th:if="${statInfo.todayArrow == 'UP'}">
-											<i class="font-primary" data-feather="arrow-up"></i>
-										</th:block>
-										<th:block th:if="${statInfo.todayArrow == 'DOWN'}">
-											<i class="font-primary" data-feather="arrow-down"></i>
-										</th:block>
-									</div>
-									<div class="media-body">
-										<h5 class="mb-0">
-											₩<span class="counter" th:text="${statInfo.todayVoucherSalePrice}"></span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 pl-0">
-								<div class="media">
-									<div class="align-self-center mr-3 text-left">
-										<h6 class="mb-1">바우처판매</h6>
-										<h4 class="mb-0">월간</h4>
-									</div>
-									<div class="media-body align-self-center">
-										<th:block th:if="${statInfo.monthArrow == 'UP'}">
-											<i class="font-primary" data-feather="arrow-up"></i>
-										</th:block>
-										<th:block th:if="${statInfo.monthArrow == 'DOWN'}">
-											<i class="font-primary" data-feather="arrow-down"></i>
-										</th:block>
-									</div>
-									<div class="media-body pl-2">
-										<h5 class="mb-0">
-											₩<span class="counter" th:text="${statInfo.lastmonthVoucherSalePrice}"></span>
-										</h5>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 pr-0">
-								<div class="media border-after-xs">
-									<div class="align-self-center mr-3 text-left">
-										<h6 class="mb-1">바우처판매</h6>
-										<h4 class="mb-0">주간</h4>
-									</div>
-									<div class="media-body align-self-center">
-										<th:block th:if="${statInfo.weekArrow == 'UP'}">
-											<i class="font-primary" data-feather="arrow-up"></i>
-										</th:block>
-										<th:block th:if="${statInfo.weekArrow == 'DOWN'}">
-											<i class="font-primary" data-feather="arrow-down"></i>
-										</th:block>
-									</div>
-									<div class="media-body">
-										<h5 class="mb-0">
-											₩<span class="counter" th:text="${statInfo.lastweekVoucherSalePrice}"></span>
-										</h5>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 pl-0">
-								<div class="media">
-									<div class="align-self-center mr-3 text-left">
-										<h6 class="mb-1">바우처판매</h6>
-										<h4 class="mb-0">년간</h4>
-									</div>
-									<div class="media-body align-self-center pl-3">
-										<th:block th:if="${statInfo.yearArrow == 'UP'}">
-											<i class="font-primary" data-feather="arrow-up"></i>
-										</th:block>
-										<th:block th:if="${statInfo.yearArrow == 'DOWN'}">
-											<i class="font-primary" data-feather="arrow-down"></i>
-										</th:block>
-									</div>
-									<div class="media-body pl-2">
-										<h5 class="mb-0">
-											₩<span class="counter" th:text="${statInfo.lastyearVoucherSalePrice}"></span>
-										</h5>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-<!-- 				<div class="col-xl-6 xl-100 box-col-12"> -->
-<!-- 					<div class="widget-joins card"> -->
-<!-- 						<div class="row"> -->
-<!-- 							<th:block th:each="voucherStat : ${voucherStatInfo}"> -->
-<!-- 								<div class="col-sm-6 pr-0"> -->
-<!-- 									<div class="media border-after-xs"> -->
-<!-- 										<div class="align-self-center mr-3" th:text="|${voucherStat.salePer}%|"> -->
-<!-- 											<i class="fa fa-angle-up ml-2"></i> -->
-<!-- 										</div> -->
-<!-- 										<div class="media-body details pl-3"> -->
-<!-- 											<h4 class="mb-0 counter"  th:text="${voucherStat.ticketName}"></h4> -->
-<!-- 										</div> -->
-<!-- 										<div class="media-body align-self-center"> -->
-<!-- 											<i class="font-primary float-left ml-2" data-feather="shopping-bag"></i> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</th:block> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-				<div class="col-xl-6 xl-50 box-col-12">
-					<div class="card">
-						<div class="card-header card-no-border">
-							<h5>본사공지</h5>
-							<div class="card-header-right">
-								<ul class="list-unstyled card-option">
-									<li><a href="/branches/headquarterList.view"><i class="fa fa-spin fa-cog"></i></a></li>
-									<li><i class="view-html fa fa-code"></i></li>
-									<li><i class="icofont icofont-maximize full-card"></i></li>
-									<li><i class="icofont icofont-minus minimize-card"></i></li>
-									<li><i class="icofont icofont-refresh reload-card"></i></li>
-									<li><i class="icofont icofont-error close-card"></i></li>
-								</ul>
-							</div>
-						</div>
-						<div class="card-body new-update pt-0">
-							<div class="activity-timeline">
-								<th:block th:if="${#lists.size(noticeList) > 0}">
+    <div class="page-body" id="dashboardDiv">
+        <div class="container-fluid">
+            <div class="page-title"></div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden">
+                        <div class="bg-primary b-r-4 card-body">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center">
+                                    <i data-feather="credit-card"></i>
+                                </div>
+                                <div class="media-body">
+                                    <span class="m-0">바우처판매</span>
+                                    <h4 class="mb-0 counter" th:text="${statInfo.voucherTimeLeftHour}"></h4>
+                                    <i class="icon-bg" data-feather="database"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden">
+                        <div class="bg-secondary b-r-4 card-body">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center">
+                                    <i data-feather="shopping-bag"></i>
+                                </div>
+                                <div class="media-body">
+                                    <span class="m-0">매장회원</span>
+                                    <h4 class="mb-0 counter" th:text="${statInfo.memberCount}"></h4>
+                                    <i class="icon-bg" data-feather="shopping-bag"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden">
+                        <div class="bg-primary b-r-4 card-body">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center">
+                                    <i data-feather="message-circle"></i>
+                                </div>
+                                <div class="media-body">
+                                    <span class="m-0">예약</span>
+                                    <h4 class="mb-0 counter" th:text="${statInfo.reservationCount}"></h4>
+                                    <i class="icon-bg" data-feather="message-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden">
+                        <div class="bg-primary b-r-4 card-body">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center">
+                                    <i data-feather="user-plus"></i>
+                                </div>
+                                <div class="media-body">
+                                    <span class="m-0">오늘 신규회원</span>
+                                    <h4 class="mb-0 counter" th:text="${statInfo.todayJoinMemberCount}"></h4>
+                                    <i class="icon-bg" data-feather="user-plus"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 xl-100 box-col-12">
+                    <div class="widget-joins card widget-arrow">
+                        <div class="row">
+                            <div class="col-sm-6 pr-0">
+                                <div class="media border-after-xs">
+                                    <div class="align-self-center mr-3 text-left">
+                                        <h6 class="mb-1">바우처판매</h6>
+                                        <h4 class="mb-0">오늘</h4>
+                                    </div>
+                                    <div class="media-body align-self-center">
+                                        <th:block th:if="${statInfo.todayArrow == 'UP'}">
+                                            <i class="font-primary" data-feather="arrow-up"></i>
+                                        </th:block>
+                                        <th:block th:if="${statInfo.todayArrow == 'DOWN'}">
+                                            <i class="font-primary" data-feather="arrow-down"></i>
+                                        </th:block>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="mb-0">
+                                            ₩<span class="counter" th:text="${statInfo.todayVoucherSalePrice}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pl-0">
+                                <div class="media">
+                                    <div class="align-self-center mr-3 text-left">
+                                        <h6 class="mb-1">바우처판매</h6>
+                                        <h4 class="mb-0">월간</h4>
+                                    </div>
+                                    <div class="media-body align-self-center">
+                                        <th:block th:if="${statInfo.monthArrow == 'UP'}">
+                                            <i class="font-primary" data-feather="arrow-up"></i>
+                                        </th:block>
+                                        <th:block th:if="${statInfo.monthArrow == 'DOWN'}">
+                                            <i class="font-primary" data-feather="arrow-down"></i>
+                                        </th:block>
+                                    </div>
+                                    <div class="media-body pl-2">
+                                        <h5 class="mb-0">
+                                            ₩<span class="counter"
+                                                th:text="${statInfo.lastmonthVoucherSalePrice}"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pr-0">
+                                <div class="media border-after-xs">
+                                    <div class="align-self-center mr-3 text-left">
+                                        <h6 class="mb-1">바우처판매</h6>
+                                        <h4 class="mb-0">주간</h4>
+                                    </div>
+                                    <div class="media-body align-self-center">
+                                        <th:block th:if="${statInfo.weekArrow == 'UP'}">
+                                            <i class="font-primary" data-feather="arrow-up"></i>
+                                        </th:block>
+                                        <th:block th:if="${statInfo.weekArrow == 'DOWN'}">
+                                            <i class="font-primary" data-feather="arrow-down"></i>
+                                        </th:block>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="mb-0">
+                                            ₩<span class="counter"
+                                                th:text="${statInfo.lastweekVoucherSalePrice}"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pl-0">
+                                <div class="media">
+                                    <div class="align-self-center mr-3 text-left">
+                                        <h6 class="mb-1">바우처판매</h6>
+                                        <h4 class="mb-0">년간</h4>
+                                    </div>
+                                    <div class="media-body align-self-center pl-3">
+                                        <th:block th:if="${statInfo.yearArrow == 'UP'}">
+                                            <i class="font-primary" data-feather="arrow-up"></i>
+                                        </th:block>
+                                        <th:block th:if="${statInfo.yearArrow == 'DOWN'}">
+                                            <i class="font-primary" data-feather="arrow-down"></i>
+                                        </th:block>
+                                    </div>
+                                    <div class="media-body pl-2">
+                                        <h5 class="mb-0">
+                                            ₩<span class="counter"
+                                                th:text="${statInfo.lastyearVoucherSalePrice}"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-6 xl-50 box-col-12">
+                    <div class="card">
+                        <div class="card-header card-no-border">
+                            <h5>본사공지</h5>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><a href="/branches/headquarterList.view"><i class="fa fa-spin fa-cog"></i></a>
+                                    </li>
+                                    <li><i class="view-html fa fa-code"></i></li>
+                                    <li><i class="icofont icofont-maximize full-card"></i></li>
+                                    <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                    <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                    <li><i class="icofont icofont-error close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body new-update pt-0">
+                            <div class="activity-timeline">
+                                <th:block th:if="${#lists.size(noticeList) > 0}">
 									<th:block th:each="list, i : ${noticeList}">
 										<th:block th:if="${i.index == 0}">
 										<div class="media">
@@ -278,6 +261,10 @@
 							<div class="header-top">
 								<h5 class="m-0">시간대별 예약자</h5>
 								<div class="card-header-right-icon">
+                                    <!--추가부분 : 매장조건 지정 후 예약시간 검색-->
+                                    <select class="button btn btn-primary" id="storeId" name="storeId" @change="예약검색($event)">
+										<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
+									</select>
 									<select class="button btn btn-primary" id="reservationTime" name="reservationTime" @change="예약검색($event)">
 										<th:block th:each="list : ${todayReservationList}">
 											<option th:text="|${list.reservationTime}시|"></option>
@@ -295,9 +282,10 @@
 <!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
 <!-- 												<div class="status-circle bg-primary"></div> -->
 <!-- 											</td> -->
-											<td class="img-content-box">
-												<span class="d-block">{{item.reservationName}}</span>
-												<span class="font-roboto">{{item.cellPhone}}</span>
+                                            
+											<td style="display: inline;">
+												<span class="d-block" style="font-size: 13px;">{{item.reservationName}}</span>
+												<em class="font-roboto">{{item.cellPhone}}</em>
 											</td>
 											<td>
 												<p class="m-0 font-primary">{{item.reservationDate}}</p>
@@ -308,6 +296,7 @@
 												</div>
 											</td>
 										</tr>
+                                        
 <!-- 										<tr> -->
 <!-- 											<td> -->
 <!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
@@ -331,18 +320,19 @@
 				</div>
 				<div class="col-xl-6 xl-100 box-col-12">
 					<div class="card">
-						<div class="card-header">
-							<h5>예약알림</h5>
-							<div class="card-header-right">
-								<ul class="list-unstyled card-option">
-									<li><a href="/reservation/list.view"><i class="fa fa-spin fa-cog"></i></a></li>
-									<li><i class="view-html fa fa-code"></i></li>
-									<li><i class="icofont icofont-maximize full-card"></i></li>
-									<li><i class="icofont icofont-minus minimize-card"></i></li>
-									<li><i class="icofont icofont-refresh reload-card"></i></li>
-									<li><i class="icofont icofont-error close-card"></i></li>
-								</ul>
+						<div class="card-header card-no-border">
+                            <div class="header-top">
+							<h5 class="m-0">오늘자 TRIAL CLASS 신청</h5>
+								<div class="card-header-right-icon">
+								<select class="button btn btn-primary" id="storeIdTrial" name="storeIdTrial">
+                                    <option>판교점</option>
+                                    <option>청주점</option>
+                                    <option>반포점</option>
+                                    <option>용산점</option>
+                                    <option>대구점</option>
+                                </select>
 							</div>
+                            </div>
 						</div>
 						<div class="card-body">
 							<div class="user-status table-responsive">
@@ -376,14 +366,13 @@
 						<div class="card-header">
 							<h5>지점 원어민 리스트</h5>
 							<div class="card-header-right">
-								<ul class="list-unstyled card-option">
-									<li><a href="/staff/nsList.view"><i class="fa fa-spin fa-cog"></i></a></li>
-									<li><i class="view-html fa fa-code"></i></li>
-									<li><i class="icofont icofont-maximize full-card"></i></li>
-									<li><i class="icofont icofont-minus minimize-card"></i></li>
-									<li><i class="icofont icofont-refresh reload-card"></i></li>
-									<li><i class="icofont icofont-error close-card"></i></li>
-								</ul>
+								<select class="button btn btn-primary" id="storeIdNs" name="storeIdNs">
+                                    <option>판교점</option>
+                                    <option>청주점</option>
+                                    <option>반포점</option>
+                                    <option>용산점</option>
+                                    <option>대구점</option>
+                                </select>
 							</div>
 						</div>
 						<div class="card-body">

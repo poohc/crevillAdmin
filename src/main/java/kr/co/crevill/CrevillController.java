@@ -33,6 +33,8 @@ import kr.co.crevill.reservation.ReservationVo;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.staff.InstructorDto;
 import kr.co.crevill.staff.StaffService;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
 
 @Controller
 public class CrevillController {
@@ -52,6 +54,9 @@ public class CrevillController {
 	@Autowired
 	private CommonService commonService;
 	
+	@Autowired
+	private StoreService storeService;
+	
 	@GetMapping("/")
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("dashboard");
@@ -67,6 +72,9 @@ public class CrevillController {
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("voucherStatInfo", commonService.selectVoucherStatInfo());
 		mav.addObject("noticeList", branchesService.selectHeadquarterNoticeList(noticeDto));
 		mav.addObject("statInfo", commonService.selectStatInfo(commonDto));
