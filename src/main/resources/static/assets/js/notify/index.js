@@ -10,7 +10,3 @@ var notify = $.notify('<i class="fa fa-bell-o"></i><strong>로딩 시작</strong
         exit:'animated fadeOutUp'
     }
 });
-
-setTimeout(function() {
-    notify.update('message', '<i class="fa fa-bell-o"></i><strong>데이터</strong> 로딩중.');
-}, 1000);
