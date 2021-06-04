@@ -40,7 +40,12 @@
 											<td th:text="${list.storeName}"></td>
 											<td th:text="${list.childName}"></td>
 											<td th:text="${list.ticketName}"></td>
+											<th:block th:if="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
+											<td>&nbsp;</td>
+											</th:block>
+											<th:block th:unless="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
 											<td th:text="${list.playName}"></td>
+											</th:block>
 											<td th:text="${list.useTime}"></td>
 											<td th:text="${list.useTutoringTime}"></td>
 											<td>

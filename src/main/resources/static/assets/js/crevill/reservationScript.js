@@ -15,7 +15,7 @@ Vue.use(VeeValidate, {
   }
 });
 
-new Vue({
+var listVm = new Vue({
     el: '#page-body',
     data: {
     	cellPhone : '',
@@ -23,6 +23,7 @@ new Vue({
 		scheduleDate : '',	  	
 		scheduleTime : '',
 	  	scheduleId : '',
+		storeList : []
     },
 	methods: {
     validateBeforeSubmit() {
@@ -95,9 +96,8 @@ $('#voucherSearchBtn').click(function(){
 					$("select[name='voucherNo'] option").remove();
 					$("#voucherNo").append('<option value="">선택</option>');
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="'+data.voucherList[i].ticketName+'">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
+						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="' + data.voucherList[i].ticketName + '"data-storeId="' + data.voucherList[i].storeId +'">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
 					}
-					
 					
 					$.ajax({
 						type : "POST",
@@ -130,13 +130,6 @@ $('#voucherSearchBtn').click(function(){
 							return false;
 					    }
 					});
-					
-					
-//					$("select[name='childName'] option").remove();
-//					$("#childName").append('<option value="">선택</option>');
-//					for(var i=0; i < data.childList.length; i++){
-//						$("#childName").append('<option value="' + data.childList[i] + '">' + data.childList[i] + '</option>');
-//					}
 				}
 				
 			} else {
@@ -173,7 +166,7 @@ $('#scheduleSearch').click(function(){
 				}
 				$("#tutoringYn").append('<option value="N">선택</option>');
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option>');
+					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option>');
 				}
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
@@ -187,6 +180,36 @@ $('#scheduleSearch').click(function(){
 	    }
 	});
 	
+});
+
+$('#voucherNo').change(function(){
+	$.ajax({
+		type : "POST",
+		data: {
+	            storeId : $("#voucherNo option:selected").data().storeid
+	    },
+		url : '/store/getStoreList.proc',
+		success : function(data){
+			if(data.resultCd == '00'){
+				
+				 for(var i=0; i < data.storeList.length; i++){
+					  Vue.set(listVm.storeList, i, data.storeList[i]);
+				 }	
+				 listVm.list.slice().sort(function(a, b) {
+	    		 	return b.sortRank - a.sortRank;
+	             });
+				
+			} else {
+				alert('선택한 바우처가 등록된 매장이 없습니다. 관리자에게 문의하여 주세요.');
+				return false;	
+			}
+			
+		},
+		error : function(error) {
+	        alert('선택한 바우처가 등록된 매장이 없습니다. 관리자에게 문의하여 주세요.');
+			return false;
+	    }
+	});
 });
 
 $('#storeId').change(function(){

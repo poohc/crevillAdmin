@@ -82,7 +82,7 @@
 	                        <h6 class="sub-title">스케쥴등록매장 선택</h6>
 	                        <div class="theme-form">
 	                            <div class="form-group">
-	                                <select id="storeId" name="storeId">
+	                                <select class="form-control form-control-lg" id="storeId" name="storeId">
 	                                	<th:block th:each="storeList : ${storeList}">
 	                                		<option th:value="${storeList.storeId}" th:text=${storeList.storeName}></option>
 	                                </select>

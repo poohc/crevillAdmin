@@ -13,7 +13,20 @@
 					<div class="card">
 						<div class="card-header">
 							<h5 th:text="|${currentTime}시|"></h5>
+                            <p>시간안에 입장하지 않으면 NOSHOW 처리</p>
 							<!--현재 시간 기준으로 변경 시간대로 예약자 데이터 불러옴-->
+                            <div class="header-top">
+                                    <div class="card-header-right-icon">
+                                    <select class="button btn btn-primary" id="" name="">
+                                        <option>전체</option>
+                                        <option>판교점</option>
+                                        <option>청주점</option>
+                                        <option>반포점</option>
+                                        <option>용산점</option>
+                                        <option>대구점</option>
+                                    </select>
+                                </div>
+                                </div>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -42,7 +55,7 @@
 													<a class="btn btn-primary btn-xs" th:attr="onclick=|entrance('${list.reservationId}')|" id="entranceText">입장대기</a>
 												</th:block>
 												<th:block th:unless="${list.entranceCount == '0'}">
-													<a class="btn btn-primary btn-xs" id="entranceText">입장완료 </a>
+													<a class="btn btn-warning btn-xs" id="entranceText">입장완료 </a>
 												</th:block>
 											</div>
 											</th:block>

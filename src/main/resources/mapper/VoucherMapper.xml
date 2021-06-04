@@ -116,7 +116,8 @@
 		       A.PRICE,
 		       A.USE_TIME,
 		       D.NAME,
-		       C.TIME_LEFT_HOUR
+		       C.TIME_LEFT_HOUR,
+		       A.STORE_ID
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
 		       VOUCHER_USE_VIEW C,

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,8 @@ public class ReservationController {
 	
 	@Autowired
 	private StoreService storeService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
@@ -60,6 +64,9 @@ public class ReservationController {
 	@GetMapping("search.view")
 	public ModelAndView search(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("reservation/search");
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	
@@ -86,7 +93,7 @@ public class ReservationController {
 			scheduleDto.setScheduleType("ALL");
 			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		}
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		logger.info("scheduleDto : " + scheduleDto.toString());
 		return reservationService.selectReservationSearchList(scheduleDto);
 	}
 	

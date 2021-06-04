@@ -19,11 +19,11 @@
 											<i data-feather="target"></i>당일전체
 										</a>
 									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="profile-top-tab" data-toggle="tab" href="#top-processing" role="tab" aria-controls="top-profile" aria-selected="false" v-on:click="검색('ING')">
-											<i data-feather="info"></i>진행중
-										</a>
-									</li>
+<!-- 									<li class="nav-item"> -->
+<!-- 										<a class="nav-link" id="profile-top-tab" data-toggle="tab" href="#top-processing" role="tab" aria-controls="top-profile" aria-selected="false" v-on:click="검색('ING')"> -->
+<!-- 											<i data-feather="info"></i>진행중 -->
+<!-- 										</a> -->
+<!-- 									</li> -->
 									<li class="nav-item">
 										<a class="nav-link" id="contact-top-tab" data-toggle="tab" href="#top-complete" role="tab" aria-controls="top-contact" aria-selected="false" v-on:click="검색('END')">
 											<i data-feather="check-circle"></i>진행완료
@@ -41,6 +41,12 @@
 									<input class="form-control-lg" id="scheduleStart" name="scheduleStart" type="text" style="width: 22%;height: 42px;vertical-align:top;margin-right: 15px">
 									<input type="hidden" id="scheduleType" name="scheduleType" value="ALL">
 									<button class="btn btn-primary" v-on:click="검색()">검색</button>
+                                    <select class="button btn btn-primary" id="storeId" name="storeId">
+                                        <option value="">전체</option>
+                                        <th:block th:each="list : ${storeList}">
+                                        <option th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
+                                        </th:block>
+                                    </select>
 									<a class="btn btn-primary" href="/reservation/regist.view">
 										<i data-feather="plus-square"></i>신규 예약등록
 									</a>
@@ -57,7 +63,7 @@
 									<div class="row">
 										<div class="col-xl-4 col-lg-6" v-for="item in list">
 											<div class="project-box">
-												<span class="badge badge-primary">진행중</span>
+												<span class="badge badge-warning">진행중</span>
 												<h6>{{item.scheduleTime}}</h6>
 <!-- 												<div class="media"> -->
 <!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->

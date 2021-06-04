@@ -20,6 +20,7 @@ var listVm = new Vue({
 				var formdata = new FormData();
 					formdata.append("scheduleStart", $('#scheduleStart').val());
 					formdata.append("scheduleType",  $('#scheduleType').val());
+					formdata.append("storeId",  $('#storeId').val());
 					
 					axios.post('/reservation/getReservationList.proc', formdata,{
 						  headers: {
