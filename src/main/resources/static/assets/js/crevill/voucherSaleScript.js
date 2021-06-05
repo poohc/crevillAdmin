@@ -11,10 +11,14 @@ Vue.use(VeeValidate, {
   }
 });
 
-new Vue({
+var listVm = new Vue({
     el: '#page-body',
     data: {
     	buyCellPhone : '',
+		voucherMember : [],
+		memberInfo : [],
+		voucherList : [],
+		storeList : []
     },
 	methods: {
     validateBeforeSubmit() {
@@ -66,35 +70,93 @@ new Vue({
 
 $('#searchMemberNameBtn').click(function(){
 	
-	$("select[name='usedChildrenName'] option").remove();
-	
-	$.ajax({
-			type : "POST",
-			data: {
-		            cellPhone : $('#buyCellPhone').val()
-		    },
-			url : '/member/getMemberInfo.proc',
-			success : function(data){
-				
-				if(data.length > 0){
-					$('#searchResultName').text(data[0].name);
-					for(var i=0; i < data.length; i++){
-						$("#usedChildrenName").append('<option value="' + data[i].childName + '">' + data[i].childName + '</option>');
-						$("#usedChildrenName").data('memberStoreId', data[i].storeId);
-					}
-					$('#gradeType').trigger('change');	
-				} else {
-					alert('고객정보가 없습니다.');
-					return false;	
-				}
-								
-			},
-			error : function(error) {
-		        alert("이름검색 중 오류가 발생했습니다. 다시 시도하여 주세요.");
-				return false;
-		    }
-	});	 
+	var formdata = new FormData();
+		formdata.append("cellPhone", $('#buyCellPhone').val());
+		
+		axios.post('/member/getMemberInfo.proc', formdata,{
+			  headers: {
+				'Content-Type': 'multipart/form-data'
+			  }
+		}).then((response) => {
+			  
+			  if(response.data.resultCd == '00'){
+		      	  for(var i=0; i < response.data.voucherMemberInfo.length; i++){
+			  	 	 Vue.set(listVm.voucherMember, i, response.data.voucherMemberInfo[i]);
+			  	  }
+				  
+				  for(var i=0; i < response.data.voucherList.length; i++){
+			  	 	 Vue.set(listVm.voucherList, i, response.data.voucherList[i]);
+			  	  }
+			
+				  Vue.set(listVm.memberInfo, 0, response.data.memberInfo);
+				  Vue.set(listVm.voucherList, 0, response.data.voucherList);
+				  listVm.voucherMember.splice(response.data.voucherMemberInfo.length);
+				  
+				  var storeId = response.data.memberInfo.storeId;
+				  $("select[name='storeId'] option").remove();
+		
+		          var formdata = new FormData();
+					formdata.append("storeId", storeId);
+					
+					axios.post('/store/getStoreList.proc', formdata,{
+						  headers: {
+							'Content-Type': 'multipart/form-data'
+						  }
+					}).then((response) => {
+						  
+						  if(response.data.resultCd == '00'){
+					      	  for(var i=0; i < response.data.storeList.length; i++){
+//						  	 	 Vue.set(listVm.storeList, i, response.data.storeList[i]);
+								 $("#storeId").append('<option value="' + response.data.storeList[i].storeId + '">' + response.data.storeList[i].storeNameShort + '</option>');
+						  	  }
+							  $('#gradeType').trigger('change');		  
+//							  Vue.set(listVm.storeList, 0, response.data.storeList);
+					
+						  } else {
+							alert('매장정보를 불러오는 중 오류가 발생했습니다.');
+						  } 
+			
+					}).catch(function (error) {
+						alert('매장정보를 불러오는 중 오류가 발생했습니다.');
+					});
+					
+			  } else {
+				alert('회원정보를 불러오는 중 오류가 발생했습니다.');
+			  } 
+
+		}).catch(function (error) {
+			alert('회원정보를 불러오는 중 오류가 발생했습니다.');
+		});
 });
+
+$('#storeId').change(function(){
+	
+	$("select[name='storeId'] option").remove();
+	
+	var formdata = new FormData();
+		formdata.append("storeId", $('#memberStoreId').val());
+		
+		axios.post('/store/getStoreList.proc', formdata,{
+			  headers: {
+				'Content-Type': 'multipart/form-data'
+			  }
+		}).then((response) => {
+			  
+			  if(response.data.resultCd == '00'){
+		      	  for(var i=0; i < response.data.storeList.length; i++){
+			  	 	 $("#storeId").append('<option value="' + response.data.storeList[i].storeId + '">' + response.data.storeList[i].storeNameShort + '</option>');
+			  	  }
+				  $('#gradeType').trigger('change');	
+			  } else {
+				alert('매장정보를 불러오는 중 오류가 발생했습니다.');
+			  } 
+
+		}).catch(function (error) {
+			alert('매장정보를 불러오는 중 오류가 발생했습니다.');
+		});
+});
+
+
 
 $('#gradeType').change(function(){
 	
@@ -108,7 +170,7 @@ $('#gradeType').change(function(){
 			type : "POST",
 			data: {
 		            gradeType : $('#gradeType').val(),
-				    storeId : $("#usedChildrenName").data('memberStoreId')
+				    storeId : $('#memberStoreId').val()
 		    },
 			url : '/voucher/getVoucherList.proc',
 			success : function(data){

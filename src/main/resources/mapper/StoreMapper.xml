@@ -59,8 +59,11 @@
 			   (SELECT COUNT(*) FROM STORE_PLAY A WHERE A.STORE_ID = STORE.STORE_ID AND A.CLASS_TYPE = 'CLASS_C') CNT_TIME_CLASS
           FROM STORE
          WHERE STORE_ID NOT IN ('ADMIN','CST00001')
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != 'MOBILE'.toString()">
            AND STORE_ID = #{storeId}
+           </if>
+           <if test="experienceClass != null and experienceClass == 'Y'.toString()">
+           AND EXPERIENCE_CLASS = 'Y'
            </if>
       ORDER BY SORT_RANK
     </select>

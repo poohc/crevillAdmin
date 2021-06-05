@@ -1,5 +1,7 @@
 package kr.co.crevill.staff;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.reservation.ReservationVo;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 
@@ -150,5 +153,11 @@ public class StaffController {
 		JSONObject result = new JSONObject();
 		result = staffService.updateNstaffInfo(instructorDto, request);
 		return result;
+	}
+	
+	@PostMapping("getInstructorList.proc")
+	@ResponseBody
+	public List<InstructorVo> getInstructorList(HttpServletRequest request, @ModelAttribute InstructorDto instructorDto) {
+		return staffService.selectInstructorList(instructorDto);
 	}
 }

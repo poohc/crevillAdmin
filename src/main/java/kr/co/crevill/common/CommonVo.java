@@ -29,4 +29,10 @@ public class CommonVo {
 	private String reservationTime;
 	private String reservationStatus;
 	private String cellPhone;
+	private String totalVoucherTime;
+	private String totalTimeLeftHour;
+	private String totalVoucherUseTime;
+	private String voucherUsePer;
+	private String entranceCount;
+	private String noshowCount;
 }

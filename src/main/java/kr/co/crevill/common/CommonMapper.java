@@ -18,4 +18,6 @@ public interface CommonMapper {
 	public CommonVo selectStatInfo(CommonDto commonDto);
 	public List<CommonVo> selectVoucherStatInfo();
 	public List<CommonVo> selectTodayReservationInfo(CommonDto commonDto);
+	public CommonVo selectVoucherStatistics();
+	public CommonVo selectNoShowCount();
 }

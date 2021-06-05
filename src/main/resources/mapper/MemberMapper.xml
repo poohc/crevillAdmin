@@ -57,7 +57,8 @@
         SELECT A.NAME,
         	   A.BIRTHDAY PARENT_BIRTHDAY,
         	   A.SEX PARENT_SEX,
-               A.CELL_PHONE,
+               CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
                A.EMAIL,
                REPLACE(A.ADDRESS,'|','') ADDRESS,
 			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
@@ -229,5 +230,39 @@
 		  FROM MEMBER_CHILDREN_GRADE
 		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
 	</delete>
+	
+	<select id="selectMemberVoucherInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+        SELECT A.NAME,
+        	   A.BIRTHDAY PARENT_BIRTHDAY,
+        	   A.SEX PARENT_SEX,
+               CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+               A.EMAIL,
+               REPLACE(A.ADDRESS,'|','') ADDRESS,
+			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
+			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
+			        ELSE '' END AS DETAIL_ADDRESS,
+               CASE WHEN A.STORE_ID = 'MOBILE' THEN '모바일'
+                    ELSE '바우처' 
+                    END AS MEMBER_TYPE,
+               A.QR_CODE,
+               B.NAME CHILD_NAME,
+               B.BIRTHDAY,
+               B.SEX,
+               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
+               A.STORE_ID,
+               C.VOUCHER_NO,
+               C.TICKET_NAME
+          FROM MEMBER_PARENT A,
+               MEMBER_CHILDREN B,
+               VOUCHER C,
+               VOUCHER_SALE D
+         WHERE A.CELL_PHONE = #{cellPhone}
+           AND A.CELL_PHONE = B.PARENT_CELL_PHONE
+           AND C.STATUS = '12'
+           AND D.BUY_CELL_PHONE = A.CELL_PHONE 
+           AND C.VOUCHER_NO = D.VOUCHER_NO
+      GROUP BY A.CELL_PHONE, B.NAME, C.VOUCHER_NO
+    </select>
 	
 </mapper>

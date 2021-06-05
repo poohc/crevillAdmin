@@ -15,10 +15,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="buyCellPhone">고객전화번호 입력</label>
-                                    <input class="form-control form-control-sm" v-validate="'required'"
-                                        id="buyCellPhone" name="buyCellPhone" type="number" placeholder="전화번호">
-                                    <label class="col-form-label-sm" for="buyCellPhone"
-                                        v-if="errors.has('buyCellPhone')">{{ errors.first('buyCellPhone') }}</label>
+                                    <input class="form-control form-control-sm" v-validate="'required'" id="buyCellPhone" name="buyCellPhone" type="number" placeholder="전화번호">
+                                    <label class="col-form-label-sm" for="buyCellPhone" v-if="errors.has('buyCellPhone')">{{ errors.first('buyCellPhone') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -29,25 +27,38 @@
                 </div>
 
                 <p id="searchResultName"></p>
-                <!--전화번호 검색해서 나오는 회원정보를 아래 form에서 데이터 나오게 처리 요청-->
-                <div class="col-xl-12">
+                <div class="col-sm-12 col-xl-12">
                     <div class="card">
-                      <div class="job-search">
-                        <div class="card-body">
-                          <div class="media"><img class="img-40 img-fluid m-r-20" src="../assets/images/job-search/2.jpg" alt="">
-                            <div class="media-body">
-                              <h6 class="f-w-600"><a href="#">조용묵 회원</a><span class="badge badge-primary pull-right">모바일회원</span></h6>
-                              <p>010-3024-2890</p>
+                        <div class="job-search">
+                            <div class="card-body">
+                                <div class="media">
+                                <img class="img-40 img-fluid m-r-20" th:src="@{/assets/images/job-search/2.jpg}" alt="">
+                                    <template v-for="(item, index) in memberInfo">
+	                                    <div class="media-body">
+	                                        <h6 class="f-w-600">
+		                                        <a href="#">{{item.name}} 회원</a>
+		                                        <span class="badge badge-primary pull-right">{{item.memberType}}회원</span>
+	                                        </h6>
+	                                        <p>{{item.cellPhone}}</p>
+	                                    </div>
+	                                    <input type="hidden" id="memberStoreId" name="memberStoreId" :value="item.storeId">
+                                    </template>
+                                </div>
+<!--                                 <p>바우처보유 : -->
+<!--                                 	<span v-for="(item, index) in voucherList">{{index}}</span> -->
+<!--                                 </p> -->
                             </div>
-                          </div>
-                          <p>바우처보유 : <span>100시간권[판교점]</span></p>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
 
                 <div class="col-sm-12 col-xl-12">
                     <div class="card-body">
+                        <div class="row">
+                            <label for="gradeType">바우처 이용매장선택</label>
+                            <select class="form-control form-control-sm" id="storeId" name="storeId">
+                            </select>
+                        </div><br>
                         <div class="row">
                             <label for="gradeType">바우처 구분</label>
                             <select class="form-control form-control-sm" id="gradeType" name="gradeType">
@@ -66,16 +77,6 @@
                             <select class="form-control form-control-sm" id="usedChildrenName" name="usedChildrenName">
                             </select>
                         </div><br>
-                        <div class="row">
-                            <label for="gradeType">바우처 이용매장선택</label>
-                            <select class="form-control form-control-sm" id="" name="">
-                                <option value="CSTxxxxx">판교점</option>
-                                <option value="CSTxxxxx">대구점</option>
-                                <option value="CSTxxxxx">충청점</option>
-                                <option value="CSTxxxxx">용산점</option>
-                                <option value="CSTxxxxx">반포점</option>
-                            </select>
-                        </div><br> 
                         <div class="row">
                             <label for="pgType">결제구분</label>
                             <select class="form-control form-control-sm" id="pgType" name="pgType">
@@ -99,7 +100,7 @@
                 <div class="card-footer">
                     <button class="btn btn-primary btn-block" type="submit">바우처 판매등록</button>
                 </div><br><br>
-                </form>
+            </form>
         </div>
         <!--<div class="form-group mb-0" id="usedChildrenNameDiv">
                             <div class="form-group mb-0">

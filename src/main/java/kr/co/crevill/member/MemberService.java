@@ -133,4 +133,8 @@ public class MemberService {
 		return memberMapper.selectMemberInfo(memberDto);
 	}
 	
+	public List<MemberVo> selectMemberVoucherInfo(MemberDto memberDto){
+		return memberMapper.selectMemberVoucherInfo(memberDto);
+	}
+	
 }

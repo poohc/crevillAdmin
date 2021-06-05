@@ -38,4 +38,12 @@ public class CommonService {
 	public List<CommonVo> selectTodayReservationInfo(CommonDto commonDto){
 		return commonMapper.selectTodayReservationInfo(commonDto);
 	}
+	
+	public CommonVo selectVoucherStatistics() {
+		return commonMapper.selectVoucherStatistics();
+	}
+	
+	public CommonVo selectNoShowCount() {
+		return commonMapper.selectNoShowCount();
+	}
 }

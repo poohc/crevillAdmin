@@ -19,28 +19,18 @@
                                 	<div class="input-group-append">
                                 		<span class="btn btn-primary" id="scheduleSearch">검색</span>
                                 	</div>
+                                    <!--매장검색 버튼 추가위치-->
+                                    <select class="button btn btn-info" id="" name="">
+                                        <option value="">전체</option>
+                                        <option value="">판교점</option>
+                                        <option value="">용산점</option>
+                                        <option value="">충청점</option>
+                                    </select>
 	                            </div>
 	                        </form>
 	                    </div>
 	                    <div class="card-body">
 	                        <div class="text-center">
-	                            <ul class="nav nav-tabs search-list" id="top-tab" role="tablist">
-	                            	<li class="nav-item">
-	                                	<a class="nav-link active" id="all" data-toggle="tab" href="#allLinks" role="tab" aria-selected="true">
-	                                		<i class="icon-target"></i>모든일정
-	                                	</a>
-	                                </li>
-<!-- 	                                <li class="nav-item"> -->
-<!-- 	                                	<a class="nav-link" id="ing" data-toggle="tab" href="#ingLinks" role="tab" aria-selected="false"> -->
-<!-- 	                                		<i class="icon-image"></i>진행예정 -->
-<!-- 	                                	</a> -->
-<!-- 	                                </li> -->
-<!-- 	                                <li class="nav-item"> -->
-<!-- 	                                	<a class="nav-link" id="end" data-toggle="tab" href="#endLinks" role="tab" aria-selected="false"> -->
-<!-- 	                                		<i class="icon-video-clapper"></i>종료 -->
-<!-- 	                                	</a> -->
-<!-- 	                                </li> -->
-	                            </ul>
 	                        </div>
 	                        <div class="tab-content" id="top-tabContent">
 	                            <div class="search-links tab-pane fade show active" id="allLinks" role="tabpanel" aria-labelledby="allLinks">
@@ -58,11 +48,14 @@
 	                                                    <li th:text="|튜터링, ${allList.tutoringNumber}|"></li>
 	                                                </ul>
 	                                            </div>
+                                                <!--추가 : 스케쥴 매장-->
+                                                <h6>등록일 : 2021-05-10 <span class="badge badge-secondary">판교점</span></h4>
 	                                        </div>
 	                                        </th:block>
 	                                    </div>
 	                                </div>
 	                            </div>
+                                <!--아래 부분 필요없으면 삭제-->
 	                            <div class="search-links tab-pane fade" id="ingLinks" role="tabpanel" aria-labelledby="ingLinks">
 	                            	<div class="row">
 	                                    <div class="col-xl-12 box-col-12">

@@ -21,6 +21,7 @@ import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
 import kr.co.crevill.voucher.VoucherVo;
 
@@ -134,9 +135,19 @@ public class MemberController {
 		
 	@PostMapping("getMemberInfo.proc")
 	@ResponseBody
-	public List<MemberVo> getMemberInfo(HttpServletRequest request, MemberDto memberDto) {
-		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		return memberService.getMemberInfo(memberDto);
+	public JSONObject getMemberInfo(HttpServletRequest request, MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setBuyCellPhone(memberDto.getCellPhone());
+		List<MemberVo> voucherMemberInfo = memberService.selectMemberVoucherInfo(memberDto);
+		if(voucherMemberInfo != null && voucherMemberInfo.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("voucherMemberInfo", voucherMemberInfo);
+			result.put("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
+			result.put("memberInfo", voucherMemberInfo.get(0));
+		}
+		return result;
 	}
 	
 	

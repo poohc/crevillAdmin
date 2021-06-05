@@ -97,6 +97,14 @@ public class ReservationController {
 		return reservationService.selectReservationSearchList(scheduleDto);
 	}
 	
+	@PostMapping("getTrialReservationList.proc")
+	@ResponseBody
+	public List<ReservationVo> getTrialReservationList(HttpServletRequest request, @ModelAttribute ScheduleDto scheduleDto) {
+		scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		scheduleDto.setIsFree("Y");
+		return reservationService.selectReservationList(scheduleDto);
+	}
+	
 	@PostMapping("cancel.proc")
 	@ResponseBody
 	public JSONObject cancelProc(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {

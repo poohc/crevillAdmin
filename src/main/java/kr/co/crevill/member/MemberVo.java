@@ -30,4 +30,6 @@ public class MemberVo {
 	private String storeName;
 	private String storeId;
 	private String voucherStoreName;
+	private String memberType;
+	private String ticketName;
 }

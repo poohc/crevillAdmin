@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import kr.co.crevill.branches.BranchesService;
 import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.CommonDto;
@@ -35,6 +33,7 @@ import kr.co.crevill.staff.InstructorDto;
 import kr.co.crevill.staff.StaffService;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.store.StoreVo;
 
 @Controller
 public class CrevillController {
@@ -62,8 +61,6 @@ public class CrevillController {
 		ModelAndView mav = new ModelAndView("dashboard");
 		InstructorDto instructorDto = new InstructorDto();
 		instructorDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		ScheduleDto scheduleDto = new ScheduleDto();
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		MemberDto memberDto = new MemberDto();
 		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		CommonDto commonDto = new CommonDto();
@@ -80,8 +77,11 @@ public class CrevillController {
 		mav.addObject("statInfo", commonService.selectStatInfo(commonDto));
 		mav.addObject("memberCount", memberService.selectMemberCount(memberDto));
 		mav.addObject("nstaffList", staffService.selectInstructorList(instructorDto));
-		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
 		mav.addObject("todayReservationList", commonService.selectTodayReservationInfo(commonDto));
+		mav.addObject("voucherTotalStat", commonService.selectVoucherStatistics());
+		mav.addObject("noshowCount", commonService.selectNoShowCount());
+		storeDto.setExperienceClass("Y");
+		mav.addObject("expStoreList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	

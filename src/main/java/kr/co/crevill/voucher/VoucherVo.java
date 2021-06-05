@@ -31,5 +31,6 @@ public class VoucherVo {
 	private String cellPhone;
 	private String timeLeftHour;
     private String timeLeftMinute;
-    private String voucherUseId; 
+    private String voucherUseId;
+    private String storeNameShort; 
 }
