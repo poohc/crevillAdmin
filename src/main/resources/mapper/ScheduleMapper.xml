@@ -19,14 +19,15 @@
 			   CONCAT(DATE_FORMAT(SCHEDULE_START,'%Y년 %m월 %d일'), ' 일정') SCHEDULE_DATE,
 			   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = SCHEDULE.PLAY_ID) PLAY_NAME,
 			   REG_ID,
-			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
 			   UPD_ID,
-			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   SUB_TOPIC,
 			   NUMBER_OF_PEOPLE - (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'N') CLASS_AVA_CNT, 
 			   TUTORING_NUMBER - (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_AVA_CNT,
 			   (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'N') CLASS_CNT,
-			   (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_CNT
+			   (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = SCHEDULE.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_CNT,
+			   (SELECT SUBSTRING_INDEX(STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = SCHEDULE.STORE_ID) STORE_NAME_SHORT
           FROM SCHEDULE
         <where>
            <if test="grade != null and grade != 'VIP'.toString()">	
@@ -35,7 +36,7 @@
            <if test="grade != null and grade == 'VIP'.toString()">	
            AND OPERATION_TYPE = 'WEEKEND'
            </if>
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != ''">
            AND STORE_ID = #{storeId}
            </if>
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	

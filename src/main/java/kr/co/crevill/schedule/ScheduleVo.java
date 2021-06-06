@@ -25,5 +25,5 @@ public class ScheduleVo {
 	private String tutoringAvaCnt;
 	private String classCnt;
 	private String tutoringCnt;
-	
+	private String storeNameShort;
 }

@@ -20,11 +20,11 @@
                                 		<span class="btn btn-primary" id="scheduleSearch">검색</span>
                                 	</div>
                                     <!--매장검색 버튼 추가위치-->
-                                    <select class="button btn btn-info" id="" name="">
+                                    <select class="button btn btn-info" id="storeId" name="storeId">
                                         <option value="">전체</option>
-                                        <option value="">판교점</option>
-                                        <option value="">용산점</option>
-                                        <option value="">충청점</option>
+                                        <th:block th:each="list : ${storeList}">
+                                        <option th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+                                        </th:block>
                                     </select>
 	                            </div>
 	                        </form>
@@ -49,7 +49,10 @@
 	                                                </ul>
 	                                            </div>
                                                 <!--추가 : 스케쥴 매장-->
-                                                <h6>등록일 : 2021-05-10 <span class="badge badge-secondary">판교점</span></h4>
+                                                <h6>
+                                                	<span th:text="|등록일 : ${allList.regDate}|"></span>
+                                                	<span class="badge badge-secondary" th:text="${allList.storeNameShort}"></span>
+                                                </h6>
 	                                        </div>
 	                                        </th:block>
 	                                    </div>

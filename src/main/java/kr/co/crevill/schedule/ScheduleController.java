@@ -53,20 +53,22 @@ public class ScheduleController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("schedule/list");
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		scheduleDto.setScheduleType("ALL");
 		mav.addObject("allList", scheduleService.selectScheduleList(scheduleDto));
-		scheduleDto.setScheduleType("ING");
-		mav.addObject("ingList", scheduleService.selectScheduleList(scheduleDto));
-		scheduleDto.setScheduleType("END");
-		mav.addObject("endList", scheduleService.selectScheduleList(scheduleDto));
+//		scheduleDto.setScheduleType("ING");
+//		mav.addObject("ingList", scheduleService.selectScheduleList(scheduleDto));
+//		scheduleDto.setScheduleType("END");
+//		mav.addObject("endList", scheduleService.selectScheduleList(scheduleDto));
 		
 		String scheduleDate = "";
 		if(scheduleDto.getScheduleStart() != null) {
 			scheduleDate = scheduleDto.getScheduleStart().substring(0,4) + "-" + scheduleDto.getScheduleStart().substring(4,6) + "-" + scheduleDto.getScheduleStart().substring(6,8);
 			mav.addObject("scheduleDate", scheduleDate);
 		}
-		
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("storeId", scheduleDto.getStoreId());
 		return mav;
 	}
 	
