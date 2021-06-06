@@ -133,7 +133,7 @@ $('#searchMemberNameBtn').click(function(){
 					});
 					
 			  } else {
-				alert('회원정보를 불러오는 중 오류가 발생했습니다.');
+				alert('해당 매장의 회원이 아니거나, 조회되지 않는 회원입니다.');
 			  } 
 
 		}).catch(function (error) {
