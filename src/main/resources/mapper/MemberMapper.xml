@@ -254,6 +254,9 @@
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = #{cellPhone}
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND A.STORE_ID = #{storeId}
+           </if>
            AND A.CELL_PHONE = B.PARENT_CELL_PHONE
       GROUP BY A.CELL_PHONE, B.NAME
     </select>
