@@ -141,7 +141,10 @@
 		       C.TIME_LEFT_HOUR,
        		   C.TIME_LEFT_MINUTE, 
 		       D.NAME CHILD_NAME,
-		       E.NAME
+		       E.NAME,
+		       DATE_FORMAT(STR_TO_DATE(A.END_DATE, '%Y%m%d'), '%Y-%m-%d') END_DATE,
+		       CASE WHEN NOW() > STR_TO_DATE(A.END_DATE, '%Y%m%d') THEN 'END'
+		            ELSE 'ING' END AS IS_VALID
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
 		       VOUCHER_USE_VIEW C,
@@ -171,7 +174,9 @@
 		       CASE WHEN R.TUTORING_YN = 'Y' THEN CASE WHEN (C.USE_TIME % 60) != 0 THEN ROUND(C.USE_TIME / 60,1)
 		       										   ELSE FORMAT((C.USE_TIME / 60),0) END 
 		            ELSE '' END AS USE_TUTORING_TIME,
-		       R.STATUS          
+		       R.STATUS,
+<!-- 		       CASE WHEN C.REG_ID LIKE 'STF%' THEN (SELECT SUBSTRING_INDEX(STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID IN (SELECT STORE_ID FROM STAFF_INFO SI WHERE SI.STAFF_ID = C.REG_ID)) -->
+<!-- 		            ELSE '판매매장 확인되지 않음' END AS SALE_STORE             -->
 		  FROM VOUCHER A,
 		  	   VOUCHER_SALE B,     
 		  	   VOUCHER_USE C,

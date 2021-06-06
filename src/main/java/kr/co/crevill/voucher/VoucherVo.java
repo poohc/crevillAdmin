@@ -33,4 +33,6 @@ public class VoucherVo {
     private String timeLeftMinute;
     private String voucherUseId;
     private String storeNameShort; 
+    private String isValid;
+    private String saleStore;
 }

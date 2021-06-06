@@ -14,30 +14,29 @@
                     <div class="card">
                         <div class="job-search">
                             <div class="card-body">
-                                <div class="media"><img class="img-40 img-fluid m-r-20"
-                                        src="../assets/images/job-search/2.jpg" alt="">
+                                <div class="media">
+                                	<img class="img-40 img-fluid m-r-20" th:src="@{/assets/images/job-search/2.jpg}" alt="">
                                     <div class="media-body">
-                                        <h6 class="f-w-600" th:text="${memberName}"><a href="#"></a><span
-                                                class="badge badge-primary pull-right">바우처회원</span></h6>
-                                        <p>010-3024-2890</p>
+                                        <h6 class="f-w-600" th:text="${memberName}">
+                                        	<a href="#"></a>
+                                        	<span class="badge badge-primary pull-right">바우처회원</span>
+                                        </h6>
+                                        <p th:text="${cellPhone}"></p>
                                         <!--회원의 등급 및 전화번호-->
                                     </div>
                                 </div><br>
                                 <select class="form-control form-control-sm" id="voucherNo" name="voucherNo">
                                     <option th:each="voucherList : ${voucherList}"
-                                        th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|"
-                                        th:value="${voucherList.voucherNo}"
-                                        th:selected="${voucherList.voucherNo == voucherNo}">
+	                                        th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|"
+	                                        th:value="${voucherList.voucherNo}"
+	                                        th:selected="${voucherList.voucherNo == voucherNo}"
+	                                        th:data-endDate="${voucherList.endDate}"
+	                                        th:data-valid="${voucherList.isValid}">
                                     </option>
                                 </select><br>
-                                <span class="badge bg-primary">만료일 2021-09-08</span>
-                                <!--만료일 표시-->
-                                <span class="badge bg-danger">만료됨 2021-04-05</span>
-                                <!--만료일 경과 시-->
-                                <span type="button" class="badge bg-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</span>
-
-                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal"
-                        aria-hidden="true">
+                                <span class="badge bg-primary" id="endDateSpan"></span>
+                                <span class="badge bg-danger" id="validSpan" style="display: none;"></span>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

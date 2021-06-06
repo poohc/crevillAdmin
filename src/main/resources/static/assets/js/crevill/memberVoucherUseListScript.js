@@ -25,6 +25,13 @@ function deleteVoucherUseInfo(reservationId, cellPhone, voucherNo, voucherUseId)
 	}
 }
 
+$('#endDateSpan').text('만료일 ' + $("#voucherNo option:selected").data().enddate);
+if($("#voucherNo option:selected").data().valid == 'END'){
+	$('#validSpan').text('만료됨 ' + $("#voucherNo option:selected").data().enddate);
+	$('#validSpan').show();
+}
+
 $('#voucherNo').change(function(){
 	location.href = '/member/voucherUseList.view?voucherNo=' + $('#voucherNo').val() + '&cellPhone='+$('#cellPhone').val();
 });
+

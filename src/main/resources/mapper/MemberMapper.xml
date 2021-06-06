@@ -250,19 +250,12 @@
                B.BIRTHDAY,
                B.SEX,
                (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
-               A.STORE_ID,
-               C.VOUCHER_NO,
-               C.TICKET_NAME
+               A.STORE_ID
           FROM MEMBER_PARENT A,
-               MEMBER_CHILDREN B,
-               VOUCHER C,
-               VOUCHER_SALE D
+               MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = #{cellPhone}
            AND A.CELL_PHONE = B.PARENT_CELL_PHONE
-           AND C.STATUS = '12'
-           AND D.BUY_CELL_PHONE = A.CELL_PHONE 
-           AND C.VOUCHER_NO = D.VOUCHER_NO
-      GROUP BY A.CELL_PHONE, B.NAME, C.VOUCHER_NO
+      GROUP BY A.CELL_PHONE, B.NAME
     </select>
 	
 </mapper>
