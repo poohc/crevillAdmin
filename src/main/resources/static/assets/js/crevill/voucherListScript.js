@@ -1,9 +1,9 @@
-function voucherDelete(voucherNo){
+function voucherDelete(productNo){
 	if(confirm('해당 바우처를 삭제 하시겠습니까?')){
 		$.ajax({
 			type : "POST",
 			data: {
-		            voucherNo : voucherNo
+		            productNo : productNo
 		    },
 			url : '/voucher/delete.proc',
 			success : function(data){
@@ -24,7 +24,7 @@ function voucherDelete(voucherNo){
 	}
 }
 
-function voucherUpdate(voucherNo){
-	var url = '/voucher/update.view?voucherNo=' + voucherNo;
+function voucherUpdate(productNo){
+	var url = '/voucher/update.view?productNo=' + productNo;
 	location.href = url;
 }

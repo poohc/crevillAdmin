@@ -38,8 +38,16 @@ public class VoucherService {
 		return voucherMapper.selectVoucherCount(voucherDto);
 	}
 	
+	public List<VoucherVo> selectVoucherProductList(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherProductList(voucherDto);
+	}
+	
 	public List<VoucherVo> selectVoucherList(VoucherDto voucherDto){
 		return voucherMapper.selectVoucherList(voucherDto);
+	}
+	
+	public VoucherVo selectVoucherProductInfo(VoucherDto voucherDto) {
+		return voucherMapper.selectVoucherProductInfo(voucherDto);
 	}
 	
 	public VoucherVo selectVoucherInfo(VoucherDto voucherDto){
@@ -90,9 +98,10 @@ public class VoucherService {
 			fileDto.setDescription("바우처사진");
 			commonMapper.insertImages(fileDto);
 		}
-		//VOUCHER_NO 설정
-		voucherDto.setVoucherNo(voucherMapper.selectVoucherNo());
-		
+		//VOUCHER_PRODUCT_NO 설정
+//		voucherDto.setVoucherNo(voucherMapper.selectVoucherNo());
+		voucherDto.setProductNo(voucherMapper.selectVoucherProductNo());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_PRODUCT_STATUS_ACTIVE);
 		//무제한일 경우 UNLIMIT INSERT
 		if("0".equals(voucherDto.getUseTime())){ 
 			voucherDto.setUseTime(CrevillConstants.VOUCHER_UNLIMITED_TIME);
@@ -101,8 +110,7 @@ public class VoucherService {
 		if("0".equals(voucherDto.getEndDate())){ 
 			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
 		}
-		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
-		if(voucherMapper.insertVoucher(voucherDto) > 0) {
+		if(voucherMapper.insertVoucherProduct(voucherDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC
 			int cnt = voucherDto.getAttribute().split(",").length;
 			int insCnt = 0;
@@ -151,11 +159,10 @@ public class VoucherService {
 		if("0".equals(voucherDto.getEndDate())){ 
 			voucherDto.setEndDate(CrevillConstants.VOUCHER_UNLIMITED_DATE);
 		}
-		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
-		
+		voucherDto.setStatus(CrevillConstants.VOUCHER_PRODUCT_STATUS_ACTIVE);
 		//VOUCHER_ATTRIBUTE 테이블 데이터 먼저 삭제
 		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
-			if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			if(voucherMapper.updateVoucherProduct(voucherDto) > 0) {
 				//선택된 전달매체 모두 INSERT 성공해야 SUCC
 				int cnt = voucherDto.getAttribute().split(",").length;
 				int insCnt = 0;
@@ -175,7 +182,7 @@ public class VoucherService {
 	
 	/**
 	 * 바우처 삭제처리
-	 * @methodName : updateVoucher
+	 * @methodName : deleteVoucher
 	 * @author : Juyoung Park
 	 * @date : 2021.03.24
 	 * @param voucherDto
@@ -184,17 +191,11 @@ public class VoucherService {
 	public JSONObject deleteVoucher(VoucherDto voucherDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-//		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
-//			if(voucherMapper.deleteVoucher(voucherDto) > 0) {
-//				result.put("resultCd", CrevillConstants.RESULT_SUCC);
-//			}
-//		}
-		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
-		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_CANCEL);
-		if(voucherMapper.updateVoucher(voucherDto) > 0) {
-			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
+			if(voucherMapper.deleteVoucherProduct(voucherDto) > 0) {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			}
 		}
-		
 		return result;
 	}
 	
@@ -210,7 +211,6 @@ public class VoucherService {
 	public JSONObject voucherSaleProc(VoucherSaleDto voucherSaleDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		voucherSaleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
-		voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);		
 		
 		MemberDto memberDto = new MemberDto();
@@ -219,18 +219,39 @@ public class VoucherService {
 		
 		//모바일 가입 회원의 경우 판매 매장 STORE_ID 로 업데이트
 		if(memberVo != null && "MOBILE".equals(memberVo.getStoreId())) {
-			memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+			logger.info("voucherSaleDto : " + voucherSaleDto.toString());
+			memberDto.setStoreId(voucherSaleDto.getStoreId());
 			memberDto.setQrCode(memberVo.getQrCode());
 			memberMapper.updateMemberParent(memberDto);
 		}
 		
-		if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
-			if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
-				VoucherDto voucherDto = new VoucherDto();
-				voucherDto.setVoucherNo(voucherSaleDto.getVoucherNo());
-				voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
-				if(voucherMapper.updateVoucher(voucherDto) > 0) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+		/**
+		 * 해당 종류 바우처로 VOUCHER 테이블 INSERT 추가 2021.06.08
+		 * 1. VOUCHER_NO 생성
+		 * 2. 선택된 바우처 상품 정보가져오기
+		 * 3. 1,2번 정보로 VOUCHER 테이블 데이터 INSERT 
+		 */
+		
+		String voucherNo = voucherMapper.selectVoucherNo();
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setProductNo(voucherSaleDto.getProductNo());
+		VoucherVo voucherInfo = voucherMapper.selectVoucherProductInfo(voucherDto);
+		voucherDto.setVoucherNo(voucherNo);
+		voucherDto.setGrade(voucherInfo.getGrade());
+		voucherDto.setTicketName(voucherInfo.getTicketName());
+		voucherDto.setPrice(voucherInfo.getPrice());
+		voucherDto.setSalePrice(voucherInfo.getSalePrice());
+		voucherDto.setUseTime(voucherInfo.getUseTime());
+		voucherDto.setEndDate(voucherInfo.getExpireMonth());
+		voucherDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		voucherDto.setImageIdx(voucherInfo.getImageIdx());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
+		voucherDto.setStoreId(voucherSaleDto.getStoreId());
+		if(voucherMapper.insertVoucher(voucherDto) > 0) {
+			voucherSaleDto.setVoucherNo(voucherNo);
+			if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
+				if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
 				}
 			}
 		}

@@ -8,6 +8,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class VoucherDto {
+	private String productNo;
 	private String voucherNo;
 	private String grade;
 	private String gradeType;
@@ -29,4 +30,5 @@ public class VoucherDto {
 	private String reservationId;
 	private String voucherUseId;
 	private String scheduleId;
+	private String expireMonth;
 }

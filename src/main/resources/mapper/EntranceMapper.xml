@@ -114,7 +114,7 @@
 		   <![CDATA[
 		   AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
 		   ]]>
-		   AND A.VOUCHER_NO  = B.VOUCHER_NO 
+		   AND A.PRODUCT_NO  = B.PRODUCT_NO 
 		   AND B.ATTRIBUTE = '비회원'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}

@@ -42,7 +42,7 @@ new Vue({
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
 		      	var formdata = new FormData();
-				formdata.append("voucherNo", $('#voucherNo').val());
+				formdata.append("productNo", $('#productNo').val());
 				formdata.append("grade", $('#grade').val());
 				formdata.append("ticketName", $('#ticketName').val());
 				formdata.append("price", $('#price').val());
@@ -50,7 +50,6 @@ new Vue({
 				formdata.append("useTime", $('#useTime').val());
 				formdata.append("storeId", $('#storeId').val());
 				formdata.append("endDate", $('#endDate').val());
-				formdata.append("saleCode", $('#saleCode').val());
 				var attribute = '';
 				$("input[name=attribute]:checked").each(function() {
 					attribute += $(this).val() + ',';

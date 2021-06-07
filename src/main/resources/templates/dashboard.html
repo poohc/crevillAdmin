@@ -91,8 +91,8 @@
                                                                 <div class="left-content">
                                                                     <p>매장의 바우처 판매시간과 소진시간 통계</p>
                                                                     <h4 class="f-w-600">모든 기간 통계</h4>
-                                                                    <span class="badge badge-white rounded-pill" th:text="|${voucherTotalStat.voucherUsePer}% 소진|"></span>
-                                                                    <span class="badge badge-dotted rounded-pill ms-2" th:text="|바우처 발급시간 : ${voucherTotalStat.totalVoucherTime}|"></span>
+                                                                    <span class="badge badge-white rounded-pill" th:text="|${voucherTotalStat?.voucherUsePer}% 소진|"></span>
+                                                                    <span class="badge badge-dotted rounded-pill ms-2" th:text="|바우처 발급시간 : ${voucherTotalStat?.totalVoucherTime}|"></span>
                                                                 </div>
                                                             </div>
                                                         </div>

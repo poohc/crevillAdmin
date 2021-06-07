@@ -30,16 +30,18 @@ var listVm = new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-				if($('input[name="voucherNo"]:checked').val().length == 0){
+				if($('input[name="productNo"]:checked').val().length == 0){
 					alert('선택유형에 맞는 바우처가 없습니다. 바우처를 생성해주세요.');
 					return false;
 				} else {
 					var formdata = new FormData();
 					formdata.append("buyCellPhone", $('#buyCellPhone').val());
-					formdata.append("voucherNo", $('input[name="voucherNo"]:checked').val());
+					formdata.append("productNo", $('input[name="productNo"]:checked').val());
 					formdata.append("usedChildrenName", $('#usedChildrenName').val());
 					formdata.append("pgType", $('#pgType').val());
 					formdata.append("approvalNo", $('#approvalNo').val());
+					formdata.append("storeId", $('#storeId').val());
+					
 					if($('#promotionId').val().length > 0){
 						formdata.append("promotionId", $('#promotionId').val());	
 					}
@@ -70,6 +72,8 @@ var listVm = new Vue({
 
 $('#searchMemberNameBtn').click(function(){
 	
+	$("select[name='usedChildrenName'] option").remove();
+	
 	var formdata = new FormData();
 		formdata.append("cellPhone", $('#buyCellPhone').val());
 		
@@ -84,6 +88,12 @@ $('#searchMemberNameBtn').click(function(){
 			  	 	 Vue.set(listVm.voucherMember, i, response.data.voucherMemberInfo[i]);
 			  	  }
 				  
+				  $('#searchResultName').text(response.data.voucherMemberInfo[0].name);
+				  for(var i=0; i < response.data.voucherMemberInfo.length; i++){
+				  	  $("#usedChildrenName").append('<option value="' + response.data.voucherMemberInfo[i].childName + '">' + response.data.voucherMemberInfo[i].childName + '</option>');
+					  $("#usedChildrenName").data('memberStoreId', response.data.voucherMemberInfo[i].storeId);
+				  }
+		
 				  $("#memberVoucherListDiv").remove();
 				  var appendDiv = "";
 				  for(var i=0; i < response.data.voucherList.length; i++){
@@ -141,35 +151,6 @@ $('#searchMemberNameBtn').click(function(){
 		});
 });
 
-$('#storeId').change(function(){
-	
-	$("select[name='storeId'] option").remove();
-	
-	var formdata = new FormData();
-		formdata.append("storeId", $('#memberStoreId').val());
-		
-		axios.post('/store/getStoreList.proc', formdata,{
-			  headers: {
-				'Content-Type': 'multipart/form-data'
-			  }
-		}).then((response) => {
-			  
-			  if(response.data.resultCd == '00'){
-		      	  for(var i=0; i < response.data.storeList.length; i++){
-			  	 	 $("#storeId").append('<option value="' + response.data.storeList[i].storeId + '">' + response.data.storeList[i].storeNameShort + '</option>');
-			  	  }
-				  $('#gradeType').trigger('change');	
-			  } else {
-				alert('매장정보를 불러오는 중 오류가 발생했습니다.');
-			  } 
-
-		}).catch(function (error) {
-			alert('매장정보를 불러오는 중 오류가 발생했습니다.');
-		});
-});
-
-
-
 $('#gradeType').change(function(){
 	
 	if($(this).val() == 'REGIST'){
@@ -194,8 +175,8 @@ $('#gradeType').change(function(){
 					appendDiv += '	<div class="card">';
 					appendDiv += '		<div class="media p-20">';
 					appendDiv += '			<div class="radio radio-primary mr-3">';
-					appendDiv += '				<input id="voucherNo_'+i+'" type="radio" name="voucherNo" value="'+data[i].voucherNo+'">';
-					appendDiv += '				<label for="voucherNo_'+i+'"></label>';
+					appendDiv += '				<input id="productNo_'+i+'" type="radio" name="productNo" value="'+data[i].productNo+'">';
+					appendDiv += '				<label for="productNo_'+i+'"></label>';
 					appendDiv += '			</div>';
 					appendDiv += '			<div class="media-body">';
 					appendDiv += '				<h6 class="mt-0 mega-title-badge">';

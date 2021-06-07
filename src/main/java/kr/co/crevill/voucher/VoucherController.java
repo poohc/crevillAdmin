@@ -45,7 +45,7 @@ public class VoucherController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/list");
-		mav.addObject("list", voucherService.selectVoucherList(voucherDto));
+		mav.addObject("list", voucherService.selectVoucherProductList(voucherDto));
 		mav.addObject("attributeList", voucherService.selectVoucherAttributeList(voucherDto));
 		return mav;
 	}
@@ -76,7 +76,7 @@ public class VoucherController {
 	@GetMapping("update.view")
 	public ModelAndView update(HttpServletRequest request, VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/update");
-		VoucherVo info = voucherService.selectVoucherInfo(voucherDto);
+		VoucherVo info = voucherService.selectVoucherProductInfo(voucherDto);
 		List<String> attributeList = new ArrayList<String>();
 		if(info.getAttribute() != null && info.getAttribute().length() > 0) {
 			for(String attribute : info.getAttribute().split(",")) {

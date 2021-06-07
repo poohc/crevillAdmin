@@ -8,6 +8,7 @@ import lombok.ToString;
 public class VoucherSaleDto {
 	private String saleNo;
 	private String voucherNo;
+	private String productNo;
 	private String buyCellPhone;
 	private String usedChildrenName;
 	private String pgType;

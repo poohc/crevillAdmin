@@ -35,4 +35,8 @@ public class VoucherVo {
     private String storeNameShort; 
     private String isValid;
     private String saleStore;
+    private String productNo;
+    private String expireMonth;
+    private String viewUseTime;
+    private String viewEndDate;
 }

@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<form class="form theme-form" id="voucherForm" @submit.prevent="validateBeforeSubmit" action="/voucher/update.proc" method="post" enctype="multipart/form-data">
-					<input type="hidden" id="voucherNo" name="voucherNo" th:value="${info.voucherNo}">
+					<input type="hidden" id="productNo" name="productNo" th:value="${info.productNo}">
 					<div class="card">
 						<div class="card-header">
 							<h5>바우처 생성</h5>
@@ -61,7 +61,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="useTime">이용시간</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="useTime" name="useTime" type="number" placeholder="예)시간단위 숫자입력 / 무제한은 0" th:value="${info.useTime}">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="useTime" name="useTime" type="number" placeholder="예)시간단위 숫자입력 / 무제한은 0" th:value="${info.viewUseTime}">
 										<label class="col-form-label-sm" for="salePrice" v-if="errors.has('useTime')">{{ errors.first('useTime') }}</label>
 									</div>
 								</div>
@@ -81,7 +81,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="endDate">유효기간</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0"  th:value="${info.endDate}">
+										<input class="form-control form-control-lg" v-validate="'required|numeric'" id="endDate" name="endDate" type="number" placeholder="예)1개월 - 1, 2개월 - 2 , 무제한 - 0"  th:value="${info.viewEndDate}">
 										<label class="col-form-label-sm" for="endDate" v-if="errors.has('endDate')">{{ errors.first('endDate') }}</label>
 									</div>
 								</div>
