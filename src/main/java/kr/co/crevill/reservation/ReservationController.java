@@ -67,6 +67,7 @@ public class ReservationController {
 		StoreDto storeDto = new StoreDto();
 		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("sessionStoreId", storeDto.getStoreId());
 		return mav;
 	}
 	
