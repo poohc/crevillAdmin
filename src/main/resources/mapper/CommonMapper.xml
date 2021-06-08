@@ -158,20 +158,54 @@
 		   </if>
 	</select>
 
-	<select id="selectVoucherStatistics" resultType="kr.co.crevill.common.CommonVo">
-		SELECT FORMAT(SUM(B.USE_TIME),0) TOTAL_VOUCHER_TIME,
-		       FORMAT(SUM(A.TIME_LEFT_HOUR),0) TOTAL_TIME_LEFT_HOUR,
-		       FORMAT(SUM(B.USE_TIME) - SUM(A.TIME_LEFT_HOUR),0) TOTAL_VOUCHER_USE_TIME,
-		       FORMAT(ROUND(((SUM(B.USE_TIME) - SUM(A.TIME_LEFT_HOUR)) / SUM(A.TIME_LEFT_HOUR)) * 100),0) VOUCHER_USE_PER
+	<select id="selectVoucherStatistics" parameterType="kr.co.crevill.common.CommonDto" resultType="kr.co.crevill.common.CommonVo">
+		SELECT IFNULL(FORMAT(SUM(B.USE_TIME),0),0)  TOTAL_VOUCHER_TIME,
+		       IFNULL(FORMAT(SUM(A.TIME_LEFT_HOUR),0),0) TOTAL_TIME_LEFT_HOUR,
+		       IFNULL(FORMAT(SUM(B.USE_TIME) - SUM(A.TIME_LEFT_HOUR),0),0) TOTAL_VOUCHER_USE_TIME,
+		       IFNULL(FORMAT(ROUND(((SUM(B.USE_TIME) - SUM(A.TIME_LEFT_HOUR)) / SUM(A.TIME_LEFT_HOUR)) * 100),0),0) VOUCHER_USE_PER
 		  FROM VOUCHER_USE_VIEW A,
 		       VOUCHER B
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   <if test="storeId != null and storeId != 'CST00001'.toString()">
+		   AND B.STORE_ID = #{storeId}
+		   </if>
 	</select>
 	
-	<select id="selectNoShowCount" resultType="kr.co.crevill.common.CommonVo">
-	SELECT (SELECT COUNT(RESERVATION_ID) FROM RESERVATION WHERE STATUS = '02') RESERVATION_COUNT,
-           (SELECT COUNT(SCHEDULE_ID) FROM SCHEDULE_ENTRANCE_MEMBER) ENTRANCE_COUNT,
-           FORMAT(ROUND(100 - ((SELECT COUNT(SCHEDULE_ID) FROM SCHEDULE_ENTRANCE_MEMBER) / (SELECT COUNT(RESERVATION_ID) FROM RESERVATION WHERE STATUS = '02') * 100)), 0) NOSHOW_COUNT
+	<select id="selectNoShowCount" parameterType="kr.co.crevill.common.CommonDto" resultType="kr.co.crevill.common.CommonVo">
+	SELECT IFNULL((SELECT COUNT(R.RESERVATION_ID)
+	          FROM RESERVATION R,
+	               SCHEDULE S
+	         WHERE R.STATUS = '02'
+	           AND R.SCHEDULE_ID = S.SCHEDULE_ID
+	           <if test="storeId != null and storeId != 'CST00001'.toString()">
+	           AND S.STORE_ID = #{storeId}
+	           </if>
+	           ),0) RESERVATION_COUNT,
+           IFNULL((SELECT COUNT(SE.SCHEDULE_ID) 
+              FROM SCHEDULE_ENTRANCE_MEMBER SE,
+                   SCHEDULE S
+             WHERE SE.SCHEDULE_ID = S.SCHEDULE_ID
+               <if test="storeId != null and storeId != 'CST00001'.toString()">
+	           AND S.STORE_ID = #{storeId}
+	           </if>
+               ),0) ENTRANCE_COUNT,
+           IFNULL(FORMAT(ROUND(100 - ((SELECT COUNT(R.RESERVATION_ID)
+						          FROM RESERVATION R,
+						               SCHEDULE S
+						         WHERE R.STATUS = '02'
+						           AND R.SCHEDULE_ID = S.SCHEDULE_ID
+						           <if test="storeId != null and storeId != 'CST00001'.toString()">
+						           AND S.STORE_ID = #{storeId}
+						           </if>
+						           ) /  
+						       (SELECT COUNT(SE.SCHEDULE_ID) 
+					              FROM SCHEDULE_ENTRANCE_MEMBER SE,
+					                   SCHEDULE S
+					             WHERE SE.SCHEDULE_ID = S.SCHEDULE_ID
+					               <if test="storeId != null and storeId != 'CST00001'.toString()">
+						           AND S.STORE_ID = #{storeId}
+						           </if>
+					               ) * 100)), 0),0) NOSHOW_COUNT
 	</select>
 					
 </mapper>

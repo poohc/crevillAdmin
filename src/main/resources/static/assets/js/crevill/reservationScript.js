@@ -166,7 +166,7 @@ $('#scheduleSearch').click(function(){
 				}
 				$("#tutoringYn").append('<option value="N">선택</option>');
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option>');
+					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']' + data.scheduleList[i].scheduleTime +' : 튜터링</option>');
 				}
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
@@ -195,10 +195,7 @@ $('#voucherNo').change(function(){
 				 for(var i=0; i < data.storeList.length; i++){
 					  Vue.set(listVm.storeList, i, data.storeList[i]);
 				 }	
-				 listVm.list.slice().sort(function(a, b) {
-	    		 	return b.sortRank - a.sortRank;
-	             });
-				
+				 listVm.list.splice(data.storeList.length);
 			} else {
 				alert('선택한 바우처가 등록된 매장이 없습니다. 관리자에게 문의하여 주세요.');
 				return false;	

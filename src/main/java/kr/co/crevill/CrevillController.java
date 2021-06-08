@@ -78,8 +78,8 @@ public class CrevillController {
 		mav.addObject("memberCount", memberService.selectMemberCount(memberDto));
 		mav.addObject("nstaffList", staffService.selectInstructorList(instructorDto));
 		mav.addObject("todayReservationList", commonService.selectTodayReservationInfo(commonDto));
-		mav.addObject("voucherTotalStat", commonService.selectVoucherStatistics());
-		mav.addObject("noshowCount", commonService.selectNoShowCount());
+		mav.addObject("voucherTotalStat", commonService.selectVoucherStatistics(commonDto));
+		mav.addObject("noshowCount", commonService.selectNoShowCount(commonDto));
 		storeDto.setExperienceClass("Y");
 		mav.addObject("expStoreList", storeService.selectStoreList(storeDto));
 		return mav;
