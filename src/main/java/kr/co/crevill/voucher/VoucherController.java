@@ -141,11 +141,12 @@ public class VoucherController {
 		JSONObject result = new JSONObject();
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(voucherSaleDto.getBuyCellPhone());
-		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+//		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		result = memberService.checkMemberCellPhone(memberDto);
 		//기회원 바우처 리스트 가져오기
 		if(CrevillConstants.RESULT_FAIL.equals(result.get("resultCd"))) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);	//기회원 이므로 성공 코드 리턴
+			voucherSaleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 			List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 			List<String> tempChildList = new ArrayList<String>();
 			for(VoucherVo vo : voucherList) {

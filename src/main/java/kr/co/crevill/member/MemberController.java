@@ -140,7 +140,7 @@ public class MemberController {
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(memberDto.getCellPhone());
-		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+//		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		List<MemberVo> voucherMemberInfo = memberService.selectMemberVoucherInfo(memberDto);
 		if(voucherMemberInfo != null && voucherMemberInfo.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

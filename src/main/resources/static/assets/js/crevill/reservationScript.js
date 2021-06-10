@@ -96,7 +96,7 @@ $('#voucherSearchBtn').click(function(){
 					$("select[name='voucherNo'] option").remove();
 					$("#voucherNo").append('<option value="">선택</option>');
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="' + data.voucherList[i].ticketName + '"data-storeId="' + data.voucherList[i].storeId +'">[잔여시간 : '+data.voucherList[i].timeLeftHour+']' + data.voucherList[i].ticketName + '</option>');
+						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '" data-ticketName="' + data.voucherList[i].ticketName + '"data-storeId="' + data.voucherList[i].storeId +'">[지점: ' + data.voucherList[i].storeNameShort + ' | 잔여시간 : ' + data.voucherList[i].timeLeftHour + ']' + data.voucherList[i].ticketName + '</option>');
 					}
 					
 					$.ajax({

@@ -151,6 +151,10 @@ $('#searchMemberNameBtn').click(function(){
 		});
 });
 
+$('#storeId').change(function(){
+	getVoucherList();	 
+});
+
 $('#gradeType').change(function(){
 	
 	if($(this).val() == 'REGIST'){
@@ -158,12 +162,15 @@ $('#gradeType').change(function(){
 	} else {
 		$('#usedChildrenNameDiv').hide();
 	}
-	
+	getVoucherList();	 
+});
+
+function getVoucherList(){
 	$.ajax({
 			type : "POST",
 			data: {
 		            gradeType : $('#gradeType').val(),
-				    storeId : $('#memberStoreId').val()
+				    storeId : $('#storeId').val()
 		    },
 			url : '/voucher/getVoucherList.proc',
 			success : function(data){
@@ -202,7 +209,7 @@ $('#gradeType').change(function(){
 				return false;
 		    }
 	});	 
-});
+}
 
 function setPromotion(){
 	$("select[name='promotionId'] option").remove();
