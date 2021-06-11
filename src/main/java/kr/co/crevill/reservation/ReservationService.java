@@ -81,33 +81,35 @@ public class ReservationService {
 		if(reservationMapper.checkAlreadyReservation(reservationDto) >= 1) {
 			result.put("resultMsg", MSG_ALREADY_RESERVATION);
 		} else {
-			ReservationVo reservationVo = reservationMapper.checkReservationYn(reservationDto);
-			if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
-				result.put("resultMsg", MSG_CLASS_FULL);
-			} else {
+			ReservationVo reservationVo = new ReservationVo();
+			if("Y".equals(reservationDto.getTutoringYn())) {
 				reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
 				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
 					result.put("resultMsg", MSG_TUTORING_FULL);
-				} else {
-					reservationVo = reservationMapper.checkVoucherYn(reservationDto);
-					if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
-						result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
-					} else {
-						//선택 수업의 플레이타임 가져오기
-						ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
-						EntranceDto entranceDto = new EntranceDto(); 
-						entranceDto.setVoucherNo(reservationDto.getVoucherNo());
-		         	    entranceDto.setUseTime(rVo.getVoucherTime());
-		         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-		         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
-		         	    entranceDto.setRegId(reservationDto.getRegId());
-						//바우처 사용 처리
-		         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-		         	    	//예약등록 처리
-		         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
-								result.put("resultCd", CrevillConstants.RESULT_SUCC);
-							}
-						}
+				}
+			} else {
+				reservationVo = reservationMapper.checkReservationYn(reservationDto);
+				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+					result.put("resultMsg", MSG_CLASS_FULL);
+				}
+			}
+			reservationVo = reservationMapper.checkVoucherYn(reservationDto);
+			if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
+				result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+			} else {
+				//선택 수업의 플레이타임 가져오기
+				ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
+				EntranceDto entranceDto = new EntranceDto(); 
+				entranceDto.setVoucherNo(reservationDto.getVoucherNo());
+         	    entranceDto.setUseTime(rVo.getVoucherTime());
+         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
+         	    entranceDto.setRegId(reservationDto.getRegId());
+				//바우처 사용 처리
+         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+         	    	//예약등록 처리
+         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
 					}
 				}
 			}

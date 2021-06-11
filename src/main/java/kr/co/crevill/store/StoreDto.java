@@ -57,4 +57,5 @@ public class StoreDto {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private String type;
 }

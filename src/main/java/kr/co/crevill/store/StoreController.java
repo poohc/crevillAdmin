@@ -107,7 +107,9 @@ public class StoreController {
 	public JSONObject getStoreList(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		if(!CrevillConstants.STORE_TYPE_RESERVATION.equals(storeDto.getType())) {
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());	
+		} 
 		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
 		if(storeList != null && storeList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

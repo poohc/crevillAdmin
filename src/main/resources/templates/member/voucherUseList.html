@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberVoucherUseListScript.js')}">
+      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberVoucherUseListScript.js')}">
 
 <th:block layout:fragment="content">
     <div class="page-body" id="page-body">
@@ -36,35 +36,6 @@
                                 </select><br>
                                 <span class="badge bg-primary" id="endDateSpan"></span>
                                 <span class="badge bg-danger" id="validSpan" style="display: none;"></span>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                            <input type="text" class="form-control" id="recipient-name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="message-text" class="col-form-label">Message:</label>
-                                            <textarea class="form-control" id="message-text"></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Send message</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                             </div>  
                         </div>
                     </div>
@@ -90,20 +61,17 @@
                                         <td th:text="${list.storeName}"></td>
                                         <td th:text="${list.childName}"></td>
                                         <td th:text="${list.ticketName}"></td>
-                                        <th:block
-                                            th:if="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
+                                        <th:block th:if="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
                                             <td>&nbsp;</td>
                                         </th:block>
-                                        <th:block
-                                            th:unless="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
+                                        <th:block th:unless="*{list.useTutoringTime !=null and #strings.length(list.useTutoringTime) > 0}">
                                             <td th:text="${list.playName}"></td>
                                         </th:block>
                                         <td th:text="${list.useTime}"></td>
                                         <td th:text="${list.useTutoringTime}"></td>
                                         <td>
                                             <th:block th:if="${list.status == '02'}">
-                                                <a href="" type="button"
-                                                    th:attr="onclick=|deleteVoucherUseInfo('${list.reservationId}','${list.cellPhone}','${list.voucherNo}','${list.voucherUseId}')|">
+                                                <a href="" type="button" th:attr="onclick=|deleteVoucherUseInfo('${list.reservationId}','${list.cellPhone}','${list.voucherNo}','${list.voucherUseId}')|">
                                                     <span class="badge badge-warning">이용취소</span>
                                                 </a>
                                             </th:block>

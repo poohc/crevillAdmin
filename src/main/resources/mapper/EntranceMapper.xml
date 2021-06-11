@@ -30,6 +30,9 @@
                MEMBER_CHILDREN D,
                PLAY E
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if>
            AND A.CELL_PHONE = C.CELL_PHONE 
            AND C.CELL_PHONE = D.PARENT_CELL_PHONE
            AND B.PLAY_ID = E.PLAY_ID 
@@ -114,7 +117,7 @@
 		   <![CDATA[
 		   AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
 		   ]]>
-		   AND A.PRODUCT_NO  = B.PRODUCT_NO 
+		   AND A.VOUCHER_NO  = B.VOUCHER_NO 
 		   AND B.ATTRIBUTE = '비회원'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}

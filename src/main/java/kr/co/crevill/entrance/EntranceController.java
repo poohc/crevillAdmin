@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
+
 @Controller
 @RequestMapping("entrance")
 public class EntranceController {
@@ -21,11 +25,23 @@ public class EntranceController {
 	@Autowired
 	private EntranceService entranceService;
 	
+	@Autowired
+	private StoreService storeService;
+	
 	@GetMapping("member.view")
 	public ModelAndView member(HttpServletRequest request, EntranceDto entranceDto) {
 		ModelAndView mav = new ModelAndView("entrance/member");
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH")));
 		entranceDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		
+		if(entranceDto.getStoreId() == null) {
+			entranceDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());	
+		} else {
+			mav.addObject("storeId", entranceDto.getStoreId());
+		}
 		mav.addObject("list", entranceService.selectEntranceList(entranceDto));
 		return mav;
 	}

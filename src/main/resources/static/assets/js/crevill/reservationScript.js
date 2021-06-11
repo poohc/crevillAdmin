@@ -186,7 +186,8 @@ $('#voucherNo').change(function(){
 	$.ajax({
 		type : "POST",
 		data: {
-	            storeId : $("#voucherNo option:selected").data().storeid
+	            storeId : $("#voucherNo option:selected").data().storeid,
+				type : 'RESERVATION'
 	    },
 		url : '/store/getStoreList.proc',
 		success : function(data){
@@ -195,7 +196,7 @@ $('#voucherNo').change(function(){
 				 for(var i=0; i < data.storeList.length; i++){
 					  Vue.set(listVm.storeList, i, data.storeList[i]);
 				 }	
-				 listVm.list.splice(data.storeList.length);
+				 listVm.storeList.splice(data.storeList.length);
 			} else {
 				alert('선택한 바우처가 등록된 매장이 없습니다. 관리자에게 문의하여 주세요.');
 				return false;	

@@ -27,4 +27,5 @@ public class CrevillConstants {
 	public static final String PROMOTION_STATUS_INACTIVE = "INACTIVE";
 	public static final String PROGRAM_STATUS_ACTIVE = "ACTIVE";
 	public static final String PROGRAM_STATUS_INACTIVE = "INACTIVE";
+	public static final String STORE_TYPE_RESERVATION = "RESERVATION";
 }

@@ -58,8 +58,8 @@ public class VoucherService {
 		return voucherMapper.getVoucherList(voucherDto);
 	}
 	
-	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto){
-		return voucherMapper.selectVoucherAttributeList(voucherDto);
+	public List<VoucherVo> selectVoucherProductAttributeList(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherProductAttributeList(voucherDto);
 	}
 	
 	public VoucherVo selectVoucherTimeInfo(VoucherDto voucherDto) {
@@ -248,12 +248,24 @@ public class VoucherService {
 		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
 		voucherDto.setStoreId(voucherSaleDto.getStoreId());
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
-			voucherSaleDto.setVoucherNo(voucherNo);
-			if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
-				if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);
-				}
+			
+			//VOUCHER_ATTRIBUTE 테이블 INSERT 추가(VOUCHER_PRODUCT 테이블 수정에 따른 영향을 받지 않기 위해)
+			int cnt = voucherInfo.getAttribute().split(",").length;
+			int insCnt = 0;
+			for(String attribute : voucherInfo.getAttribute().split(",")) {
+				voucherDto.setAttribute(attribute);
+				if(voucherMapper.insertVoucherAttribute(voucherDto) > 0) {
+					insCnt++;
+				}	
 			}
+			if(cnt == insCnt) {
+				voucherSaleDto.setVoucherNo(voucherNo);
+				if(!"undefined".equals(voucherSaleDto.getVoucherNo())) {
+					if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				}
+			}  
 		}
 		return result;
 	}	

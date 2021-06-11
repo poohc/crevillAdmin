@@ -46,7 +46,7 @@ public class VoucherController {
 	public ModelAndView list(HttpServletRequest request, VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/list");
 		mav.addObject("list", voucherService.selectVoucherProductList(voucherDto));
-		mav.addObject("attributeList", voucherService.selectVoucherAttributeList(voucherDto));
+		mav.addObject("attributeList", voucherService.selectVoucherProductAttributeList(voucherDto));
 		return mav;
 	}
 	

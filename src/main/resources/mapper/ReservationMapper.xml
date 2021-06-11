@@ -153,7 +153,7 @@
 				       B.TUTORING_NUMBER 
 				  FROM SCHEDULE B LEFT JOIN 
 				  	   RESERVATION A
-				    ON A.SCHEDULE_ID = '40'
+				    ON A.SCHEDULE_ID = #{scheduleId}
 				   AND A.STATUS = '02'
 				   AND A.TUTORING_YN = 'Y'
 				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID

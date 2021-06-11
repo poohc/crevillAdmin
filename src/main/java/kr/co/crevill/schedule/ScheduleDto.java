@@ -24,4 +24,5 @@ public class ScheduleDto {
 	private String grade;
 	private String isFree;
 	private String status;
+	private String tutoringYn;
 }

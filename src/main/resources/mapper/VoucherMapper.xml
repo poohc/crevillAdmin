@@ -86,7 +86,7 @@
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   A.IMAGE_IDX,
-			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.PRODUCT_NO = B.PRODUCT_NO) ATTRIBUTE 
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_PRODUCT_ATTRIBUTE B WHERE A.PRODUCT_NO = B.PRODUCT_NO) ATTRIBUTE 
           FROM VOUCHER_PRODUCT A
          WHERE A.PRODUCT_NO = #{productNo}        
     </select>
@@ -107,7 +107,7 @@
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   A.IMAGE_IDX,
-			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.PRODUCT_NO = B.PRODUCT_NO) ATTRIBUTE 
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.VOUCHER_NO = B.VOUCHER_NO) ATTRIBUTE 
           FROM VOUCHER A
          WHERE VOUCHER_NO = #{voucherNo}        
     </select>
@@ -125,7 +125,7 @@
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
 			   A.IMAGE_IDX,
-			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_ATTRIBUTE B WHERE A.PRODUCT_NO = B.PRODUCT_NO) ATTRIBUTE,
+			   (SELECT GROUP_CONCAT(B.ATTRIBUTE SEPARATOR ',') FROM VOUCHER_PRODUCT_ATTRIBUTE B WHERE A.PRODUCT_NO = B.PRODUCT_NO) ATTRIBUTE,
 			   A.STORE_ID 
           FROM VOUCHER_PRODUCT A
          <where>
@@ -142,12 +142,12 @@
 		 </where>           
     </select>
     	
-	<select id="selectVoucherAttributeList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+	<select id="selectVoucherProductAttributeList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
 		SELECT PRODUCT_NO,
 			   ATTRIBUTE,
 			   REG_ID,
 			   REG_DATE
-          FROM VOUCHER_ATTRIBUTE
+          FROM VOUCHER_PRODUCT_ATTRIBUTE
          WHERE PRODUCT_NO = #{productNo} 
 	</select>
 	
@@ -317,8 +317,8 @@
 							)
     </insert>
 	
-	<insert id="insertVoucherAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
-		INSERT INTO VOUCHER_ATTRIBUTE(
+	<insert id="insertVoucherProductAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
+		INSERT INTO VOUCHER_PRODUCT_ATTRIBUTE(
 								      PRODUCT_NO,
 									  ATTRIBUTE,
 									  REG_ID,
@@ -326,6 +326,21 @@
 									 )
 					      	  VALUES (
 					      		      #{productNo},
+								      #{attribute},
+								      #{regId},
+								      NOW()	
+					      		     )			 
+	</insert>
+	
+	<insert id="insertVoucherAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
+		INSERT INTO VOUCHER_ATTRIBUTE(
+								      VOUCHER_NO,
+									  ATTRIBUTE,
+									  REG_ID,
+									  REG_DATE
+									 )
+					      	  VALUES (
+					      		      #{voucherNo},
 								      #{attribute},
 								      #{regId},
 								      NOW()	
@@ -438,10 +453,16 @@
 		 WHERE VOUCHER_NO = #{voucherNo} 
 	</delete>
 	
+	<delete id="deleteVoucherProductAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
+		DELETE 
+		  FROM VOUCHER_PRODUCT_ATTRIBUTE
+		 WHERE PRODUCT_NO = #{productNo} 
+	</delete>
+	
 	<delete id="deleteVoucherAttribute" parameterType="kr.co.crevill.voucher.VoucherDto">
 		DELETE 
 		  FROM VOUCHER_ATTRIBUTE
-		 WHERE PRODUCT_NO = #{productNo} 
+		 WHERE PRODUCT_NO = #{voucherNo} 
 	</delete>
 		
 </mapper>
