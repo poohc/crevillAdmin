@@ -16,13 +16,64 @@
     </select>
 	
 	<select id="selectMemberCount" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
-        SELECT COUNT(*)
-          FROM MEMBER_PARENT
-        <where>
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
-		   AND STORE_ID = #{storeId}
-		   </if> 
-       </where>
+       	SELECT COUNT(*)
+          FROM (
+		        SELECT A.NAME,
+		        	   A.BIRTHDAY PARENT_BIRTHDAY,
+		        	   A.SEX PARENT_SEX,
+		               CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+		            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+		               A.EMAIL,
+		               REPLACE(A.ADDRESS,'|','') ADDRESS,
+					   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
+					   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
+					        ELSE '' END AS DETAIL_ADDRESS,
+		               A.QR_CODE,
+		               DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+		               CASE WHEN A.STATUS = 'A' THEN 'Active'
+		            		ELSE 'Inactive' END AS STATUS,
+		               (SELECT COUNT(*) FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE) VOUCHER_COUNT,
+		               IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
+		               B.STORE_NAME
+		          FROM MEMBER_PARENT A LEFT OUTER JOIN VOUCHER_SALE C
+		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
+		               STORE B
+		         WHERE A.STORE_ID = B.STORE_ID 
+		          <if test="storeId != null and storeId != 'CST00001'.toString()">
+		           AND A.STORE_ID = #{storeId}
+		         </if>
+		         UNION ALL
+		        SELECT D.NAME,
+					   D.BIRTHDAY PARENT_BIRTHDAY,
+					   D.SEX PARENT_SEX,
+				       CASE WHEN LENGTH(D.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(D.CELL_PHONE,1,3),'-',SUBSTRING(D.CELL_PHONE,4,4),'-',SUBSTRING(D.CELL_PHONE,8,4))
+				    	    ELSE CONCAT(SUBSTRING(D.CELL_PHONE,1,3),'-',SUBSTRING(D.CELL_PHONE,4,3),'-',SUBSTRING(D.CELL_PHONE,7,4)) END AS CELL_PHONE,
+				       D.EMAIL,
+				       REPLACE(D.ADDRESS,'|','') ADDRESS,
+					   SUBSTRING_INDEX(D.ADDRESS, '|', 1) ROAD_ADDRESS,
+					   CASE WHEN INSTR(D.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(D.ADDRESS, '|', -1)
+					        ELSE '' END AS DETAIL_ADDRESS,
+				       D.QR_CODE,
+				       DATE_FORMAT(D.REG_DATE, '%Y/%m/%d') REG_DATE,
+				       CASE WHEN D.STATUS = 'A' THEN 'Active'
+				    		ELSE 'Inactive' END AS STATUS,
+				       (SELECT COUNT(*) FROM VOUCHER_SALE WHERE VOUCHER_SALE.BUY_CELL_PHONE = D.CELL_PHONE) VOUCHER_COUNT,
+				       IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = D.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
+				       E.STORE_NAME
+				  FROM VOUCHER_SALE A,
+				       VOUCHER B,
+				       VOUCHER_USE_VIEW C,
+				       MEMBER_PARENT D,
+				       STORE E
+				 WHERE A.VOUCHER_NO = B.VOUCHER_NO 
+				   <if test="storeId != null and storeId != 'CST00001'.toString()">
+		           AND B.STORE_ID = #{storeId}
+		           </if>
+				   AND B.VOUCHER_NO = C.VOUCHER_NO 
+				   AND C.TIME_LEFT_HOUR <![CDATA[ > ]]> 0
+				   AND A.BUY_CELL_PHONE = D.CELL_PHONE 
+				   AND D.STORE_ID = E.STORE_ID
+		   		) SUB
     </select>
 	
     <select id="selectMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -56,7 +107,7 @@
 		               CASE WHEN A.STATUS = 'A' THEN 'Active'
 		            		ELSE 'Inactive' END AS STATUS,
 		               (SELECT COUNT(*) FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE) VOUCHER_COUNT,
-		               IFNULL((SELECT STORE_NAME FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
+		               IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
 		               B.STORE_NAME
 		          FROM MEMBER_PARENT A LEFT OUTER JOIN VOUCHER_SALE C
 		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
@@ -81,7 +132,7 @@
 				       CASE WHEN D.STATUS = 'A' THEN 'Active'
 				    		ELSE 'Inactive' END AS STATUS,
 				       (SELECT COUNT(*) FROM VOUCHER_SALE WHERE VOUCHER_SALE.BUY_CELL_PHONE = D.CELL_PHONE) VOUCHER_COUNT,
-				       IFNULL((SELECT STORE_NAME FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = D.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
+				       IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = D.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
 				       E.STORE_NAME
 				  FROM VOUCHER_SALE A,
 				       VOUCHER B,

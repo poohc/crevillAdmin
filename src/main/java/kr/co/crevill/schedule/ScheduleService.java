@@ -55,7 +55,6 @@ public class ScheduleService {
 		scheduleDto.setScheduleEnd(playVo.getPlayTime());
 		scheduleDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
-		//직원정보 INSERT 
 		if(scheduleMapper.insertSchedule(scheduleDto) > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
