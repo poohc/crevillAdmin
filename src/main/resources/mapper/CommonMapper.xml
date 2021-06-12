@@ -166,6 +166,7 @@
 		  FROM VOUCHER_USE_VIEW A,
 		       VOUCHER B
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   AND B.STATUS = '12'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
 		   AND B.STORE_ID = #{storeId}
 		   </if>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherSaleListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<select id="storeId" name="storeId" class="form-control btn-square">
+						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+						<option value="">전체</option>
+						</th:block>
+						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xl-3 box-col-3 col-lg-12 col-md-6">
+				<div class="card o-hidden">
+					<div class="card-body">
+						<div class="ecommerce-widgets media">
+							<div class="media-body">
+								<p class="f-w-500 font-roboto">
+									판매시간<span class="badge pill-badge-warning ml-3">SALE</span>
+								</p>
+								<h4 class="f-w-500 mb-0 f-26">
+									<span th:text="${voucherTotalStat?.totalVoucherTime}"></span>
+									<span class="counter">시간</span>
+								</h4>
+							</div>
+							<div class="ecommerce-box light-bg-primary">
+								<i class="fa fa-ticket" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 box-col-3 col-lg-12 col-md-6">
+				<div class="card o-hidden">
+					<div class="card-body">
+						<div class="ecommerce-widgets media">
+							<div class="media-body">
+								<p class="f-w-500 font-roboto">
+									소진시간<span class="badge pill-badge-primary ml-3">USE TIME</span>
+								</p>
+								<h4 class="f-w-500 mb-0 f-26">
+									<span th:text="${voucherTotalStat?.totalVoucherUseTime}"></span>
+									<span class="counter">시간</span>
+								</h4>
+							</div>
+							<div class="ecommerce-box light-bg-primary">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 box-col-3 col-lg-12 col-md-6">
+				<div class="card o-hidden">
+					<div class="card-body">
+						<div class="ecommerce-widgets media">
+							<div class="media-body">
+								<p class="f-w-500 font-roboto">
+									소진률<span class="badge pill-badge-success ml-3">RATE</span>
+								</p>
+								<h4 class="f-w-500 mb-0 f-26">
+									<span th:text="${voucherTotalStat?.voucherUsePer}"></span>
+									<span class="counter">%</span>
+								</h4>
+							</div>
+							<div class="ecommerce-box light-bg-primary">
+								<i class="fa fa-percent" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 box-col-3 col-lg-12 col-md-6">
+				<div class="card o-hidden">
+					<div class="card-body">
+						<div class="ecommerce-widgets media">
+							<div class="media-body">
+								<p class="f-w-500 font-roboto">
+									취소된 바우처<span class="badge pill-badge-danger ml-3">CANCEL</span>
+								</p>
+								<h4 class="f-w-500 mb-0 f-26">
+									<span th:text="${voucherCancelCount}"></span>
+									<span class="counter">장</span>
+								</h4>
+							</div>
+							<div class="ecommerce-box light-bg-primary">
+								<i class="fa fa-close" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Zero Configuration  Starts-->
+			<div class="col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="display" id="basic-1" style="text-align: center;">
+								<thead>
+									<tr>
+										<th>판매일</th>
+										<th>매장</th>
+										<th>업무처리</th>
+										<th>바우처</th>
+										<th>코드</th>
+										<th>고객명</th>
+										<th>휴대폰</th>
+										<th>잔여</th>
+										<th>프로모션</th>
+										<th>만료일</th>
+										<th>사용취소</th>
+										<th>상태</th>
+										<th>만료일연장</th>
+										<th>사용취소</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="list : ${list}">
+										<td th:text="${list.saleDate}"></td>
+										<td th:text="${list.storeName}"></td>
+										<th th:text="${list.regStore}"></th>
+										<td th:text="${list.ticketName}"></td>
+										<td th:text="${list.voucherNo}"></td>
+										<td th:text="${list.name}"></td>
+										<td th:text="${list.cellPhone}"></td>
+										<td th:text="${list.timeLeftHour}"></td>
+										<td th:text="${list.promotion}"></td>
+										<td th:text="${list.endDate}"></td>
+										<td th:text="${list.cancelDate}"></td>
+										<td th:text="${list.status}"></td>
+										<td>
+											<a href="" type="button" data-toggle="modal" data-target="#voucherExtension" th:attr="onclick=|setVoucherExtension('${list.voucherNo}', '${list.name}', '${list.endDate}')|">
+												<span class="badge badge-success">바우처연장</span>
+											</a>
+										</td>
+										<td>
+											<th:block th:if="${list.rStatus == '12'}">
+											<a href="" type="button" data-toggle="modal" data-target="#voucherModal" th:attr="onclick=|setVoucherCancel('${list.voucherNo}', '${list.name}', '${list.endDate}', '${list.ticketName}', '${list.timeLeftHour}', '${list.salePrice}', '${list.promotionName}')|">
+												<span class="badge badge-primary">사용취소</span>
+											</a>
+											</th:block>
+											<th:block th:unless="${list.rStatus == '12'}">
+												취소불가
+											</th:block>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--바우처 만료일 연장 팝업-->
+		<div class="modal fade" id="voucherExtension" tabindex="-1" role="dialog" aria-labelledby="voucherExtension" aria-hidden="true">
+			<form class="form theme-form" id="voucherExtensionForm" @submit.prevent="validateForm('extension')" method="post" enctype="multipart/form-data" data-vv-scope="extension">
+			<input type="hidden" id="voucherNo" name="voucherNo" :value="voucherNo">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">{{name}}님</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-form-label" for="message-text">만료일 {{endDate}}</label>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="message-text">연장기간</label>
+							<input class="form-control" placeholder="입력형식)20220606" v-validate="'required|numeric|min:8|max:8'" id="endDate" name="endDate" type="number"></input>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">만료일 연장하기</button>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+		<!--바우처 사용취소 팝업-->
+		<div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucherModal" aria-hidden="true">
+			<form class="form theme-form" id="voucherCancelForm" @submit.prevent="validateForm('cancel')" method="post" enctype="multipart/form-data" data-vv-scope="cancel">
+			<input type="hidden" id="cancelVoucherNo" name="cancelVoucherNo" :value="cancelVoucherNo">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">{{name}}님</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-form-label" for="message-text">{{ticketName}} : 잔여:{{timeLeftHour}}시간</label><br>
+							<label class="col-form-label" for="message-text">구입가 : {{salePrice}}원</label><br>
+							<label class="col-form-label" for="message-text">프로모션적용 : {{promotionName}}</label><br>
+							<label class="col-form-label" for="message-text">만료일 : {{endDate}}</label>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="message-text">취소사유</label>
+							<textarea class="form-control" id="memo" name="memo" v-validate="'required'"></textarea>
+							<label class="col-form-label" for="memo" v-if="errors.has('memo')">{{ errors.first('cancel.memo') }}</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">사용취소(환불)</button>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</th:block>
+</html>

@@ -62,9 +62,10 @@ public class ReservationService {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		//RESERVATION_ID 자동생성 해제
+		reservationDto.setReservationId(reservationMapper.selectReservationId());
 		reservationDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
-		
 		/**
 		 * 예약 유효성 체크
 		 * 1. 회원으로 동일한 시간에 같은 클래스 예약이 있는지 체크
@@ -100,10 +101,10 @@ public class ReservationService {
 				//선택 수업의 플레이타임 가져오기
 				ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
 				EntranceDto entranceDto = new EntranceDto(); 
+				entranceDto.setReservationId(reservationDto.getReservationId());
 				entranceDto.setVoucherNo(reservationDto.getVoucherNo());
          	    entranceDto.setUseTime(rVo.getVoucherTime());
          	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
          	    entranceDto.setRegId(reservationDto.getRegId());
 				//바우처 사용 처리
          	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {

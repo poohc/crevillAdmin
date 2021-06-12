@@ -39,4 +39,10 @@ public class VoucherVo {
     private String expireMonth;
     private String viewUseTime;
     private String viewEndDate;
+    private String saleDate;
+    private String regStore;
+    private String promotion;
+    private String cancelDate;
+    private String promotionName;
+    private String rStatus;
 }

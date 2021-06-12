@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.CommonDto;
+import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
@@ -42,6 +44,9 @@ public class VoucherController {
 	@Autowired
 	private PromotionService promotionService;
 	
+	@Autowired
+	private CommonService commonService;
+	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/list");
@@ -55,6 +60,22 @@ public class VoucherController {
 		ModelAndView mav = new ModelAndView("voucher/sale");
 		PromotionDto promotionDto = new PromotionDto();
 		mav.addObject("promotionList", promotionService.selectPromotionList(promotionDto));
+		return mav;
+	}
+	
+	@GetMapping("saleList.view")
+	public ModelAndView saleList(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("voucher/saleList");
+		VoucherDto voucherDto = new VoucherDto();
+		StoreDto storeDto = new StoreDto();
+		CommonDto commonDto = new CommonDto();
+		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("voucherCancelCount", voucherService.selectVoucherSaleCancelCount(voucherDto));
+		mav.addObject("voucherTotalStat", commonService.selectVoucherStatistics(commonDto));
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("list", voucherService.selectVoucherSaleList(voucherDto));
 		return mav;
 	}
 	
@@ -110,6 +131,22 @@ public class VoucherController {
 	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
 		result = voucherService.updateVoucher(voucherDto, request);
+		return result;
+	}
+	
+	@PostMapping("voucherValidUpdate.proc")
+	@ResponseBody
+	public JSONObject voucherValidUpdateProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.voucherValidUpdate(voucherDto, request);
+		return result;
+	}
+	
+	@PostMapping("voucherCancel.proc")
+	@ResponseBody
+	public JSONObject voucherCancelProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.voucherCancel(voucherDto, request);
 		return result;
 	}
 	

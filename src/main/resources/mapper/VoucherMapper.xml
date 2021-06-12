@@ -231,8 +231,6 @@
 		       										   ELSE FORMAT((C.USE_TIME / 60),0) END 
 		            ELSE '' END AS USE_TUTORING_TIME,
 		       R.STATUS
-<!-- 		       CASE WHEN C.REG_ID LIKE 'STF%' THEN (SELECT SUBSTRING_INDEX(STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID IN (SELECT STORE_ID FROM STAFF_INFO SI WHERE SI.STAFF_ID = C.REG_ID)) -->
-<!-- 		            ELSE '판매매장 확인되지 않음' END AS SALE_STORE             -->
 		  FROM VOUCHER A,
 		  	   VOUCHER_SALE B,     
 		  	   VOUCHER_USE C,
@@ -247,10 +245,56 @@
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = D.CELL_PHONE 
 		   AND D.CELL_PHONE = E.PARENT_CELL_PHONE
-		   AND C.SCHEDULE_ID = F.SCHEDULE_ID
-		   AND R.SCHEDULE_ID = C.SCHEDULE_ID
+		   AND R.SCHEDULE_ID = F.SCHEDULE_ID
+		   AND R.RESERVATION_ID = C.RESERVATION_ID
 		   AND R.VOUCHER_NO = A.VOUCHER_NO
       GROUP BY R.RESERVATION_ID
+	</select>
+	
+	<select id="selectVoucherSaleList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') SALE_DATE,
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID) STORE_NAME,
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID IN (SELECT SI.STORE_ID FROM STAFF_INFO SI WHERE SI.STAFF_ID = A.REG_ID)) REG_STORE,
+		       A.TICKET_NAME,
+		       A.VOUCHER_NO,
+		       C.NAME,
+		       FORMAT(A.SALE_PRICE, 0) SALE_PRICE,
+		       CASE WHEN LENGTH(C.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(C.CELL_PHONE,1,3),'-',SUBSTRING(C.CELL_PHONE,4,4),'-',SUBSTRING(C.CELL_PHONE,8,4))
+				    ELSE CONCAT(SUBSTRING(C.CELL_PHONE,1,3),'-',SUBSTRING(C.CELL_PHONE,4,3),'-',SUBSTRING(C.CELL_PHONE,7,4)) END AS CELL_PHONE,
+			   D.TIME_LEFT_HOUR,
+			   CASE WHEN IFNULL(P.PROMOTION_VALUE, 0) = 0 THEN '없음'
+			        WHEN P.PROMOTION_TYPE = 'ADD_TIME' THEN P.PROMOTION_VALUE
+			        ELSE '추가시간 프로모션아님' END AS PROMOTION,
+			   CASE WHEN IFNULL(P.PROMOTION_NAME, 0) = 0 THEN '없음'
+			        ELSE P.PROMOTION_NAME END AS PROMOTION_NAME,			        
+			   DATE_FORMAT(A.END_DATE, '%Y-%m-%d') END_DATE,
+			   CASE WHEN A.END_DATE <![CDATA[ < ]]> DATE_FORMAT(NOW(), '%Y%m%d') THEN '만료' 
+			   		WHEN A.STATUS = '04' THEN '정상'
+		            WHEN A.STATUS = '08' THEN '사용취소'
+			        ELSE (SELECT CC.CODE_VALUE FROM COMMON_CODE CC WHERE CC.CODE_TYPE = 'VOUCHER_STATUS' AND CC.CODE_KEY = A.STATUS) END AS STATUS,
+			   A.STATUS R_STATUS,     
+			   CASE WHEN A.STATUS = '08' THEN DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d')
+			        ELSE '정상' END AS CANCEL_DATE
+		  FROM VOUCHER A,
+		       VOUCHER_SALE B LEFT JOIN PROMOTION P
+		                 ON B.PROMOTION_ID = P.PROMOTION_ID,
+		       MEMBER_PARENT C,
+		       VOUCHER_USE_VIEW D
+		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND A.STORE_ID = #{storeId}
+           </if>
+		   AND B.BUY_CELL_PHONE = C.CELL_PHONE
+		   AND B.VOUCHER_NO = D.VOUCHER_NO
+	</select>
+	
+	<select id="selectVoucherSaleCancelCount" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="integer">
+		SELECT COUNT(*)
+		  FROM VOUCHER
+		 WHERE STATUS = '08'
+		   <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+           </if>
 	</select>
 	
 	<insert id="insertVoucherProduct" parameterType="kr.co.crevill.voucher.VoucherDto">
@@ -402,10 +446,11 @@
 	         <if test="price != null">PRICE = #{price},</if>
 	         <if test="salePrice != null">SALE_PRICE = #{salePrice},</if>
 	         <if test="useTime != null">USE_TIME = #{useTime},</if>
-	         <if test="endDate != null">END_DATE = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{endDate} MONTH), '%Y%m%d'),</if>
+	         <if test="endDate != null">END_DATE = #{endDate},</if>
 	         <if test="imageIdx != null">IMAGE_IDX = #{imageIdx},</if>
 	         <if test="status != null">STATUS = #{status},</if>
 	         <if test="storeId != null">STORE_ID = #{storeId},</if>
+	         <if test="memo != null">MEMO = #{memo},</if>
 	         UPD_ID = #{updId},
 	         UPD_DATE = NOW(),
     	 </set>
@@ -434,7 +479,7 @@
 	         <if test="voucherNo != null">VOUCHER_NO = #{voucherNo},</if>
 	         <if test="useTime != null">USE_TIME = #{useTime},</if>
 	         <if test="status != null">STATUS = #{status},</if>
-	         <if test="scheduleId != null">SCHEDULE_ID = #{scheduleId},</if>
+	         <if test="reservationId != null">RESERVATION_ID = #{reservationId},</if>
 	         UPD_ID = #{updId},
 	         UPD_DATE = NOW(),
     	 </set>		 

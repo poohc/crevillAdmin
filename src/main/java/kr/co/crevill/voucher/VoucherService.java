@@ -77,6 +77,15 @@ public class VoucherService {
 	public List<VoucherVo> getMemberVoucherUseList(VoucherDto voucherDto){
 		return voucherMapper.getMemberVoucherUseList(voucherDto);
 	}
+	
+	public List<VoucherVo> selectVoucherSaleList(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherSaleList(voucherDto);
+	}
+	
+	public int selectVoucherSaleCancelCount(VoucherDto voucherDto) {
+		return voucherMapper.selectVoucherSaleCancelCount(voucherDto);
+	}
+	
 	/**
 	 * 바우처 저장 처리 
 	 * @methodName : insertVoucher
@@ -176,6 +185,27 @@ public class VoucherService {
 					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 				}
 			}
+		}
+		return result;
+	}
+	
+	public JSONObject voucherValidUpdate(VoucherDto voucherDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
+	
+	public JSONObject voucherCancel(VoucherDto voucherDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_REFUND);
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;
 	}

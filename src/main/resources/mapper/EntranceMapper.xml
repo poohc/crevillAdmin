@@ -191,7 +191,7 @@
 								VOUCHER_NO,
 								USE_TIME,
 								STATUS,
-								SCHEDULE_ID,
+								RESERVATION_ID,
 								REG_ID,
 								REG_DATE
 							   )
@@ -199,7 +199,7 @@
 				         	    #{voucherNo},
 				         	    #{useTime},
 				         	    #{status},
-				         	    #{scheduleId},
+				         	    #{reservationId},
 				         	    #{regId},
 				         	    NOW()		
 				         	   )				

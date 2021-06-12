@@ -31,4 +31,5 @@ public class VoucherDto {
 	private String voucherUseId;
 	private String scheduleId;
 	private String expireMonth;
+	private String memo;
 }

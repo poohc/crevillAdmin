@@ -182,6 +182,9 @@ public class CrevillAop {
         		if(servletPath.indexOf("sale.view") > -1) {
         			menu = "바우처판매";
         		}
+        		if(servletPath.indexOf("saleList.view") > -1) {
+        			menu = "바우처판매 리스트";
+        		}
         	}
         	
         	if(contextPath.indexOf("store") > -1) {
