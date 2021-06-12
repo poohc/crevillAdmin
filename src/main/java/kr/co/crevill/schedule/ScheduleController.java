@@ -107,7 +107,7 @@ public class ScheduleController {
 	public JSONObject getScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		scheduleDto.setScheduleType("NOW");
+		scheduleDto.setScheduleType("ALL");
 		
 		VoucherDto voucherDto = new VoucherDto();
 		voucherDto.setVoucherNo(scheduleDto.getVoucherNo());
