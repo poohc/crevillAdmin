@@ -115,12 +115,15 @@ var vm = new Vue({
 }); 
 
 
+$('#storeId').change(function(){
+	location.href = '/voucher/saleList.view?storeId=' + $('#storeId').val();
+});
+
 function setVoucherExtension(voucherNo, name, endDate){
 	vm.name = name;
 	vm.endDate = endDate;
 	vm.voucherNo = voucherNo;
 }
-
 
 function setVoucherCancel(voucherNo, name, endDate, ticketName, timeLeftHour, salePrice, promotionName){
 	vm.cancelVoucherNo = voucherNo;

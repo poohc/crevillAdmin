@@ -64,18 +64,23 @@ public class VoucherController {
 	}
 	
 	@GetMapping("saleList.view")
-	public ModelAndView saleList(HttpServletRequest request) {
+	public ModelAndView saleList(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/saleList");
-		VoucherDto voucherDto = new VoucherDto();
 		StoreDto storeDto = new StoreDto();
 		CommonDto commonDto = new CommonDto();
-		voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		if(voucherDto.getStoreId() == null) {
+			voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+			commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		} else {
+			storeDto.setStoreId(voucherDto.getStoreId());
+			commonDto.setStoreId(voucherDto.getStoreId());
+		}
 		mav.addObject("voucherCancelCount", voucherService.selectVoucherSaleCancelCount(voucherDto));
 		mav.addObject("voucherTotalStat", commonService.selectVoucherStatistics(commonDto));
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("list", voucherService.selectVoucherSaleList(voucherDto));
+		mav.addObject("storeId", voucherDto.getStoreId());
 		return mav;
 	}
 	

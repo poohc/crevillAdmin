@@ -13,7 +13,7 @@
 						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 						<option value="">전체</option>
 						</th:block>
-						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
+						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
 					</select>
 				</div>
 			</div>
