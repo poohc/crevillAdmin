@@ -281,11 +281,12 @@
 		       MEMBER_PARENT C,
 		       VOUCHER_USE_VIEW D
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   AND A.TICKET_NAME != '1회권'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
 		   AND B.BUY_CELL_PHONE = C.CELL_PHONE
-		   AND B.VOUCHER_NO = D.VOUCHER_NO
+		   AND B.VOUCHER_NO = D.VOUCHER_NO		   
 	</select>
 	
 	<select id="selectVoucherSaleCancelCount" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="integer">

@@ -170,6 +170,7 @@
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
 		   AND B.STORE_ID = #{storeId}
 		   </if>
+		   AND B.TICKET_NAME != '1회권'
 	</select>
 	
 	<select id="selectNoShowCount" parameterType="kr.co.crevill.common.CommonDto" resultType="kr.co.crevill.common.CommonVo">
