@@ -16,6 +16,7 @@ import kr.co.crevill.reservation.ReservationDto;
 import kr.co.crevill.reservation.ReservationMapper;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherMapper;
+import kr.co.crevill.voucher.VoucherVo;
 
 @Service
 public class EntranceService {
@@ -71,6 +72,15 @@ public class EntranceService {
  	    entranceDto.setChildBirthday(entranceVo.getChildBirthday());
  	    entranceDto.setMemberQrCode(entranceVo.getMemberQrCode());
  	    entranceDto.setChildSex(entranceVo.getChildSex());
+ 	    
+ 	    //1회권일 경우 바우처 상태 사용완료로 업데이트 2021.06.14
+ 	    VoucherDto voucherDto = new VoucherDto();
+ 	    voucherDto.setVoucherNo(entranceVo.getVoucherNo());
+ 	    VoucherVo voucherVo = voucherMapper.selectVoucherInfo(voucherDto);
+ 	    if("1회권".equals(voucherVo.getTicketName())) {
+ 	    	voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+ 	    	voucherMapper.updateVoucher(voucherDto);
+ 	    }
  	    
 		if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
