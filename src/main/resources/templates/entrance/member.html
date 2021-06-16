@@ -50,10 +50,10 @@
 												</div>
 												
 												<th:block th:if="${list.entranceCount == '0'}">
-													<a class="btn btn-primary btn-xs" th:attr="onclick=|entrance('${list.reservationId}')|" id="entranceText">입장대기</a>
+													<a class="btn btn-primary btn-xs" th:attr="onclick=|entrance('${list.reservationId}')|" id="entranceText" style="color:white;">입장전</a>
 												</th:block>
 												<th:block th:unless="${list.entranceCount == '0'}">
-													<a class="btn btn-warning btn-xs" id="entranceText">입장완료 </a>
+													<a class="btn btn-warning btn-xs" id="entranceText" style="color:white;">입장완료 </a>
 												</th:block>
 											</div>
 											</th:block>

@@ -309,6 +309,95 @@
 						</div>
 					</div>
 				</div>
+                <div class="card">
+                    <div class="card-header">
+                        <h5>매장운영정보</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="mobileReservationYn">모바일예약 ON/OFF</label>
+                                    <select class="form-control form-control-lg" id="mobileReservationYn" name="mobileReservationYn">
+                                        <option value="Y" th:selected="${info?.mobileReservationYn != null && info?.mobileReservationYn == 'Y'}">가능</option>
+                                        <option value="N" th:selected="${info?.mobileReservationYn != null && info?.mobileReservationYn == 'N'}">불가</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="instagramUrl">인스타그램</label>
+                                    <input class="form-control form-control-lg" id="instagramUrl" name="instagramUrl" type="text" placeholder="" th:value="${info?.instagramUrl}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="operationTime">운영시간 입력</label>
+                                    <input class="form-control form-control-lg" id="operationTime" name="operationTime" type="text" placeholder="" th:value="${info?.operationTime}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="holiday">휴무일 입력</label>
+                                    <input class="form-control form-control-lg" id="holiday" name="holiday" type="text" placeholder="" th:value="${info?.holiday}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="etcGuide">기타안내</label>
+                                    <input class="form-control form-control-lg" id="etcGuide" name="etcGuide" type="text" placeholder="" th:value="${info?.etcGuide}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="storeIntroduce">매장소개글</label>
+                                    <input class="form-control form-control-lg" id="storeIntroduce" name="storeIntroduce" type="text" placeholder="" th:value="${info?.storeIntroduce}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="parkingGuide">주차안내 입력</label>
+                                    <input class="form-control form-control-lg" id="parkingGuide" name="parkingGuide" type="text" placeholder="" th:value="${info?.parkingGuide}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="card">
+                    <div class="card-header">
+                        <h5>매장 한줄 알림</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label-sm" for="alrim">알림글 입력</label>
+                                    <input class="form-control form-control-lg" id="alrim" name="alrim" type="text" placeholder="" th:value="${info?.alrim}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group"> <!--개발적인 부분이 필요한게 아닌 모바일 한줄알림 아래 날짜에 찍는 데이터 (저도 이게 왜 필요한지 모르겠는데 현업에서 해 달라고 하네요.)-->
+                                    <label class="col-form-label-sm" for="alrimDate">알림글 표시날짜</label>
+                                    <input class="form-control form-control-lg" id="alrimDate" name="alrimDate" type="date" placeholder="" th:value="${info?.alrimDate}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 				<div class="card-footer">
 					<button class="btn btn-primary" type="submit">수정</button>
 					<input class="btn btn-light" type="reset" value="취소" onclick="cancel();">

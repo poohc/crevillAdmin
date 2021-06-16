@@ -24,6 +24,15 @@
 		<link th:href="@{/assets/css/style.css}" rel="stylesheet">
 		<link th:href="@{/assets/css/color-1.css}" id="color" rel="stylesheet" media="screen">
 		<link th:href="@{/assets/css/responsive.css}" rel="stylesheet"  >
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+            window.OneSignal = window.OneSignal || [];
+            OneSignal.push(function () {
+                OneSignal.init({
+                    appId: "a9182cbe-5e1c-4067-8d1e-0258a85d8095",
+                });
+            });
+        </script>
     </head>
 </th:block>
 </html>

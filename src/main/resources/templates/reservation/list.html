@@ -42,11 +42,11 @@
 											<td th:text="${list.storeNameShort}"></td>
 											<td th:text="${list.cellPhone}"></td>
 											<td>
-												<span th:if="${list.status.toString().equals('02')}" class="badge badge-primary" th:text="${list.statusName}"></span>
+												<span th:if="${list.status.toString().equals('02')}" th:text="${list.statusName}"></span>
 												<span th:if="${list.status.toString().equals('04')}" class="badge badge-secondary" th:text="${list.statusName}"></span>
-												<span th:if="${list.status.toString().equals('05')}" class="badge badge-warning" th:text="${list.statusName}"></span>
+												<span th:if="${list.status.toString().equals('05')}" style="color:red;" th:text="${list.statusName}"></span>
 												<th:block th:if="${list.status.toString().equals('02')}">
-													<span class="badge badge-danger"><a th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}')|">예약취소처리</a></span>
+													<span class="badge badge-danger"><a th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}')|">취소하기</a></span>
 												</th:block>
 											</td>
 										</tr>

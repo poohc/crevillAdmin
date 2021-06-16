@@ -86,7 +86,7 @@
 						<div class="ecommerce-widgets media">
 							<div class="media-body">
 								<p class="f-w-500 font-roboto">
-									취소된 바우처<span class="badge pill-badge-danger ml-3">CANCEL</span>
+									환불한 바우처<span class="badge pill-badge-danger ml-3">CANCEL</span>
 								</p>
 								<h4 class="f-w-500 mb-0 f-26">
 									<span th:text="${voucherCancelCount}"></span>
@@ -120,10 +120,10 @@
 										<th>잔여</th>
 										<th>프로모션</th>
 										<th>만료일</th>
-										<th>사용취소</th>
+										<th>취소일</th>
 										<th>상태</th>
 										<th>만료일연장</th>
-										<th>사용취소</th>
+										<th>환불</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -148,11 +148,11 @@
 										<td>
 											<th:block th:if="${list.rStatus == '12'}">
 											<a href="" type="button" data-toggle="modal" data-target="#voucherModal" th:attr="onclick=|setVoucherCancel('${list.voucherNo}', '${list.name}', '${list.endDate}', '${list.ticketName}', '${list.timeLeftHour}', '${list.salePrice}', '${list.promotionName}')|">
-												<span class="badge badge-primary">사용취소</span>
+												<span class="badge badge-primary">환불</span>
 											</a>
 											</th:block>
 											<th:block th:unless="${list.rStatus == '12'}">
-												취소불가
+												환불완료
 											</th:block>
 										</td>
 									</tr>

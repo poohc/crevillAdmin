@@ -121,6 +121,16 @@ new Vue({
 					formdata.append("image6", $("#image6")[0].files[0]);	
 				}
 				
+				formdata.append("mobileReservationYn", $('#mobileReservationYn').val());
+				formdata.append("instagramUrl", $('#instagramUrl').val());
+				formdata.append("operationTime", $('#operationTime').val());
+				formdata.append("holiday", $('#holiday').val());
+				formdata.append("etcGuide", $('#etcGuide').val());
+				formdata.append("storeIntroduce", $('#storeIntroduce').val());
+				formdata.append("parkingGuide", $('#parkingGuide').val());
+				formdata.append("alrim", $('#alrim').val());
+				formdata.append("alrimDate", $('#alrimDate').val().replace(/[^0-9]/g,""));
+				
 				axios.post('/store/regist.proc', formdata,{
 					  headers: {
 						'Content-Type': 'multipart/form-data'
