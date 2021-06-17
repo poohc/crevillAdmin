@@ -170,14 +170,14 @@ public class VoucherService {
 		}
 		voucherDto.setStatus(CrevillConstants.VOUCHER_PRODUCT_STATUS_ACTIVE);
 		//VOUCHER_ATTRIBUTE 테이블 데이터 먼저 삭제
-		if(voucherMapper.deleteVoucherAttribute(voucherDto) > 0) {
+		if(voucherMapper.deleteVoucherProductAttribute(voucherDto) >= 0) {
 			if(voucherMapper.updateVoucherProduct(voucherDto) > 0) {
 				//선택된 전달매체 모두 INSERT 성공해야 SUCC
 				int cnt = voucherDto.getAttribute().split(",").length;
 				int insCnt = 0;
 				for(String attribute : voucherDto.getAttribute().split(",")) {
 					voucherDto.setAttribute(attribute);
-					if(voucherMapper.insertVoucherAttribute(voucherDto) > 0) {
+					if(voucherMapper.insertVoucherProductAttribute(voucherDto) > 0) {
 						insCnt++;
 					}	
 				}

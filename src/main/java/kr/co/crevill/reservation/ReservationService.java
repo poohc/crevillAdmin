@@ -84,10 +84,10 @@ public class ReservationService {
 		} else {
 			ReservationVo reservationVo = new ReservationVo();
 			if("Y".equals(reservationDto.getTutoringYn())) {
-				reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
-				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
-					result.put("resultMsg", MSG_TUTORING_FULL);
-				}
+//				reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
+//				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+//					result.put("resultMsg", MSG_TUTORING_FULL);
+//				}
 			} else {
 				reservationVo = reservationMapper.checkReservationYn(reservationDto);
 				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {

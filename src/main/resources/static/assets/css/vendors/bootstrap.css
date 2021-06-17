@@ -776,7 +776,8 @@ figure {
 
 img {
   vertical-align: middle;
-  border-style: none; }
+  border-style: none;
+  height:70px; }
 
 svg {
   overflow: hidden;

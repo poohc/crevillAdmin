@@ -83,22 +83,23 @@
 	                            </div>
 	                        </div>
 	                    </div>
+                        <div class="col-xl-6">
+                            <h6 class="sub-title">바우처 소진시간</h6>
+                            <p>바우처소진시간 설정 (분 단위)</p>
+                            <div class="theme-form">
+                                <div class="form-group">
+                                    <select class="form-control form-control-lg" v-validate="'required'" id="voucherTime" name="voucherTime">
+                                        <th:block th:each="num : ${#numbers.sequence(1,18)}">
+                                         <option th:value="${num * 30}" th:text="${num * 30}" th:selected="${info.voucherTime} == ${num * 30}"></option>
+                                        </th:block>
+                                    </select>
+                                    <label class="col-form-label-sm" for="voucherTime" v-if="errors.has('voucherTime')">{{ errors.first('voucherTime') }}</label>
+                                </div>
+                            </div>
+                        </div>
 	                </div>
 	            </div>
-	            <div class="col-xl-6">
-                    <h6 class="sub-title">바우처 소진시간</h6>
-                    <p>바우처소진시간 설정 (분 단위)</p>
-                    <div class="theme-form">
-                        <div class="form-group">
-                            <select class="form-control form-control-lg" v-validate="'required'" id="voucherTime" name="voucherTime">
-                                <th:block th:each="num : ${#numbers.sequence(1,18)}">
-                                 <option th:value="${num * 30}" th:text="${num * 30}" th:selected="${info.voucherTime} == ${num * 30}"></option>
-                                </th:block>
-                            </select>
-                            <label class="col-form-label-sm" for="voucherTime" v-if="errors.has('voucherTime')">{{ errors.first('voucherTime') }}</label>
-                        </div>
-                    </div>
-                </div>
+	            
 	            <div class="card-footer">
 	                <button class="btn btn-primary" type="submit" data-toggle="modal">수정</button>
 	                <input class="btn btn-light" type="reset" value="RESET" onclick="cancel();">

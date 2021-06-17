@@ -92,6 +92,7 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
+										<th:block th:if="${attributeList != null}">
 										<div class="checkbox checkbox-dark">
 											<input id="attributeA" type="checkbox" name="attribute" value="CLASS" th:checked="${#strings.contains(attributeList,'CLASS')}">
 											<label for="attributeA">CLASS</label>
@@ -112,6 +113,29 @@
 											<input id="attributeE" type="checkbox" name="attribute" value="비회원" th:checked="${#strings.contains(attributeList,'비회원')}">
 											<label for="attributeE">비회원 사용가능</label>
 										</div>
+										</th:block>
+										<th:block th:unless="${attributeList != null}">
+										<div class="checkbox checkbox-dark">
+											<input id="attributeA" type="checkbox" name="attribute" value="CLASS">
+											<label for="attributeA">CLASS</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeB" type="checkbox" name="attribute" value="TUTORING">
+											<label for="attributeB">TUTORING</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeC" type="checkbox" name="attribute" value="SPECIAL CAMP">
+											<label for="attributeC">SPECIAL CAMP</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeD" type="checkbox" name="attribute" value="가족공유">
+											<label for="attributeD">가족공유</label>
+										</div>
+										<div class="checkbox checkbox-dark">
+											<input id="attributeE" type="checkbox" name="attribute" value="비회원">
+											<label for="attributeE">비회원 사용가능</label>
+										</div>
+										</th:block>
 									</div>
 								</div>
 							</div>

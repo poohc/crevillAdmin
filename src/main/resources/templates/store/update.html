@@ -64,7 +64,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label for="ceo">대표자</label>
-										<input class="form-control" v-validate="'required'" id="ceo" name="ceo" type="text" placeholder="대표자" th:value="${info.telNo}">
+										<input class="form-control" v-validate="'required'" id="ceo" name="ceo" type="text" placeholder="대표자" th:value="${info.ceo}">
 										<label class="col-form-label-sm" for="ceo" v-if="errors.has('ceo')">{{ errors.first('ceo') }}</label>
 									</div>
 								</div>

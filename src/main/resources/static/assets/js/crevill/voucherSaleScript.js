@@ -227,7 +227,7 @@ function setPromotion(){
 						$("#promotionId").append('<option value="' + data[i].promotionId + '">' + data[i].promotionName + '</option>');
 					}	
 				} else {
-					alert('사용가능한 프로모션이 없습니다.');
+//					alert('사용가능한 프로모션이 없습니다.');
 					return false;	
 				}
 								
