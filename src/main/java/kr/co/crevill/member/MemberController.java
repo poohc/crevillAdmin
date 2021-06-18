@@ -53,6 +53,7 @@ public class MemberController {
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
 		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("countInfo", memberService.selectMemberCountInfo(memberDto));
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
 		return mav;
 	}

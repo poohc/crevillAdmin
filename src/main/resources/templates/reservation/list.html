@@ -7,7 +7,79 @@
 	<div class="page-body">
 		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
 		<!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <!-- Chart widget top Start-->
+            <div class="row">
+                <div class="col-xl-4 col-md-12 box-col-12">
+                    <div class="card o-hidden">
+                        <div class="chart-widget-top">
+                            <div class="row card-body">
+                                <div class="col-5">
+                                    <h6 class="f-w-600 font-primary">가능한 예약인원</h6><span class="num"><span
+                                            class="counter">90</span>%<i
+                                            class="icon-angle-up f-12 ml-1"></i></span>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h4 class="num total-value"><span class="counter">10,000</span>명</h4>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="chart-widget1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-12 box-col-12">
+                    <div class="card o-hidden">
+                        <div class="chart-widget-top">
+                            <div class="row card-body">
+                                <div class="col-7">
+                                    <h6 class="f-w-600 font-secondary">예약인원</h6><span class="num"><span
+                                            class="counter">30</span>%<i
+                                            class="icon-angle-up f-12 ml-1"></i></span>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <h4 class="num total-value counter">5,000</h4>
+                                </div>
+                            </div>
+                            <div id="chart-widget2">
+                                <div class="flot-chart-placeholder" id="chart-widget-top-second"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-12 box-col-12">
+                    <div class="card o-hidden">
+                        <div class="chart-widget-top">
+                            <div class="row card-body">
+                                <div class="col-8">
+                                    <h6 class="f-w-600 font-success">예약률</h6><span class="num"><span
+                                            class="counter">50</span>%<i
+                                            class="icon-angle-up f-12 ml-1"></i></span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <h4 class="num total-value"><span class="counter">50</span>%</h4>
+                                </div>
+                            </div>
+                            <div id="chart-widget3">
+                                <div class="flot-chart-placeholder" id="chart-widget-top-third"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<div class="container-fluid">
+            <div class="row">
+				<div class="col-lg-4">
+					<select id="storeId" name="storeId" class="form-control btn-square">
+						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+						<option value="">전체</option>
+						</th:block>
+						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+					</select>
+				</div>
+			</div><br>
 			<div class="row">
 				<!-- Zero Configuration  Starts-->
 				<div class="col-sm-12">

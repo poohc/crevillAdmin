@@ -32,4 +32,8 @@ public class MemberVo {
 	private String voucherStoreName;
 	private String memberType;
 	private String ticketName;
+	private String memberParentCount;
+	private String memberChildrenCount;
+	private String nvMemberCount;
+	private String voucherMemberCount;
 }

@@ -22,4 +22,5 @@ public interface MemberMapper {
 	public int deleteMemberChildren(MemberDto memberDto);
 	public int deleteMemberChildrenGrade(MemberDto memberDto);
 	public List<MemberVo> selectMemberVoucherInfo(MemberDto memberDto);
+	public MemberVo selectMemberCountInfo(MemberDto memberDto);
 }

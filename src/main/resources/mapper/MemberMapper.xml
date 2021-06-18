@@ -359,4 +359,11 @@
       GROUP BY A.CELL_PHONE, B.NAME
     </select>
 	
+	<select id="selectMemberCountInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) ,0) ,0)  MEMBER_PARENT_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE <if test="storeId != null and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
+	</select>
+		
 </mapper>

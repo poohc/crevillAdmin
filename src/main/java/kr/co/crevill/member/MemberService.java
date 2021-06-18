@@ -29,6 +29,10 @@ public class MemberService {
 	public List<MemberVo> selectChildList(MemberDto memberDto){
 		return memberMapper.selectChildList(memberDto);
 	}
+
+	public MemberVo selectMemberCountInfo(MemberDto memberDto) {
+		return memberMapper.selectMemberCountInfo(memberDto);
+	}
 	
 	public List<MemberVo> selectMemberList(MemberDto memberDto) {
 		List<MemberVo> memberList = new ArrayList<>();
