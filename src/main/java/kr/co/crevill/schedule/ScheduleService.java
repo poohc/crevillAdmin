@@ -40,6 +40,14 @@ public class ScheduleService {
 		return scheduleMapper.selectScheduleList(scheduleDto);
 	}
 	
+	public ScheduleVo selectScheduleStatInfo(ScheduleDto scheduleDto) {
+		return scheduleMapper.selectScheduleStatInfo(scheduleDto);
+	}
+	
+	public int selectReservationScheduleCount(ScheduleDto scheduleDto) {
+		return scheduleMapper.selectReservationScheduleCount(scheduleDto);
+	}
+	
 	public JSONObject insertSchedule(ScheduleDto scheduleDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();
@@ -61,6 +69,22 @@ public class ScheduleService {
 		return result;
 	}
 	
+	public JSONObject updateSchedule(ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(scheduleMapper.updateSchedule(scheduleDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+		}
+		return result;
+	}
 	
+	public JSONObject deleteSchedule(ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(scheduleMapper.deleteSchedule(scheduleDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+		}
+		return result;
+	}
 	
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleSearchScript.js')}">
+
+<th:block layout:fragment="content">
+    <div class="page-body" id="page-body">
+        <th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header bg-light-primary">
+                            <form class="theme-form" id="scheduleForm" name="scheduleForm" method="get" action="/schedule/search.view">
+                                <input type="hidden" id="scheduleStart" name="scheduleStart">
+                                <div class="input-group m-0">
+                                    <input class="form-control-plaintext" type="date" placeholder="검색날짜입력" id="scheduleDate" name="scheduleDate" th:value="${scheduleDate}" />
+                                    <div class="input-group-append">
+                                        <span class="btn btn-primary" id="scheduleSearch">검색</span>
+                                    </div>
+                                    <!--매장검색 버튼 추가위치-->
+                                    <select class="button btn btn-info" id="storeId" name="storeId">
+                                        <option value="">전체</option>
+                                        <th:block th:each="list : ${storeList}">
+                                            <option th:value="${list.storeId}" th:text="${list.storeNameShort}"
+                                                th:selected="${list.storeId == storeId}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-3 box-col-3">
+                                    <th:block th:each="allList, i : ${allList}">
+                                        <h6 th:if="${i.index == 0}" class="mb-2" th:text="${allList.scheduleDate}"></h6>
+                                        <div class="info-block">
+                                            <a href="" th:text="${allList.playName}"></a>
+                                            <span th:text="${allList.subTopic}"></span>
+                                            <h6 th:text="${allList.scheduleTime}"></h6>
+                                            <div class="star-ratings">
+                                                <ul class="search-info">
+                                                    <li th:text="|클래스, ${allList.numberOfPeople}|"></li>
+                                                    <li th:text="|튜터링, ${allList.tutoringNumber}|"></li>
+                                                </ul>
+                                            </div>
+                                            <!--추가 : 스케쥴 매장-->
+                                            <h6>
+                                                <span th:text="|등록일 : ${allList.regDate}|"></span>
+                                                <span class="badge badge-secondary"
+                                                    th:text="${allList.storeNameShort}"></span>
+                                            </h6>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</th:block>
+
+</html>

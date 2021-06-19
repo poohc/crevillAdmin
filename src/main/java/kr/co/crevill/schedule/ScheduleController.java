@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.store.StoreDto;
@@ -32,9 +31,6 @@ import kr.co.crevill.voucher.VoucherVo;
 @Controller
 @RequestMapping("schedule")
 public class ScheduleController {
-	
-	@Autowired
-	private CommonService commonService;
 	
 	@Autowired
 	private ScheduleService scheduleService;
@@ -53,6 +49,21 @@ public class ScheduleController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("schedule/list");
+		if(scheduleDto.getStoreId() == null) {
+			scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		}
+		mav.addObject("list", scheduleService.selectScheduleList(scheduleDto));
+		mav.addObject("info", scheduleService.selectScheduleStatInfo(scheduleDto));
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("storeId", scheduleDto.getStoreId());
+		return mav;
+	}
+	
+	@GetMapping("search.view")
+	public ModelAndView search(HttpServletRequest request, ScheduleDto scheduleDto) {
+		ModelAndView mav = new ModelAndView("schedule/search");
 		scheduleDto.setScheduleType("ALL");
 		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("allList", scheduleService.selectScheduleList(scheduleDto));
@@ -124,6 +135,39 @@ public class ScheduleController {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 			result.put("scheduleList", scheduleList);
 		}
+		return result;
+	}
+	
+	@PostMapping("getReservationScheduleCount.proc")
+	@ResponseBody
+	public JSONObject getReservationScheduleCount(HttpServletRequest request, ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		try {
+			int count = scheduleService.selectReservationScheduleCount(scheduleDto);
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			if(count > 0 ) {
+				result.put("reservationScheduleYn", "Y");
+			} else {
+				result.put("reservationScheduleYn", "N");
+			}
+		} catch (Exception e) {
+			logger.error("예약된 스케쥴 확인 여부 처리 중 오류 발생 : " + e);
+		}
+		return result;
+	}
+	
+	@PostMapping("updateSchedule.proc")
+	@ResponseBody
+	public JSONObject updateSchedule(HttpServletRequest request, ScheduleDto scheduleDto) {
+		JSONObject result = scheduleService.updateSchedule(scheduleDto);
+		return result;
+	}
+	
+	@PostMapping("deleteSchedule.proc")
+	@ResponseBody
+	public JSONObject deleteSchedule(HttpServletRequest request, ScheduleDto scheduleDto) {
+		JSONObject result = scheduleService.deleteSchedule(scheduleDto);
 		return result;
 	}
 }

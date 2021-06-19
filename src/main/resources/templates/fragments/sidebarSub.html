@@ -107,7 +107,8 @@
 	                    	<span>스케쥴관리</span>
 	                    </a>
 	                    <ul class="sidebar-submenu">
-	                    	<li><a href="/schedule/list.view">스케쥴조회</a></li>
+	                    	<li><a href="/schedule/list.view">스케쥴리스트</a></li>
+	                    	<li><a href="/schedule/search.view">스케쥴조회</a></li>
 	                    	<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">	
 	                    		<li><a href="/schedule/regist.view">스케쥴등록</a></li>
 	                    	</th:block>

@@ -11,4 +11,8 @@ public interface ScheduleMapper {
 	public int selectScheduleCount(ScheduleDto scheduleDto);
 	public List<ScheduleVo> selectScheduleList(ScheduleDto scheduleDto);
 	public int insertSchedule(ScheduleDto scheduleDto);
+	public ScheduleVo selectScheduleStatInfo(ScheduleDto scheduleDto);
+	public int selectReservationScheduleCount(ScheduleDto scheduleDto);
+	public int updateSchedule(ScheduleDto scheduleDto);
+	public int deleteSchedule(ScheduleDto scheduleDto);
 }

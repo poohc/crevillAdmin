@@ -1,69 +1,187 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleListScript.js')}">
+      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleListScript.js')}">
 
 <th:block layout:fragment="content">
     <div class="page-body" id="page-body">
         <th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
         <!-- Container-fluid starts-->
-        <div class="container-fluid search-page">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header bg-light-primary">
-                            <form class="theme-form" id="scheduleForm" name="scheduleForm" method="get"
-                                action="/schedule/list.view">
-                                <input type="hidden" id="scheduleStart" name="scheduleStart">
-                                <div class="input-group m-0">
-                                    <input class="form-control-plaintext" type="date" placeholder="검색날짜입력"
-                                        id="scheduleDate" name="scheduleDate" th:value="${scheduleDate}" />
-                                    <div class="input-group-append">
-                                        <span class="btn btn-primary" id="scheduleSearch">검색</span>
-                                    </div>
-                                    <!--매장검색 버튼 추가위치-->
-                                    <select class="button btn btn-info" id="storeId" name="storeId">
-                                        <option value="">전체</option>
-                                        <th:block th:each="list : ${storeList}">
-                                            <option th:value="${list.storeId}" th:text="${list.storeNameShort}"
-                                                th:selected="${list.storeId == storeId}"></option>
-                                        </th:block>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-xl-3 box-col-3">
-                                    <th:block th:each="allList, i : ${allList}">
-                                        <h6 th:if="${i.index == 0}" class="mb-2" th:text="${allList.scheduleDate}"></h6>
-                                        <div class="info-block">
-                                            <a href="" th:text="${allList.playName}"></a>
-                                            <span th:text="${allList.subTopic}"></span>
-                                            <h6 th:text="${allList.scheduleTime}"></h6>
-                                            <div class="star-ratings">
-                                                <ul class="search-info">
-                                                    <li th:text="|클래스, ${allList.numberOfPeople}|"></li>
-                                                    <li th:text="|튜터링, ${allList.tutoringNumber}|"></li>
-                                                </ul>
-                                            </div>
-                                            <!--추가 : 스케쥴 매장-->
-                                            <h6>
-                                                <span th:text="|등록일 : ${allList.regDate}|"></span>
-                                                <span class="badge badge-secondary"
-                                                    th:text="${allList.storeNameShort}"></span>
-                                            </h6>
-                                        </div>
-                                    </th:block>
-                                </div>
-                            </div>
-                        </div>
+        <div class="container-fluid">
+	        <div class="row">
+	            <div class="col-lg-3">
+		           	<select class="form-control btn-square" id="storeId" name="storeId">
+                    	<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+                        <option value="">전체</option>
+                       	</th:block>
+                        <option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+                    </select>
+	            </div>
+	        </div>
+	    </div><br>
+	    <div class="container-fluid">
+	        <div class="row">
+	            <div class="col-sm-6 col-xl-3 col-lg-6">
+	                <div class="card o-hidden">
+	                    <div class="bg-primary b-r-4 card-body">
+	                        <div class="media static-top-widget">
+	                            <div class="align-self-center text-center"><i data-feather="database"></i></div>
+	                            <div class="media-body"><span class="m-0">전체예약id 수</span>
+	                                <h4 class="mb-0 counter" th:text="${info.reservationCount}"></h4>
+	                                <i class="icon-bg" data-feather="calendar"></i>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-sm-6 col-xl-3 col-lg-6">
+	                <div class="card o-hidden">
+	                    <div class="bg-secondary b-r-4 card-body">
+	                        <div class="media static-top-widget">
+	                            <div class="align-self-center text-center"><i data-feather="shopping-bag"></i>
+	                            </div>
+	                            <div class="media-body"><span class="m-0">클래스 총인원(스페셜캠프 포함)</span>
+	                                <h4 class="mb-0 counter" th:text="${info.totalCount}"></h4>
+	                                <i class="icon-bg" data-feather="airplay"></i>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-sm-6 col-xl-3 col-lg-6">
+	                <div class="card o-hidden">
+	                    <div class="bg-primary b-r-4 card-body">
+	                        <div class="media static-top-widget">
+	                            <div class="align-self-center text-center"><i data-feather="message-circle"></i>
+	                            </div>
+	                            <div class="media-body"><span class="m-0">클래스</span>
+	                                <h4 class="mb-0 counter" th:text="${info.classCount}"></h4>
+	                                <i class="icon-bg" data-feather="users"></i>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-sm-6 col-xl-3 col-lg-6">
+	                <div class="card o-hidden">
+	                    <div class="bg-primary b-r-4 card-body">
+	                        <div class="media static-top-widget">
+	                            <div class="align-self-center text-center"><i data-feather="user-plus"></i>
+	                            </div>
+	                            <div class="media-body"><span class="m-0">튜터링</span>
+	                                <h4 class="mb-0 counter" th:text="${info.tutoringCount}"></h4>
+	                                <i class="icon-bg" data-feather="clock"></i>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <!-- Zero Configuration  Starts-->
+	        <div class="col-sm-12">
+	            <div class="card">
+	                <div class="card-body">
+	                    <div class="table-responsive">
+	                        <table class="display" id="basic-1" style="text-align: center;">
+	                            <thead>
+	                                <tr>
+	                                    <th>스케쥴ID</th>
+	                                    <th>매장</th>
+	                                    <th>구분</th>
+	                                    <th>날짜</th>
+	                                    <th>시간</th>
+	                                    <th>PLAY</th>
+	                                    <th>클래스 정원</th>
+	                                    <th>튜터링 정원</th>
+	                                    <th>인원변경</th>
+	                                    <th>스케쥴취소</th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr th:each="list : ${list}">
+	                                    <td th:text="${list.scheduleId}"></td>
+	                                    <td th:text="${list.storeNameShort}"></td>
+	                                    <th>클래스</th>
+	                                    <td th:text="${list.scheduleStartDate}"></td>
+	                                    <td th:text="${list.scheduleStartTime}"></td>
+	                                    <td th:text="${list.playName}"></td>
+	                                    <td tH:text="${list.numberOfPeople}"></td>
+	                                    <td tH:text="${list.tutoringNumber}"></td>
+	                                    <td>
+	                                    	<a href="" type="button" data-toggle="modal" data-target="#schedule_numchange" th:attr="onclick=|updateSetup('${list.scheduleId}', '${list.numberOfPeople}', '${list.tutoringNumber}')|">
+	                                    		<span class="badge badge-success">변경</span>
+	                                    	</a>
+	                                    </td>
+	                                    <td>
+	                                    	<a href="" type="button" data-toggle="modal" data-target="#schedule_cancel" th:attr="onclick=|deleteSetup('${list.scheduleId}')|">
+	                                    		<span class="badge badge-primary">취소</span>
+	                                    	</a>
+	                                    </td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+    	<!--스케쥴 취소 팝업-->
+        <div class="modal fade" id="schedule_cancel" tabindex="-1" role="dialog" aria-labelledby="schedule_cancel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">스케쥴 ID : {{scheduleId}} </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        	<span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <span class="badge badge-warning">취소가능</span>
+                        <span class="badge badge-primary" v-if="scheduleReservationYn == 'Y'">
+                        해당ID에 예약이 있음
+                        </span>
+                        <br>
+                        선택한 스케쥴을 삭제합니다. 삭제 후 복구 불가이며, <br>
+                        해당 스케쥴에 예약이 있는지 확인을 하시기 바랍니다.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" data-dismiss="modal" @click="deleteSchedule(scheduleId)">삭제</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    </div>
+        <!--클래스/튜터링 인원조정 팝업-->
+        <div class="modal fade" id="schedule_numchange" tabindex="-1" role="dialog" aria-labelledby="schedule_numchange" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">인원변경 </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        	<span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label class="col-form-label" for="message-text">클래스 {{numberOfPeople}}</label>
+                            <div class="col-lg-12">
+                                <input id="numberOfPeople" name="numberOfPeople" type="number" placeholder="인원 조정" class="form-control btn-square input-md" :value="numberOfPeople">
+                            </div>
+                        </form>
+                        <form>
+                            <label class="col-form-label" for="message-text">튜터링 {{tutoringNumber}}</label>
+                            <div class="col-lg-12">
+                                <input id="tutoringNumber" name="tutoringNumber" type="number" placeholder="인원 조정" class="form-control btn-square input-md" :value="tutoringNumber">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" data-dismiss="modal" @click="updateSchedule(scheduleId)">인원변경</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>    	
 </th:block>
 
 </html>

@@ -17,6 +17,8 @@
 			   SCHEDULE_END,
 			   CONCAT(DATE_FORMAT(SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(SCHEDULE_END,'%H:%i')) SCHEDULE_TIME,
 			   CONCAT(DATE_FORMAT(SCHEDULE_START,'%Y년 %m월 %d일'), ' 일정') SCHEDULE_DATE,
+			   DATE_FORMAT(SCHEDULE_START,'%Y-%m-%d') SCHEDULE_START_DATE,
+			   DATE_FORMAT(SCHEDULE_START,'%H:%i') SCHEDULE_START_TIME,
 			   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = SCHEDULE.PLAY_ID) PLAY_NAME,
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
@@ -84,5 +86,37 @@
 						      NOW()
 					   		 )
     </insert>
+	
+	<select id="selectScheduleStatInfo" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.schedule.ScheduleVo">
+		SELECT FORMAT(IFNULL((SELECT COUNT(RESERVATION_ID) FROM RESERVATION A, SCHEDULE B WHERE A.STATUS = '02' AND A.SCHEDULE_ID = B.SCHEDULE_ID <if test="storeId != null and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) , 0), 0) RESERVATION_COUNT,
+		       FORMAT(IFNULL((SELECT SUM(NUMBER_OF_PEOPLE) FROM SCHEDULE <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>), 0), 0) TOTAL_COUNT,
+	   		   FORMAT(IFNULL((SELECT SUM(NUMBER_OF_PEOPLE) FROM SCHEDULE WHERE OPERATION_TYPE = 'WEEKDAY' <if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if>), 0), 0) CLASS_COUNT,
+	   		   FORMAT(IFNULL((SELECT SUM(TUTORING_NUMBER) FROM SCHEDULE WHERE OPERATION_TYPE = 'WEEKDAY' <if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if>), 0), 0) TUTORING_COUNT
+	</select>
+	
+	<select id="selectReservationScheduleCount" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM SCHEDULE A,
+               RESERVATION B
+         WHERE A.SCHEDULE_ID = #{scheduleId}
+           AND A.SCHEDULE_ID = B.SCHEDULE_ID
+    </select>
+	
+	<update id="updateSchedule" parameterType="kr.co.crevill.schedule.ScheduleDto">
+		UPDATE SCHEDULE
+		  <set>
+		  	<if test="numberOfPeople != null and numberOfPeople != ''">NUMBER_OF_PEOPLE = ${numberOfPeople},</if>
+		  	<if test="tutoringNumber != null and tutoringNumber != ''">TUTORING_NUMBER = ${tutoringNumber},</if>
+		  	UPD_ID = #{updId},
+		  	UPD_DATE = NOW()
+		  </set>
+         WHERE SCHEDULE_ID = #{scheduleId}		   
+	</update>
+	
+	<delete id="deleteSchedule" parameterType="kr.co.crevill.schedule.ScheduleDto">
+		DELETE
+		  FROM SCHEDULE
+	     WHERE SCHEDULE_ID = #{scheduleId}
+	</delete>
 	
 </mapper>

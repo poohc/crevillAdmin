@@ -38,7 +38,7 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-				var formdata = new FormData()
+				var formdata = new FormData();
 				var operType = '';
 				$("input[name=operationType]:checked").each(function() {
 					operType += $(this).val() + ',';

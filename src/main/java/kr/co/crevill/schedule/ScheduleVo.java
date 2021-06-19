@@ -15,7 +15,9 @@ public class ScheduleVo {
 	private String scheduleStart;
 	private String scheduleEnd;
 	private String scheduleDate;
+	private String scheduleStartDate;
 	private String scheduleTime;
+	private String scheduleStartTime;
 	private String regId;
 	private String regDate;
 	private String updId;
@@ -26,4 +28,8 @@ public class ScheduleVo {
 	private String classCnt;
 	private String tutoringCnt;
 	private String storeNameShort;
+	private String reservationCount;
+	private String totalCount;
+	private String classCount;
+	private String tutoringCount;
 }

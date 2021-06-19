@@ -174,23 +174,23 @@
 	</select>
 	
 	<select id="selectNoShowCount" parameterType="kr.co.crevill.common.CommonDto" resultType="kr.co.crevill.common.CommonVo">
-	SELECT IFNULL((SELECT COUNT(R.RESERVATION_ID)
-	          FROM RESERVATION R,
-	               SCHEDULE S
-	         WHERE R.STATUS = '02'
-	           AND R.SCHEDULE_ID = S.SCHEDULE_ID
-	           <if test="storeId != null and storeId != 'CST00001'.toString()">
-	           AND S.STORE_ID = #{storeId}
-	           </if>
-	           ),0) RESERVATION_COUNT,
+    SELECT IFNULL((SELECT COUNT(R.RESERVATION_ID)
+		             FROM RESERVATION R,
+		                  SCHEDULE S
+		            WHERE R.STATUS = '02'
+		              AND R.SCHEDULE_ID = S.SCHEDULE_ID
+		              <if test="storeId != null and storeId != 'CST00001'.toString()">
+		              AND S.STORE_ID = #{storeId}
+		              </if>
+		              ),0) RESERVATION_COUNT,
            IFNULL((SELECT COUNT(SE.SCHEDULE_ID) 
-              FROM SCHEDULE_ENTRANCE_MEMBER SE,
-                   SCHEDULE S
-             WHERE SE.SCHEDULE_ID = S.SCHEDULE_ID
-               <if test="storeId != null and storeId != 'CST00001'.toString()">
-	           AND S.STORE_ID = #{storeId}
-	           </if>
-               ),0) ENTRANCE_COUNT,
+		             FROM SCHEDULE_ENTRANCE_MEMBER SE,
+		                  SCHEDULE S
+		            WHERE SE.SCHEDULE_ID = S.SCHEDULE_ID
+		              <if test="storeId != null and storeId != 'CST00001'.toString()">
+			          AND S.STORE_ID = #{storeId}
+			          </if>
+		              ),0) ENTRANCE_COUNT,
            IFNULL(FORMAT(ROUND(100 - ((SELECT COUNT(SE.SCHEDULE_ID)
            								 FROM SCHEDULE_ENTRANCE_MEMBER SE,
            								      SCHEDULE S
