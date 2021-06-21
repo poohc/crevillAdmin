@@ -36,7 +36,7 @@
            AND OPERATION_TYPE = 'WEEKDAY'
            </if>
            <if test="grade != null and grade == 'VIP'.toString()">	
-           AND OPERATION_TYPE = 'WEEKEND'
+           AND (OPERATION_TYPE = 'WEEKEND' OR OPERATION_TYPE = 'WEEKDAY') 
            </if>
            <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != ''">
            AND STORE_ID = #{storeId}
