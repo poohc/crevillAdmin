@@ -32,12 +32,12 @@
 			   (SELECT SUBSTRING_INDEX(STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = SCHEDULE.STORE_ID) STORE_NAME_SHORT
           FROM SCHEDULE
         <where>
-<!--            <if test="grade != null and grade != 'VIP'.toString()">	 -->
-<!--            AND OPERATION_TYPE = 'WEEKDAY' -->
-<!--            </if> -->
-<!--            <if test="grade != null and grade == 'VIP'.toString()">	 -->
-<!--            AND OPERATION_TYPE = 'WEEKEND' -->
-<!--            </if> -->
+           <if test="grade != null and grade != 'VIP'.toString()">	
+           AND OPERATION_TYPE = 'WEEKDAY'
+           </if>
+           <if test="grade != null and grade == 'VIP'.toString()">	
+           AND OPERATION_TYPE = 'WEEKEND'
+           </if>
            <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != ''">
            AND STORE_ID = #{storeId}
            </if>

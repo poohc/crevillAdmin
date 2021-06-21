@@ -157,7 +157,7 @@ $('#scheduleSearch').click(function(){
 		data: {
 	            scheduleStart : $('#scheduleDate').val().replace(/[^0-9]/g,""),
 				storeId : $('#storeId').val(),
-				voucherNo : $('voucherNo').val()
+				voucherNo : $('#voucherNo').val()
 	    },
 		url : '/schedule/getScheduleList.proc',
 		success : function(data){
@@ -168,10 +168,14 @@ $('#scheduleSearch').click(function(){
 				for(var i=0; i < data.scheduleList.length; i++){
 					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].classAvaCnt+']' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + ' | ' + data.scheduleList[i].storeNameShort + '</option>');
 				}
-				$("#tutoringYn").append('<option value="N">선택</option>');
-				for(var i=0; i < data.scheduleList.length; i++){
-					$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']' + data.scheduleList[i].scheduleTime +' : 튜터링 | ' + data.scheduleList[i].storeNameShort + '</option>');
+				
+				if(data.attributeList.includes('TUTORING')){
+					$("#tutoringYn").append('<option value="N">선택</option>');
+					for(var i=0; i < data.scheduleList.length; i++){
+						$("#tutoringYn").append('<option value="' + data.scheduleList[i].scheduleId + '">[잔여 : '+data.scheduleList[i].tutoringAvaCnt+']' + data.scheduleList[i].scheduleTime +' : 튜터링 | ' + data.scheduleList[i].storeNameShort + '</option>');
+					}	
 				}
+				
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
 				return false;	

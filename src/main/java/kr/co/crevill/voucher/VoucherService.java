@@ -221,7 +221,7 @@ public class VoucherService {
 	public JSONObject deleteVoucher(VoucherDto voucherDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		if(voucherMapper.deleteVoucherProductAttribute(voucherDto) > 0) {
+		if(voucherMapper.deleteVoucherProductAttribute(voucherDto) >= 0) {
 			if(voucherMapper.deleteVoucherProduct(voucherDto) > 0) {
 				result.put("resultCd", CrevillConstants.RESULT_SUCC);
 			}

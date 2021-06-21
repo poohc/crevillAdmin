@@ -1,6 +1,7 @@
 package kr.co.crevill.schedule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -127,15 +128,20 @@ public class ScheduleController {
 		VoucherVo voucherVo = voucherService.selectVoucherInfo(voucherDto);
 		String grade = "normal";
 		
-		//TODO VIP 권종 늘어나면 수정할 것
-		if(voucherVo != null && StringUtils.equalsAny(voucherVo.getGrade(), "VIP_REGIST", "VIP_ANON")) {
+		String[] attributeArray = voucherVo.getAttribute().split(",");
+		List<String> attributeList = Arrays.asList(attributeArray);
+		
+		//스페셜 캠프 확인 프로세스 수정
+		if(attributeList.contains("SPECIAL CAMP")) {
 			grade = "VIP";
 		}
+		
 		scheduleDto.setGrade(grade);
 		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
 		if(scheduleList != null && scheduleList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 			result.put("scheduleList", scheduleList);
+			result.put("attributeList", attributeList);
 		}
 		return result;
 	}

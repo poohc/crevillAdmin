@@ -94,16 +94,16 @@ $('#searchMemberNameBtn').click(function(){
 					  $("#usedChildrenName").data('memberStoreId', response.data.voucherMemberInfo[i].storeId);
 				  }
 		
-				  $("#memberVoucherListDiv").remove();
+				  $('.memberVoucherListDiv').remove();
 				  var appendDiv = "";
 				  for(var i=0; i < response.data.voucherList.length; i++){
 //			  	 	 Vue.set(listVm.voucherList, i, response.data.voucherList[i]);
-					 appendDiv += '<div id="memberVoucherListDiv">';
+					 appendDiv += '<div class="memberVoucherListDiv">';
 					 appendDiv += response.data.voucherList[i].ticketName + '[' + response.data.voucherList[i].storeNameShort + ']';
 					 appendDiv += '</div>';
 			  	  } 
 				  if(response.data.voucherList.length == 0){
-					 appendDiv += '<div id="memberVoucherListDiv">';			  	  
+					 appendDiv += '<div class="memberVoucherListDiv">';			  	  
 					 appendDiv += '보유 바우처가 없습니다.';
 					 appendDiv += '</div>';			
 				  }
