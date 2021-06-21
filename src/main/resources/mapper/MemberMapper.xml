@@ -107,12 +107,14 @@
 		               CASE WHEN A.STATUS = 'A' THEN 'Active'
 		            		ELSE 'Inactive' END AS STATUS,
 		               (SELECT COUNT(*) FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE) VOUCHER_COUNT,
-		               IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음')  VOUCHER_STORE_NAME,
-		               B.STORE_NAME
+		               CASE WHEN A.STORE_ID = 'MOBILE' THEN '모바일'
+		                    ELSE IFNULL((SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = (SELECT STORE_ID FROM VOUCHER_SALE WHERE BUY_CELL_PHONE = A.CELL_PHONE LIMIT 1)),'바우처없음') END AS VOUCHER_STORE_NAME,
+		               CASE WHEN A.STORE_ID = 'MOBILE' THEN '모바일'
+		                    ELSE B.STORE_NAME END AS STORE_NAME
 		          FROM MEMBER_PARENT A LEFT OUTER JOIN VOUCHER_SALE C
 		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
-		               STORE B
-		         WHERE A.STORE_ID = B.STORE_ID 
+		               MEMBER_PARENT D LEFT OUTER JOIN STORE B 
+		                   		  ON D.STORE_ID = B.STORE_ID 
 		          <if test="storeId != null and storeId != 'CST00001'.toString()">
 		           AND A.STORE_ID = #{storeId}
 		         </if>
@@ -362,8 +364,8 @@
 	<select id="selectMemberCountInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
 		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) ,0) ,0)  MEMBER_PARENT_COUNT,
 		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE <if test="storeId != null and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
+		       FORMAT(IFNULL((SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
 	</select>
 		
 </mapper>

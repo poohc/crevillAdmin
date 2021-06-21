@@ -52,6 +52,8 @@ public class ScheduleController {
 		if(scheduleDto.getStoreId() == null) {
 			scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		}
+		scheduleDto.setScheduleStart("99991231");
+		scheduleDto.setScheduleType("ING");
 		mav.addObject("list", scheduleService.selectScheduleList(scheduleDto));
 		mav.addObject("info", scheduleService.selectScheduleStatInfo(scheduleDto));
 		StoreDto storeDto = new StoreDto();

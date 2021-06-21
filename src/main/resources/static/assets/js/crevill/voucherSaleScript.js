@@ -131,7 +131,7 @@ $('#searchMemberNameBtn').click(function(){
 //						  	 	 Vue.set(listVm.storeList, i, response.data.storeList[i]);
 								 $("#storeId").append('<option value="' + response.data.storeList[i].storeId + '">' + response.data.storeList[i].storeNameShort + '</option>');
 						  	  }
-							  $('#gradeType').trigger('change');		  
+//							  $('#gradeType').trigger('change');		  
 //							  Vue.set(listVm.storeList, 0, response.data.storeList);
 					
 						  } else {
@@ -155,21 +155,21 @@ $('#storeId').change(function(){
 	getVoucherList();	 
 });
 
-$('#gradeType').change(function(){
-	
-	if($(this).val() == 'REGIST'){
-		$('#usedChildrenNameDiv').show();
-	} else {
-		$('#usedChildrenNameDiv').hide();
-	}
-	getVoucherList();	 
-});
+//$('#gradeType').change(function(){
+//	
+//	if($(this).val() == 'REGIST'){
+//		$('#usedChildrenNameDiv').show();
+//	} else {
+//		$('#usedChildrenNameDiv').hide();
+//	}
+//	getVoucherList();	 
+//});
 
 function getVoucherList(){
 	$.ajax({
 			type : "POST",
 			data: {
-		            gradeType : $('#gradeType').val(),
+//		            gradeType : $('#gradeType').val(),
 				    storeId : $('#storeId').val()
 		    },
 			url : '/voucher/getVoucherList.proc',

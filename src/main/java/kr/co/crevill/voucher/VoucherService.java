@@ -125,7 +125,7 @@ public class VoucherService {
 			int insCnt = 0;
 			for(String attribute : voucherDto.getAttribute().split(",")) {
 				voucherDto.setAttribute(attribute);
-				if(voucherMapper.insertVoucherAttribute(voucherDto) > 0) {
+				if(voucherMapper.insertVoucherProductAttribute(voucherDto) > 0) {
 					insCnt++;
 				}	
 			}
