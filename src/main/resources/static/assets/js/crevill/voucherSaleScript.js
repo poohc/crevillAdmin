@@ -131,9 +131,10 @@ $('#searchMemberNameBtn').click(function(){
 //						  	 	 Vue.set(listVm.storeList, i, response.data.storeList[i]);
 								 $("#storeId").append('<option value="' + response.data.storeList[i].storeId + '">' + response.data.storeList[i].storeNameShort + '</option>');
 						  	  }
+							  $('#storeId').trigger('change');
 //							  $('#gradeType').trigger('change');		  
 //							  Vue.set(listVm.storeList, 0, response.data.storeList);
-					
+						
 						  } else {
 							alert('매장정보를 불러오는 중 오류가 발생했습니다.');
 						  } 
