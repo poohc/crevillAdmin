@@ -73,13 +73,24 @@ public class MemberController {
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("LEARNING_GRADE");
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
-		List<MemberVo> infoList = memberService.getMemberInfo(memberDto);
-		mav.addObject("info", infoList);
-		List<String> learningGradeList = new ArrayList<String>();
-		for(String learningGrade : infoList.get(0).getLearningGrade().split(",")) {
-			learningGradeList.add(learningGrade);
+		MemberVo info = memberService.getMemberInfo(memberDto);
+		mav.addObject("info", info);
+		memberDto.setCellPhone(info.getCellPhone().replaceAll("-", ""));
+		
+		List<MemberVo> childList = memberService.selectUpdateChildList(memberDto);
+		
+		List<MemberVo> nChildList = new ArrayList<>();
+		
+		for(MemberVo memVo : childList) {
+			List<String> learningGradeList = new ArrayList<String>();
+			for(String learningGrade : memVo.getLearningGrade().split(",")) {
+				learningGradeList.add(learningGrade);
+			}
+			memVo.setCheckedlearningGradeList(learningGradeList);
+			nChildList.add(memVo);
 		}
-		mav.addObject("checkedlearningGradeList", learningGradeList);
+		
+		mav.addObject("childList", nChildList);
 		return mav;
 	}
 	

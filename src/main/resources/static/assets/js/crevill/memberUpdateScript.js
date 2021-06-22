@@ -70,11 +70,35 @@ new Vue({
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
 				var learningGrade = '';
-				$("input[name=learningGrade]:checked").each(function() {
-					learningGrade += $(this).val() + ',';
+				var learningGradeLength = 0;
+				$("input[name=childName]").each(function() {
+					$("input[name*=learningGrade"+learningGradeLength+"]:checked").each(function() {
+						learningGrade += $(this).val() + ',';
+					});
+					learningGrade = learningGrade.substr(0, learningGrade.length - 1);
+					learningGrade += ';';
+					learningGradeLength = learningGradeLength + 1;
 				});
 				learningGrade = learningGrade.substr(0, learningGrade.length - 1);
 			
+				var childName = '';
+				$("input[name=childName]").each(function() {
+					childName += $(this).val() + ',';
+				});
+				childName = childName.substr(0, childName.length - 1);
+				
+				var birthday = '';
+				$("input[name=birthday]").each(function() {
+					birthday += $(this).val() + ',';
+				});
+				birthday = birthday.substr(0, birthday.length - 1);
+				
+				var sex = '';
+				$('input[name*="sex"]:checked').each(function(){
+					sex += $(this).val() + ',';
+				});
+				sex = sex.substr(0, sex.length - 1);
+				
 				axios.post('/member/update.proc', {
 									            parentName : $('#parentName').val(),
 												parentBirthday : $('#parentBirthday').val(),	
@@ -82,9 +106,9 @@ new Vue({
 									            email : $('#email').val(),
 									            address : $('#roadAddress').val() + ' | ' + $('#detailAddress').val(),
 									            cellPhone : $('#cellPhone').val(),
-									            childName : $('#childName').val(),
-									            birthday : $('#birthday').val(),
-									            sex : $('input[name="sex"]:checked').val(),
+									            childName : childName,
+									            birthday : birthday,
+									            sex : sex,
 									            learningGrade : learningGrade,
 												qrCode : $('#qrCode').val()
 			        }).then((response) => {

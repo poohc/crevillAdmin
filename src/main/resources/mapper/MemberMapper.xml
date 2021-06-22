@@ -116,7 +116,7 @@
 		               MEMBER_PARENT D LEFT OUTER JOIN STORE B 
 		                   		  ON D.STORE_ID = B.STORE_ID 
 		          <if test="storeId != null and storeId != 'CST00001'.toString()">
-		           AND A.STORE_ID = #{storeId}
+		         WHERE A.STORE_ID = #{storeId}
 		         </if>
 		         UNION ALL
 		        SELECT D.NAME,
@@ -157,22 +157,17 @@
         SELECT A.NAME,
         	   A.BIRTHDAY PARENT_BIRTHDAY,
         	   A.SEX PARENT_SEX,
-               CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
-            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+               A.CELL_PHONE,
                A.EMAIL,
                REPLACE(A.ADDRESS,'|','') ADDRESS,
 			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
 			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
 			        ELSE '' END AS DETAIL_ADDRESS,
                A.QR_CODE,
-               B.NAME CHILD_NAME,
-               B.BIRTHDAY,
-               B.SEX,
-               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
+               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN B, MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
                A.STORE_ID
-          FROM MEMBER_PARENT A,
-               MEMBER_CHILDREN B
-         WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+          FROM MEMBER_PARENT A
+        <where>
            <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
@@ -185,6 +180,7 @@
            <if test="cellPhone != null and cellPhone != ''">
            AND A.CELL_PHONE = #{cellPhone}
            </if>
+	    </where>           
     </select>
 	
 	<select id="getMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -208,6 +204,23 @@
            AND CELL_PHONE = #{cellPhone}
            </if>
         </where>
+    </select>
+	
+	<select id="selectUpdateChildList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+        SELECT PARENT_NAME,
+			   PARENT_CELL_PHONE,
+			   NAME,
+			   BIRTHDAY,
+			   SEX,
+			   REG_ID,
+			   REG_DATE,
+			   UPD_ID,
+			   UPD_DATE,
+			   ENG_NAME,
+			   PICTURE_IDX,
+			   (SELECT GROUP_CONCAT(B.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE B WHERE B.PARENT_CELL_PHONE = '01037171701' AND B.CHILDREN_NAME = MEMBER_CHILDREN.NAME) LEARNING_GRADE
+          FROM MEMBER_CHILDREN
+         WHERE PARENT_CELL_PHONE = #{cellPhone}
     </select>
 	
 	<select id="selectChildList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">

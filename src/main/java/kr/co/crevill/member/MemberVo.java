@@ -1,5 +1,7 @@
 package kr.co.crevill.member;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,4 +38,5 @@ public class MemberVo {
 	private String memberChildrenCount;
 	private String nvMemberCount;
 	private String voucherMemberCount;
+	private List<String> checkedlearningGradeList;
 }
