@@ -12,7 +12,7 @@
           FROM RESERVATION A,
                SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
            AND B.STORE_ID = #{storeId}
            </if>
            <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
@@ -69,7 +69,7 @@
            AND A.RESERVATION_ID = C.RESERVATION_ID
            AND A.VOUCHER_NO = C.VOUCHER_NO
            AND A.CELL_PHONE = D.CELL_PHONE
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
            AND B.STORE_ID = #{storeId}
            </if>
            <if test="isFree != null and isFree == 'Y'.toString()">
@@ -238,5 +238,27 @@
 		 WHERE RESERVATION_ID = #{reservationId} 
 	</delete>
 	
+	<select id="selectReservationStatInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT FORMAT(SUB.TOTAL_SCHEDULE_PEOPLE_NUMBER, 0) TOTAL_SCHEDULE_PEOPLE_NUMBER,
+			   FORMAT(SUB.RESERVATION_COUNT, 0) RESERVATION_COUNT,	
+			   ROUND(IFNULL(((SUB.RESERVATION_COUNT / SUB.TOTAL_SCHEDULE_PEOPLE_NUMBER) * 100), 0)) RESERVATION_PER
+		  FROM (SELECT (SELECT (IFNULL(SUM(NUMBER_OF_PEOPLE), 0) + IFNULL(SUM(TUTORING_NUMBER), 0))
+		  		  FROM SCHEDULE 
+		 		 WHERE SCHEDULE_START <![CDATA[ > ]]> NOW()
+		 		 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		 		   AND STORE_ID = #{storeId}
+		 		 </if>
+		 		   ) TOTAL_SCHEDULE_PEOPLE_NUMBER,
+			   (SELECT IFNULL(COUNT(DISTINCT B.RESERVATION_ID), 0)
+				  FROM SCHEDULE A,
+				       RESERVATION B
+				 WHERE A.SCHEDULE_ID = B.SCHEDULE_ID 
+				   AND B.STATUS = '02'
+				   AND A.SCHEDULE_START <![CDATA[ > ]]> NOW()
+				   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		 		   AND A.STORE_ID = #{storeId}
+		 		   </if>) RESERVATION_COUNT
+				   ) SUB
+	</select>
 	
 </mapper>

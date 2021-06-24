@@ -34,3 +34,8 @@ function memberVoucherUseList(cellPhone){
 	var url = '/member/voucherUseList.view?cellPhone=' + cellPhone.replace(/[^0-9]/g,"");
 	location.href = url;
 }
+
+$('#storeId').change(function(){
+	var url = '/member/list.view?storeId=' + $('#storeId').val();
+	location.href = url;
+});

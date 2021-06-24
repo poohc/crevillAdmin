@@ -20,6 +20,8 @@ import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
@@ -49,12 +51,18 @@ public class MemberController {
 	@Autowired
 	private VoucherService voucherService; 
 	
+	@Autowired
+	private StoreService storeService; 
+	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/list");
-		memberDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("countInfo", memberService.selectMemberCountInfo(memberDto));
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
+		mav.addObject("storeId", memberDto.getStoreId());
 		return mav;
 	}
 	
@@ -83,10 +91,12 @@ public class MemberController {
 		
 		for(MemberVo memVo : childList) {
 			List<String> learningGradeList = new ArrayList<String>();
-			for(String learningGrade : memVo.getLearningGrade().split(",")) {
-				learningGradeList.add(learningGrade);
+			if(memVo.getLearningGrade() != null) {
+				for(String learningGrade : memVo.getLearningGrade().split(",")) {
+					learningGradeList.add(learningGrade);
+				}
+				memVo.setCheckedlearningGradeList(learningGradeList);
 			}
-			memVo.setCheckedlearningGradeList(learningGradeList);
 			nChildList.add(memVo);
 		}
 		

@@ -58,6 +58,10 @@ public class ReservationService {
 		return reservationMapper.selectReservationSearchList(scheduleDto);
 	}
 	
+	public ReservationVo selectReservationStatInfo(ReservationDto reservationDto) {
+		return reservationMapper.selectReservationStatInfo(reservationDto);
+	}
+	
 	public JSONObject insertReservation(ReservationDto reservationDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();

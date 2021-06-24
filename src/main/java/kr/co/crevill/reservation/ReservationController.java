@@ -38,13 +38,18 @@ public class ReservationController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("reservation/list");
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty()) {
 			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		}
 		mav.addObject("scheduleStart", scheduleDto.getScheduleStart());
 		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("storeId", scheduleDto.getStoreId());
+		ReservationDto reservationDto = new ReservationDto();
+		reservationDto.setStoreId(scheduleDto.getStoreId());
+		mav.addObject("info", reservationService.selectReservationStatInfo(reservationDto));
 		return mav;
 	}
 	

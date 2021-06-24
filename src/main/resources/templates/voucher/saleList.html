@@ -122,6 +122,7 @@
 										<th>만료일</th>
 										<th>취소일</th>
 										<th>상태</th>
+										<th>바우처시간조정</th>
 										<th>만료일연장</th>
 										<th>환불</th>
 									</tr>
@@ -140,6 +141,11 @@
 										<td th:text="${list.endDate}"></td>
 										<td th:text="${list.cancelDate}"></td>
 										<td th:text="${list.status}"></td>
+										<td>
+											<a href="" type="button" data-toggle="modal" data-target="#voucherTimeModify" th:attr="onclick=|setVoucherTimeModify('${list.voucherNo}', '${list.name}', '${list.ticketName}', '${list.timeLeftHour}', '${list.useTime}')|">
+												<span class="badge badge-warning">바우처시간조정</span>
+											</a>
+										</td>
 										<td>
 											<a href="" type="button" data-toggle="modal" data-target="#voucherExtension" th:attr="onclick=|setVoucherExtension('${list.voucherNo}', '${list.name}', '${list.endDate}')|">
 												<span class="badge badge-success">바우처연장</span>
@@ -163,6 +169,41 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 바우처 시간조정 팝업 -->
+		<div class="modal fade" id="voucherTimeModify" tabindex="-1" role="dialog" aria-labelledby="voucherTimeModify" aria-hidden="true">
+			<form class="form theme-form" id="voucherModifyForm" @submit.prevent="validateForm('modify')" method="post" enctype="multipart/form-data" data-vv-scope="modify">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">{{name}}님</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							 <span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-form-label" for="message-text">
+								{{ticketName}}
+								<span class="badge-primary">{{voucherNo}}</span>
+								<span class="badge-success">{{timeLeftHour}}시간 남음</span>
+							</label>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-12 control-label text-lg-left" for="textinput">시간입력</label>
+							<div class="col-lg-12">
+								<input id="useTime" name="useTime" type="number" class="form-control btn-square input-md">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">바우처시간처리</button>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+
 		<!--바우처 만료일 연장 팝업-->
 		<div class="modal fade" id="voucherExtension" tabindex="-1" role="dialog" aria-labelledby="voucherExtension" aria-hidden="true">
 			<form class="form theme-form" id="voucherExtensionForm" @submit.prevent="validateForm('extension')" method="post" enctype="multipart/form-data" data-vv-scope="extension">

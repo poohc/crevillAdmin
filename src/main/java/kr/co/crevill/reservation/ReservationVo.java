@@ -43,4 +43,6 @@ public class ReservationVo {
 	private String childBirthday;
 	private String storeName;
 	private String storeNameShort;
+	private String totalSchedulePeopleNumber;
+	private String reservationCount;
 }

@@ -189,6 +189,16 @@ public class VoucherService {
 		return result;
 	}
 	
+	public JSONObject voucherTimeUpdate(VoucherDto voucherDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
+	
 	public JSONObject voucherValidUpdate(VoucherDto voucherDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());

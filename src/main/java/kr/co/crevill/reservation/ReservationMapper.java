@@ -21,4 +21,5 @@ public interface ReservationMapper {
 	public ReservationVo selectReservationPlayInfo(ReservationDto reservationDto);
 	public int insertReservation(ReservationDto reservationDto);
 	public int updateReservation(ReservationDto reservationDto);
+	public ReservationVo selectReservationStatInfo(ReservationDto reservationDto);
 }

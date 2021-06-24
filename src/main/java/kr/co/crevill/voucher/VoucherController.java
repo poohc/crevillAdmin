@@ -68,12 +68,11 @@ public class VoucherController {
 		ModelAndView mav = new ModelAndView("voucher/saleList");
 		StoreDto storeDto = new StoreDto();
 		CommonDto commonDto = new CommonDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		if(voucherDto.getStoreId() == null) {
 			voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 			commonDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		} else {
-			storeDto.setStoreId(voucherDto.getStoreId());
 			commonDto.setStoreId(voucherDto.getStoreId());
 		}
 		mav.addObject("voucherCancelCount", voucherService.selectVoucherSaleCancelCount(voucherDto));
@@ -136,6 +135,14 @@ public class VoucherController {
 	public JSONObject updateProc(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
 		result = voucherService.updateVoucher(voucherDto, request);
+		return result;
+	}
+	
+	@PostMapping("voucherTimeUpdate.proc")
+	@ResponseBody
+	public JSONObject voucherTimeUpdate(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
+		JSONObject result = new JSONObject();
+		result = voucherService.voucherValidUpdate(voucherDto, request);
 		return result;
 	}
 	

@@ -104,30 +104,37 @@ public class MemberService {
 						nMemberDto.setParentName(memberDto.getParentName());
 						nMemberDto.setCellPhone(memberDto.getCellPhone());
 						nMemberDto.setChildName(memberDto.getChildName().split(",")[i]);
+						nMemberDto.setEngName(memberDto.getEngName().split(",")[i]);
 						nMemberDto.setBirthday(memberDto.getBirthday().split(",")[i]);
-						nMemberDto.setLearningGrade(memberDto.getLearningGrade().split(";")[i]);
+						if(memberDto.getLearningGrade().split(";").length > i) {
+							nMemberDto.setLearningGrade(memberDto.getLearningGrade().split(";")[i]);	
+						}
 						nMemberDto.setSex(memberDto.getSex().split(",")[i]);
 						nMemberDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 						logger.info("nMemberDto : " + nMemberDto.toString());
 						
 						if(memberMapper.insertMemberChildren(nMemberDto) > 0) {
-							int learningGradeCount = nMemberDto.getLearningGrade().split(",").length;
-							int tmpCnt = 0;
-							
-							if(learningGradeCount > 0) {
-								for(String learningGrade : nMemberDto.getLearningGrade().split(",")) {
-									nMemberDto.setLearningGrade(learningGrade);
+							if(nMemberDto.getLearningGrade() != null) {
+								int learningGradeCount = nMemberDto.getLearningGrade().split(",").length;
+								int tmpCnt = 0;
+								
+								if(learningGradeCount > 0) {
+									for(String learningGrade : nMemberDto.getLearningGrade().split(",")) {
+										nMemberDto.setLearningGrade(learningGrade);
+										if(memberMapper.insertMemberChildrenGrade(nMemberDto) > 0) {
+											tmpCnt++;
+										}
+									}
+									if(learningGradeCount == tmpCnt) {
+										result.put("resultCd", CrevillConstants.RESULT_SUCC);
+									}
+								} else {
 									if(memberMapper.insertMemberChildrenGrade(nMemberDto) > 0) {
-										tmpCnt++;
+										result.put("resultCd", CrevillConstants.RESULT_SUCC);
 									}
 								}
-								if(learningGradeCount == tmpCnt) {
-									result.put("resultCd", CrevillConstants.RESULT_SUCC);
-								}
 							} else {
-								if(memberMapper.insertMemberChildrenGrade(nMemberDto) > 0) {
-									result.put("resultCd", CrevillConstants.RESULT_SUCC);
-								}
+								result.put("resultCd", CrevillConstants.RESULT_SUCC);
 							}
 						}
 					}
@@ -157,5 +164,4 @@ public class MemberService {
 	public List<MemberVo> selectMemberVoucherInfo(MemberDto memberDto){
 		return memberMapper.selectMemberVoucherInfo(memberDto);
 	}
-	
 }

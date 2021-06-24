@@ -39,7 +39,7 @@
 		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
 		               STORE B
 		         WHERE A.STORE_ID = B.STORE_ID 
-		          <if test="storeId != null and storeId != 'CST00001'.toString()">
+		          <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		           AND A.STORE_ID = #{storeId}
 		         </if>
 		         UNION ALL
@@ -66,7 +66,7 @@
 				       MEMBER_PARENT D,
 				       STORE E
 				 WHERE A.VOUCHER_NO = B.VOUCHER_NO 
-				   <if test="storeId != null and storeId != 'CST00001'.toString()">
+				   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		           AND B.STORE_ID = #{storeId}
 		           </if>
 				   AND B.VOUCHER_NO = C.VOUCHER_NO 
@@ -115,7 +115,7 @@
 		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
 		               MEMBER_PARENT D LEFT OUTER JOIN STORE B 
 		                   		  ON D.STORE_ID = B.STORE_ID 
-		          <if test="storeId != null and storeId != 'CST00001'.toString()">
+		          <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		         WHERE A.STORE_ID = #{storeId}
 		         </if>
 		         UNION ALL
@@ -142,7 +142,7 @@
 				       MEMBER_PARENT D,
 				       STORE E
 				 WHERE A.VOUCHER_NO = B.VOUCHER_NO 
-				   <if test="storeId != null and storeId != 'CST00001'.toString()">
+				   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		           AND B.STORE_ID = #{storeId}
 		           </if>
 				   AND B.VOUCHER_NO = C.VOUCHER_NO 
@@ -159,16 +159,16 @@
         	   A.SEX PARENT_SEX,
                A.CELL_PHONE,
                A.EMAIL,
-               REPLACE(A.ADDRESS,'|','') ADDRESS,
-			   SUBSTRING_INDEX(A.ADDRESS, '|', 1) ROAD_ADDRESS,
-			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(A.ADDRESS, '|', -1)
+               TRIM(REPLACE(A.ADDRESS,'|','')) ADDRESS,
+			   TRIM(SUBSTRING_INDEX(A.ADDRESS, '|', 1)) ROAD_ADDRESS,
+			   CASE WHEN INSTR(A.ADDRESS,'|') > 0 THEN TRIM(SUBSTRING_INDEX(A.ADDRESS, '|', -1))
 			        ELSE '' END AS DETAIL_ADDRESS,
                A.QR_CODE,
                (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN B, MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
                A.STORE_ID
           FROM MEMBER_PARENT A
         <where>
-           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
            <if test="qrCode != null and qrCode != ''">
@@ -275,6 +275,7 @@
     								PARENT_NAME,
     								PARENT_CELL_PHONE,
     								NAME,
+    								ENG_NAME,
     								BIRTHDAY,
     								SEX,
     								REG_ID,
@@ -284,6 +285,7 @@
 									#{parentName},
 									#{cellPhone},
 									#{childName},
+									#{engName},
 									#{birthday},
 									#{sex},
 									#{regId},
@@ -375,10 +377,10 @@
     </select>
 	
 	<select id="selectMemberCountInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) ,0) ,0)  MEMBER_PARENT_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE <if test="storeId != null and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
+		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) ,0) ,0)  MEMBER_PARENT_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
 	</select>
 		
 </mapper>

@@ -23,6 +23,8 @@ var vm = new Vue({
 		salePrice : '',
 		promotionName : '',
 		cancelVoucherNo : '',
+		useTime : '',
+		calcTimeLeft : '',
     },
 	methods: {
     validateForm(scope) {
@@ -34,6 +36,23 @@ var vm = new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
+			
+				if(scope == 'modify'){
+					var formdata = new FormData();
+					formdata.append("voucherNo", $('#voucherNo').val());
+					formdata.append("useTime", $('#useTime').val());
+					
+					axios.post('/voucher/voucherTimeUpdate.proc', formdata,{
+						  headers: {
+							'Content-Type': 'multipart/form-data'
+						  }
+						}).then((response) => {
+						if (response.data.resultCd == '00') {
+					      	alert('정상처리 되었습니다.');
+							location.href = '/voucher/saleList.view';
+					    }
+					});		
+				}
 			
 				if(scope == 'extension'){
 					var formdata = new FormData();
@@ -77,40 +96,7 @@ var vm = new Vue({
 		}
         
       });
-    },
-// 	voucherCancelSubmit() {
-//      this.$validator.validate().then((result) => {
-//        if (result) {
-//	        
-//			acceessableCount  = acceessableCount - 1; //count부터 뺀다
-//			
-//			if (acceessableCount < 0 ) {
-//		    	alert("이미 작업이 수행중입니다.");
-//		    } else {
-//				var formdata = new FormData();
-//				formdata.append("voucherNo", $('#cancelVoucherNo').val());
-//				formdata.append("memo", $('#memo').val());
-//				
-//				axios.post('/voucher/voucherCancel.proc', formdata,{
-//					  headers: {
-//						'Content-Type': 'multipart/form-data'
-//					  }
-//					}).then((response) => {
-//					if (response.data.resultCd == '00') {
-//				      	alert('정상처리 되었습니다.');
-//						location.href = '/voucher/saleList.view';
-//				    }
-//				});	
-//			}
-//			
-//			acceessableCount = acceessableCount + 1;
-// 			
-//        } else {
-//			alert('항목을 올바르게 입력해주세요.');
-//		}
-//        
-//      });
-//    }
+    }
   }
 }); 
 
@@ -119,10 +105,18 @@ $('#storeId').change(function(){
 	location.href = '/voucher/saleList.view?storeId=' + $('#storeId').val();
 });
 
+function setVoucherTimeModify(voucherNo, name, ticketName, timeLeftHour, useTime){
+	vm.voucherNo = voucherNo;
+	vm.name = name;
+	vm.ticketName    = ticketName;
+	vm.timeLeftHour  = timeLeftHour;
+	vm.useTime = useTime;
+}
+
 function setVoucherExtension(voucherNo, name, endDate){
+	vm.voucherNo = voucherNo;
 	vm.name = name;
 	vm.endDate = endDate;
-	vm.voucherNo = voucherNo;
 }
 
 function setVoucherCancel(voucherNo, name, endDate, ticketName, timeLeftHour, salePrice, promotionName){

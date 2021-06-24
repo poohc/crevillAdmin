@@ -19,6 +19,7 @@ public class MemberVo {
 	private String parentSex;
 	private String parentCellPhone;
 	private String childName;
+	private String engName;
 	private String birthday;
 	private String sex;
 	private String learningGrade;

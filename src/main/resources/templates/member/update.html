@@ -106,6 +106,15 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
+										<label class="col-form-label-sm" for="colFormLabelSm28">아동-영어이름</label>
+										<input class="form-control form-control-lg" v-validate="'required'" th:id="'engName' + ${i.index}" name="engName" type="text" placeholder="아동영어이름" th:value="${info.engName}">
+										<label class="col-form-label-sm" th:for="'engName' + ${i.index}" v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
 										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" th:id="'birthday' + ${i.index}" name="birthday" type="text" th:value="${info.birthday}">
 										<label class="col-form-label-sm" th:for="'birthday' + ${i.index}" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
@@ -139,7 +148,12 @@
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0">
 										<div class="checkbox checkbox-dark" th:each="learningGrade, id: ${learningGradeList}">
-											<input v-validate="'required'" th:id="'learningGrade' + ${i.index} + ${id.index}" type="checkbox" th:name="'learningGrade' + ${i.index}" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(info.checkedlearningGradeList,learningGrade.codeValue)}">
+											<th:block th:if="${info.checkedlearningGradeList != null}">
+											<input th:id="'learningGrade' + ${i.index} + ${id.index}" type="checkbox" th:name="'learningGrade' + ${i.index}" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(info.checkedlearningGradeList,learningGrade.codeValue)}">
+											</th:block>
+											<th:block th:unless="${info.checkedlearningGradeList != null}">
+											<input th:id="'learningGrade' + ${i.index} + ${id.index}" type="checkbox" th:name="'learningGrade' + ${i.index}" th:value="${learningGrade.codeValue}">
+											</th:block>
 											<label th:for="'learningGrade' + ${i.index} + ${id.index}" th:text="${learningGrade.codeValue}"></label>
 										</div>
 										<label class="col-form-label-sm" th:for="'learningGrade' + ${i.index}" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>

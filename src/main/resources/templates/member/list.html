@@ -94,10 +94,11 @@
 		<div class="container-fluid">
             <div class="row">
 				<div class="col-lg-4">
-					<select id="" name="" class="form-control btn-square">
+					<select id="storeId" name="storeId" class="form-control btn-square">
+						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 						<option value="">전체</option>
-                        <option value="">판교점</option>
-                        <option value="">천안점</option>
+						</th:block>
+						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
 					</select>
 				</div>
 			</div><br>

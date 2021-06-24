@@ -35,6 +35,7 @@ Vue.use(VeeValidate, {
 			  detailAddress : '상세주소',
 			  cellPhone : '전화번호',
 			  childName : '아동이름',
+			  engName : '아동영어이름',
 			  birthday : '생년월일',
 			  sex : '성별',
 			  learningGrade : '영어학습수준'
@@ -87,6 +88,12 @@ new Vue({
 				});
 				childName = childName.substr(0, childName.length - 1);
 				
+				var engName = '';
+				$("input[name=engName]").each(function() {
+					engName += $(this).val() + ',';
+				});
+				engName = engName.substr(0, engName.length - 1);
+				
 				var birthday = '';
 				$("input[name=birthday]").each(function() {
 					birthday += $(this).val() + ',';
@@ -107,6 +114,7 @@ new Vue({
 									            address : $('#roadAddress').val() + ' | ' + $('#detailAddress').val(),
 									            cellPhone : $('#cellPhone').val(),
 									            childName : childName,
+												engName : engName,
 									            birthday : birthday,
 									            sex : sex,
 									            learningGrade : learningGrade,
