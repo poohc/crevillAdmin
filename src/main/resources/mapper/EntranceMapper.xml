@@ -23,7 +23,9 @@
 			   D.NAME CHILD_NAME,
 			   E.NAME PLAY_NAME,
 			   C.QR_CODE MEMBER_QR_CODE,
-			   (SELECT COUNT(*) FROM SCHEDULE_ENTRANCE_MEMBER SEM WHERE SEM.SCHEDULE_ID = A.SCHEDULE_ID AND C.QR_CODE = SEM.MEMBER_QR_CODE) ENTRANCE_COUNT
+			   (SELECT COUNT(*) FROM SCHEDULE_ENTRANCE_MEMBER SEM WHERE SEM.SCHEDULE_ID = A.SCHEDULE_ID AND C.QR_CODE = SEM.MEMBER_QR_CODE) ENTRANCE_COUNT,
+			   CASE WHEN (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = A.VOUCHER_NO) = '1회권' OR (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = A.VOUCHER_NO) = 'BASIC' THEN '후불'
+			        ELSE '' END AS ADD_TEXT
           FROM RESERVATION A,
                SCHEDULE B,
                MEMBER_PARENT C,
@@ -36,7 +38,15 @@
            AND A.CELL_PHONE = C.CELL_PHONE 
            AND C.CELL_PHONE = D.PARENT_CELL_PHONE
            AND B.PLAY_ID = E.PLAY_ID 
+           <if test="searchType != null and searchType == 'BEFORE_ONEHOUR'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 1 HOUR),'%Y%m%d%H')
+           </if>
+           <if test="searchType != null and searchType == 'NOW'.toString()">
            AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H')
+           </if>
+           <if test="searchType != null and searchType == 'AFTER_ONEHOUR'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL + 1 HOUR),'%Y%m%d%H')
+           </if>
     </select>
 	
 	<select id="selectEntranceInfo" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">

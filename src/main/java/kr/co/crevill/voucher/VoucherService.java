@@ -194,6 +194,9 @@ public class VoucherService {
 		voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		if(voucherMapper.updateVoucher(voucherDto) > 0) {
+			voucherDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+			voucherDto.setUpdateValue(voucherDto.getUseTime());
+			voucherMapper.insertVoucherUpdateLog(voucherDto);
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;

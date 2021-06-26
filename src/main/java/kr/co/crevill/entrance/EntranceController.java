@@ -35,6 +35,8 @@ public class EntranceController {
 		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH")));
+		mav.addObject("beforeTime", LocalDateTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("HH")));
+		mav.addObject("afterTime", LocalDateTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("HH")));
 		entranceDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		
 		if(entranceDto.getStoreId() == null) {
@@ -42,7 +44,12 @@ public class EntranceController {
 		} else {
 			mav.addObject("storeId", entranceDto.getStoreId());
 		}
+		entranceDto.setSearchType("NOW");
 		mav.addObject("list", entranceService.selectEntranceList(entranceDto));
+		entranceDto.setSearchType("BEFORE_ONEHOUR");
+		mav.addObject("listBefore", entranceService.selectEntranceList(entranceDto));
+		entranceDto.setSearchType("AFTER_ONEHOUR");
+		mav.addObject("listAfter", entranceService.selectEntranceList(entranceDto));
 		return mav;
 	}
 	

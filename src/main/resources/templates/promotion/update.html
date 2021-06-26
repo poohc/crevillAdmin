@@ -48,17 +48,21 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+<!-- 										<div class="radio radio-primary"> -->
+<!-- 											<input id="promotionType1" type="radio" name="promotionType" value="DISCOUNT" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT'}"> -->
+<!-- 											<label class="mb-0" for="promotionType1">금액할인</label> -->
+<!-- 										</div> -->
+<!-- 										<div class="radio radio-primary"> -->
+<!-- 											<input id="promotionType2" type="radio" name="promotionType" value="ADD_TIME" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'ADD_TIME'}"> -->
+<!-- 											<label class="mb-0" for="promotionType2">시간추가</label> -->
+<!-- 										</div> -->
+<!-- 										<div class="radio radio-primary"> -->
+<!-- 											<input id="promotionType3" type="radio" name="promotionType" value="DISCOUNT_PER" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT_PER'}"> -->
+<!-- 											<label class="mb-0" for="promotionType3">%할인</label> -->
+<!-- 										</div> -->
 										<div class="radio radio-primary">
-											<input id="promotionType1" type="radio" name="promotionType" value="DISCOUNT" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT'}">
-											<label class="mb-0" for="promotionType1">금액할인</label>
-										</div>
-										<div class="radio radio-primary">
-											<input id="promotionType2" type="radio" name="promotionType" value="ADD_TIME" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'ADD_TIME'}">
-											<label class="mb-0" for="promotionType2">시간추가</label>
-										</div>
-										<div class="radio radio-primary">
-											<input id="promotionType3" type="radio" name="promotionType" value="DISCOUNT_PER" v-validate="'required|included:DISCOUNT,ADD_TIME,DISCOUNT_PER'" th:checked="${info.promotionType == 'DISCOUNT_PER'}">
-											<label class="mb-0" for="promotionType3">%할인</label>
+											<input id="promotionType3" type="radio" name="promotionType" value="ADD_TIME_PER" v-validate="'required'" th:checked="${info.promotionType == 'promotionType'}">
+											<label class="mb-0" for="promotionType3">%시간추가</label>
 										</div>
 									</div>
 									<label class="col-form-label-sm" for="promotionType" v-if="errors.has('promotionType')">{{ errors.first('promotionType') }}</label>

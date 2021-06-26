@@ -32,4 +32,6 @@ public class VoucherDto {
 	private String scheduleId;
 	private String expireMonth;
 	private String memo;
+	private String updateBeforeValue;
+	private String updateValue;
 }

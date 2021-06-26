@@ -36,4 +36,5 @@ public interface VoucherMapper {
 	public int deleteVoucherProduct(VoucherDto voucherDto);
 	public int deleteVoucherProductAttribute(VoucherDto voucherDto);
 	public int deleteVoucherAttribute(VoucherDto voucherDto);
+	public int insertVoucherUpdateLog(VoucherDto voucherDto);
 }

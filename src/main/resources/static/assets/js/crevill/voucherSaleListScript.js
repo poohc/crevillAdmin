@@ -40,6 +40,7 @@ var vm = new Vue({
 				if(scope == 'modify'){
 					var formdata = new FormData();
 					formdata.append("voucherNo", $('#voucherNo').val());
+					formdata.append("updateBeforeValue", vm.useTime);
 					formdata.append("useTime", $('#useTime').val());
 					
 					axios.post('/voucher/voucherTimeUpdate.proc', formdata,{

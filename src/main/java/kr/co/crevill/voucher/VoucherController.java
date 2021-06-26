@@ -142,7 +142,7 @@ public class VoucherController {
 	@ResponseBody
 	public JSONObject voucherTimeUpdate(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		JSONObject result = new JSONObject();
-		result = voucherService.voucherValidUpdate(voucherDto, request);
+		result = voucherService.voucherTimeUpdate(voucherDto, request);
 		return result;
 	}
 	

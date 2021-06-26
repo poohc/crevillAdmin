@@ -36,4 +36,5 @@ public class EntranceDto {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private String searchType;
 }

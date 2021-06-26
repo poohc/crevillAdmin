@@ -12,6 +12,44 @@
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-header">
+							<h5 th:text="|${beforeTime}시|"></h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-xl-4 col-md-6" th:each="list : ${listBefore}">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<th:block th:if="${list.childName != null}">
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<th:block th:if="${list.voucherNo == 'FREE'}">	
+														<h6 th:text="|고객명(${list.childName}) 무료체험신청고객|"></h6>
+													</th:block>
+													<th:block th:unless="${list.voucherNo == 'FREE'}">
+														<h6 th:text="|고객명(${list.childName})|"></h6>
+													</th:block>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">클래스</div>
+													<span th:text="| : ${list.playName}|"></span>
+												</div>
+												<div class="avaiabilty">
+													<div class="text-success" th:text="${list.scheduleTime}"></div>
+												</div>
+											</div>
+											</th:block>
+											<th:block th:unless="${list.childName != null}">
+											<div class="media-body ml-3">
+												예약데이터가 없습니다.
+											</div>
+											</th:block>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="card-header">
 							<h5 th:text="|${currentTime}시|"></h5>
                             <p>시간안에 입장하지 않으면 NOSHOW 처리</p>
 							<!--현재 시간 기준으로 변경 시간대로 예약자 데이터 불러옴-->
@@ -48,7 +86,6 @@
 												<div class="avaiabilty">
 													<div class="text-success" th:text="${list.scheduleTime}"></div>
 												</div>
-												
 												<th:block th:if="${list.entranceCount == '0'}">
 													<a class="btn btn-primary btn-xs" th:attr="onclick=|entrance('${list.reservationId}')|" id="entranceText" style="color:white;">입장전</a>
 												</th:block>
@@ -67,6 +104,45 @@
 								</div>
 							</div>
 						</div>
+						
+						<div class="card-header">
+							<h5 th:text="|${afterTime}시|"></h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-xl-4 col-md-6" th:each="list : ${listAfter}">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<th:block th:if="${list.childName != null}">
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<th:block th:if="${list.voucherNo == 'FREE'}">	
+														<h6 th:text="|고객명(${list.childName}) 무료체험신청고객|"></h6>
+													</th:block>
+													<th:block th:unless="${list.voucherNo == 'FREE'}">
+														<h6 th:text="|고객명(${list.childName})|"></h6>
+													</th:block>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">클래스</div>
+													<span th:text="| : ${list.playName} ${list.addText}|"></span>
+												</div>
+												<div class="avaiabilty">
+													<div class="text-success" th:text="${list.scheduleTime}"></div>
+												</div>
+											</div>
+											</th:block>
+											<th:block th:unless="${list.childName != null}">
+											<div class="media-body ml-3">
+												예약데이터가 없습니다.
+											</div>
+											</th:block>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
 					</div>
 				</div>
 			</div>

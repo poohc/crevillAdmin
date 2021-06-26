@@ -511,5 +511,22 @@
 		  FROM VOUCHER_ATTRIBUTE
 		 WHERE PRODUCT_NO = #{voucherNo} 
 	</delete>
+	
+	<insert id="insertVoucherUpdateLog" parameterType="kr.co.crevill.voucher.VoucherDto">
+		INSERT INTO VOUCHER_UPDATE_LOG(
+									   VOUCHER_NO,
+									   UPDATE_BEFORE_VALUE,
+									   UPDATE_VALUE,
+									   REG_ID,
+									   REG_DATE
+									  )
+							   VALUES (
+							   		   #{voucherNo},
+									   #{updateBeforeValue},
+									   #{updateValue},
+									   #{regId},
+									   NOW()	
+							   		  ) 
+	</insert>
 		
 </mapper>
