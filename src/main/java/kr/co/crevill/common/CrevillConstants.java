@@ -19,6 +19,7 @@ public class CrevillConstants {
 	public static final String STAFF_STATUS_ACTIVE = "A";
 	public static final String STAFF_STATUS_INACTIVE = "I";
 	public static final String STAFF_STATUS_VACATION = "V";
+	public static final String MEMBER_STATUS_INACTIVE = "I";
 	public static final String VOUCHER_PRODUCT_STATUS_ACTIVE = "A";
 	public static final String VOUCHER_PRODUCT_STATUS_INACTIVE = "I";
 	public static final String NOTICE_BRANCHES = "BRANCHES";

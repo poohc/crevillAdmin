@@ -26,13 +26,24 @@
                                     </div>
                                 </div><br>
                                 <select class="form-control form-control-sm" id="voucherNo" name="voucherNo">
-                                    <option th:each="voucherList : ${voucherList}"
-	                                        th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|"
+                                    <th:block th:each="voucherList : ${voucherList}">
+                                    <th:block th:if="${voucherList.ticketName != 'BASIC'}">
+                                    <option th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|"
 	                                        th:value="${voucherList.voucherNo}"
 	                                        th:selected="${voucherList.voucherNo == voucherNo}"
 	                                        th:data-endDate="${voucherList.endDate}"
 	                                        th:data-valid="${voucherList.isValid}">
                                     </option>
+                                    </th:block>
+                                    <th:block th:unless="${voucherList.ticketName != 'BASIC'}">
+                                    <option th:text="|${voucherList.ticketName}"
+	                                        th:value="${voucherList.voucherNo}"
+	                                        th:selected="${voucherList.voucherNo == voucherNo}"
+	                                        th:data-endDate="${voucherList.endDate}"
+	                                        th:data-valid="${voucherList.isValid}">
+                                    </option>
+                                    </th:block>
+                                    </th:block>
                                 </select><br>
                                 <span class="badge bg-primary" id="endDateSpan"></span>
                                 <span class="badge bg-danger" id="validSpan" style="display: none;"></span>

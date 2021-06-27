@@ -147,11 +147,13 @@ public class MemberService {
 	public JSONObject deleteMemberInfo(MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		//2021.06.27 회원탈퇴 프로세스 변경, AS-IS : 모두삭제, TO-BE : 부모회원 상태변경, 나머지 삭제
 		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
-			if(memberMapper.deleteMemberParent(memberDto) > 0) {
-				if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
-				}	
+			if(memberMapper.deleteMemberChildrenGrade(memberDto) >= 0) {
+				memberDto.setStatus(CrevillConstants.MEMBER_STATUS_INACTIVE);
+				if(memberMapper.updateMemberParent(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
+				}
 			}
 		}
 		return result;

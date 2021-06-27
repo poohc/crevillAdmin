@@ -214,21 +214,22 @@ function getVoucherList(){
 
 function setPromotion(){
 	$("select[name='promotionId'] option").remove();
-	$("#promotionId").append('<option value="">프로모션 없음</option>');
 	$.ajax({
 			type : "POST",
 			data: {
-		            storeId : $("#usedChildrenName").data('memberStoreId')
+		            storeId : $('#storeId').val()
 		    },
 			url : '/promotion/getPromotionList.proc',
 			success : function(data){
 				
 				if(data.length > 0){
+					$("#promotionId").append('<option value="">선택</option>');
 					for(var i=0; i < data.length; i++){
 						$("#promotionId").append('<option value="' + data[i].promotionId + '">' + data[i].promotionName + '</option>');
 					}	
 				} else {
 //					alert('사용가능한 프로모션이 없습니다.');
+					$("#promotionId").append('<option value="">프로모션 없음</option>');
 					return false;	
 				}
 								

@@ -139,9 +139,11 @@
 												<th:block th:if="${memberList.voucherCount != '0'}">
 												<span class="badge badge-secondary" th:attr="onclick=|memberVoucherUseList('${memberList.cellPhone}')|"><font style="cursor: hand;">바우처 사용이력</font></span>
 												</th:block>
+												<th:block th:if="${memberList.status != 'Inactive'}">
 												<a href="" type="button" th:attr="onclick=|deleteMemberInfo('${memberList.qrCode}','${memberList.cellPhone}')|">
 													<span class="badge badge-warning">탈퇴</span>
 												</a>
+												</th:block>
 											</td>
 										</tr>
 									</tbody>

@@ -1,5 +1,5 @@
 $('#searchBtn').click(function() {
-	location.href = "/reservation/list.view?scheduleStart=" + $('input[name="scheduleStart"]').val();   
+	location.href = '/reservation/list.view?storeId=' + $('#storeId').val() + '&scheduleStart=' + $('input[name="scheduleStart"]').val();   
 });
 
 $('input[name="scheduleStart"]').daterangepicker({
@@ -44,5 +44,5 @@ function cancel(reservationId, voucherUseId){
 }
 
 $('#storeId').change(function(){
-	location.href = '/reservation/list.view?storeId=' + $('#storeId').val();
+	location.href = '/reservation/list.view?storeId=' + $('#storeId').val() + '&scheduleStart=' + $('input[name="scheduleStart"]').val();
 });

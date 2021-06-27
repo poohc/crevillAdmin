@@ -7,6 +7,7 @@
         SELECT COUNT(*)
           FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone}
+           AND STATUS = 'A'
          <if test="cellPhone != null and cellPhone != ''">
            AND CELL_PHONE != #{cellPhone}
          </if>
@@ -39,6 +40,7 @@
 		                          ON A.CELL_PHONE = C.BUY_CELL_PHONE,
 		               STORE B
 		         WHERE A.STORE_ID = B.STORE_ID 
+		           AND A.STATUS = 'A'
 		          <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		           AND A.STORE_ID = #{storeId}
 		         </if>
@@ -73,6 +75,7 @@
 				   AND C.TIME_LEFT_HOUR <![CDATA[ > ]]> 0
 				   AND A.BUY_CELL_PHONE = D.CELL_PHONE 
 				   AND D.STORE_ID = E.STORE_ID
+				   AND D.STATUS = 'A'
 		   		) SUB
     </select>
 	
@@ -117,6 +120,8 @@
 		                   		  ON D.STORE_ID = B.STORE_ID 
 		          <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
 		         WHERE A.STORE_ID = #{storeId}
+		           AND A.STATUS = 'A'
+		           AND D.STATUS = 'A'
 		         </if>
 		         UNION ALL
 		        SELECT D.NAME,
@@ -149,6 +154,7 @@
 				   AND C.TIME_LEFT_HOUR <![CDATA[ > ]]> 0
 				   AND A.BUY_CELL_PHONE = D.CELL_PHONE 
 				   AND D.STORE_ID = E.STORE_ID
+				   AND D.STATUS = 'A'
 		   		) SUB
 	     GROUP BY CELL_PHONE		   		
     </select>
@@ -167,7 +173,7 @@
                (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN B, MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
                A.STORE_ID
           FROM MEMBER_PARENT A
-        <where>
+         WHERE A.STATUS = 'A'
            <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
@@ -179,8 +185,7 @@
            </if>
            <if test="cellPhone != null and cellPhone != ''">
            AND A.CELL_PHONE = #{cellPhone}
-           </if>
-	    </where>           
+           </if>           
     </select>
 	
 	<select id="getMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -193,7 +198,7 @@
                QR_CODE,
                STORE_ID
           FROM MEMBER_PARENT
-        <where>
+         WHERE STATUS = 'A'
            <if test="qrCode != null and qrCode != ''">
            AND QR_CODE = #{qrCode}
            </if>
@@ -203,7 +208,6 @@
            <if test="cellPhone != null and cellPhone != ''">
            AND CELL_PHONE = #{cellPhone}
            </if>
-        </where>
     </select>
 	
 	<select id="selectUpdateChildList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -235,12 +239,11 @@
                B.NAME CHILD_NAME
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
-        <where>
+         WHERE A.STATUS = 'A'
            <if test="cellPhone != null and cellPhone != ''">
            AND A.CELL_PHONE = #{cellPhone}
            </if>
            AND A.CELL_PHONE = B.PARENT_CELL_PHONE
-        </where>
     </select>
 	
     <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
@@ -322,6 +325,7 @@
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
 	       	  <if test="storeId != null">STORE_ID = #{storeId},</if>
+	       	  <if test="status != null">STATUS = #{status},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
@@ -369,6 +373,7 @@
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = #{cellPhone}
+           AND A.STATUS = 'A'
            <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
@@ -377,10 +382,10 @@
     </select>
 	
 	<select id="selectMemberCountInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) ,0) ,0)  MEMBER_PARENT_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
-		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT <where><if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if></where>) - (SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
+		SELECT FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT WHERE STATUS = 'A' <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if>) ,0) ,0)  MEMBER_PARENT_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_CHILDREN A, MEMBER_PARENT B WHERE A.PARENT_CELL_PHONE = B.CELL_PHONE AND B.STATUS = 'A' <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND B.STORE_ID = #{storeId}</if>) ,0), 0) MEMBER_CHILDREN_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE M.STATUS = 'A' AND V.TICKET_NAME != 'BASIC' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>), 0) ,0) NV_MEMBER_COUNT,
+		       FORMAT(IFNULL((SELECT COUNT(*) FROM MEMBER_PARENT WHERE STATUS = 'A' <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND STORE_ID = #{storeId}</if>) - (SELECT COUNT(DISTINCT M.CELL_PHONE) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U, MEMBER_PARENT M WHERE M.STATUS = 'A' AND V.TICKET_NAME != 'BASIC' AND VS.BUY_CELL_PHONE = M.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0 <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">AND V.STORE_ID = #{storeId}</if>) ,0) ,0) VOUCHER_MEMBER_COUNT
 	</select>
 		
 </mapper>

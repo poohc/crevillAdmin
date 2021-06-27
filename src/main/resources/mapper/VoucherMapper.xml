@@ -211,6 +211,7 @@
 		   AND B.BUY_CELL_PHONE = #{cellPhone}
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
 		   AND D.PARENT_CELL_PHONE = E.CELL_PHONE
+		   AND E.STATUS = 'A'
 	  GROUP BY A.VOUCHER_NO
 	</select>
 	
@@ -244,6 +245,7 @@
 		   AND A.VOUCHER_NO = B.VOUCHER_NO 
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = D.CELL_PHONE 
+		   AND D.STATUS = 'A'
 		   AND D.CELL_PHONE = E.PARENT_CELL_PHONE
 		   AND R.SCHEDULE_ID = F.SCHEDULE_ID
 		   AND R.RESERVATION_ID = C.RESERVATION_ID
@@ -282,11 +284,12 @@
 		       MEMBER_PARENT C,
 		       VOUCHER_USE_VIEW D
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
-		   AND A.TICKET_NAME != '1회권'
+		   AND A.TICKET_NAME != 'BASIC'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>
 		   AND B.BUY_CELL_PHONE = C.CELL_PHONE
+		   AND C.STATUS = 'A'
 		   AND B.VOUCHER_NO = D.VOUCHER_NO		   
 	</select>
 	
