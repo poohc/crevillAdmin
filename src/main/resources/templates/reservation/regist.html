@@ -87,7 +87,7 @@
                                                     <label class="col-form-label-sm" for="scheduleId" v-if="errors.has('scheduleId')">{{ errors.first('scheduleId') }}</label>
                                                     <br />
                                                     <label for="tutoringYn">튜터링선택</label>
-                                                    <select class="form-control form-control-lg" v-validate="'required'" id="tutoringYn" name="tutoringYn">
+                                                    <select class="form-control form-control-lg" id="tutoringYn" name="tutoringYn">
                                                     </select>
                                                     <label class="col-form-label-sm" for="tutoringYn" v-if="errors.has('tutoringYn')">{{ errors.first('tutoringYn') }}</label>
                                                     <button class="btn btn-success pull-right" type="submit">완료</button>

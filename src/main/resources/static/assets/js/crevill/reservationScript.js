@@ -36,7 +36,7 @@ var listVm = new Vue({
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
 			
-				if($('#scheduleId').val() != 'N' && $('#tutoringYn').val() != 'N'){
+				if($('#scheduleId').val() != 'N' && $('#tutoringYn').val() == 'Y'){
 					alert('클래스와 튜터링은 동시에 선택할 수는 없습니다.');
 					acceessableCount = 1;
 					return false;
