@@ -284,7 +284,7 @@
 		       MEMBER_PARENT C,
 		       VOUCHER_USE_VIEW D
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
-		   AND A.TICKET_NAME != 'BASIC'
+		   AND A.TICKET_NAME != '1회권'
 		   <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND A.STORE_ID = #{storeId}
            </if>

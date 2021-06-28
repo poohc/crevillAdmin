@@ -27,7 +27,7 @@
                                 </div><br>
                                 <select class="form-control form-control-sm" id="voucherNo" name="voucherNo">
                                     <th:block th:each="voucherList : ${voucherList}">
-                                    <th:block th:if="${voucherList.ticketName != 'BASIC'}">
+                                    <th:block th:if="${voucherList.ticketName != '1회권'}">
                                     <option th:text="|${voucherList.ticketName} / 잔여 : ${voucherList.timeLeftHour}|"
 	                                        th:value="${voucherList.voucherNo}"
 	                                        th:selected="${voucherList.voucherNo == voucherNo}"
@@ -35,7 +35,7 @@
 	                                        th:data-valid="${voucherList.isValid}">
                                     </option>
                                     </th:block>
-                                    <th:block th:unless="${voucherList.ticketName != 'BASIC'}">
+                                    <th:block th:unless="${voucherList.ticketName != '1회권'}">
                                     <option th:text="|${voucherList.ticketName}"
 	                                        th:value="${voucherList.voucherNo}"
 	                                        th:selected="${voucherList.voucherNo == voucherNo}"

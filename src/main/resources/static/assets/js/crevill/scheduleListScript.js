@@ -15,8 +15,8 @@ var vm = new Vue({
 				return false;
 			}
 		
-			if ($('#tutoringNumber').val() < 1) {
-				alert('튜터링 정원은 0보다 커야 합니다.');
+			if ($('#tutoringNumber').val() < 0) {
+				alert('튜터링 정원은 0이상이어야 합니다.');
 				return false;
 			}
 			formdata.append("numberOfPeople", $('#numberOfPeople').val());

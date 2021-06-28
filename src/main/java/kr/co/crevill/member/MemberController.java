@@ -60,6 +60,9 @@ public class MemberController {
 		StoreDto storeDto = new StoreDto();
 		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		if(memberDto.getStoreId() == null) {
+			memberDto.setStoreId(storeDto.getStoreId());
+		}
 		mav.addObject("countInfo", memberService.selectMemberCountInfo(memberDto));
 		mav.addObject("memberList", memberService.selectMemberList(memberDto));
 		mav.addObject("storeId", memberDto.getStoreId());
