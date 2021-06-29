@@ -10,8 +10,9 @@ var vm = new Vue({
 		updateSchedule(scheduleId) {
 			var formdata = new FormData();
 			formdata.append("scheduleId", scheduleId);
-			if ($('#numberOfPeople').val() < 1) {
-				alert('클래스 정원은 0보다 커야 합니다.');
+			//클래스 정원, 튜터링 정원 0설정 가능하도록 수정요청 =ㅅ= 2021.06.28, 2021.06.29
+			if ($('#numberOfPeople').val() < 0) {
+				alert('클래스 정원은 0이상이어야 합니다.');
 				return false;
 			}
 		

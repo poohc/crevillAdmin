@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/entranceScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<div class="container-fluid">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-6">
+						<h3>클래스-스페셜캠프-CHECK-IN</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<select id="storeId" name="storeId" class="form-control btn-square">
+						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+						<option value="">매장선택</option>
+						</th:block>
+						<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+					</select>
+				</div>
+				<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#nonMemberEnterPopup" data-whatever="@getbootstrap">현장 비회원 입장</button>
+			</div>
+		</div>
+		<br>
+		<!-- Container-fluid starts-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body" th:each="titleList : ${titleList}">
+							<div class="row" style="font-size: 17px;">
+								<div class="card-title" style="padding-left: 10px;">
+									<i class="fa fa-clock-o"></i>TIME : 
+									<font color="red">
+										<span class="badge badge-success" th:text="${titleList.scheduleStart}"></span>
+									</font>
+								</div>
+								<div class="card-title" style="padding-left: 10px;">
+									<i class="fa fa-play"></i>예약정원 : 
+									<font color="red">
+										<span class="badge badge-primary" th:text="|${titleList.reservationCount}/${titleList.numberOfPeople}|">5/8</span>
+									</font>
+								</div>
+								<div class="card-title" style="padding-left: 10px;">
+									<i class="fa fa-home"></i>STORE :
+									<font color="blue" th:text="${titleList.storeNameShort}"></font>
+								</div>
+								<div class="card-title" style="padding-left: 10px;">
+									<i class="fa fa-book"></i>CLASS :
+									<font color="purple" th:text="${titleList.playName}"></font>
+								</div>
+								<div class="card-title" style="padding-left: 10px;">
+									<i class="fa fa-cube"></i>PROGRAM NAME :
+									<font color="red" th:text="${titleList.subTopic}"></font>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xl-3 col-md-6" th:each="list : ${list}" th:if="${titleList.scheduleId == list.scheduleId}">
+									<div class="prooduct-details-box">
+										<div class="media">
+											<th:block th:if="${list.entranceCount == '0'}">
+											<img class="align-self-center img-fluid img-60" th:src="@{/assets/images/ent_before.png}" alt="#">
+											</th:block>
+											<th:block th:unless="${list.entranceCount == '0'}">
+											<img class="align-self-center img-fluid img-60" th:src="@{/assets/images/ent_after.png}" alt="#">
+											</th:block>
+											<div class="media-body ml-3">
+												<div class="product-name">
+													<h6>
+														<a href="#" th:text="${list.childName}"></a>
+													</h6>
+													<!--영어이름 null이면 한글이름-->
+												</div>
+												<div class="rating">
+													<i class="fa fa-play"></i>
+													<i class="fa fa-play"></i>
+													<i class="fa fa-play"></i>
+													<i class="fa fa-play"></i>
+													<i class="fa fa-play"></i>
+												</div>
+												<div class="price d-flex">
+													<div class="text-muted mr-2">보호자</div>
+													<span th:text="|: ${list.name}|">:</span>
+												</div>
+												<th:block th:if="${list.addText == '후불'}">
+												<div class="ribbon ribbon-clip-right ribbon-right ribbon-white bg-dark">1회권 후불</div>
+												</th:block>
+												<!--만약 1회권이면 리본표시만- 돈은 알아서 받음-->
+												<div class="avaiabilty">
+													<div class="text-success">
+														<ion-icon name="call"></ion-icon>
+														<span th:text="${list.cellPhone}"></span>
+													</div>
+												</div>
+												<th:block th:if="${list.status == '05'}">
+												<a class="btn btn-danger btn-xs" href="#">예약취소</a>
+												</th:block>
+												<th:block th:unless="${list.status == '05'}">
+													<th:block th:if="${list.entranceCount == '0'}">
+													<a class="btn btn-primary btn-xs" href="#" th:attr="onclick=|entrance('${list.reservationId}')|">입장대기</a>
+													</th:block>
+													<th:block th:unless="${list.entranceCount == '0'}">
+													<a class="btn btn-danger btn-xs" href="#">입장완료</a>
+													</th:block>
+													<i class="close" data-feather=""></i>
+												</th:block>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="nonMemberEnterPopup" tabindex="-1" role="dialog" aria-labelledby="nonMemberEnterPopupLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<form class="form theme-form" id="nonMemberEnterForm" @submit.prevent="validateBeforeSubmit" action="/entrance/nonMemberEntrance.proc" method="post" enctype="multipart/form-data">
+							<div class="modal-header">
+								<h5 class="modal-title">비회원 입장등록</h5>
+								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">
+									<div class="form-group">
+										<label class="col-form-label" for="parentCellPhone">보호자 연락처</label>
+										<input class="form-control" type="text" v-validate="'required'" id="parentCellPhone" name="parentCellPhone">
+										<label class="col-form-label" for="parentCellPhone" v-if="errors.has('parentCellPhone')">{{ errors.first('parentCellPhone') }}</label>
+										
+										<label class="col-form-label" for="childName">아동명</label>
+										<input class="form-control" type="text" v-validate="'required'" id="childName" name="childName">
+										<label class="col-form-label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+										
+										<label class="col-form-label" for="recipient-name">아동생년월일</label>
+										<input class="form-control" type="date" v-validate="'required'" id="birthday" name="birthday">
+										<label class="col-form-label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+										
+										<label class="col-form-label" for="entranceTime">이용시간</label>
+										<select id="entranceTime" name="entranceTime" class="form-control btn-square">
+											<th:block th:each="num : ${#numbers.sequence(10,20)}">
+												<option th:value="${num}" th:text="|${num}:00|"></option>
+											</th:block>
+										</select>
+										<label class="col-form-label" for="entranceTime" v-if="errors.has('entranceTime')">{{ errors.first('entranceTime') }}</label>
+										
+										<label class="col-form-label" for="price">이용금액</label>
+										<input class="form-control" type="number" id="price" name="price">
+										<label class="col-form-label" for="price" v-if="errors.has('price')">{{ errors.first('price') }}</label>
+									</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
+								<button class="btn btn-primary" type="submit">입장처리</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

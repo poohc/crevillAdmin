@@ -3,10 +3,48 @@
 
 <mapper namespace="kr.co.crevill.entrance.EntranceMapper">
 	
+	<select id="selectEntranceTitleList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
+		SELECT B.SCHEDULE_ID,
+			   B.NUMBER_OF_PEOPLE,
+			   DATE_FORMAT(B.SCHEDULE_START,'%H:%i') SCHEDULE_START, 
+		       (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'N' AND R.STATUS = '02') RESERVATION_COUNT,
+			   (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'Y' AND R.STATUS = '02') TUTORING_RESERVATION_COUNT,
+			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME_SHORT,
+			   (SELECT NAME FROM PLAY PL WHERE B.PLAY_ID = PL.PLAY_ID) PLAY_NAME,
+			   B.SUB_TOPIC
+          FROM RESERVATION A,
+               SCHEDULE B
+         WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if>
+           <if test="isTutoringYn != null and isTutoringYn == 'N'.toString()">
+           AND A.TUTORING_YN = 'N'
+           </if>
+           <if test="isTutoringYn != null and isTutoringYn == 'Y'.toString()">
+           AND A.TUTORING_YN = 'Y'
+           </if>
+           <if test="searchType != null and searchType == 'TODAY'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d')
+           </if> 
+           <if test="searchType != null and searchType == 'BEFORE_ONEHOUR'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 1 HOUR),'%Y%m%d%H')
+           </if>
+           <if test="searchType != null and searchType == 'NOW'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H')
+           </if>
+           <if test="searchType != null and searchType == 'AFTER_ONEHOUR'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL + 1 HOUR),'%Y%m%d%H')
+           </if>
+      GROUP BY A.SCHEDULE_ID
+      ORDER BY B.SCHEDULE_ID, B.SCHEDULE_START 
+	</select>
+	
 	<select id="selectEntranceList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
         SELECT A.RESERVATION_ID,
-			   CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+        	   CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
             	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME_SHORT,
 			   A.VOUCHER_NO,
 			   A.SCHEDULE_ID,
 			   CONCAT(DATE_FORMAT(B.SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(B.SCHEDULE_END,'%H:%i')) SCHEDULE_TIME, 
@@ -17,28 +55,32 @@
 			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
-			   COUNT(*) RESERVATION_CNT,
-			   FORMAT(((COUNT(*) / B.NUMBER_OF_PEOPLE) * 100), 0) AS RESERVATION_PER,
-			   DATE_FORMAT(B.SCHEDULE_START,'%H%i') SCHEDULE_START,
-			   D.NAME CHILD_NAME,
-			   E.NAME PLAY_NAME,
-			   C.QR_CODE MEMBER_QR_CODE,
-			   (SELECT COUNT(*) FROM SCHEDULE_ENTRANCE_MEMBER SEM WHERE SEM.SCHEDULE_ID = A.SCHEDULE_ID AND C.QR_CODE = SEM.MEMBER_QR_CODE) ENTRANCE_COUNT,
-			   CASE WHEN (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = A.VOUCHER_NO) = '1회권' OR (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = A.VOUCHER_NO) = '1회권' THEN '후불'
-			        ELSE '' END AS ADD_TEXT
+			   (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'N' AND R.STATUS = '02') RESERVATION_COUNT,
+			   (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'Y' AND R.STATUS = '02') TUTORING_RESERVATION_COUNT,
+			   DATE_FORMAT(B.SCHEDULE_START,'%H:%i') SCHEDULE_START,
+			   CASE WHEN IFNULL((SELECT ENG_NAME FROM MEMBER_CHILDREN MC WHERE MC.PARENT_CELL_PHONE = A.CELL_PHONE AND A.CHILD_NAME = MC.NAME), '0') != '0' THEN (SELECT ENG_NAME FROM MEMBER_CHILDREN MC WHERE MC.PARENT_CELL_PHONE = A.CELL_PHONE AND A.CHILD_NAME = MC.NAME)   
+			        ELSE A.CHILD_NAME END AS CHILD_NAME,
+			   (SELECT NAME FROM PLAY PL WHERE B.PLAY_ID = PL.PLAY_ID) PLAY_NAME,
+			   (SELECT NAME FROM MEMBER_PARENT P WHERE A.CELL_PHONE = P.CELL_PHONE AND P.STATUS = 'A') NAME,
+			   (SELECT COUNT(*) FROM SCHEDULE_ENTRANCE_MEMBER SEM, MEMBER_PARENT P WHERE SEM.RESERVATION_ID = A.RESERVATION_ID AND P.QR_CODE = SEM.MEMBER_QR_CODE AND P.STATUS = 'A') ENTRANCE_COUNT,
+			   CASE WHEN (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = A.VOUCHER_NO) = '1회권' THEN '후불'
+			        ELSE '' END AS ADD_TEXT,
+			   B.SUB_TOPIC    
           FROM RESERVATION A,
-               SCHEDULE B,
-               MEMBER_PARENT C,
-               MEMBER_CHILDREN D,
-               PLAY E
+               SCHEDULE B
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
            <if test="storeId != null and storeId != 'CST00001'.toString()">
            AND B.STORE_ID = #{storeId}
            </if>
-           AND A.CELL_PHONE = C.CELL_PHONE 
-           AND C.CELL_PHONE = D.PARENT_CELL_PHONE
-           AND C.STATUS = 'A'
-           AND B.PLAY_ID = E.PLAY_ID 
+           <if test="isTutoringYn != null and isTutoringYn == 'N'.toString()">
+           AND A.TUTORING_YN = 'N'
+           </if>
+           <if test="isTutoringYn != null and isTutoringYn == 'Y'.toString()">
+           AND A.TUTORING_YN = 'Y'
+           </if>
+           <if test="searchType != null and searchType == 'TODAY'.toString()">
+           AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d')
+           </if> 
            <if test="searchType != null and searchType == 'BEFORE_ONEHOUR'.toString()">
            AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 1 HOUR),'%Y%m%d%H')
            </if>
@@ -48,6 +90,8 @@
            <if test="searchType != null and searchType == 'AFTER_ONEHOUR'.toString()">
            AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL + 1 HOUR),'%Y%m%d%H')
            </if>
+      GROUP BY A.RESERVATION_ID
+      ORDER BY B.SCHEDULE_ID, B.SCHEDULE_START     
     </select>
 	
 	<select id="selectEntranceInfo" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
@@ -137,25 +181,20 @@
 	</select>
 	
 	<select id="selectNonMemberEntranceList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
-		SELECT B.SCHEDULE_START,
-		       A.CHILD_NAME,
-		       DATE_FORMAT(STR_TO_DATE(A.CHILD_BIRTHDAY, '%Y%m%d'),'%Y-%m-%d') CHILD_BIRTHDAY,
-		       CASE WHEN A.CHILD_SEX = 'M' THEN '남'
-		            ELSE '여' END AS CHILD_SEX,
-		       CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
-		            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
-		       (SELECT STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
-		       C.NAME PLAY_NAME,
-		       A.SCHEDULE_ID, 
-		       (SELECT V.TICKET_NAME FROM VOUCHER V WHERE V.VOUCHER_NO = (SELECT R.VOUCHER_NO FROM RESERVATION R WHERE R.CELL_PHONE = A.CELL_PHONE AND R.SCHEDULE_ID = A.SCHEDULE_ID AND R.STATUS = '04')) TICKET_NAME,
-		       (SELECT V.PRICE FROM VOUCHER V WHERE V.VOUCHER_NO = (SELECT R.VOUCHER_NO FROM RESERVATION R WHERE R.CELL_PHONE = A.CELL_PHONE AND R.SCHEDULE_ID = A.SCHEDULE_ID AND R.STATUS = '04')) PRICE,
-		       (SELECT SI.NAME FROM STAFF_INFO SI WHERE SI.STAFF_ID = A.REG_ID) STAFF_NAME
-		  FROM SCHEDULE_ENTRANCE_MEMBER A,
-		       SCHEDULE B,
-		       PLAY C
-		 WHERE A.MEMBER_QR_CODE IS NULL
-		   AND A.SCHEDULE_ID = B.SCHEDULE_ID
-		   AND B.PLAY_ID = C.PLAY_ID
+		SELECT SEM_ID,
+			   CHILD_NAME,
+			   CELL_PHONE,
+			   CHILD_BIRTHDAY,
+			   DATE_FORMAT(STR_TO_DATE(CONCAT(DATE_FORMAT(REG_DATE,'%Y%m%d'),ENTRANCE_TIME), '%Y%m%d%H'), '%Y-%m-%d %H:%i')  ENTRANCE_TIME,
+			   PRICE,
+			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = SCHEDULE_ENTRANCE_MEMBER.STORE_ID) STORE_NAME_SHORT,
+			   SCHEDULE_TYPE,
+			   (SELECT SI.NAME FROM STAFF_INFO SI WHERE SI.STAFF_ID = SCHEDULE_ENTRANCE_MEMBER.REG_ID) STAFF_NAME,
+			   REG_ID,
+			   REG_DATE,
+			   UPD_ID,
+			   UPD_DATE
+		  FROM SCHEDULE_ENTRANCE_MEMBER
 	</select>
 	
 	<select id="checkVoucher" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
@@ -177,22 +216,46 @@
 	
 	<insert id="insertScheduleEntranceMember" parameterType="kr.co.crevill.entrance.EntranceDto">
 		INSERT INTO SCHEDULE_ENTRANCE_MEMBER(
-											 SCHEDULE_ID,
+											 RESERVATION_ID,
 											 MEMBER_QR_CODE,
 											 CHILD_NAME,
 											 CELL_PHONE,
 											 CHILD_BIRTHDAY,
 											 CHILD_SEX,
+											 <if test="entranceTime != null and entranceTime != ''">
+											 ENTRANCE_TIME,
+											 </if>
+											 <if test="price != null and price != ''">
+											 PRICE,
+											 </if>
+											 <if test="storeId != null and storeId != ''">
+											 STORE_ID,
+											 </if>
+											 <if test="scheduleType != null and scheduleType != ''">
+											 SCHEDULE_TYPE,
+											 </if>
 											 REG_ID,
 											 REG_DATE
 											)
 							         VALUES (
-							         	     #{scheduleId},
+							         	     #{reservationId},
 							         	     #{memberQrCode},
 							         	     #{childName},
 							         	     #{cellPhone},
 							         	     #{childBirthday},
 							         	     #{childSex},
+							         	     <if test="entranceTime != null and entranceTime != ''">
+											 #{entranceTime},
+											 </if>
+											 <if test="price != null and price != ''">
+											 #{price},
+											 </if>
+											 <if test="storeId != null and storeId != ''">
+											 #{storeId},
+											 </if>
+											 <if test="scheduleType != null and scheduleType != ''">
+											 #{scheduleType},
+											 </if>
 							         	     #{regId},
 							         	     NOW()		
 							         		)				

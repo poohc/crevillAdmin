@@ -19,6 +19,7 @@ public class EntranceVo {
 	private String reservationCnt;
 	private String scheduleStart;
 	private String memberQrCode;
+	private String name;
 	private String childName;
 	private String childBirthday;
 	private String childSex;
@@ -30,13 +31,19 @@ public class EntranceVo {
 	private String useTime;
 	private String entranceCount;
 	private String reservationCount;
+	private String tutoringReservationCount;
 	private String remainCount;
 	private String storeId;
 	private String storeName;
+	private String storeNameShort;
 	private String staffName;
     private String regId;
 	private String regDate;
 	private String updId;
 	private String updDate; 
 	private String addText;
+	private String subTopic;
+	private String semId;
+	private String entranceTime;
+	private String scheduleType;
 }

@@ -37,4 +37,7 @@ public class EntranceDto {
 	private String updId;
 	private String updDate;
 	private String searchType;
+	private String isTutoringYn;
+	private String entranceTime;
+	private String scheduleType;
 }

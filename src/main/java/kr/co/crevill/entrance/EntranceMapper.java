@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface EntranceMapper {
+	public List<EntranceVo> selectEntranceTitleList(EntranceDto entranceDto);
 	public List<EntranceVo> selectEntranceList(EntranceDto entranceDto);
 	public EntranceVo selectEntranceInfo(EntranceDto entranceDto);
 	public EntranceVo selectNonMemberScheduleList();

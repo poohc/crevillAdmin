@@ -28,28 +28,24 @@ public class EntranceController {
 	@Autowired
 	private StoreService storeService;
 	
-	@GetMapping("member.view")
+	@GetMapping("classMember.view")
 	public ModelAndView member(HttpServletRequest request, EntranceDto entranceDto) {
-		ModelAndView mav = new ModelAndView("entrance/member");
-		StoreDto storeDto = new StoreDto();
-		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
-		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		ModelAndView mav = new ModelAndView("entrance/classMember");
 		mav.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH")));
-		mav.addObject("beforeTime", LocalDateTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("HH")));
-		mav.addObject("afterTime", LocalDateTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("HH")));
 		entranceDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		
+		StoreDto storeDto = new StoreDto();
 		if(entranceDto.getStoreId() == null) {
-			entranceDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());	
+			entranceDto.setStoreId("");
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		} else {
 			mav.addObject("storeId", entranceDto.getStoreId());
 		}
-		entranceDto.setSearchType("NOW");
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		entranceDto.setSearchType("TODAY");
+		entranceDto.setIsTutoringYn("N");
+		mav.addObject("titleList", entranceService.selectEntranceTitleList(entranceDto));
 		mav.addObject("list", entranceService.selectEntranceList(entranceDto));
-		entranceDto.setSearchType("BEFORE_ONEHOUR");
-		mav.addObject("listBefore", entranceService.selectEntranceList(entranceDto));
-		entranceDto.setSearchType("AFTER_ONEHOUR");
-		mav.addObject("listAfter", entranceService.selectEntranceList(entranceDto));
 		return mav;
 	}
 	

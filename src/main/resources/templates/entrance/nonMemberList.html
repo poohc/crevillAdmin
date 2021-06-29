@@ -20,25 +20,21 @@
 	                                        <th>입장일시</th>
 	                                        <th>성함(아동)</th>
 	                                        <th>생년월일</th>
-	                                        <th>성별</th>
 	                                        <th>보호자연락처</th>
 	                                        <th>입장지점</th>
 	                                        <th>클래스명</th>
-	                                        <th>입장권종</th>
 	                                        <th>이용금액</th>
 	                                        <th>업무처리자</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
 	                                    <tr th:each="list : ${list}">
-	                                    	<td th:text="${list.scheduleStart}"></td>
+	                                    	<td th:text="${list.entranceTime}"></td>
 	                                    	<td th:text="${list.childName}"></td>
 	                                    	<td th:text="${list.childBirthday}"></td>
-	                                    	<td th:text="${list.childSex}"></td>
 	                                    	<td th:text="${list.cellPhone}"></td>
-	                                    	<td th:text="${list.storeName}"></td>
-	                                    	<td th:text="${list.playName}"></td>
-	                                    	<td th:text="${list.ticketName}"></td>
+	                                    	<td th:text="${list.storeNameShort}"></td>
+	                                    	<td th:text="${list.scheduleType}"></td>
 	                                    	<td th:text="${list.price}"></td>
 	                                    	<td th:text="${list.staffName}"></td>
 	                                    </tr>
