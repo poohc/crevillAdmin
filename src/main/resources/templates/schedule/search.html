@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleSearchScript.js')}">
+    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/scheduleSearchScript.js')}">
 
 <th:block layout:fragment="content">
     <div class="page-body" id="page-body">
@@ -11,10 +11,12 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header bg-light-primary">
-                            <form class="theme-form" id="scheduleForm" name="scheduleForm" method="get" action="/schedule/search.view">
+                            <form class="theme-form" id="scheduleForm" name="scheduleForm" method="get"
+                                action="/schedule/search.view">
                                 <input type="hidden" id="scheduleStart" name="scheduleStart">
                                 <div class="input-group m-0">
-                                    <input class="form-control-plaintext" type="date" placeholder="검색날짜입력" id="scheduleDate" name="scheduleDate" th:value="${scheduleDate}" />
+                                    <input class="form-control-plaintext" type="date" placeholder="검색날짜입력"
+                                        id="scheduleDate" name="scheduleDate" th:value="${scheduleDate}" />
                                     <div class="input-group-append">
                                         <span class="btn btn-primary" id="scheduleSearch">검색</span>
                                     </div>
@@ -31,28 +33,25 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-xl-3 box-col-3">
-                                    <th:block th:each="allList, i : ${allList}">
-                                        <h6 th:if="${i.index == 0}" class="mb-2" th:text="${allList.scheduleDate}"></h6>
-                                        <div class="info-block">
-                                            <a href="" th:text="${allList.playName}"></a>
+                                <th:block th:each="allList, i : ${allList}">
+                                    <div class="col-xl-3 box-col-3">
+                                        <!--<h6 th:if="${i.index == 0}" class="mb-2" th:text="${allList.scheduleDate}"></h6>-->
+                                        <div class="info-block" style="padding:20px; margin-bottom:15px;">
+                                            <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary" th:text="${allList.storeNameShort}" style="ribbon-clip-right:0px !important;"></div>
+                                            <span class="badge badge-primary" th:text="${allList.playName}"></span>
                                             <span th:text="${allList.subTopic}"></span>
                                             <h6 th:text="${allList.scheduleTime}"></h6>
                                             <div class="star-ratings">
                                                 <ul class="search-info">
-                                                    <li th:text="|클래스, ${allList.numberOfPeople}|"></li>
-                                                    <li th:text="|튜터링, ${allList.tutoringNumber}|"></li>
+                                                    <li th:text="|클래스 :  ${allList.numberOfPeople}|"></li>
+                                                    <li th:text="|튜터링 :  ${allList.tutoringNumber}|"></li>
                                                 </ul>
                                             </div>
+                                            <span th:text="|등록일 : ${allList.regDate}|"></span>
                                             <!--추가 : 스케쥴 매장-->
-                                            <h6>
-                                                <span th:text="|등록일 : ${allList.regDate}|"></span>
-                                                <span class="badge badge-secondary"
-                                                    th:text="${allList.storeNameShort}"></span>
-                                            </h6>
                                         </div>
-                                    </th:block>
-                                </div>
+                                    </div>
+                                </th:block>
                             </div>
                         </div>
                     </div>

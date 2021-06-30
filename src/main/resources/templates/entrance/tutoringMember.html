@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/entranceScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/tutoringEntranceScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -9,7 +9,7 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-6">
-						<h3>클래스-스페셜캠프-CHECK-IN</h3>
+						<h3>튜터링-CHECK-IN</h3>
 					</div>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 								<div class="card-title" style="padding-left: 10px;">
 									<i class="fa fa-play"></i>예약정원 : 
 									<font color="red">
-										<span class="badge badge-primary" th:text="|${titleList.reservationCount}/${titleList.numberOfPeople}|"></span>
+										<span class="badge badge-primary" th:text="|${titleList.tutoringReservationCount}/${titleList.tutoringNumber}|"></span>
 									</font>
 								</div>
 								<div class="card-title" style="padding-left: 10px;">
@@ -133,14 +133,17 @@
 										<label class="col-form-label" for="parentCellPhone">보호자 연락처</label>
 										<input class="form-control" type="text" v-validate="'required|numeric|min:10|max:11'" id="parentCellPhone" name="parentCellPhone">
 										<label class="col-form-label" for="parentCellPhone" v-if="errors.has('parentCellPhone')">{{ errors.first('parentCellPhone') }}</label>
+										<br/>
 										
 										<label class="col-form-label" for="childName">아동명</label>
 										<input class="form-control" type="text" v-validate="'required'" id="childName" name="childName">
 										<label class="col-form-label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+										<br/>
 										
 										<label class="col-form-label" for="recipient-name">아동생년월일</label>
 										<input class="form-control" type="date" v-validate="'required'" id="birthday" name="birthday">
 										<label class="col-form-label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+										<br/>
 										
 										<label class="col-form-label" for="entranceTime">이용시간</label>
 										<select id="entranceTime" name="entranceTime" class="form-control btn-square">
@@ -149,6 +152,7 @@
 											</th:block>
 										</select>
 										<label class="col-form-label" for="entranceTime" v-if="errors.has('entranceTime')">{{ errors.first('entranceTime') }}</label>
+										<br/>
 										
 										<label class="col-form-label" for="price">이용금액</label>
 										<input class="form-control" type="number" id="price" name="price">

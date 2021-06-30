@@ -78,7 +78,7 @@ public class ReservationService {
 		 */
 		
 		//튜터링 선택 시 튜터링 스케쥴 ID 를 넣어주고 TUTORING_YN = 'Y' 처리
-    	if(reservationDto.getTutoringYn() != null && "Y".equals(reservationDto.getTutoringYn())) {
+    	if(reservationDto.getTutoringYn() != null && "N".equals(reservationDto.getScheduleId())) {
     		reservationDto.setScheduleId(reservationDto.getTutoringYn());
     		reservationDto.setTutoringYn("Y");
     	} else {

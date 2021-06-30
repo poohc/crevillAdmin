@@ -67,7 +67,9 @@ public class ScheduleController {
 	public ModelAndView search(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("schedule/search");
 		scheduleDto.setScheduleType("ALL");
-		scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		if(scheduleDto.getStoreId() == null) {
+			scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());	
+		}
 		mav.addObject("allList", scheduleService.selectScheduleList(scheduleDto));
 //		scheduleDto.setScheduleType("ING");
 //		mav.addObject("ingList", scheduleService.selectScheduleList(scheduleDto));

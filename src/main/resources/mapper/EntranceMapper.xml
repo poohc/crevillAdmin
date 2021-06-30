@@ -6,6 +6,7 @@
 	<select id="selectEntranceTitleList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
 		SELECT B.SCHEDULE_ID,
 			   B.NUMBER_OF_PEOPLE,
+			   B.TUTORING_NUMBER,
 			   DATE_FORMAT(B.SCHEDULE_START,'%H:%i') SCHEDULE_START, 
 		       (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'N' AND R.STATUS = '02') RESERVATION_COUNT,
 			   (SELECT COUNT(*) FROM RESERVATION R WHERE B.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'Y' AND R.STATUS = '02') TUTORING_RESERVATION_COUNT,
@@ -91,7 +92,7 @@
            AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(DATE_ADD(NOW(), INTERVAL + 1 HOUR),'%Y%m%d%H')
            </if>
       GROUP BY A.RESERVATION_ID
-      ORDER BY B.SCHEDULE_ID, B.SCHEDULE_START     
+      ORDER BY B.SCHEDULE_ID, B.SCHEDULE_START, A.STATUS     
     </select>
 	
 	<select id="selectEntranceInfo" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
@@ -181,20 +182,20 @@
 	</select>
 	
 	<select id="selectNonMemberEntranceList" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
-		SELECT SEM_ID,
+		SELECT SENM_ID,
 			   CHILD_NAME,
 			   CELL_PHONE,
 			   CHILD_BIRTHDAY,
 			   DATE_FORMAT(STR_TO_DATE(CONCAT(DATE_FORMAT(REG_DATE,'%Y%m%d'),ENTRANCE_TIME), '%Y%m%d%H'), '%Y-%m-%d %H:%i')  ENTRANCE_TIME,
 			   PRICE,
-			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = SCHEDULE_ENTRANCE_MEMBER.STORE_ID) STORE_NAME_SHORT,
+			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = SCHEDULE_ENTRANCE_NON_MEMBER.STORE_ID) STORE_NAME_SHORT,
 			   SCHEDULE_TYPE,
-			   (SELECT SI.NAME FROM STAFF_INFO SI WHERE SI.STAFF_ID = SCHEDULE_ENTRANCE_MEMBER.REG_ID) STAFF_NAME,
+			   (SELECT SI.NAME FROM STAFF_INFO SI WHERE SI.STAFF_ID = SCHEDULE_ENTRANCE_NON_MEMBER.REG_ID) STAFF_NAME,
 			   REG_ID,
 			   REG_DATE,
 			   UPD_ID,
 			   UPD_DATE
-		  FROM SCHEDULE_ENTRANCE_MEMBER
+		  FROM SCHEDULE_ENTRANCE_NON_MEMBER
 	</select>
 	
 	<select id="checkVoucher" parameterType="kr.co.crevill.entrance.EntranceDto" resultType="kr.co.crevill.entrance.EntranceVo">
@@ -222,18 +223,6 @@
 											 CELL_PHONE,
 											 CHILD_BIRTHDAY,
 											 CHILD_SEX,
-											 <if test="entranceTime != null and entranceTime != ''">
-											 ENTRANCE_TIME,
-											 </if>
-											 <if test="price != null and price != ''">
-											 PRICE,
-											 </if>
-											 <if test="storeId != null and storeId != ''">
-											 STORE_ID,
-											 </if>
-											 <if test="scheduleType != null and scheduleType != ''">
-											 SCHEDULE_TYPE,
-											 </if>
 											 REG_ID,
 											 REG_DATE
 											)
@@ -244,19 +233,32 @@
 							         	     #{cellPhone},
 							         	     #{childBirthday},
 							         	     #{childSex},
-							         	     <if test="entranceTime != null and entranceTime != ''">
-											 #{entranceTime},
-											 </if>
-											 <if test="price != null and price != ''">
-											 #{price},
-											 </if>
-											 <if test="storeId != null and storeId != ''">
-											 #{storeId},
-											 </if>
-											 <if test="scheduleType != null and scheduleType != ''">
-											 #{scheduleType},
-											 </if>
 							         	     #{regId},
+							         	     NOW()		
+							         		)				
+	</insert>
+	
+	<insert id="insertScheduleEntranceNonMember" parameterType="kr.co.crevill.entrance.EntranceDto">
+		INSERT INTO SCHEDULE_ENTRANCE_NON_MEMBER(
+											 CHILD_NAME,
+											 CELL_PHONE,
+											 CHILD_BIRTHDAY,
+											 ENTRANCE_TIME,
+											 PRICE,
+											 STORE_ID,
+											 SCHEDULE_TYPE,
+											 REG_ID,
+											 REG_DATE
+											)
+							         VALUES (
+							         	     #{childName},
+							         	     #{cellPhone},
+							         	     #{childBirthday},
+							         	     #{entranceTime},
+											 #{price},
+											 #{storeId},
+											 #{scheduleType},
+											 #{regId},
 							         	     NOW()		
 							         		)				
 	</insert>

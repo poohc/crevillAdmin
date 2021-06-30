@@ -185,16 +185,20 @@
 		              ),0) RESERVATION_COUNT,
            IFNULL((SELECT COUNT(SE.RESERVATION_ID) 
 		             FROM SCHEDULE_ENTRANCE_MEMBER SE,
-		                  RESERVATION R
+		                  RESERVATION R,
+		                  SCHEDULE S
 		            WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+		              AND R.SCHEDULE_ID = S.SCHEDULE_ID
 		              <if test="storeId != null and storeId != 'CST00001'.toString()">
 			          AND S.STORE_ID = #{storeId}
 			          </if>
 		              ),0) ENTRANCE_COUNT,
            IFNULL(FORMAT(ROUND(100 - ((SELECT COUNT(SE.RESERVATION_ID)
            								 FROM SCHEDULE_ENTRANCE_MEMBER SE,
-           								      RESERVATION R
+           								      RESERVATION R,
+           								      SCHEDULE S
            								WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+           								  AND R.SCHEDULE_ID = S.SCHEDULE_ID
            								<if test="storeId != null and storeId != 'CST00001'.toString()">
  							              AND S.STORE_ID = #{storeId}
 							            </if>

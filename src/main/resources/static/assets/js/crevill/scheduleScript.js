@@ -121,7 +121,7 @@ $('#playId').click(function(){
 			url : '/storeProgram/getList.proc',
 			success : function(data){
 				for(var i=0; i < data.length; i++){
-					$("#subTopic").append('<option value="' + data[i].programContents + '">' + data[i].programName + '</option');
+					$("#subTopic").append('<option value="' + data[i].programName + '">' + data[i].programName + '</option');
 				}
 			}
 		});

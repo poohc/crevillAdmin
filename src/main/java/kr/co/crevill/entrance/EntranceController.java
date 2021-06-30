@@ -29,14 +29,17 @@ public class EntranceController {
 	private StoreService storeService;
 	
 	@GetMapping("classMember.view")
-	public ModelAndView member(HttpServletRequest request, EntranceDto entranceDto) {
+	public ModelAndView classMember(HttpServletRequest request, EntranceDto entranceDto) {
 		ModelAndView mav = new ModelAndView("entrance/classMember");
 		mav.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH")));
 		entranceDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		
 		StoreDto storeDto = new StoreDto();
-		if(entranceDto.getStoreId() == null) {
+		if(entranceDto.getStoreId() == null && "CST00001".equals(SessionUtil.getSessionStaffVo(request).getStoreId())) {
 			entranceDto.setStoreId("");
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		} else if(entranceDto.getStoreId() == null && !"CST00001".equals(SessionUtil.getSessionStaffVo(request).getStoreId())) {
+			entranceDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		} else {
 			mav.addObject("storeId", entranceDto.getStoreId());
@@ -44,6 +47,30 @@ public class EntranceController {
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		entranceDto.setSearchType("TODAY");
 		entranceDto.setIsTutoringYn("N");
+		mav.addObject("titleList", entranceService.selectEntranceTitleList(entranceDto));
+		mav.addObject("list", entranceService.selectEntranceList(entranceDto));
+		return mav;
+	}
+	
+	@GetMapping("tutoringMember.view")
+	public ModelAndView tutoringMember(HttpServletRequest request, EntranceDto entranceDto) {
+		ModelAndView mav = new ModelAndView("entrance/tutoringMember");
+		mav.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH")));
+		entranceDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		
+		StoreDto storeDto = new StoreDto();
+		if(entranceDto.getStoreId() == null && "CST00001".equals(SessionUtil.getSessionStaffVo(request).getStoreId())) {
+			entranceDto.setStoreId("");
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		} else if(entranceDto.getStoreId() == null && !"CST00001".equals(SessionUtil.getSessionStaffVo(request).getStoreId())) {
+			entranceDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+			storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		} else {
+			mav.addObject("storeId", entranceDto.getStoreId());
+		}
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		entranceDto.setSearchType("TODAY");
+		entranceDto.setIsTutoringYn("Y");
 		mav.addObject("titleList", entranceService.selectEntranceTitleList(entranceDto));
 		mav.addObject("list", entranceService.selectEntranceList(entranceDto));
 		return mav;

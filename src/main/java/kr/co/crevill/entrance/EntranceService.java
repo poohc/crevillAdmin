@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
-import kr.co.crevill.reservation.ReservationDto;
 import kr.co.crevill.reservation.ReservationMapper;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherMapper;
@@ -103,8 +102,9 @@ public class EntranceService {
 	public JSONObject nonMemberEntrance(EntranceDto entranceDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		entranceDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		//입장처리
-		if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
+		if(entranceMapper.insertScheduleEntranceNonMember(entranceDto) > 0) {
    			result.put("resultCd", CrevillConstants.RESULT_SUCC);
    		}
 		return result;

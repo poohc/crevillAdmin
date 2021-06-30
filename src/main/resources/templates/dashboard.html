@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/dashboardScript.js')}">
+    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/dashboardScript.js')}">
 
 <th:block layout:fragment="content">
     <div class="page-body" id="dashboardDiv">
@@ -91,21 +91,26 @@
                                                                 <div class="left-content">
                                                                     <p>매장의 바우처 판매시간과 소진시간 통계</p>
                                                                     <h4 class="f-w-600">모든 기간 통계</h4>
-                                                                    <span class="badge badge-white rounded-pill" th:text="|${voucherTotalStat?.voucherUsePer}% 소진|"></span>
-                                                                    <span class="badge badge-dotted rounded-pill ms-2" th:text="|바우처 발급시간 : ${voucherTotalStat?.totalVoucherTime}|"></span>
+                                                                    <span class="badge badge-white rounded-pill"
+                                                                        th:text="|${voucherTotalStat?.voucherUsePer}% 소진|"></span>
+                                                                    <span class="badge badge-dotted rounded-pill ms-2"
+                                                                        th:text="|바우처 발급시간 : ${voucherTotalStat?.totalVoucherTime}|"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-4 col-md-12">
                                                             <div class="center-img">
-                                                            <img class="img-fluid" th:src="@{/assets/images/dash_img.jpg}" alt="대쉬보드 이미지"></div>
+                                                                <img class="img-fluid"
+                                                                    th:src="@{/assets/images/dash_img.png}"
+                                                                    alt="대쉬보드 이미지"></div>
                                                         </div>
                                                         <div class="col-xl-4 col-md-6">
                                                             <div class="d-flex">
                                                                 <div class="left-content">
                                                                     <p>이용통계</p>
                                                                     <h4 class="f-w-600">NO SHOW</h4>
-                                                                    <span class="badge badge-white rounded-pill" th:text="|${noshowCount.noshowCount}%|"></span>
+                                                                    <span class="badge badge-white rounded-pill"
+                                                                        th:text="|${noshowCount.noshowCount}%|"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -269,7 +274,9 @@
 									<div class="activity-line"></div>
 									<div class="activity-dot-secondary"></div>
 									<div class="media-body">
-										<span>공지사항이 없습니다.</span>
+										<span>튜터링 입장은 7/1 업데이트 예정으로. 튜터링 인원 입장 시 수기로 "휴대폰번호", "입장시각" 별도 메모 후 전달 해 주세요.</span>
+										<p class="font-roboto"></p>
+                                        <span>대시보드에 오늘예약자 (튜터링, 클래스) 차트 그래프 업데이트 예정</span>
 										<p class="font-roboto"></p>
 									</div>
 								</div>	
@@ -301,13 +308,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-6 xl-100 box-col-12">
+				<!--<div class="col-xl-6 xl-100 box-col-12">
 					<div class="card">
 						<div class="card-header card-no-border">
 							<div class="header-top">
 								<h5 class="m-0">시간대별 예약자</h5>
 								<div class="card-header-right-icon">
-                                    <!--추가부분 : 매장조건 지정 후 예약시간 검색-->
                                     <select class="button btn btn-primary" id="storeId" name="storeId" @change="예약검색($event)">
 										<option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
 									</select>
@@ -323,12 +329,7 @@
 							<div class="appointment-table table-responsive">
 								<table class="table table-bordernone">
 									<tbody>
-										<tr v-for="item in list">
-<!-- 											<td> -->
-<!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
-<!-- 												<div class="status-circle bg-primary"></div> -->
-<!-- 											</td> -->
-                                            
+										<tr v-for="item in list">                                     
 											<td style="display: inline;">
 												<span class="d-block" style="font-size: 13px;">{{item.reservationName}}</span>
 												<em class="font-roboto">{{item.cellPhone}}</em>
@@ -342,40 +343,24 @@
 												</div>
 											</td>
 										</tr>
-                                        
-<!-- 										<tr> -->
-<!-- 											<td> -->
-<!-- 												<img class="img-fluid img-40 rounded-circle mb-3" th:src="@{/assets/images/appointment/app-ent.jpg}" alt="Image description"> -->
-<!-- 												<div class="status-circle bg-primary"></div></td> -->
-<!-- 											<td class="img-content-box"><span class="d-block">김혜수</span><span -->
-<!-- 												class="font-roboto">010-5555-8888</span></td> -->
-<!-- 											<td> -->
-<!-- 												<p class="m-0 font-primary">2021/01/20</p> -->
-<!-- 											</td> -->
-<!-- 											<td class="text-right"> -->
-<!-- 												<div class="button btn btn-danger"> -->
-<!-- 													지연<i class="fa fa-check-circle ml-2"></i> -->
-<!-- 												</div> -->
-<!-- 											</td> -->
-<!-- 										</tr> -->
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<div class="col-xl-6 xl-100 box-col-12">
 					<div class="card">
 						<div class="card-header card-no-border">
                             <div class="header-top">
-							<h5 class="m-0">오늘자 TRIAL CLASS 신청</h5>
+							<h5 class="m-0">TODAY 체험수업신청</h5>
 								<div class="card-header-right-icon">
 								<select class="button btn btn-primary" id="storeIdTrial" name="storeIdTrial">
                                     <th:block th:if="${expStoreList != null}">
                                     <option th:each="list : ${expStoreList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
                                     </th:block>
                                     <th:block th:unless="${expStoreList != null}">
-                                    <option>체험클래스가능지점이 아닙니다.</option>
+                                    <option>체험수업 가능지점이 아닙니다.</option>
                                     </th:block>
                                 </select>
 							</div>
@@ -409,7 +394,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-6 xl-100 box-col-12">
+				<!--<div class="col-xl-6 xl-100 box-col-12">
 					<div class="card">
 						<div class="card-header">
 							<h5>지점 원어민 리스트</h5>
@@ -449,17 +434,14 @@
 										<template v-else>
 											<td colspan="3">등록된 원어민이 없습니다.</td>
 										</template>
-										
-										
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
-		<!-- Container-fluid Ends-->
 	</div>
 </th:block>
 </html>

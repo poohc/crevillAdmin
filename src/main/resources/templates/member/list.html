@@ -93,7 +93,7 @@
         </div>
 		<div class="container-fluid">
             <div class="row">
-				<div class="col-lg-4">
+				<div class="col-lg-3">
 					<select id="storeId" name="storeId" class="form-control btn-square">
 						<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 						<option value="">전체</option>
@@ -119,7 +119,7 @@
 											<th>주소</th>
 											<th>바우처보유</th>
 											<th>바우처등록매장</th>
-											<th>최근방문매장</th>
+											<!--<th>최근방문매장</th>-->
 											<th>회원정보</th>
 										</tr>
 									</thead>
@@ -133,7 +133,7 @@
 											<td th:text="${memberList.address}"></td>
 											<td th:text="${memberList.voucherCount}"></td>
 											<td th:text="${memberList.voucherStoreName}"></td>
-											<td th:text="${memberList.storeName}"></td>
+											<!--<td th:text="${memberList.storeName}"></td>-->
 											<td>
 												<span class="badge badge-primary" th:attr="onclick=|updateMemberInfo('${memberList.qrCode}')|"><font style="cursor: hand;">정보수정</font></span>
 												<th:block th:if="${memberList.voucherCount != '0'}">
