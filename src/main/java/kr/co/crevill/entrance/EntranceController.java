@@ -87,6 +87,7 @@ public class EntranceController {
 	@GetMapping("nonMemberList.view")
 	public ModelAndView nonMemberList(HttpServletRequest request, EntranceDto entranceDto) {
 		ModelAndView mav = new ModelAndView("entrance/nonMemberList");
+		entranceDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
 		mav.addObject("list", entranceService.selectNonMemberEntranceList(entranceDto));
 		return mav;
 	}

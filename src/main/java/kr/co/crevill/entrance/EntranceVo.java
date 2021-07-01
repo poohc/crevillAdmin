@@ -21,6 +21,8 @@ public class EntranceVo {
 	private String memberQrCode;
 	private String name;
 	private String childName;
+	private String childNameKor;
+	private String birthday;
 	private String childBirthday;
 	private String childSex;
 	private String playName;

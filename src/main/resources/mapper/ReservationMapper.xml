@@ -190,6 +190,9 @@
 		 WHERE CELL_PHONE = #{cellPhone}
 		   AND SCHEDULE_ID = #{scheduleId}
 		   AND STATUS = '02'
+		   <if test="childName != null and childName != ''">
+		   AND CHILD_NAME = #{childName}
+		   </if>
 	</select>
 	
 	<select id="selectReservationPlayInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">

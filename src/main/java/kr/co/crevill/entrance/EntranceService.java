@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.reservation.ReservationDto;
 import kr.co.crevill.reservation.ReservationMapper;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherMapper;
@@ -84,9 +85,15 @@ public class EntranceService {
  	    	voucherMapper.updateVoucher(voucherDto);
  	    }
  	    
-		if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
-			result.put("resultCd", CrevillConstants.RESULT_SUCC);
-		}
+ 	    //예약 완료 처리 
+ 	    ReservationDto reservationDto = new ReservationDto();
+ 	    reservationDto.setReservationId(entranceDto.getReservationId());
+ 	    reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_COMPLETE);
+ 	    if(reservationMapper.updateReservation(reservationDto) > 0) {
+ 	    	if(entranceMapper.insertScheduleEntranceMember(entranceDto) > 0) {
+ 				result.put("resultCd", CrevillConstants.RESULT_SUCC);
+ 			}
+ 	    }
 		return result;
 	}
 	

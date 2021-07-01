@@ -43,6 +43,9 @@ public class ReservationController {
 		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty()) {
 			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		}
+		if(scheduleDto.getStoreId() == null) {
+			scheduleDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		}
 		mav.addObject("scheduleStart", scheduleDto.getScheduleStart());
 		mav.addObject("list", reservationService.selectReservationList(scheduleDto));
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));

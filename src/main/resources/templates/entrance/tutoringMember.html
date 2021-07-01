@@ -75,14 +75,10 @@
 													<h6>
 														<a href="#" th:text="${list.childName}"></a>
 													</h6>
-													<!--영어이름 null이면 한글이름-->
 												</div>
 												<div class="rating">
 													<i class="fa fa-play"></i>
-													<i class="fa fa-play"></i>
-													<i class="fa fa-play"></i>
-													<i class="fa fa-play"></i>
-													<i class="fa fa-play"></i>
+													<span th:text="|${list.childNameKor}(${list.birthday})|"></span>
 												</div>
 												<div class="price d-flex">
 													<div class="text-muted mr-2">보호자</div>
@@ -91,7 +87,6 @@
 												<th:block th:if="${list.addText == '후불'}">
 												<div class="ribbon ribbon-clip-right ribbon-right ribbon-white bg-dark">1회권 후불</div>
 												</th:block>
-												<!--만약 1회권이면 리본표시만- 돈은 알아서 받음-->
 												<div class="avaiabilty">
 													<div class="text-success">
 														<ion-icon name="call"></ion-icon>
@@ -99,7 +94,7 @@
 													</div>
 												</div>
 												<th:block th:if="${list.status == '05'}">
-												<a class="btn btn-warning btn-xs" href="#none"><font color="black">예약취소</font></a>
+                                                <a class="btn btn-warning btn-xs"><font color:black>2021-10-10</font>예약취소</a> <!--취소일 추가-->
 												</th:block>
 												<th:block th:unless="${list.status == '05'}">
 													<th:block th:if="${list.entranceCount == '0'}">

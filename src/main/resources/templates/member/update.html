@@ -14,13 +14,19 @@
 					<div class="card">
 						<div class="card-header">
 							<h5>보호자 정보</h5>
+                            <span>이메일/주소만 수정가능</span>
 						</div>
 						<div class="card-body">
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="parentName">고객성함</label>
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<input class="form-control form-control-lg" v-validate="'required'" id="parentName" name="parentName" type="text" placeholder="고객성함" th:value="${info.name}">
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<input class="form-control form-control-lg" v-validate="'required'" id="parentName" name="parentName" type="text" placeholder="고객성함" th:value="${info.name}" disabled="disabled">
+										</th:block>
 										<label class="col-form-label-sm" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
 									</div>
 								</div>
@@ -29,7 +35,12 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="parentBirthday">고객생년월일</label>
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="parentBirthday" name="parentBirthday" type="text" placeholder="고객생년월일" th:value="${info.parentBirthday}">
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="parentBirthday" name="parentBirthday" type="text" placeholder="고객생년월일" th:value="${info.parentBirthday}" disabled="disabled">
+										</th:block>
 										<label class="col-form-label-sm" for="parentBirthday" v-if="errors.has('parentBirthday')">{{ errors.first('parentBirthday') }}</label>
 									</div>
 								</div>
@@ -40,6 +51,7 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<div class="radio radio-primary">
 											<input id="parentSexRadio1" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="M" th:checked="${info.parentSex == 'M'}">
 											<label class="mb-0" for="parentSexRadio1">남자</label>
@@ -48,6 +60,17 @@
 											<input id="parentSexRadio2" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="F" th:checked="${info.parentSex == 'F'}">
 											<label class="mb-0" for="parentSexRadio2">여자</label>
 										</div>
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<div class="radio radio-primary">
+											<input id="parentSexRadio1" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="M" th:checked="${info.parentSex == 'M'}" disabled="disabled">
+											<label class="mb-0" for="parentSexRadio1">남자</label>
+										</div>
+										<div class="radio radio-primary">
+											<input id="parentSexRadio2" v-validate="'required|included:M,F'" type="radio" name="parentSex" value="F" th:checked="${info.parentSex == 'F'}" disabled="disabled">
+											<label class="mb-0" for="parentSexRadio2">여자</label>
+										</div>
+										</th:block>
 										<label class="col-form-label-sm" for="parentSex" v-if="errors.has('parentSex')">{{ errors.first('parentSex') }}</label>
 									</div>
 								</div>
@@ -80,9 +103,14 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="cellPhone">휴대폰번호</label>
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력" th:value="${info.cellPhone}">
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력" th:value="${info.cellPhone}" disabled="disabled" >
+										</th:block>
 										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')"><font style="color: red">{{ errors.first('cellPhone') }}</font></label>
-										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label>
+										<label class="col-form-label-sm" for="cellPhone" v-else></label>
 									</div>
 								</div>
 							</div>
@@ -91,6 +119,7 @@
 					<div class="card">
 						<div class="card-header">
 							<h5>등록 아동정보</h5>
+                            <span>영어이름, 영어학습정보만 수정가능</span>
 						</div>
 						<tempalte th:each="info, i : ${childList}">
 						<div class="card-body">
@@ -98,7 +127,12 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<input class="form-control form-control-lg" v-validate="'required'" th:id="'childName' + ${i.index}" name="childName" type="text" placeholder="아동성명" th:value="${info.name}">
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<input class="form-control form-control-lg" v-validate="'required'" th:id="'childName' + ${i.index}" name="childName" type="text" placeholder="아동성명" th:value="${info.name}" disabled="disabled" >
+										</th:block>
 										<label class="col-form-label-sm" th:for="'childName' + ${i.index}" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
 									</div>
 								</div>
@@ -116,7 +150,12 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" th:id="'birthday' + ${i.index}" name="birthday" type="text" th:value="${info.birthday}">
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" th:id="'birthday' + ${i.index}" name="birthday" type="text" th:value="${info.birthday}" disabled="disabled" >
+										</th:block>
 										<label class="col-form-label-sm" th:for="'birthday' + ${i.index}" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
 									</div>
 								</div>
@@ -127,6 +166,7 @@
 								</div>
 								<div class="col">
 									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+										<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
 										<div class="radio radio-primary">
 											<input id="radioinline1" v-validate="'required|included:M,F'" type="radio" th:id="'sexM' + ${i.index}" th:name="'sex' + ${i.index}" value="M" th:checked="${info.sex == 'M'}">
 											<label class="mb-0" th:for="'sexM' + ${i.index}">남자</label>
@@ -135,6 +175,17 @@
 											<input id="radioinline2" type="radio" th:id="'sexF' + ${i.index}" th:name="'sex' + ${i.index}" value="F" th:checked="${info.sex == 'F'}">
 											<label class="mb-0" th:for="'sexF' + ${i.index}">여자</label>
 										</div>
+										</th:block>
+										<th:block th:unless="${session.staffVo.storeId == 'CST00001'}">
+										<div class="radio radio-primary">
+											<input id="radioinline1" v-validate="'required|included:M,F'" type="radio" th:id="'sexM' + ${i.index}" th:name="'sex' + ${i.index}" value="M" th:checked="${info.sex == 'M'}" disabled="disabled" >
+											<label class="mb-0" th:for="'sexM' + ${i.index}">남자</label>
+										</div>
+										<div class="radio radio-primary">
+											<input id="radioinline2" type="radio" th:id="'sexF' + ${i.index}" th:name="'sex' + ${i.index}" value="F" th:checked="${info.sex == 'F'}" disabled="disabled" >
+											<label class="mb-0" th:for="'sexF' + ${i.index}">여자</label>
+										</div>
+										</th:block>
 										<label class="col-form-label-sm" for="sex" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
 									</div>
 								</div>
