@@ -47,6 +47,10 @@
                B.TUTORING_NUMBER,
 			   A.STATUS,
 			   A.REG_ID,
+			   CASE WHEN A.STATUS = '05' THEN DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') 
+			        ELSE '' END AS CANCEL_DATE,
+			   CASE WHEN A.STATUS = '05' THEN A.UPD_ID 
+			        ELSE '' END AS CANCEL_ID,  
 			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
 			   A.UPD_ID,
 			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,

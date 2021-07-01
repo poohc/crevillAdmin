@@ -45,4 +45,6 @@ public class ReservationVo {
 	private String storeNameShort;
 	private String totalSchedulePeopleNumber;
 	private String reservationCount;
+	private String cancelDate;
+	private String cancelId;
 }

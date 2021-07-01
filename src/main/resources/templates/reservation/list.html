@@ -108,8 +108,8 @@
 											<td th:text="${list.voucherType}"></td>
 											<td th:text="${list.playName}"></td>
 											<td th:text="${list.storeNameShort}"></td>
-                                            <td>REG_ID</td> <!--예약취소자 status 05-->
-                                            <td>2021-07-01 11:00</td> <!--취소일시-->
+                                            <td th:text="${list.cancelId}"></td>
+                                            <td th:text="${list.cancelDate}"></td>
 											<td th:text="${list.cellPhone}"></td>
 											<td>
 												<span th:if="${list.status.toString().equals('02')}" th:text="${list.statusName}"></span>
