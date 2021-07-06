@@ -80,7 +80,7 @@
 										<label class="col-form-label-sm" for="cellPhone">휴대폰번호</label>
 										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력">
 										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')"><font style="color: red">{{ errors.first('cellPhone') }}</font></label>
-										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label>
+<!-- 										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label> -->
 									</div>
 								</div>
 							</div>

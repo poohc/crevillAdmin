@@ -94,7 +94,9 @@
 													</div>
 												</div>
 												<th:block th:if="${list.status == '05'}">
-                                                <a class="btn btn-warning btn-xs"><font color:black>2021-10-10</font>예약취소</a> <!--취소일 추가-->
+                                                    <a class="btn btn-warning btn-xs">
+                                                        <font color:black th:text="${list.updDate}"></font>취소
+                                                    </a>
 												</th:block>
 												<th:block th:unless="${list.status == '05'}">
 													<th:block th:if="${list.entranceCount == '0'}">
