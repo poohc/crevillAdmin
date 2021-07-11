@@ -185,6 +185,12 @@ public class CrevillAop {
         		if(servletPath.indexOf("saleList.view") > -1) {
         			menu = "바우처판매 리스트";
         		}
+        		if(servletPath.indexOf("refundList.view") > -1) {
+        			menu = "바우처환불 리스트";
+        		}
+        		if(servletPath.indexOf("stat.view") > -1) {
+        			menu = "CREVILL SUPERVISOR- STATISTICS";
+        		}
         	}
         	
         	if(contextPath.indexOf("store") > -1) {

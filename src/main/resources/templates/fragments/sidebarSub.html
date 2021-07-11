@@ -60,6 +60,10 @@
 	                    <ul class="sidebar-submenu">
 	                    	<li><a href="/voucher/sale.view">바우처 판매</a></li>
 	                        <li><a href="/voucher/saleList.view">바우처 판매리스트</a></li>
+	                        <li><a href="/voucher/refundList.view">바우처 환불리스트</a></li>
+	                        <th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
+	                        	<li><a href="/voucher/stat.view">바우처 통계</a></li>
+	                        </th:block>
 	                    </ul>
 	                </li>
 	                <li class="sidebar-list">
@@ -95,6 +99,16 @@
 	                        <li><a href="/member/join.view">신규고객등록</a></li>
 	                    </ul>
 	                </li>
+<!-- 	                <li class="sidebar-list"> -->
+<!-- 	                	<a class="sidebar-link sidebar-title" href="#"> -->
+<!-- 	                		<i data-feather="user"></i> -->
+<!-- 	                		<span>일일정산</span> -->
+<!-- 	                	</a> -->
+<!-- 	                    <ul class="sidebar-submenu"> -->
+<!-- 	                        <li><a href="/member/list.view">일일정산리스트</a></li> -->
+<!-- 	                        <li><a href="/member/join.view">일일정산</a></li> -->
+<!-- 	                    </ul> -->
+<!-- 	                </li> -->
 	                <li class="sidebar-main-title">
 	                    <div>
 	                        <h6>CREVILL</h6>

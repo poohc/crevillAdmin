@@ -34,4 +34,6 @@ public class VoucherDto {
 	private String memo;
 	private String updateBeforeValue;
 	private String updateValue;
+	private String searchStartDate;
+	private String searchEndDate;
 }

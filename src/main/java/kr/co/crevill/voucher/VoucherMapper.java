@@ -37,4 +37,8 @@ public interface VoucherMapper {
 	public int deleteVoucherProductAttribute(VoucherDto voucherDto);
 	public int deleteVoucherAttribute(VoucherDto voucherDto);
 	public int insertVoucherUpdateLog(VoucherDto voucherDto);
+	public List<VoucherVo> selectVoucherStat(VoucherDto voucherDto);
+	public List<VoucherVo> selectVoucherStatMember(VoucherDto voucherDto);
+	public List<VoucherVo> selectVoucherStatResMember(VoucherDto voucherDto);
+	public List<VoucherVo> selectVoucherRefundList(VoucherDto voucherDto);
 }

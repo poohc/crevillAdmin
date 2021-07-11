@@ -86,6 +86,22 @@ public class VoucherService {
 		return voucherMapper.selectVoucherSaleCancelCount(voucherDto);
 	}
 	
+	public List<VoucherVo> selectVoucherStat(VoucherDto voucherDto) {
+		return voucherMapper.selectVoucherStat(voucherDto);
+	}
+	
+	public List<VoucherVo> selectVoucherStatMember(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherStatMember(voucherDto);
+	}
+	
+	public List<VoucherVo> selectVoucherStatResMember(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherStatResMember(voucherDto);
+	}
+	
+	public List<VoucherVo> selectVoucherRefundList(VoucherDto voucherDto){
+		return voucherMapper.selectVoucherRefundList(voucherDto);
+	}
+	
 	/**
 	 * 바우처 저장 처리 
 	 * @methodName : insertVoucher

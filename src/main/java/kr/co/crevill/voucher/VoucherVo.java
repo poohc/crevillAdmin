@@ -45,4 +45,23 @@ public class VoucherVo {
     private String cancelDate;
     private String promotionName;
     private String rStatus;
+    private String diffDate;
+	private String totalTime;
+	private String usePeopleCount;
+	private String refundCancelCount;
+	private String totalUseTime;
+	private String totalTimeLeft;
+	private String usePer;
+	private String voucherMemberCount;
+	private String nonMemberCount;
+	private String shortVoucherMemberCount;
+	private String totalMemberCount;
+	private String reservationAvaiableCount;
+    private String reservationCount;
+    private String noshowCount;
+    private String entranceCount;
+    private int sortOrder;
+    private String refundDate;
+    private String staffName;
+    private String memo;
 }

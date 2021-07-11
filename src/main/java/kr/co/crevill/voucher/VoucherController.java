@@ -1,12 +1,16 @@
 package kr.co.crevill.voucher;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.ListSortComparator;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
@@ -46,6 +51,8 @@ public class VoucherController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, VoucherDto voucherDto) {
@@ -119,6 +126,138 @@ public class VoucherController {
 		}
 		mav.addObject("storeList", newStoreList);
 		mav.addObject("info", info);
+		return mav;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("stat.view")
+	public ModelAndView stat(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("voucher/stat");
+		
+		if(voucherDto.getSearchStartDate() != null) {
+			
+			List<VoucherVo> statList = voucherService.selectVoucherStat(voucherDto);
+			int totalTime = 0;
+			int usePeopleCount = 0;
+			int refundCancelCount = 0;
+			int totalUseTime = 0;
+			int totalTimeLeft = 0;
+			
+			for(VoucherVo voucherVo : statList) {
+				totalTime += Integer.parseInt(voucherVo.getTotalTime().replaceAll(",", "")); 
+				usePeopleCount += Integer.parseInt(voucherVo.getUsePeopleCount().replaceAll(",", ""));
+				refundCancelCount += Integer.parseInt(voucherVo.getRefundCancelCount().replaceAll(",", ""));
+				totalUseTime += Integer.parseInt(voucherVo.getTotalUseTime().replaceAll(",", ""));
+				totalTimeLeft += Integer.parseInt(voucherVo.getTotalTimeLeft().replaceAll(",", ""));
+			}
+			
+			VoucherVo statVo = new VoucherVo();
+			DecimalFormat formatter = new DecimalFormat("###,###");
+			statVo.setStoreName("전체");
+			statVo.setDiffDate(statList.get(0).getDiffDate());
+			statVo.setTotalTime(formatter.format(totalTime) + "");
+			statVo.setUsePeopleCount(formatter.format(usePeopleCount) + "");
+			statVo.setRefundCancelCount(formatter.format(refundCancelCount) + "");
+			statVo.setTotalUseTime(formatter.format(totalUseTime) + "");
+			statVo.setTotalTimeLeft(formatter.format(totalTimeLeft) + "");
+			statVo.setUsePer(Math.round(totalTime / totalUseTime) + "");
+			statVo.setSortOrder(0);
+			
+			List<VoucherVo> calcStatList = new ArrayList<VoucherVo>(); 
+			calcStatList.add(statVo);
+			int sortOrder = 1;
+			for(VoucherVo voucherVo : statList) {
+				voucherVo.setSortOrder(sortOrder);
+				calcStatList.add(voucherVo);
+				sortOrder++;
+			}
+			Collections.sort(calcStatList, new ListSortComparator());
+			
+			List<VoucherVo> statMemberList = voucherService.selectVoucherStatMember(voucherDto);
+			int voucherMemberCount = 0;
+			int nonMemberCount = 0;
+			int shortVoucherMemberCount = 0;
+			int totalMemberCount = 0;
+			
+			for(VoucherVo voucherVo : statMemberList) {
+				voucherMemberCount += Integer.parseInt(voucherVo.getVoucherMemberCount().replaceAll(",", "")); 
+				nonMemberCount += Integer.parseInt(voucherVo.getNonMemberCount().replaceAll(",", ""));
+				shortVoucherMemberCount += Integer.parseInt(voucherVo.getShortVoucherMemberCount().replaceAll(",", ""));
+				totalMemberCount += Integer.parseInt(voucherVo.getTotalMemberCount().replaceAll(",", ""));
+			}
+			
+			VoucherVo statMember = new VoucherVo();
+			statMember.setStoreName("전체");
+			statMember.setDiffDate(statMemberList.get(0).getDiffDate());
+			statMember.setVoucherMemberCount(formatter.format(voucherMemberCount) + "");
+			statMember.setNonMemberCount(formatter.format(nonMemberCount) + "");
+			statMember.setShortVoucherMemberCount(formatter.format(shortVoucherMemberCount) + "");
+			statMember.setTotalMemberCount(formatter.format(totalMemberCount) + "");
+			statMember.setSortOrder(0);
+			
+			List<VoucherVo> calcStatMemberList = new ArrayList<VoucherVo>(); 
+			calcStatMemberList.add(statMember);
+			sortOrder = 1;
+			for(VoucherVo voucherVo : statMemberList) {
+				voucherVo.setSortOrder(sortOrder);
+				calcStatMemberList.add(voucherVo);
+				sortOrder++;
+			}
+			Collections.sort(calcStatMemberList, new ListSortComparator());
+			
+			List<VoucherVo> statResMemberList = voucherService.selectVoucherStatResMember(voucherDto);
+			
+			int reservationAvaiableCount = 0;
+			int reservationCount = 0;
+			int noshowCount = 0;
+			int entranceCount = 0;
+			
+			for(VoucherVo voucherVo : statResMemberList) {
+				reservationAvaiableCount += Integer.parseInt(voucherVo.getReservationAvaiableCount().replaceAll(",", "")); 
+				reservationCount += Integer.parseInt(voucherVo.getReservationCount().replaceAll(",", ""));
+				noshowCount += Integer.parseInt(voucherVo.getNoshowCount().replaceAll(",", ""));
+				entranceCount += Integer.parseInt(voucherVo.getEntranceCount().replaceAll(",", ""));
+			}
+			
+			VoucherVo statResMember = new VoucherVo();
+			statResMember.setStoreName("전체");
+			statResMember.setDiffDate(statResMemberList.get(0).getDiffDate());
+			statResMember.setReservationAvaiableCount(formatter.format(reservationAvaiableCount) + "");
+			statResMember.setReservationCount(formatter.format(reservationCount) + "");
+			statResMember.setNoshowCount(formatter.format(noshowCount) + "");
+			statResMember.setEntranceCount(formatter.format(entranceCount) + "");
+			statResMember.setSortOrder(0);
+			
+			List<VoucherVo> calcStatResMemberList = new ArrayList<VoucherVo>(); 
+			calcStatResMemberList.add(statResMember);
+			sortOrder = 1;
+			for(VoucherVo voucherVo : statResMemberList) {
+				voucherVo.setSortOrder(sortOrder);
+				calcStatResMemberList.add(voucherVo);
+				sortOrder++;
+			}
+			Collections.sort(calcStatResMemberList, new ListSortComparator());
+			
+			mav.addObject("statList", calcStatList);
+			mav.addObject("memberStatList", calcStatMemberList);
+			mav.addObject("memberResStatList", calcStatResMemberList);
+		} else {
+			mav.addObject("statList", null);
+			mav.addObject("memberStatList", null);
+			mav.addObject("memberResStatList", null);
+		}
+		
+		return mav;
+	}
+	
+	@GetMapping("refundList.view")
+	public ModelAndView refundList(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("voucher/refundList");
+		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		mav.addObject("list", voucherService.selectVoucherRefundList(voucherDto));
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("storeId", voucherDto.getStoreId());
 		return mav;
 	}
 	
@@ -209,5 +348,11 @@ public class VoucherController {
 			result.put("resultCd", CrevillConstants.RESULT_FAIL);	//기회원 이므로 성공 코드 리턴
 		}
 		return result;
+	}
+	
+	@PostMapping("getVoucherStatList.proc")
+	@ResponseBody
+	public List<VoucherVo> getVoucherStatList(HttpServletRequest request, VoucherDto voucherDto){
+		return voucherService.selectVoucherStat(voucherDto);
 	}
 }

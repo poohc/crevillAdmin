@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherRefundListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<select class="form-control btn-square" id="storeId" name="storeId">
+                    	<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+                        <option value="">전체</option>
+                       	</th:block>
+                        <option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+                    </select>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<!-- Zero Configuration  Starts-->
+			<div class="col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="display" id="basic-1" style="text-align: center; table-style: fixed;">
+								<thead>
+									<tr>
+										<th>환불일</th>
+										<th>환불매장</th>
+										<th>고객명</th>
+										<th>환불처리자</th>
+										<th>전화번호</th>
+										<th>환불바우처</th>
+										<th>구입가</th>
+										<th>환불사유</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="list : ${list}">
+										<td th:text="${list.refundDate}"></td>
+										<td th:text="${list.storeName}"></td>
+										<td th:text="${list.name}"></td>
+										<td th:text="${list.staffName}"></td>
+										<td th:text="${list.cellPhone}"></td>
+										<td th:text="${list.ticketName}"></td>
+										<td th:text="${list.salePrice}"></td>
+										<td th:text="${list.memo}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</th:block>
+</html>
