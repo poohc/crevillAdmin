@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.settlement.SettlementMapper">
+	
+	<select id="selectDailySettlementList" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+		 SELECT A.SETTLEMENT_ID,
+				FORMAT(A.FB_REVENUE, 0) FB_REVENUE,
+				FORMAT(A.VOUCHER_REFUND_PRICE, 0) VOUCHER_REFUND_PRICE,
+				FORMAT(A.SHORT_TICKET_CASE1_COUNT, 0) SHORT_TICKET_CASE1_COUNT,
+				FORMAT(A.SHORT_TICKET_CASE1_PRICE, 0) SHORT_TICKET_CASE1_PRICE,
+				FORMAT(A.SHORT_TICKET_CASE2_COUNT, 0) SHORT_TICKET_CASE2_COUNT,
+				FORMAT(A.SHORT_TICKET_CASE2_PRICE, 0) SHORT_TICKET_CASE2_PRICE,
+				FORMAT(A.SHORT_TICKET_CASE1_RESULT, 0) SHORT_TICKET_CASE1_RESULT,
+				FORMAT(A.SHORT_TICKET_CASE2_RESULT, 0) SHORT_TICKET_CASE2_RESULT,
+				FORMAT(A.FINAL_PRICE, 0) FINAL_PRICE,
+				A.MEMO,
+				A.STORE_ID,
+				(SELECT SUBSTRING_INDEX(ST.STORE_NAME, ' ', - 1) FROM STORE ST WHERE ST.STORE_ID = A.STORE_ID) STORE_NAME,
+				FORMAT(IFNULL((SELECT SUM(V.SALE_PRICE) FROM VOUCHER_SALE VS, VOUCHER V WHERE VS.STORE_ID = A.STORE_ID AND V.VOUCHER_NO = VS.VOUCHER_NO AND DATE_FORMAT(A.REG_DATE, '%Y%m%d') = DATE_FORMAT(VS.REG_DATE, '%Y%m%d')), 0), 0) VOUCHER_TOTAL_PRICE,
+				FORMAT((SELECT COUNT(SEM.SEM_ID) FROM SCHEDULE_ENTRANCE_MEMBER SEM, RESERVATION R, SCHEDULE SC WHERE SEM.RESERVATION_ID = R.RESERVATION_ID AND R.SCHEDULE_ID = SC.SCHEDULE_ID AND SC.STORE_ID = A.STORE_ID AND DATE_FORMAT(A.REG_DATE, '%Y%m%d') = DATE_FORMAT(SEM.REG_DATE, '%Y%m%d')) + (SELECT COUNT(SENM.SENM_ID) FROM SCHEDULE_ENTRANCE_NON_MEMBER SENM WHERE SENM.STORE_ID = A.STORE_ID AND DATE_FORMAT(A.REG_DATE, '%Y%m%d') = DATE_FORMAT(SENM.REG_DATE, '%Y%m%d')), 0) TOTAL_VISIT_MEMBER_COUNT,
+				DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
+				(SELECT SI.NAME FROM STAFF_INFO SI WHERE SI.STAFF_ID = A.REG_ID) STAFF_NAME,
+				A.REG_ID,
+				A.UPD_DATE,
+				A.UPD_ID
+		   FROM DAILY_SETTLEMENT A
+		 <where>
+		    <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		    AND A.STORE_ID = #{storeId}
+		    </if>
+		 </where>
+	</select>
+	
+	
+	<select id="selectVoucherSaleTotalPrice" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+        SELECT DATE_FORMAT(A.REG_DATE, '%Y%m%d') REG_DATE,
+	           A.STORE_ID,
+	  		   FORMAT(SUM(B.SALE_PRICE), 0) SALE_PRICE
+	      FROM VOUCHER_SALE A, 
+	           VOUCHER B
+	     WHERE A.VOUCHER_NO = B.VOUCHER_NO
+  	       <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		   AND A.STORE_ID = #{storeId}
+		   </if>
+		   <if test="searchDate != null and searchDate != ''">
+  	       AND DATE_FORMAT(A.REG_DATE, '%Y%m%d') = #{searchDate}
+  	       </if>
+    </select>
+	
+	<select id="selectVisitMemberCount" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+        SELECT A.REG_DATE,
+		       FORMAT((A.CNT_MEMBER + IFNULL(B.CNT_NON_MEMBER, 0)), 0) VISIT_MEMBER_COUNT
+		  FROM ( 
+				  SELECT DATE_FORMAT(SE.REG_DATE, '%Y%m%d') REG_DATE,
+				         COUNT(SE.SEM_ID) CNT_MEMBER
+				    FROM SCHEDULE_ENTRANCE_MEMBER SE,
+				         RESERVATION R,
+				         SCHEDULE S
+				   WHERE SE.RESERVATION_ID = R.RESERVATION_ID 
+				     AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+				     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+				     AND S.STORE_ID = #{storeId}
+				     </if>
+				     <if test="searchDate != null and searchDate != ''">
+				     AND DATE_FORMAT(SE.REG_DATE, '%Y%m%d') = #{searchDate}
+				     </if>
+		       ) A LEFT JOIN 
+		       (
+			      SELECT DATE_FORMAT(REG_DATE, '%Y%m%d') REG_DATE,
+				         COUNT(SENM_ID) CNT_NON_MEMBER
+				    FROM SCHEDULE_ENTRANCE_NON_MEMBER
+				  <where>
+				     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+				     AND STORE_ID = #{storeId}
+				     </if>
+				     <if test="searchDate != null and searchDate != ''">
+				     AND DATE_FORMAT(REG_DATE, '%Y%m%d') = #{searchDate}
+				     </if>
+				  </where> 
+		       ) B ON A.REG_DATE = B.REG_DATE
+    </select>
+    
+    <select id="selectNoshowMemberCount" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+        SELECT DATE_FORMAT(S.SCHEDULE_START, '%Y%m%d') REG_DATE, 
+	  		   COUNT(R.RESERVATION_ID) NOSHOW_COUNT
+	      FROM RESERVATION R,
+	           SCHEDULE S
+	     WHERE R.SCHEDULE_ID = S.SCHEDULE_ID
+	       AND R.STATUS = '02'
+	       <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		   AND S.STORE_ID = #{storeId}
+		   </if>
+		   <if test="searchDate != null and searchDate != ''">
+	       AND DATE_FORMAT(S.SCHEDULE_START, '%Y%m%d') = #{searchDate}
+	       </if>   
+    </select>
+    
+    <select id="selectTodayCancelCount" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+       SELECT DATE_FORMAT(R.REG_DATE, '%Y%m%d') REG_DATE,
+			  COUNT(R.RESERVATION_ID) CANCEL_COUNT
+		 FROM RESERVATION R,
+		      SCHEDULE S
+		WHERE R.STATUS = '05'
+		  AND DATE_FORMAT(R.REG_DATE, '%Y%m%d') = DATE_FORMAT(R.UPD_DATE, '%Y%m%d')
+		  AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+		  <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		  AND S.STORE_ID = #{storeId}
+		  </if>
+		  <if test="searchDate != null and searchDate != ''">
+		  AND DATE_FORMAT(R.REG_DATE, '%Y%m%d') = #{searchDate}   
+		  </if>
+    </select>
+    
+    <select id="selectMemberWithdrawCount" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+        SELECT IFNULL(DATE_FORMAT(UPD_DATE, '%Y%m%d'), '20210701') REG_DATE,
+		       COUNT(*) WITHDRAW_COUNT
+		  FROM MEMBER_PARENT
+		 WHERE STATUS = 'I'
+		   <if test="searchDate != null and searchDate != ''"> 	
+		   AND DATE_FORMAT(UPD_DATE, '%Y%m%d') = #{searchDate}
+		   </if>
+		   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		   AND STORE_ID = #{storeId}
+		   </if>
+    </select>
+    
+    <select id="selectVoucherRepurchaseCount" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+        SELECT COUNT(*) REPURCHASE_COUNT
+		  FROM (  SELECT *
+		    	    FROM VOUCHER_SALE
+		   		   <where>
+		   		   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+				   AND STORE_ID = #{storeId}
+				   </if>
+				   <if test="searchDate != null and searchDate != ''">
+				   AND DATE_FORMAT(REG_DATE, '%Y%m%d') = #{searchDate}
+				   </if>
+		   		   </where>
+			    GROUP BY BUY_CELL_PHONE
+			    HAVING COUNT(*) > 1
+			   ) A;
+    </select>
+	
+	<select id="selectWeekVisitMemberInfo" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+		SELECT DATE_FORMAT(S.SCHEDULE_START, '%m-%d') SEARCH_DATE,
+		       FORMAT(SUM((S.NUMBER_OF_PEOPLE + S.TUTORING_NUMBER)), 0) TOTAL_COUNT,
+		       FORMAT(SUM((SELECT COUNT(SE.SEM_ID) FROM RESERVATION R, SCHEDULE_ENTRANCE_MEMBER SE WHERE R.RESERVATION_ID = SE.RESERVATION_ID AND S.SCHEDULE_ID = R.SCHEDULE_ID)), 0) VISIT_MEMBER_COUNT  
+		  FROM SCHEDULE S
+		 WHERE S.SCHEDULE_START BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW() 
+		   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+	       AND S.STORE_ID = #{storeId}
+	       </if>
+		GROUP BY DATE_FORMAT(S.SCHEDULE_START, '%Y%m%d')
+	</select>
+	
+	<select id="selectWeekVisitInfo" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+	  SELECT DATE_FORMAT(IFNULL(A.SEARCH_DATE, DATE_FORMAT(DATE_ADD(NOW(),INTERVAL-7 DAY), '%Y%m%d')), '%m-%d') SEARCH_DATE,
+	         FORMAT(IFNULL(A.VOUCHER_COUNT, 0), 0) VOUCHER_COUNT, 
+	         FORMAT(IFNULL(B.SHORT_VOUCHER_COUNT, 0), 0) SHORT_VOUCHER_COUNT,
+	         FORMAT(IFNULL(C.NON_MEMBER_COUNT, 0), 0) NON_MEMBER_COUNT
+	    FROM (SELECT DATE_FORMAT(A.DATE, '%Y%m%d') SEARCH_DATE
+				FROM (
+				    SELECT CURDATE() - INTERVAL (A.A + (10 * B.A) + (100 * C.A) + (1000 * D.A) ) DAY AS DATE
+				    FROM (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS A
+				    CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS B
+				    CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS C
+				    CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS D
+				) A
+				WHERE A.DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()) SD LEFT JOIN 
+	    	 (SELECT DATE_FORMAT(SE.REG_DATE, '%Y%m%d') SEARCH_DATE, 
+			         COUNT(SE.SEM_ID) VOUCHER_COUNT
+			    FROM SCHEDULE_ENTRANCE_MEMBER SE,
+			         RESERVATION R,
+			         VOUCHER V,
+			         SCHEDULE S
+			   WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+			     AND R.VOUCHER_NO = V.VOUCHER_NO   
+			     AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+			     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			     AND S.STORE_ID = #{storeId}
+			     </if>
+			     AND SE.REG_DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()
+			     AND V.TICKET_NAME != '1회권'
+			GROUP BY DATE_FORMAT(SE.REG_DATE, '%Y%m%d')) A ON SD.SEARCH_DATE = A.SEARCH_DATE LEFT JOIN
+	   		 (SELECT DATE_FORMAT(SE.REG_DATE, '%Y%m%d') SEARCH_DATE, 
+			         COUNT(SE.SEM_ID) SHORT_VOUCHER_COUNT
+			    FROM SCHEDULE_ENTRANCE_MEMBER SE,
+			         RESERVATION R,
+			         VOUCHER V,
+			         SCHEDULE S
+			   WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+			     AND R.VOUCHER_NO = V.VOUCHER_NO   
+			     AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+			     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			     AND S.STORE_ID = #{storeId}
+			     </if>
+			     AND SE.REG_DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()
+			     AND V.TICKET_NAME = '1회권'
+			GROUP BY DATE_FORMAT(SE.REG_DATE, '%Y%m%d')) B ON A.SEARCH_DATE = B.SEARCH_DATE LEFT JOIN 
+	     	 (SELECT DATE_FORMAT(SENM.REG_DATE, '%Y%m%d') SEARCH_DATE,
+			         COUNT(SENM_ID) NON_MEMBER_COUNT
+			    FROM SCHEDULE_ENTRANCE_NON_MEMBER SENM
+			   WHERE SENM.REG_DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()
+	  		     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			     AND SENM.STORE_ID = #{storeId}
+			     </if>
+			GROUP BY DATE_FORMAT(SENM.REG_DATE, '%Y%m%d')) C ON B.SEARCH_DATE = C.SEARCH_DATE
+	ORDER BY SEARCH_DATE
+	</select>
+	
+	<select id="selectWeekRevenue" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+		SELECT DATE_FORMAT(STR_TO_DATE(SD.SEARCH_DATE, '%Y%m%d'), '%m-%d') SEARCH_DATE, 
+		       FORMAT(IFNULL(A.SALE_PRICE, 0), 0) SALE_PRICE 
+		  FROM (SELECT DATE_FORMAT(A.DATE, '%Y%m%d') SEARCH_DATE
+		  		  FROM (
+				    SELECT CURDATE() - INTERVAL (A.A + (10 * B.A) + (100 * C.A) + (1000 * D.A) ) DAY AS DATE
+				      FROM (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS A
+			    CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS B
+				CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS C
+				CROSS JOIN (SELECT 0 AS A UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS D
+				) A
+				WHERE A.DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()) SD LEFT JOIN 
+			  (SELECT DATE_FORMAT(A.REG_DATE, '%Y%m%d') SEARCH_DATE,
+			          SUM(B.SALE_PRICE) SALE_PRICE
+		 	     FROM VOUCHER_SALE A,
+			          VOUCHER B
+			    WHERE A.VOUCHER_NO = B.VOUCHER_NO 
+			      <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			      AND A.STORE_ID = #{storeId}
+			      </if>
+			      AND A.REG_DATE BETWEEN DATE_ADD(NOW(), INTERVAL-1 WEEK) AND NOW()
+			 GROUP BY DATE_FORMAT(A.REG_DATE, '%Y%m%d')) A ON A.SEARCH_DATE = SD.SEARCH_DATE
+    ORDER BY SD.SEARCH_DATE			 
+	</select>
+	
+	<select id="selectEnterInfo" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+	  SELECT (SELECT FORMAT(COUNT(SE.SEM_ID), 0) VOUCHER_COUNT
+			    FROM SCHEDULE_ENTRANCE_MEMBER SE,
+			         RESERVATION R,
+			         VOUCHER V,
+			         SCHEDULE S
+			   WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+			     AND R.VOUCHER_NO = V.VOUCHER_NO   
+			     AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+			     AND V.TICKET_NAME != '1회권'
+			     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			     AND S.STORE_ID = #{storeId}
+			     </if>
+			     <if test="searchDate != null and searchDate != ''">
+			     AND DATE_FORMAT(SE.REG_DATE, '%Y%m%d') = #{searchDate}
+			     </if>
+			 ) VOUCHER_COUNT, 
+	         (SELECT FORMAT(COUNT(SE.SEM_ID), 0) SHORT_VOUCHER_COUNT
+			    FROM SCHEDULE_ENTRANCE_MEMBER SE,
+			         RESERVATION R,
+			         VOUCHER V,
+			         SCHEDULE S
+			   WHERE SE.RESERVATION_ID = R.RESERVATION_ID
+			     AND R.VOUCHER_NO = V.VOUCHER_NO   
+			     AND R.SCHEDULE_ID = S.SCHEDULE_ID 
+			     AND V.TICKET_NAME = '1회권'
+			     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			     AND S.STORE_ID = #{storeId}
+			     </if>
+			     <if test="searchDate != null and searchDate != ''">
+			     AND DATE_FORMAT(SE.REG_DATE, '%Y%m%d') = #{searchDate}
+			     </if>
+			 ) SHORT_VOUCHER_COUNT,
+	         (SELECT FORMAT(COUNT(SENM_ID), 0) NON_MEMBER_COUNT
+			    FROM SCHEDULE_ENTRANCE_NON_MEMBER SENM
+			  <where>
+			  <if test="searchDate != null and searchDate != ''">
+			     AND DATE_FORMAT(SENM.REG_DATE, '%Y%m%d') = #{searchDate}
+			  </if>
+			  <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+			  	 AND SENM.STORE_ID = #{storeId}
+			  </if>
+			  </where>) NON_MEMBER_COUNT
+	</select>
+	
+	<select id="selectRepurchaseList" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+		SELECT M.NAME,
+		       CASE WHEN LENGTH(M.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(M.CELL_PHONE,1,3),'-',SUBSTRING(M.CELL_PHONE,4,4),'-',SUBSTRING(M.CELL_PHONE,8,4))
+			        ELSE CONCAT(SUBSTRING(M.CELL_PHONE,1,3),'-',SUBSTRING(M.CELL_PHONE,4,3),'-',SUBSTRING(M.CELL_PHONE,7,4)) END AS CELL_PHONE,
+		       SUBSTRING_INDEX(GROUP_CONCAT(V.TICKET_NAME SEPARATOR ','), ',', 2) TICKET_NAME
+		  FROM VOUCHER_SALE VS,
+		       MEMBER_PARENT M,
+		       VOUCHER V
+		 WHERE BUY_CELL_PHONE IN (SELECT BUY_CELL_PHONE 
+								    FROM VOUCHER_SALE A,
+								         VOUCHER B
+								   WHERE A.VOUCHER_NO = B.VOUCHER_NO 
+								     AND B.TICKET_NAME != '1회권'
+								     <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+								     AND A.STORE_ID = #{storeId} 
+								     </if>
+								     <if test="searchDate != null and searchDate != ''">
+								     AND DATE_FORMAT(A.REG_DATE, '%Y%m%d') = #{searchDate}
+								     </if>
+								GROUP BY BUY_CELL_PHONE
+								HAVING COUNT(*) > 1)
+		   AND VS.VOUCHER_NO = V.VOUCHER_NO 
+		   AND M.CELL_PHONE = VS.BUY_CELL_PHONE
+	  GROUP BY M.CELL_PHONE
+	</select>
+	
+	<select id="selectVoucherSalePriceList" parameterType="kr.co.crevill.settlement.SettlementDto" resultType="kr.co.crevill.settlement.SettlementVo">
+		SELECT V.TICKET_NAME,
+			   FORMAT(IFNULL(V.SALE_PRICE, 0), 0) SALE_PRICE,	   
+			   FORMAT(COUNT(V.VOUCHER_NO), 0) VOUCHER_COUNT,
+			   (IFNULL(V.SALE_PRICE, 0) * COUNT(V.VOUCHER_NO)) TOTAL_PRICE
+		  FROM VOUCHER_SALE VS,
+		       VOUCHER V
+		 WHERE VS.VOUCHER_NO = V.VOUCHER_NO 
+		   <if test="storeId != null and storeId != '' and storeId != 'CST00001'.toString()">
+		   AND VS.STORE_ID = #{storeId}
+		   </if>
+		   <if test="searchDate != null and searchDate != ''">
+		   AND DATE_FORMAT(VS.REG_DATE, '%Y%m%d') = #{searchDate}
+		   </if>
+		   AND TICKET_NAME != '1회권'
+	</select>
+	
+	<insert id="insertDailySettlement" parameterType="kr.co.crevill.settlement.SettlementDto" >
+		INSERT INTO DAILY_SETTLEMENT(
+									 FB_REVENUE,
+									 VOUCHER_REFUND_PRICE,
+									 SHORT_TICKET_CASE1_COUNT,
+									 SHORT_TICKET_CASE1_PRICE,
+									 SHORT_TICKET_CASE2_COUNT,
+									 SHORT_TICKET_CASE2_PRICE,
+									 SHORT_TICKET_CASE1_RESULT,
+									 SHORT_TICKET_CASE2_RESULT,
+									 FINAL_PRICE,
+									 MEMO,
+									 STORE_ID,
+									 REG_DATE,
+									 REG_ID
+									)
+						     VALUES (
+						     		 #{fbRevenue},
+									 #{voucherRefundPrice},
+									 #{shortTicketCase1Count},
+									 #{shortTicketCase1Price},
+									 #{shortTicketCase2Count},
+									 #{shortTicketCase2Price},
+									 #{shortTicketCase1Result},
+									 #{shortTicketCase2Result},
+									 #{finalPrice},
+									 #{memo},
+									 #{storeId},
+									 NOW(),
+									 #{regId}
+						            )			
+	</insert>
+</mapper>

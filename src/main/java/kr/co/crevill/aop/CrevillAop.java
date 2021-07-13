@@ -223,6 +223,16 @@ public class CrevillAop {
         		}
         	}
         	
+        	if(contextPath.indexOf("settlement") > -1) {
+        		menuDto.setUpperMenu("정산");
+        		if(servletPath.indexOf("list.view") > -1) {
+        			menu = "정산리스트";
+        		}
+        		if(servletPath.indexOf("daily.view") > -1) {
+        			menu = "일일정산";
+        		}
+        	}
+        	
         	menuDto.setMenuName(menu);
     		menuDto.setCurrentMenu(menu);
     		logger.info("menuDto : " + menuDto.toString());

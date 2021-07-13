@@ -255,6 +255,11 @@ public class VoucherController {
 		ModelAndView mav = new ModelAndView("voucher/refundList");
 		StoreDto storeDto = new StoreDto();
 		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		
+		if(voucherDto.getStoreId() == null) {
+			voucherDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
+		}
+		
 		mav.addObject("list", voucherService.selectVoucherRefundList(voucherDto));
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("storeId", voucherDto.getStoreId());

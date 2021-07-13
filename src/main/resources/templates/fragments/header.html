@@ -288,6 +288,30 @@
 							</div>
 						</div>
 					</li>
+					<th:block th:if="${session.staffVo.storeId == 'CST00001' OR session.staffVo.storeId == 'ADMIN'}">
+					<li class="level-menu outside">
+						<a class="nav-link" href="#!">
+							<i data-feather="database"></i><span>데이터 통계</span>
+						</a>
+						<ul class="header-level-menu menu-to-be-close">
+							<li>
+								<a href="/voucher/stat.view" data-original-title="" title="">
+									<i data-feather="edit-2"></i><span>바우처 통계 </span>
+								</a>
+							</li>
+							<li>
+								<a href="/voucher/stat.view" data-original-title="" title="">
+								<i data-feather="minimize"></i><span>고객 구성비</span>
+								</a>
+							</li>
+							<li>
+								<a href="/voucher/stat.view" data-original-title="" title="">
+									<i data-feather="play"></i><span>회원 이용률 </span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					</th:block>
 				</ul>
 			</div>
 			<div class="nav-right col-8 pull-right right-header p-0">
@@ -322,7 +346,6 @@
 							<li><a class="btn btn-primary" href="/reservation/list.view">예약요청리스트 바로가기</a></li>
 						</ul>
 					</li>
-	
 					<li>
 						<div class="mode">
 							<i class="fa fa-moon-o"></i>

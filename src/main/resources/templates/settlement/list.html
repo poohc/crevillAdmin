@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default(scriptName='/assets/js/crevill/settlementListScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<select class="form-control btn-square" id="storeId" name="storeId">
+	                	<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+	                    <option value="">전체</option>
+	                   	</th:block>
+	                    <option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+	                </select>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<!-- Zero Configuration  Starts-->
+			<div class="col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="display" id="basic-1" style="text-align: center; table-style: fixed;">
+								<thead>
+									<tr>
+										<th>정산일</th>
+										<th>정산매장</th>
+										<th>작성자</th>
+										<th>바우처매출액</th>
+										<th>총방문객</th>
+										<th>환불액</th>
+										<th>F&B매출</th>
+										<th>일지보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="list : ${list}">
+										<td th:text="${list.regDate}"></td>
+										<td th:text="${list.storeName}"></td>
+										<td th:text="${list.staffName}"></td>
+										<td th:text="${list.voucherTotalPrice}"></td>
+										<td th:text="${list.totalVisitMemberCount}"></td>
+										<td th:text="${list.voucherRefundPrice}"></td>
+										<td th:text="${list.fbRevenue}"></td>
+										<td>
+											<a href="" type="button" data-toggle="modal" data-target="#diaryModal" th:attr="onclick=|setMemo('${list.staffName}','${list.memo}')|">
+												<span class="badge badge-primary">일지보기</span>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--일지보기 팝업-->
+		<div class="modal fade" id="diaryModal" tabindex="-1" role="dialog" aria-labelledby="diaryModal" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">
+						<span id="staffName"></span>
+						</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<textarea class="form-control" disabled style="min-height: 500px;" id="memo"> 
+                            </textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="button" data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

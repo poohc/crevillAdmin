@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultSettlement(scriptName='/assets/js/crevill/settlementScript.js')}">
+
+<th:block layout:fragment="content">
+	<div class="page-body" id="page-body">
+		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+		<div class="row">
+            <div class="col-lg-2">
+                <select class="form-control btn-square" id="storeId" name="storeId">
+                	<th:block th:if="${session.staffVo.storeId == 'CST00001'}">
+                    <option value="">전체</option>
+                   	</th:block>
+                    <option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}" th:selected="${list.storeId == storeId}"></option>
+                </select>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-dark b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="dollar-sign"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">바우처 매출액</span>
+                                <h4 class="mb-0 counter" th:text="${info1?.salePrice}"></h4>
+                                <i class="icon-bg" data-feather="dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-warning b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="user"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">방문고객(건)</span>
+                                <h4 class="mb-0 counter" th:text="${info2.visitMemberCount}"></h4>
+                                <i class="icon-bg" data-feather="user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-info b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="slash"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">NO SHOW(건)</span>
+                                <h4 class="mb-0 counter" th:text="${info3.noshowCount}"></h4>
+                                <i class="icon-bg" data-feather="slash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-danger b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="x-circle"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">당일취소(건)</span>
+                                <h4 class="mb-0 counter" th:text="${info4.cancelCount}"></h4>
+                                <i class="icon-bg" data-feather="x-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-secondary b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="alert-circle"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">탈퇴회원</span>
+                                <h4 class="mb-0 counter" th:text="${info5.withdrawCount}"></h4>
+                                <i class="icon-bg" data-feather="alert-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="bg-success b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="align-self-center text-center">
+                            	<i data-feather="shopping-bag"></i>
+                            </div>
+                            <div class="media-body">
+                            	<span class="m-0">재구매(건)</span>
+                                <h4 class="mb-0 counter" th:text="${info6.repurchaseCount}"></h4>
+                                <i class="icon-bg" data-feather="shopping-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-xl-4">
+                <div class="card o-hidden">
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6>방문현황(WEEK)</h6>
+                                </div>
+                                <div class="col-12">
+                                    <div id="a"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xl-4">
+                <div class="card o-hidden">
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6>방문객(WEEK)</h6>
+                                </div>
+                                <div class="col-12">
+                                    <div id="b"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xl-4">
+                <div class="card o-hidden">
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6>매출(WEEK)</h6>
+                                </div>
+                                <div class="col-12">
+                                    <div id="c"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 th:text="|${storeName} 방문통계|"></h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"
+                                        style="font-size:16px; color:darkorange; font-weight: bold;">
+                                        구분</th>
+                                    <th class="text-center">인원(중복제거-다중스케쥴이용 고객 1로 잡음)</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr class="col-sm">
+                                    <th class="text-nowrap" scope="row">바우처이용</th>
+                                    <td th:text="${info7.voucherCount}"></td>
+                                </tr>
+                                <tr class="col-sm">
+                                    <th class="text-nowrap" scope="row">1회권이용</th>
+                                    <td th:text="${info7.shortVoucherCount}"></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">비회원현장</th>
+                                    <td th:text="${info7.nonMemberCount}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>재구매 고객</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="font-size:16px; color:dodgerblue; font-weight: bold;">고객명</th>
+                                    <th class="text-center">PHONE</th>
+                                    <th class="text-center">기존보유바우처</th>
+                                    <th class="text-center">구매바우처</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr class="col-sm" th:each="list : ${list1}">
+                                    <th class="text-nowrap" scope="row" th:text="${list.name}"></th>
+                                    <td th:text="${list.cellPhone}"></td>
+                                    <td th:text="${#strings.arraySplit(list.ticketName,',')[0]}"></td>
+                                    <td th:text="${#strings.arraySplit(list.ticketName,',')[1]}"></td>
+                                </tr>
+                                <tr class="col-sm">
+                                    <th></th>
+                                    <td></td>
+                                    <td>합계(수량)</td>
+                                    <td th:text="${list1Size}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="form theme-form" id="settlementForm" @submit.prevent="validateBeforeSubmit" action="/settlement/regist.proc" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 th:text="|${storeName} 바우처판매|"></h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="font-size:16px; color:blueviolet; font-weight: bold;">바우처매출</th>
+                                    <th class="text-center">수량</th>
+                                    <th class="text-center">단가</th>
+                                    <th class="text-center">합계</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr class="col-sm" th:each="list : ${list2}">
+                                    <th class="text-nowrap" scope="row" th:text="${list?.ticketName}"></th>
+                                    <td th:text="${list?.voucherCount}"></td>
+                                    <td th:text="${list?.salePrice}"></td>
+                                    <td th:text="${list?.totalPrice}"></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row"></th>
+                                    <td></td>
+                                    <td style="font-weight:bold; color:red;">합계</td>
+                                    <td style="font-weight:bold; color:red;" th:text="${#numbers.formatInteger(sumTotalPrice,0,'COMMA')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>판매정산(수기입력)</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"
+                                        style="font-size:16px; color:blueviolet; font-weight: bold;">
+                                        항목</th>
+                                    <th class="text-center">수량</th>
+                                    <th class="text-center">단가</th>
+                                    <th class="text-center">합계</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr class="col-sm">
+                                    <th class="text-nowrap" scope="row">F&B매출</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="fbRevenue" name="fbRevenue" placeholder="총금액(단위:원)"></td>
+                                    <label class="col-form-label-sm" for="fbRevenue" v-if="errors.has('fbRevenue')">{{ errors.first('fbRevenue') }}</label>
+                                </tr>
+                                <tr class="col-sm">
+                                    <th class="text-nowrap" scope="row">바우처환불액</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="voucherRefundPrice" name="voucherRefundPrice" placeholder="총금액" style="color: red;"></td>
+                                    <label class="col-form-label-sm" for="voucherRefundPrice" v-if="errors.has('voucherRefundPrice')">{{ errors.first('voucherRefundPrice') }}</label>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">1회권 1시간권</th>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase1Count"  name="shortTicketCase1Count" placeholder="수량"> </td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase1Price"  name="shortTicketCase1Price" placeholder="단가입력"> </td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase1Result" name="shortTicketCase1Result" placeholder="계산결과" readonly="readonly"></td>
+                                    <label class="col-form-label-sm" for="shortTicketCase1Count" v-if="errors.has('shortTicketCase1Count')">{{ errors.first('shortTicketCase1Count') }}</label>
+                                    <label class="col-form-label-sm" for="shortTicketCase1Price" v-if="errors.has('shortTicketCase1Price')">{{ errors.first('shortTicketCase1Price') }}</label>
+                                    <label class="col-form-label-sm" for="shortTicketCase1Result" v-if="errors.has('shortTicketCase1Result')">{{ errors.first('shortTicketCase1Result') }}</label>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">1회권 2시간권</th>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase2Count"  name="shortTicketCase2Count" placeholder="수량"> </td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase2Price"  name="shortTicketCase2Price" placeholder="단가입력"></td>
+                                    <td><input type="number" v-validate="'required|numeric'" id="shortTicketCase2Result" name="shortTicketCase2Result" placeholder="계산결과" readonly="readonly"></td>
+                                    <label class="col-form-label-sm" for="shortTicketCase2Count" v-if="errors.has('shortTicketCase2Count')">{{ errors.first('shortTicketCase2Count') }}</label>
+                                    <label class="col-form-label-sm" for="shortTicketCase2Price" v-if="errors.has('shortTicketCase2Price')">{{ errors.first('shortTicketCase2Price') }}</label>
+                                    <label class="col-form-label-sm" for="shortTicketCase2Result" v-if="errors.has('shortTicketCase2Result')">{{ errors.first('shortTicketCase2Result') }}</label>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row"></th>
+                                    <td></td>
+                                    <td style="font-weight:bold;">합계</td>
+                                    <td style="font-weight:bold;">
+                                    	<span id="finalPrice"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">                     
+                <textarea class="form-control btn-square" v-validate="'required'" id="memo" name="memo" placeholder="일지작성 (간단한 메모만 가능 - 300글자 이내)"></textarea>
+                <label class="col-form-label-sm" for="memo" v-if="errors.has('memo')">{{ errors.first('memo') }}</label>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary nextBtn pull-right" type="submit">일일정산 등록</button>
+        </form>
+	</div>
+</th:block>
+</html>
