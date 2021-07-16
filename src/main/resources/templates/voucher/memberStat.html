@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherStatScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/voucherMemberStatScript.js')}">
 
 <th:block layout:fragment="content">
 	<div class="page-body" id="page-body">
@@ -12,7 +12,7 @@
 	            <div class="col-sm-12">
 	                <div class="card">
 	                    <div class="card-body btn-showcase">
-	                        <button class="btn btn-square btn-outline-primary" type="button">바우처통계</button>
+	                        <button class="btn btn-square btn-outline-primary" type="button">고객구성비</button>
 	                    </div>
 	                </div>
 	            </div>
@@ -24,40 +24,33 @@
 	            </div>
 	            <button class="btn btn-primary" type="button" id="searchBtn">기간검색</button>
 	        </div>
-	        <!--유효발행 DT-->
 	        <div class="row">
 	            <div class="col-sm-12">
 	                <div class="card">
 	                    <div class="card-header">
-	                        <h5>바우처통계</h5>
+	                        <h5>고객구성비</h5>
 	                    </div>
 	                    <div class="card-body">
 	                        <div class="dt-ext table-responsive">
-	                            <table class="display export-button" id="statTable">
+	                            <table class="display export-button">
 	                                <thead>
 	                                    <tr style="align:center;">
-	                                        <th style="display: none;">정렬순서</th>
 	                                        <th>지점</th>
 	                                        <th>조회일수(날짜count)</th>
-	                                        <th>발급시간</th>
-	                                        <th>이용인원</th>
-	                                        <th>환불/취소</th>
-	                                        <th>소진시간</th>
-	                                        <th>남은시간</th>
-	                                        <th>소진비율</th>
+	                                        <th>바우처 입장고객</th>
+	                                        <th>비회원 입장고객</th>
+	                                        <th>1회권 입장고객</th>
+	                                        <th>합계</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
-	                                    <tr th:each="list : ${statList}">
-	                                    	<td th:text="|${list.sortOrder}|" style="display: none;"></td>
+	                                    <tr style="align:center;" th:each="list : ${memberStatList}">
 	                                        <td th:text="${list.storeName}"></td>
 	                                        <td th:text="${list.diffDate}"></td>
-	                                        <td th:text="${list.totalTime}"></td>
-	                                        <td th:text="${list.usePeopleCount}"></td>
-	                                        <td><font color="red" th:text="${list.refundCancelCount}"></font></td>
-	                                        <td th:text="${list.totalUseTime}"></td>
-	                                        <td th:text="${list.totalTimeLeft}"></td>
-	                                        <td th:text="|${list.usePer}%|"></td>
+	                                        <td th:text="${list.voucherMemberCount}"></td>
+	                                        <td th:text="${list.nonMemberCount}"></td>
+	                                        <td th:text="${list.shortVoucherMemberCount}"></td>
+	                                        <td th:text="${list.totalMemberCount}"></td>
 	                                    </tr>
 	                                </tbody>
 	                            </table>

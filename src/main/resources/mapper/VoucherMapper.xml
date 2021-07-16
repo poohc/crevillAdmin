@@ -291,6 +291,9 @@
 		   AND B.BUY_CELL_PHONE = C.CELL_PHONE
 		   AND C.STATUS = 'A'
 		   AND B.VOUCHER_NO = D.VOUCHER_NO		   
+<!-- 		   <if test="start != null and length != null"> -->
+<!--          LIMIT ${start} , ${length} -->
+<!--            </if> -->
 	</select>
 	
 	<select id="selectVoucherSaleCancelCount" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="integer">
@@ -537,14 +540,21 @@
 			   DATEDIFF(STR_TO_DATE(#{searchEndDate}, '%Y%m%d'), STR_TO_DATE(#{searchStartDate}, '%Y%m%d')) DIFF_DATE,
 			   IFNULL(FORMAT(SUM(A.USE_TIME), 0) , 0)  TOTAL_TIME,  
 			   COUNT(DISTINCT C.BUY_CELL_PHONE) USE_PEOPLE_COUNT,
-			   CASE WHEN A.STATUS IN ('05','08') THEN COUNT(A.VOUCHER_NO)
-			        ELSE 0 END AS REFUND_CANCEL_COUNT,
+			   FORMAT(IFNULL(D.CNT, 0), 0) REFUND_CANCEL_COUNT,
 			   IFNULL(FORMAT(SUM(A.USE_TIME) - SUM(B.TIME_LEFT_HOUR), 0) , 0)  TOTAL_USE_TIME, 
 			   IFNULL(FORMAT(SUM(B.TIME_LEFT_HOUR), 0) , 0)  TOTAL_TIME_LEFT,
 			   IFNULL(FORMAT(ROUND((SUM(A.USE_TIME) - SUM(B.TIME_LEFT_HOUR)) / SUM(A.USE_TIME) * 100), 0) , 0)  USE_PER
 		  FROM VOUCHER A,
 		       VOUCHER_USE_VIEW B,
-		       VOUCHER_SALE C
+		       VOUCHER_SALE C LEFT JOIN 
+		       (
+		       	SELECT COUNT(*) CNT, STORE_ID
+		          FROM VOUCHER V
+		         WHERE V.STATUS IN ('05','08')
+		           AND V.UPD_DATE BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{searchStartDate}, '000000'), '%Y%m%d%H%i%S'), '%Y%m%d%H%i%S')
+		           AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{searchEndDate}, '235959'), '%Y%m%d%H%i%S'), '%Y%m%d%H%i%S')
+			  GROUP BY STORE_ID 		           
+		       ) D ON C.STORE_ID = D.STORE_ID
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND A.REG_DATE BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{searchStartDate}, '000000'), '%Y%m%d%H%i%S'), '%Y%m%d%H%i%S')

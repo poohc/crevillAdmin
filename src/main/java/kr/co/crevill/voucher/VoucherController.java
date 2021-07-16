@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,6 +74,7 @@ public class VoucherController {
 	@GetMapping("saleList.view")
 	public ModelAndView saleList(HttpServletRequest request, @ModelAttribute VoucherDto voucherDto) {
 		ModelAndView mav = new ModelAndView("voucher/saleList");
+		logger.info("voucherDto : " + voucherDto.toString());
 		StoreDto storeDto = new StoreDto();
 		CommonDto commonDto = new CommonDto();
 		storeDto.setStoreId(SessionUtil.getSessionStaffVo(request).getStoreId());
@@ -89,6 +91,18 @@ public class VoucherController {
 		mav.addObject("storeId", voucherDto.getStoreId());
 		return mav;
 	}
+	
+	@PostMapping("/getSaleList.view")
+	@ResponseBody
+	public VoucherDto getSaleList(@ModelAttribute VoucherDto voucherDto, HttpServletRequest request) throws Exception {
+        logger.info("request 1: " + request.getParameter("start"));
+        logger.info("request 2: " + request.getParameter("length"));
+        
+		List<VoucherVo> list = voucherService.selectVoucherSaleList(voucherDto);
+        voucherDto.setData(list);
+        return voucherDto;
+    }
+
 	
 	@GetMapping("create.view")
 	public ModelAndView create(HttpServletRequest request) {
@@ -172,7 +186,21 @@ public class VoucherController {
 				sortOrder++;
 			}
 			Collections.sort(calcStatList, new ListSortComparator());
-			
+			mav.addObject("statList", calcStatList);
+		} else {
+			mav.addObject("statList", null);
+		}
+		
+		return mav;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("memberStat.view")
+	public ModelAndView memberStat(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("voucher/memberStat");
+		
+		if(voucherDto.getSearchStartDate() != null) {
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			List<VoucherVo> statMemberList = voucherService.selectVoucherStatMember(voucherDto);
 			int voucherMemberCount = 0;
 			int nonMemberCount = 0;
@@ -197,14 +225,28 @@ public class VoucherController {
 			
 			List<VoucherVo> calcStatMemberList = new ArrayList<VoucherVo>(); 
 			calcStatMemberList.add(statMember);
-			sortOrder = 1;
+			int sortOrder = 1;
 			for(VoucherVo voucherVo : statMemberList) {
 				voucherVo.setSortOrder(sortOrder);
 				calcStatMemberList.add(voucherVo);
 				sortOrder++;
 			}
 			Collections.sort(calcStatMemberList, new ListSortComparator());
-			
+			mav.addObject("memberStatList", calcStatMemberList);
+		} else {
+			mav.addObject("memberStatList", null);
+		}
+		
+		return mav;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("typeStat.view")
+	public ModelAndView typeStat(HttpServletRequest request, VoucherDto voucherDto) {
+		ModelAndView mav = new ModelAndView("voucher/typeStat");
+		
+		if(voucherDto.getSearchStartDate() != null) {
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			List<VoucherVo> statResMemberList = voucherService.selectVoucherStatResMember(voucherDto);
 			
 			int reservationAvaiableCount = 0;
@@ -230,20 +272,15 @@ public class VoucherController {
 			
 			List<VoucherVo> calcStatResMemberList = new ArrayList<VoucherVo>(); 
 			calcStatResMemberList.add(statResMember);
-			sortOrder = 1;
+			int sortOrder = 1;
 			for(VoucherVo voucherVo : statResMemberList) {
 				voucherVo.setSortOrder(sortOrder);
 				calcStatResMemberList.add(voucherVo);
 				sortOrder++;
 			}
 			Collections.sort(calcStatResMemberList, new ListSortComparator());
-			
-			mav.addObject("statList", calcStatList);
-			mav.addObject("memberStatList", calcStatMemberList);
 			mav.addObject("memberResStatList", calcStatResMemberList);
 		} else {
-			mav.addObject("statList", null);
-			mav.addObject("memberStatList", null);
 			mav.addObject("memberResStatList", null);
 		}
 		

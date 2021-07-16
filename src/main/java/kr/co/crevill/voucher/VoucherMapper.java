@@ -21,6 +21,7 @@ public interface VoucherMapper {
 	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto);
 	public List<VoucherVo> getMemberVoucherAllList(VoucherDto voucherDto);
 	public List<VoucherVo> getMemberVoucherUseList(VoucherDto voucherDto);
+	public int selectVoucherSaleListCount(VoucherDto voucherDto);
 	public List<VoucherVo> selectVoucherSaleList(VoucherDto voucherDto);
 	public int selectVoucherSaleCancelCount(VoucherDto voucherDto);
 	public int insertVoucherProduct(VoucherDto voucherDto);

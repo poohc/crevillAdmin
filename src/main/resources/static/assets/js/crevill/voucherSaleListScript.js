@@ -101,6 +101,44 @@ var vm = new Vue({
   }
 }); 
 
+$(document).ready(function() {
+//    $('#basic').DataTable( {
+//		"serverSide": true,
+//	    "processing": true,
+//		"paging" : true,
+//	    "ajax": {
+//	        "url": "/voucher/getSaleList.view",
+//	        "type": "POST",
+//	        "dataSrc": function(res) {
+//	            var data = res.data;
+//	            return data;
+//	        }
+//	    },
+//	    "columns" : [
+//	        {"data": "saleDate"},
+//	        {"data": "storeName"},
+//	        {"data": "regStore"},
+//	        {"data": "ticketName"},
+//			{"data": "voucherNo"},
+//			{"data": "name"},
+//			{"data": "cellPhone"},
+//			{"data": "timeLeftHour"},
+//			{"data": "promotion"},
+//			{"data": "endDate"},
+//			{"data": "cancelDate"},
+//			{"data": "status"},
+//			{"data": '',
+//				    render: function( data, type, full, meta ) {
+//							var html = '<a href="javascript:setVoucherTimeModify("'+full.voucherNo+'", "'+full.name+'", "'+full.ticketName+'", "'+full.timeLeftHour+'", "'+ full.useTime + '")" type="button" data-toggle="modal" data-target="#voucherTimeModify"';
+//                            html += '<span class="badge badge-warning">바우처시간조정</span>';
+//							html += '</a>';
+//                            return html;
+//				    }}
+//		],
+//	});
+	
+} );
+
 
 $('#storeId').change(function(){
 	location.href = '/voucher/saleList.view?storeId=' + $('#storeId').val();

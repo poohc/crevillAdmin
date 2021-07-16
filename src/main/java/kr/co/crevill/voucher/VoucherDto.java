@@ -1,5 +1,7 @@
 package kr.co.crevill.voucher;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -36,4 +38,10 @@ public class VoucherDto {
 	private String updateValue;
 	private String searchStartDate;
 	private String searchEndDate;
+	private int draw;
+	private int start;
+	private int length;
+	private int recordsTotal;
+	private int recordsFiltered;
+	private List data;
 }
